@@ -49,117 +49,149 @@ function requestSom(uri) {
 
 
 var ValidatedField = {
-	oncreate: function(vnode) {
+	oninit: function(vnode) {
+		console.debug(vnode.attrs.id, ': init ', vnode.state, vnode.attrs);
+		vnode.state.value = vnode.attrs.value;
+		vnode.state.isvalid = vnode.attrs.checkurl===undefined;
+		vnode.state.errormessage = undefined;
+		console.debug(vnode.attrs.id, ': after init ', vnode.state, vnode.attrs);
 	},
 	view: function (vnode) {
-//		var attrs = Object.assign({}, vnode.attrs);
-		var attrs = vnode.attrs;
-		var state = vnode.state;
-		attrs.help_id = attrs.id+'_help';
-		attrs.error_id = attrs.id+'_error';
+		const statusIcons = {
+			empty:  '',
+			missing:'.fa.fa-asterisk.red',
+			ok:     '.fa.fa-check.green',
+			ko:     '.fa.fa-exclamation-circle.red',
+			wait:   '.fa.fa-refresh.fa-spin.orange',
+		};
+		const help_id = vnode.attrs.id+'_help';
+		const error_id = vnode.attrs.id+'_error';
+		console.debug(vnode.attrs.id, ': Updating view ', vnode.state, vnode.attrs);
+
+		var iconState = (vnode.state.value===undefined)? (vnode.attrs.required!==undefined?'missing':'empty') : (
+			vnode.state.isvalid===undefined?'wait':vnode.state.isvalid===false?'ko':'ok');
+		var statusIcon = statusIcons[iconState] || '';
+
+		function validateInput(ev) {
+			console.debug(vnode.attrs.id, ' oninput',ev);
+
+			function fielderror(message) {
+				console.debug(vnode.attrs.id, ' rejecting ', vnode.state);
+				vnode.dom.firstChild.MDCTextField.valid = false;
+				vnode.state.isvalid = false;
+				vnode.state.errormessage = message;
+				ev.target.setCustomValidity(message);
+				console.debug(vnode.attrs.id, ' rejected ', vnode.state);
+			}
+			function acceptValue(newValue) {
+				console.debug(vnode.attrs.id, "Accepting:", newValue);
+				vnode.dom.firstChild.MDCTextField.valid = true;
+				vnode.state.isvalid = true;
+				vnode.state.errormessage = undefined;
+				ev.target.setCustomValidity(undefined);
+				vnode.attrs.onChange(newValue); 
+				console.debug(vnode.attrs.id, "Accepted:", vnode.attrs);
+			}
+			function waitValue(newValue) {
+				vnode.dom.firstChild.MDCTextField.valid = true;
+				ev.target.setCustomValidity(undefined);
+				vnode.state.value = newValue;
+				vnode.state.isvalid = undefined; // status checking
+				vnode.state.errormessage = undefined;
+			}
+
+			var newValue = ev.target.value;
+			if (newValue === '') { newValue = undefined; }
+			waitValue(newValue);
+			if (newValue === undefined) {
+				if (vnode.attrs.required !== undefined) {
+					return fielderror(_('Required'));
+				}
+				return acceptValue(newValue);
+			}
+			if (vnode.attrs.checkurl === undefined) {
+				return acceptValue(newValue); 
+			}
+			// TODO: abortar darrera promesa
+			var promise = requestSom(vnode.attrs.checkurl+newValue);
+			promise.value = newValue;
+			promise.then(function(result) {
+				if (promise.value != vnode.state.value) {
+					return; // value changed while waiting, ignore
+				}
+				if (result.state === false) {
+					fielderror(vnode.attrs.defaulterror || _('Invalid value'));
+				}
+				else {
+					fielderror(undefined);
+					acceptValue(newValue); 
+				}
+				if (result.data !== undefined) {
+					vnode.state.data = result.data;
+					if (result.data.invalid_fields !== undefined) {
+						fielderror(result.data.invalid_fields[0].error);
+					}
+				}
+			}).catch(function(reason) {
+				fielderror(reason || _('Unknown'));
+			});
+			console.debug('oninput end',vnode.attrs);
+		};
+
 		return m('.mdc-form-field', [
-			m('.mdc-text-field'+
-				'', {
-					'data-mdc-auto-init': 'MDCTextField',
-				},[
+			m(''
+				+'.mdc-text-field'
+				+(vnode.attrs.fullwidth?'.mdc-text-field--fullwidth':'')
+				+'.mdc-text-field--with-trailing-icon'
+				+(vnode.attrs.fullwidth?'':'.mdc-text-field--box')
+				+(vnode.attrs.disabled?'mdc-text-field--disabled':'')
+			,{
+				'data-mdc-auto-init': 'MDCTextField',
+			},[
 				m('input[type=text]'+
 					'.mdc-text-field__input'+
-					(attrs.icon?'.mdc-text-field--with-trailing-icon':'')+
 					'',
 				{
-					id: attrs.id,
-					value: attrs.value,
-					disabled: attrs.disabled,
-					required: attrs.required,
-					oninput: function(ev) {
-						console.debug('oninput',ev);
-
-						function fielderror(message) {
-							console.debug(vnode);
-							vnode.dom.firstChild.MDCTextField.valid = message===undefined;
-							console.debug('Field error before', message);
-							vnode.state.isvalid = (message===undefined);
-							vnode.state.errormessage = message;
-							ev.target.setCustomValidity(message);
-							console.debug('Field error after', state.errormessage);
-						}
-
-						fielderror(undefined);
-                        var newValue = ev.target.value;
-                        if (newValue === '') { newValue = undefined; }
-						vnode.attrs.value = newValue;
-						if (newValue === undefined) {
-							if (attrs.required !== undefined) {
-								fielderror(_('Required'));
-							}
-							return attrs.onChange(newValue); 
-						}
-						if (attrs.checkurl === undefined) {
-							return attrs.onChange(newValue); 
-						}
-						vnode.state.isvalid = undefined; // status: checking
-						// TODO: abortar darrera promesa
-						var promise = requestSom(attrs.checkurl+newValue);
-						promise.value = newValue;
-						promise.then(function(result) {
-							if (promise.value != vnode.attrs.value) {
-								return; // value changed while waiting
-							}
-							console.debug(result.state);
-							if (result.state === false) {
-								fielderror(attrs.defaulterror || _('Invalid value'));
-							}
-							else {
-								attrs.onChange(newValue); 
-								fielderror(undefined);
-							}
-							if (result.data === undefined) {
-								return; // No especial info
-							}
-							vnode.state.data = result.data;
-							if (result.data.invalid_fields !== undefined) {
-								fielderror(result.data.invalid_fields[0].error);
-							}
-						}).catch(function(reason) {
-							fielderror(reason || _('Unknown'));
-						});
-						console.debug('oninput end',vnode.attrs);
-					},
-					'aria-controls': attrs.help_id,
-					'aria-describedby': attrs.help_id,
-				}),
-
-				m('label.mdc-floating-label',
+					pattern: vnode.attrs.pattern,
+					id: vnode.attrs.id,
+					value: vnode.state.value,
+					disabled: vnode.attrs.disabled,
+					required: vnode.attrs.required,
+					onchange: validateInput,
+					oninput: validateInput,
+					'aria-controls': help_id,
+					'aria-describedby': help_id,
+				}, [
+				]),
+				vnode.attrs.fullwidth?'':m('label'
+					+'.mdc-floating-label',
 					{'for': vnode.attrs.id}, [
 					vnode.attrs.label,
 				]),
-				attrs.icon?
-					m('.mdc-text-field__icon', {
-						//tabindex: 0,
-						//role: 'button',
-						}, [
-							m('i.fa'+attrs.icon,''),
-						]):[],
 				m('.mdc-line-ripple'),
+				vnode.attrs.fullwidth?[]:
+					m('.mdc-text-field__icon.red', {
+						}, [
+							m('i'+statusIcon,''),
+						]),
 			]),
-			state.errormessage?
+			vnode.state.errormessage?
 				m('.mdc-text-field-helper-text'+
-					'.mdc-text-field-helper-text--persistent'+
 					'.mdc-text-field-helper-text--validation-msg'+
 					'', {
-					id: attrs.error_id,
+					id: error_id,
 					'aria-hidden': true,
 					},
-					state.errormessage
-				):'',
-			attrs.help?
+					vnode.state.errormessage
+				):
+			vnode.attrs.help?
 				m('.mdc-text-field-helper-text'+
 					'.mdc-text-field-helper-text--persistent'+
 					'', {
-					id: attrs.help_id,
+					id: help_id,
 					'aria-hidden': true,
 					},
-					attrs.help
+					vnode.attrs.help
 				):'',
 		]);
 	},
@@ -167,7 +199,7 @@ var ValidatedField = {
 
 var Persona = {
 	field: undefined,
-	name: 'perico',
+	name: undefined,
 	nif: undefined,
 };
 
@@ -180,7 +212,7 @@ var Form = {
 		return m('.form.span',
 		[
 			m(ValidatedField, {
-				id: 'fieldid',
+				id: 'afield',
 				label: _('Field label'),
 				help: _('Field Help'),
 				icon: '.fa-spinner.fa-spin',
@@ -192,7 +224,8 @@ var Form = {
 			m(ValidatedField, {
 				id: 'nif',
 				label: _('NIF/DNI'),
-				defaulterror: _('Bad VAT'),
+				pattern: /[0-9A-Za-z]+/,
+				defaulterror: _('Invalid VAT'),
 				checkurl: '/check/vat/',
 				help: _('Tax ID'),
 				value: Persona.nif,
@@ -210,7 +243,10 @@ var Form = {
 					Persona.name = value;
 				},
 			}),
-			m('.mdc-button', {tabindex:0,role:'button'},  _("hello")),
+			m('button.mdc-button', {
+				disabled: Persona.error,
+				tabindex: 0,
+				},  _("submit")),
 
 			m('', Persona.name, '(', Persona.nif, ')'),
 		]);

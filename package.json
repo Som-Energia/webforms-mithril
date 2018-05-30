@@ -14,8 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/Som-Energia/webforms-mithril.git"
   },
-  "keywords": [
-  ],
+  "keywords": [],
   "author": "Som Energia SCCL",
   "license": "AGPL-3.0+",
   "bugs": {
@@ -23,6 +22,7 @@
   },
   "homepage": "https://github.com/Som-Energia/webforms-mithril#readme",
   "dependencies": {
+    "@material/layout-grid": "^0.34.0",
     "font-awesome": "^4.7.0",
     "js-yaml": "^3.8.3",
     "material-components-web": "*",
