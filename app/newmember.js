@@ -110,12 +110,13 @@ var ValidatedField = {
 								fielderror(attrs.defaulterror || _('Invalid value'));
 							}
 							else {
+								attrs.onChange(newValue); 
 								fielderror(undefined);
 							}
-							vnode.state.data = result.data;
 							if (result.data === undefined) {
 								return; // No especial info
 							}
+							vnode.state.data = result.data;
 							if (result.data.invalid_fields !== undefined) {
 								fielderror(result.data.invalid_fields[0].error);
 							}
@@ -210,6 +211,8 @@ var Form = {
 				},
 			}),
 			m('.mdc-button', {tabindex:0,role:'button'},  _("hello")),
+
+			m('', Persona.name, '(', Persona.nif, ')'),
 		]);
 	},
 };
