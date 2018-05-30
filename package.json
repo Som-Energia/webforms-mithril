@@ -1,7 +1,7 @@
 {
   "name": "webforms-mithril",
   "version": "1.0.0",
-  "description": "Phone call dealer for SomEnergia",
+  "description": "Web front end for Som Energia forms",
   "main": "index.js",
   "scripts": {
     "start": "webpack --progress --colors --watch",
@@ -15,11 +15,8 @@
     "url": "git+https://github.com/Som-Energia/webforms-mithril.git"
   },
   "keywords": [
-    "phone",
-    "asterisk",
-    "scheduling"
   ],
-  "author": "David García Garzón",
+  "author": "Som Energia SCCL",
   "license": "AGPL-3.0+",
   "bugs": {
     "url": "https://github.com/Som-Energia/webforms-mithril/issues"
