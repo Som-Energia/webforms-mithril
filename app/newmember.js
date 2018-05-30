@@ -21,11 +21,15 @@ m.prop = require('mithril/stream');
 var apibase = 'http://testing.somenergia.coop:5001'
 
 function requestSom(uri) {
+	var abortable = undefined;
 	var promise = new Promise(function(resolve, reject) {
 		m.request({
 			method: 'GET',
 			url: apibase+uri,
 			withCredentials: true,
+			config: function(xhr) {
+				abortable = xhr;
+			},
 		})
 		.then(function(response) {
 			console.log('response', response);
@@ -44,17 +48,22 @@ function requestSom(uri) {
 		})
 		;
 	});
+	promise.abort = function() {
+		console.log("Aborting request ",apibase+uri);
+		abortable.abort()
+	};
 	return promise;
 };
 
 
 var ValidatedField = {
 	oninit: function(vnode) {
-		console.debug(vnode.attrs.id, ': init ', vnode.state, vnode.attrs);
+		//console.debug(vnode.attrs.id, ': init ', vnode.state, vnode.attrs);
 		vnode.state.value = vnode.attrs.value;
 		vnode.state.isvalid = vnode.attrs.checkurl===undefined;
 		vnode.state.errormessage = undefined;
-		console.debug(vnode.attrs.id, ': after init ', vnode.state, vnode.attrs);
+		vnode.state._lastPromise = undefined;
+		//console.debug(vnode.attrs.id, ': after init ', vnode.state, vnode.attrs);
 	},
 	view: function (vnode) {
 		const statusIcons = {
@@ -66,31 +75,31 @@ var ValidatedField = {
 		};
 		const help_id = vnode.attrs.id+'_help';
 		const error_id = vnode.attrs.id+'_error';
-		console.debug(vnode.attrs.id, ': Updating view ', vnode.state, vnode.attrs);
+		//console.debug(vnode.attrs.id, ': Updating view ', vnode.state, vnode.attrs);
 
 		var iconState = (vnode.state.value===undefined)? (vnode.attrs.required!==undefined?'missing':'empty') : (
 			vnode.state.isvalid===undefined?'wait':vnode.state.isvalid===false?'ko':'ok');
 		var statusIcon = statusIcons[iconState] || '';
 
 		function validateInput(ev) {
-			console.debug(vnode.attrs.id, ' oninput',ev);
+			//console.debug(vnode.attrs.id, ' oninput',ev);
 
 			function fielderror(message) {
-				console.debug(vnode.attrs.id, ' rejecting ', vnode.state);
+				//console.debug(vnode.attrs.id, ' rejecting ', vnode.state);
 				vnode.dom.firstChild.MDCTextField.valid = false;
 				vnode.state.isvalid = false;
 				vnode.state.errormessage = message;
 				ev.target.setCustomValidity(message);
-				console.debug(vnode.attrs.id, ' rejected ', vnode.state);
+				//console.debug(vnode.attrs.id, ' rejected ', vnode.state);
 			}
 			function acceptValue(newValue) {
-				console.debug(vnode.attrs.id, "Accepting:", newValue);
+				//console.debug(vnode.attrs.id, "Accepting:", newValue);
 				vnode.dom.firstChild.MDCTextField.valid = true;
 				vnode.state.isvalid = true;
 				vnode.state.errormessage = undefined;
 				ev.target.setCustomValidity(undefined);
 				vnode.attrs.onChange(newValue); 
-				console.debug(vnode.attrs.id, "Accepted:", vnode.attrs);
+				//console.debug(vnode.attrs.id, "Accepted:", vnode.attrs);
 			}
 			function waitValue(newValue) {
 				vnode.dom.firstChild.MDCTextField.valid = true;
@@ -112,11 +121,16 @@ var ValidatedField = {
 			if (vnode.attrs.checkurl === undefined) {
 				return acceptValue(newValue); 
 			}
+			if (vnode.state._lastPromise!==undefined) {
+				vnode.state._lastPromise.abort();
+			}
 			// TODO: abortar darrera promesa
 			var promise = requestSom(vnode.attrs.checkurl+newValue);
+			vnode.state._lastPromise=promise;
 			promise.value = newValue;
 			promise.then(function(result) {
 				if (promise.value != vnode.state.value) {
+					console.log('Antigua request '+promise.value);
 					return; // value changed while waiting, ignore
 				}
 				if (result.state === false) {
@@ -135,7 +149,7 @@ var ValidatedField = {
 			}).catch(function(reason) {
 				fielderror(reason || _('Unknown'));
 			});
-			console.debug('oninput end',vnode.attrs);
+			//console.debug('oninput end',vnode.attrs);
 		};
 
 		return m('.mdc-form-field', [
@@ -205,7 +219,7 @@ var Persona = {
 
 var Form = {
 	oncreate: function(vnode) {
-		console.debug('auto init', vnode);
+		//console.debug('auto init', vnode);
 		mdc.autoInit();
 	},
 	view: function() {
