@@ -25,7 +25,7 @@ var config = {
 			{ test: /\.png$/,    loader: "url-loader?prefix=img/&limit=5000" },
 			{ test: /\.jpg$/,    loader: "url-loader?prefix=img/&limit=5000" },
 			{ test: /\.gif$/,    loader: "url-loader?prefix=img/&limit=5000" },
-			{ test: /\.woff$/,   loader: "file-loader?prefix=font/&limit=5000" },
+			{ test: /\.woff(2)?$/,   loader: "file-loader?prefix=font/&limit=5000" },
 			{ test: /\.eot$/,    loader: "file-loader?prefix=font/" },
 			{ test: /\.ttf$/,    loader: "file-loader?prefix=font/" },
 			{ test: /\.svg$/,    loader: "file-loader?prefix=font/" },
@@ -51,7 +51,6 @@ var config = {
 		new ExtractTextPlugin("styles-[chunkhash].css"),
 		new CleanWebpackPlugin('dist/*'),
 	]
-	
 };
 
 module.exports = config;
