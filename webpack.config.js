@@ -3,9 +3,24 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 var config = {
+	plugins:[
+		// Rewrites html to insert generated css and js
+		new HtmlWebpackPlugin({
+			template: './newmember.html',
+			inject:'header',
+			}),
+		// Analyzes generated sizes
+//		new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
+		// Split css included as js into a separate file again
+		new MiniCssExtractPlugin({
+			filename: "[name].css",
+			chunkFilename: "styles-[chunkhash].css",
+			}),
+		new CleanWebpackPlugin('dist/*'),
+	],
 	context: path.resolve(__dirname, 'app'),
 	entry: {
 		newmember: './newmember.js',
@@ -18,9 +33,9 @@ var config = {
 	module: {
 		rules: [
 			{ test: /\.yaml$/,   loader: "yaml-loader" },
-			{ test: /\.css$/,    use: ExtractTextPlugin.extract({use: "css-loader"})},
-			{ test: /\.less$/,   use: ExtractTextPlugin.extract({use: "css-loader!less-loader"})},
-			{ test: /\.styl$/,   use: ExtractTextPlugin.extract({use: "css-loader!stylus-loader"})},
+			{ test: /\.css$/,    use: [ MiniCssExtractPlugin.loader, "css-loader"]},
+			{ test: /\.less$/,   use: [ MiniCssExtractPlugin.loader, "css-loader", "less-loader"]},
+			{ test: /\.styl$/,   use: [ MiniCssExtractPlugin.loader, "css-loader", "stylus-loader"]},
 			{ test: /\.jade$/,   loader: "jade-loader?self" },
 			{ test: /\.png$/,    loader: "url-loader?prefix=img/&limit=5000" },
 			{ test: /\.jpg$/,    loader: "url-loader?prefix=img/&limit=5000" },
@@ -31,26 +46,11 @@ var config = {
 			{ test: /\.svg$/,    loader: "file-loader?prefix=font/" },
 		]
 	},
-	plugins:[
-		// Rewrites html to insert generated css and js
-		new HtmlWebpackPlugin({template: './newmember.html',inject:'header'}),
-		// Uglifies JS
-//		new webpack.optimize.UglifyJsPlugin(),
-		// Analyzes generated sizes
-//		new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
-		// Split vendor stuff from project's
-		new webpack.optimize.CommonsChunkPlugin({
-			name: "vendor",
-			minChunks: function(module, num) {
-				return /node_modules/.test(module.context);
-			}
-		}),
-		// Extract webpack common stub from vendor and project
-		new webpack.optimize.CommonsChunkPlugin({ name: "manifest", }),
-		// Split css included as js into a separate file again
-		new ExtractTextPlugin("styles-[chunkhash].css"),
-		new CleanWebpackPlugin('dist/*'),
-	]
+	optimization: {
+		splitChunks: {
+			chunks: 'all',
+		}
+	},
 };
 
 module.exports = config;
