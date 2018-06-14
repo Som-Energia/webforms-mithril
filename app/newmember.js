@@ -27,20 +27,37 @@ var ValidatedField = {
 		//console.debug(vnode.attrs.id, ': after init ', vnode.state, vnode.attrs);
 	},
 	view: function (vnode) {
+		const help_id = vnode.attrs.id+'_help';
 		const statusIcons = {
 			empty:  '',
 			missing:'.fa.fa-asterisk.red',
 			ok:     '.fa.fa-check.green',
-			ko:     '.fa.fa-exclamation-circle.red',
+			ko:     '.fa.fa-exclamation-triangle.red',
 			wait:   '.fa.fa-refresh.fa-spin.orange',
 		};
-		const help_id = vnode.attrs.id+'_help';
-		const error_id = vnode.attrs.id+'_error';
-		//console.debug(vnode.attrs.id, ': Updating view ', vnode.state, vnode.attrs);
+		const statusColors = {
+			empty:  '',
+			missing:'.red',
+			ok:     '.green',
+			ko:     '.red',
+			wait:   '.orange',
+		};
+		const statusMessages = {
+			empty:  '',
+			missing:_('Required'),
+			ok:     vnode.attrs.checkurl?_('Correct'):'',
+			ko:     _('Invalid'),
+			wait:   _('Checking...'),
+		};
 
 		var iconState = (vnode.state.value===undefined)? (vnode.attrs.required!==undefined?'missing':'empty') : (
 			vnode.state.isvalid===undefined?'wait':vnode.state.isvalid===false?'ko':'ok');
+		//console.debug(vnode.attrs.id, ': Updating view ', vnode.state, vnode.attrs);
+		//console.debug(vnode.attrs.id, iconState);
+
 		var statusIcon = statusIcons[iconState] || '';
+		var statusColor = statusColors[iconState] || '';
+		var statusMessage = statusMessages[iconState] || '';
 
 		function validateInput(ev) {
 			//console.debug(vnode.attrs.id, ' oninput',ev);
@@ -150,24 +167,16 @@ var ValidatedField = {
 							m('i'+statusIcon,''),
 						]),
 			]),
-			vnode.state.errormessage?
-				m('.mdc-text-field-helper-text'+
-					'.mdc-text-field-helper-text--validation-msg'+
-					'', {
-					id: error_id,
-					'aria-hidden': true,
-					},
-					vnode.state.errormessage
-				):
-			vnode.attrs.help?
-				m('.mdc-text-field-helper-text'+
-					'.mdc-text-field-helper-text--persistent'+
-					'', {
-					id: help_id,
-					'aria-hidden': true,
-					},
-					vnode.attrs.help
-				):'',
+			m('.mdc-text-field-helper-text'+
+				'.mdc-text-field-helper-text--persistent'+
+				'.mdc-text-field-helper-text--validation-msg'+
+				statusColor+
+				'', {
+				id: help_id,
+				'aria-hidden': true,
+				},
+				vnode.state.errormessage || statusMessage || vnode.attrs.help
+			),
 		]);
 	},
 };
