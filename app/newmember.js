@@ -1,9 +1,10 @@
 'use strict';
 var m = require('mithril');
 var css = require('./style.styl');
-var mdc = require('material-components-web');
-var _ = function(t) { return t; } // Mockup for translation
+var _ = require('./translate');
+var requestSom = require('./somapi').requestSom
 require('@material/button/dist/mdc.button.css');
+var mdc = require('material-components-web');
 var MDCTextField = require('@material/textfield');
 require('@material/textfield/dist/mdc.textfield.css');
 require('@material/ripple');
@@ -12,49 +13,7 @@ require('@material/floating-label');
 require('@material/floating-label/dist/mdc.floating-label.css');
 require('font-awesome/css/font-awesome.css');
 
-const ONLINE = 'ONLINE';
-const OFFLINE = 'OFFLINE';
-
-
 m.prop = require('mithril/stream');
-
-var apibase = 'http://testing.somenergia.coop:5001'
-
-function requestSom(uri) {
-	var abortable = undefined;
-	var promise = new Promise(function(resolve, reject) {
-		m.request({
-			method: 'GET',
-			url: apibase+uri,
-			withCredentials: true,
-			config: function(xhr) {
-				abortable = xhr;
-			},
-		})
-		.then(function(response) {
-			console.log('response', response);
-
-			if (response.status === ONLINE) {
-				resolve(response);
-			} else if (response.status === OFFLINE) {
-				reject(_('The backend server is offline'));
-			} else {
-				reject(_('Unexpected response'));
-			}
-		})
-		.catch(function(reason) {
-			console.log(_('Request failed'), apibase+uri, reason);
-			reject(reason.message || _('Request failed'));
-		})
-		;
-	});
-	promise.abort = function() {
-		console.log("Aborting request ",apibase+uri);
-		abortable.abort()
-	};
-	return promise;
-};
-
 
 var ValidatedField = {
 	oninit: function(vnode) {
