@@ -3,15 +3,17 @@ var m = require('mithril');
 var css = require('./style.styl');
 var _ = require('./translate');
 var requestSom = require('./somapi').requestSom
-require('@material/button/dist/mdc.button.css');
-var mdc = require('material-components-web');
 var MDCTextField = require('@material/textfield');
 require('@material/textfield/dist/mdc.textfield.css');
+require('@material/button/dist/mdc.button.css');
 require('@material/ripple');
 require('@material/ripple/dist/mdc.ripple.css');
 require('@material/floating-label');
 require('@material/floating-label/dist/mdc.floating-label.css');
 require('font-awesome/css/font-awesome.css');
+
+var mdcAutoInit = require('@material/auto-init').default;
+mdcAutoInit.register('MDCTextField', MDCTextField.MDCTextField);
 
 m.prop = require('mithril/stream');
 
@@ -178,8 +180,8 @@ var Persona = {
 
 var Form = {
 	oncreate: function(vnode) {
-		//console.debug('auto init', vnode);
-		mdc.autoInit();
+//		console.debug('auto init', vnode);
+		mdcAutoInit();
 	},
 	view: function() {
 		return m('.form.span',
