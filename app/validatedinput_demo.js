@@ -2,7 +2,6 @@
 var m = require('mithril');
 var css = require('./style.styl');
 var _ = require('./translate');
-require('@material/button/dist/mdc.button.css');
 require('@material/layout-grid/dist/mdc.layout-grid.css');
 var ValidatedInput = require('./validatedinput');
 require('font-awesome/css/font-awesome.css');
@@ -17,22 +16,6 @@ var Persona = {
 	nif: undefined,
 };
 
-
-var PersonalDataEditor = {
-	view: function(vn) {
-		return m(
-			'.mdc-layout-grid'+
-			'', [
-			m('.mdc-layout-grid__cell',
-				m(ValidatedInput, {
-					id: 'vat',
-					label: _('NIF'),
-				}),
-			),
-		]);
-	},
-};
-
 var Form = {
 	oncreate: function(vnode) {
 //		console.debug('auto init', vnode);
@@ -41,7 +24,6 @@ var Form = {
 	view: function() {
 		return m('.form.mdc-layout-grid',
 		[
-			m(PersonalDataEditor),
 			m(ValidatedInput, {
 				id: 'afield',
 				label: _('Field label'),
@@ -74,11 +56,6 @@ var Form = {
 					Persona.name = value;
 				},
 			}),
-			m('button.mdc-button', {
-				disabled: Persona.error,
-				tabindex: 0,
-				},  _("submit")),
-
 			m('', Persona.name, '(', Persona.nif, ')'),
 		]);
 	},

@@ -8,12 +8,9 @@ require('@material/ripple');
 require('@material/ripple/dist/mdc.ripple.css');
 require('@material/floating-label');
 require('@material/floating-label/dist/mdc.floating-label.css');
-require('font-awesome/css/font-awesome.css');
 
 var mdcAutoInit = require('@material/auto-init').default;
 mdcAutoInit.register('MDCTextField', MDCTextField.MDCTextField);
-
-m.prop = require('mithril/stream');
 
 var ValidatedInput = {
 	oninit: function(vnode) {

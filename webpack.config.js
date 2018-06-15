@@ -9,26 +9,33 @@ var config = {
 	plugins:[
 		// Rewrites html to insert generated css and js
 		new HtmlWebpackPlugin({
-			template: './newmember.html',
-			inject:'header',
+			filename: 'index.html',
+			template: './mithriltemplate.html',
+			chunks: ['common','newmember'],
+			}),
+		new HtmlWebpackPlugin({
+			filename: 'validatedinput_demo.html',
+			template: './mithriltemplate.html',
+			chunks: ['common','validatedinput_demo'],
 			}),
 		// Analyzes generated sizes
 //		new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
 		// Split css included as js into a separate file again
 		new MiniCssExtractPlugin({
-			filename: "[name].css",
-			chunkFilename: "styles-[chunkhash].css",
+			filename: "bundle-[name]-[contenthash].css",
+			chunkFilename: "chunk-[id]-[contenthash].css",
 			}),
 		new CleanWebpackPlugin('dist/*'),
 	],
 	context: path.resolve(__dirname, 'app'),
 	entry: {
-		newmember: './newmember.js',
+		newmember: './newmember',
+		validatedinput_demo: './validatedinput_demo',
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
-		filename: '[name]-bundle-[chunkhash].js',
-		chunkFilename: '[id].chunk.js',
+		filename: 'bundle-[name]-[chunkhash].js',
+		chunkFilename: 'chunk-[id]-[chunkhash].js',
 	},
 	module: {
 		rules: [
@@ -48,7 +55,7 @@ var config = {
 	},
 	optimization: {
 		splitChunks: {
-			chunks: 'all',
+			//chunks: 'all',
 		}
 	},
 };
