@@ -32,7 +32,7 @@ var config = {
 	},
 	module: {
 		rules: [
-			{ test: /\.yaml$/,   loader: "yaml-loader" },
+			{ test: /\.yaml$/,   use: ["json-loader", "yaml-loader" ]},
 			{ test: /\.css$/,    use: [ MiniCssExtractPlugin.loader, "css-loader"]},
 			{ test: /\.less$/,   use: [ MiniCssExtractPlugin.loader, "css-loader", "less-loader"]},
 			{ test: /\.styl$/,   use: [ MiniCssExtractPlugin.loader, "css-loader", "stylus-loader"]},
