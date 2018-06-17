@@ -1,10 +1,12 @@
 'use strict';
 var m = require('mithril');
-var css = require('./style.styl');
 var _ = require('./translate');
-require('@material/button/dist/mdc.button.css');
-require('@material/layout-grid/dist/mdc.layout-grid.css');
+var css = require('./style.styl');
+var Layout = require('./layout');
+var Row = Layout.Row;
+var Cell = Layout.Cell;
 var ValidatedInput = require('./validatedinput');
+require('@material/button/dist/mdc.button.css');
 require('font-awesome/css/font-awesome.css');
 
 var mdcAutoInit = require('@material/auto-init').default;
@@ -20,15 +22,47 @@ var Persona = {
 
 var PersonalDataEditor = {
 	view: function(vn) {
-		return m(
-			'.mdc-layout-grid'+
-			'', [
-			m('.mdc-layout-grid__cell',
-				m(ValidatedInput, {
-					id: 'vat',
-					label: _('NIF'),
-				}),
-			),
+		return m(Layout, [
+			m(Row, [
+				m(Cell,
+					m(ValidatedInput, {
+						id: 'vat',
+						label: _('Caixa 1'),
+					})
+				),
+				m(Cell,
+					m(ValidatedInput, {
+						id: 'vat',
+						label: _('Caixa 2'),
+					})
+				),
+				m(Cell,
+					m(ValidatedInput, {
+						id: 'vat',
+						label: _('NIF'),
+					})
+				),
+				m(Cell,
+					m(ValidatedInput, {
+						id: 'vat',
+						label: _('NIF'),
+					})
+				),
+			]),
+			m(Row, [
+				m(Cell, {span:7},
+					m(ValidatedInput, {
+						id: 'vat',
+						label: _('NIF'),
+					})
+				),
+				m(Cell, {span:5},
+					m(ValidatedInput, {
+						id: 'vat',
+						label: _('NIF'),
+					})
+				),
+			]),
 		]);
 	},
 };
