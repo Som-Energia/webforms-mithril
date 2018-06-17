@@ -125,7 +125,7 @@ var ValidatedInput = {
 			//console.debug('oninput end',vnode.attrs);
 		};
 
-		return m('.mdc-form-field', {style: {width:'100%'}}, [
+		return m('.mdc-form-field', [
 			m(''
 				+'.mdc-text-field'
 				+(vnode.attrs.fullwidth?'.mdc-text-field--fullwidth':'')
@@ -134,6 +134,7 @@ var ValidatedInput = {
 				+(vnode.attrs.disabled?'mdc-text-field--disabled':'')
 			,{
 				'data-mdc-auto-init': 'MDCTextField',
+				style: { width: '100%'},
 			},[
 				m('input[type=text]'+
 					'.mdc-text-field__input'+
