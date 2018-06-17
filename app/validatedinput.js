@@ -71,7 +71,7 @@ var ValidatedInput = {
 				vnode.state.isvalid = true;
 				vnode.state.errormessage = undefined;
 				ev.target.setCustomValidity(undefined);
-				vnode.attrs.onChange(newValue); 
+				vnode.attrs.onChange && vnode.attrs.onChange(newValue);
 				//console.debug(vnode.attrs.id, "Accepted:", vnode.attrs);
 			}
 			function waitValue(newValue) {
