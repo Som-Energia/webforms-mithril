@@ -8,15 +8,64 @@ var Cell = Layout.Cell;
 var ValidatedInput = require('./validatedinput');
 require('@material/button/dist/mdc.button.css');
 require('font-awesome/css/font-awesome.css');
+var MDCSelect = require('@material/select');
+require('@material/select/dist/mdc.select.css');
 
 var mdcAutoInit = require('@material/auto-init').default;
-
-console.log(ValidatedInput);
+mdcAutoInit.register('MDCSelect',MDCSelect.MDCSelect);
 
 var Persona = {
 	field: undefined,
 	name: undefined,
 	nif: undefined,
+	nifValidation: {},
+};
+
+var Select = {
+	init: function(vn) {
+		
+	},
+	view: function(vn) {
+		return m('.mdc-form-field', [
+			m('.mdc-select.mdc-select--box', {
+				'data-mdc-auto-init': 'MDCSelect',
+				style: {width: '100%'},
+				},[
+				m('select'+
+				'.mdc-select__native-control'+
+				'', [
+					m('option', {
+						value:'',
+						disabled: true,
+						selected: true
+						}),
+					m('option', {
+						value: 'grains',
+						},
+						'Bread, Cereal, Rice, and Pasta',
+						),
+					m('option', {
+						value: 'vegetables',
+						},
+						'Vegetables',
+						),
+					]),
+				m('label.mdc-floating-label', vn.attrs.label),
+				m('.mdc-line-ripple'),
+			]),
+			m('.mdc-text-field-helper-text'+
+				'.mdc-text-field-helper-text--persistent'+
+				'.mdc-text-field-helper-text--validation-msg'+
+				'', {
+				'aria-hidden': true,
+				},
+				vn.attrs.help
+			),
+		])
+	},
+};
+
+var StateCityChooser = {
 };
 
 
@@ -25,21 +74,22 @@ var PersonalDataEditor = {
 		return m(Layout, [
 			m(Row, [
 				m(Cell,
+					m(Select, {
+						label: _('State'),
+						help: _('Select the state'),
+					})
+				),
+				m(Cell,
 					m(ValidatedInput, {
 						id: 'vat',
 						label: _('Caixa 1'),
+						help: _('cabrpmas'),
 					})
 				),
 				m(Cell,
 					m(ValidatedInput, {
 						id: 'vat',
 						label: _('Caixa 2'),
-					})
-				),
-				m(Cell,
-					m(ValidatedInput, {
-						id: 'vat',
-						label: _('NIF'),
 					})
 				),
 				m(Cell,
