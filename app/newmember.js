@@ -42,6 +42,12 @@ var Select = {
 					disabled: vn.attrs.disabled,
 					'aria-controls': help_id,
 					'aria-describedby': help_id,
+					value: vn.attrs.value,
+					onchange: function(ev) {
+						console.log('select onchange', ev);
+						vn.attrs.value = ev.target.value;
+						vn.attrs.onchange && vn.attrs.onchange(ev);
+					},
 				}, 
 					m('option', {
 						value:'', // label provides
@@ -81,8 +87,10 @@ var PersonalDataEditor = {
 						label: _('State'),
 						help: _('Select the state'),
 						required: true,
-						onchange: vn.attrs.onchange,
 						//disabled: true,
+						onchange: function(ev) {
+							Persona.gustos = ev.target.value;
+						},
 						options: [
 							{
 								value: 'grains',
@@ -184,7 +192,7 @@ var Form = {
 				tabindex: 0,
 				},  _("submit")),
 
-			m('', Persona.name, '(', Persona.nif, ')'),
+			m('', Persona.name, ' (', Persona.nif, ') ', ' fan de los ', Persona.gustos ),
 		]);
 	},
 };
