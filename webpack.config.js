@@ -27,7 +27,7 @@ var config = {
 			}),
 		new CleanWebpackPlugin('dist/*'),
 	],
-	context: path.resolve(__dirname, 'app'),
+	context: path.resolve(__dirname, 'src'),
 	entry: {
 		newmember: './newmember',
 		validatedinput_demo: './validatedinput_demo',
