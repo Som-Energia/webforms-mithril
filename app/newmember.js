@@ -12,7 +12,6 @@ var MDCSelect = require('@material/select');
 require('@material/select/dist/mdc.select.css');
 
 var mdcAutoInit = require('@material/auto-init').default;
-mdcAutoInit.register('MDCSelect', MDCSelect.MDCSelect);
 
 var Persona = {
 	field: undefined,
@@ -25,14 +24,14 @@ var Select = {
 	oninit: function(vn) {
 	},
 	oncreate: function(vn) {
-		//vn.state.mdcinstance = new MDCSelect.MDCSelect(vn.dom);
+		var mdcselect = vn.dom.querySelector('.mdc-select');
+		this.mdcinstance = new MDCSelect.MDCSelect(mdcselect);
 	},
 	view: function(vn) {
 		const options = vn.attrs.options || [];
 		const help_id = vn.attrs.id+'_help';
 		return m('.mdc-form-field', [
 			m('.mdc-select.mdc-select--box', {
-				'data-mdc-auto-init': 'MDCSelect',
 				style: {width: '100%'},
 				},[
 				m('select'+
