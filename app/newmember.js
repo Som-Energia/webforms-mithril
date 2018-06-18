@@ -6,10 +6,9 @@ var Layout = require('./layout');
 var Row = Layout.Row;
 var Cell = Layout.Cell;
 var ValidatedInput = require('./validatedinput');
+var Select = require('./select');
 require('@material/button/dist/mdc.button.css');
 require('font-awesome/css/font-awesome.css');
-var MDCSelect = require('@material/select');
-require('@material/select/dist/mdc.select.css');
 
 var mdcAutoInit = require('@material/auto-init').default;
 
@@ -20,58 +19,6 @@ var Persona = {
 	nifValidation: {},
 };
 
-var Select = {
-	oninit: function(vn) {
-	},
-	oncreate: function(vn) {
-		var mdcselect = vn.dom.querySelector('.mdc-select');
-		this.mdcinstance = new MDCSelect.MDCSelect(mdcselect);
-	},
-	view: function(vn) {
-		const options = vn.attrs.options || [];
-		const help_id = vn.attrs.id+'_help';
-		return m('.mdc-form-field', [
-			m('.mdc-select.mdc-select--box', {
-				style: {width: '100%'},
-				},[
-				m('select'+
-				'.mdc-select__native-control'+
-				'', {
-					id: vn.attrs.id,
-					required: vn.attrs.required,
-					disabled: vn.attrs.disabled,
-					'aria-controls': help_id,
-					'aria-describedby': help_id,
-					value: vn.attrs.value,
-					onchange: function(ev) {
-						console.log('select onchange', ev);
-						vn.attrs.value = ev.target.value;
-						vn.attrs.onchange && vn.attrs.onchange(ev);
-					},
-				}, 
-					m('option', {
-						value:'', // label provides
-						disabled: vn.attrs.required,
-						selected: true
-						}),
-					options.map(function (v,i) {
-						return m('option', v, v.text);
-					})
-				),
-				m('label.mdc-floating-label', vn.attrs.label),
-				m('.mdc-line-ripple'),
-			]),
-			m('.mdc-text-field-helper-text'+
-				'.mdc-text-field-helper-text--persistent'+
-				'.mdc-text-field-helper-text--validation-msg'+
-				'', {
-				'aria-hidden': true,
-				},
-				vn.attrs.help
-			),
-		])
-	},
-};
 
 var requestSom = require('./somapi').requestSom;
 
@@ -176,6 +123,7 @@ var PersonalDataEditor = {
 						help: _('Select the state'),
 						required: true,
 						//disabled: true,
+						value: Persona.gustos,
 						onchange: function(ev) {
 							Persona.gustos = ev.target.value;
 						},
@@ -187,7 +135,6 @@ var PersonalDataEditor = {
 							{
 								value: 'vegetables',
 								text: _('Vegetables'),
-								selected: true,
 							},
 							{
 								value: 'fruits',
@@ -198,15 +145,16 @@ var PersonalDataEditor = {
 				),
 				m(Cell,
 					m(ValidatedInput, {
-						id: 'vat',
+						id: 'caixa1',
 						label: _('Caixa 1'),
-						help: _('cabrpmas'),
+						help: _('La primera caixa'),
 					})
 				),
 				m(Cell,
 					m(ValidatedInput, {
-						id: 'vat',
+						id: 'caixa2',
 						label: _('Caixa 2'),
+						help: _('La segona caixa'),
 					})
 				),
 				m(Cell,
@@ -228,6 +176,11 @@ var PersonalDataEditor = {
 						id: 'vat',
 						label: _('NIF'),
 					})
+				),
+			]),
+			m(Row, [
+				m(Cell, {span:12},
+					m(Select.Example),
 				),
 			]),
 		]);
