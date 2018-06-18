@@ -73,13 +73,101 @@ var Select = {
 	},
 };
 
+var requestSom = require('./somapi').requestSom;
+
 var StateCityChooser = {
+	oninit: function(vn) {
+		var self = this;
+		self.states = []; // TODO: Shared by instances
+		self.stateIndex = 0;
+		self.state = undefined;
+		self.stateError = undefined;
+		self.city = undefined;
+		self.cityError = undefined;
+		self.cities = [];
+
+		self.updateStates();
+	},
+
+	updateStates: function(countryid) {
+		var self = this;
+		console.log("Searching states");
+		requestSom('/data/provincies').then(function(data) {
+			self.states = data.data.provincies;
+		}).catch(function(reason) {
+			console.log("TODO: Failed", reason);
+			self.stateError = _('Error loading states');
+		});
+	},
+
+	updateCities: function(stateid) {
+		var self = this;
+		console.log("Searching cities");
+		self.cities = [];
+		self.city = undefined;
+		self.cityError = _('Loading cities from %s');
+		requestSom('/data/municipis/'+stateid).then(function(data) {
+			console.log("Setting cities", data);
+			self.city = undefined;
+			self.cityError = undefined;
+			self.cities = data.data.municipis;
+		}).catch(function(reason) {
+			console.log("TODO: Failed", reason);
+			self.cityError = _('Error loading cities');
+		});
+	},
+
+	view: function(vn) {
+		var self=this;
+		//console.log("Redrawing states", self.states, 'cities', self.cities);
+		console.log("Redrawing state", self.state, 'city', self.city);
+		return m(Row, [
+			m(Cell, {span:6},
+				m(Select, {
+					options: this.states.map(function(v) {
+						return {
+							value: v.id,
+							text: v.name,
+						};
+					}),
+					label: _('State'),
+					help: this.stateError?this.stateError:(this.states?_('Choose a state'):_('Loading...')),
+					required: true,
+					value: self.state,
+					onchange: function (ev) {
+						self.state = ev.target.value;
+						self.updateCities(self.state);
+						vn.attrs.onchange && vn.attrs.onchange(self)
+					},
+				})
+			),
+			m(Cell, {span:6},
+				m(Select, {
+					options: this.cities.map(function(v) {
+						return {
+							value: v.id,
+							text: v.name,
+						};
+					}),
+					label: _('City'),
+					help: this.cityError?this.cityError:(this.cities?_('Choose a city'):_('Loading...')),
+					required: true,
+					value: self.city || '',
+					onchange: function (ev) {
+						self.city = ev.target.value;
+						vn.attrs.onchange && vn.attrs.onchange(self)
+					},
+				})
+			),
+		]);
+	},
 };
 
 
 var PersonalDataEditor = {
 	view: function(vn) {
 		return m(Layout, [
+			m(StateCityChooser),
 			m(Row, [
 				m(Cell,
 					m(Select, {

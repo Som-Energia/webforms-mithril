@@ -7,9 +7,10 @@ var apibase = 'http://testing.somenergia.coop:5001'
 const ONLINE = 'ONLINE';
 const OFFLINE = 'OFFLINE';
 
-
 function requestSom(uri) {
 	var abortable = undefined;
+	// A two level promise to turn some network success
+	// into request rejections as well
 	var promise = new Promise(function(resolve, reject) {
 		m.request({
 			method: 'GET',
@@ -42,6 +43,9 @@ function requestSom(uri) {
 	};
 	return promise;
 };
+
+
+
 
 module.exports.requestSom = requestSom;
 
