@@ -6,6 +6,7 @@ body, html {
 	width: 100%;
 	padding: 0;
 	margin: 0;
+//	--mdc-theme-primary: #6c1;
 }
 
 #mithril-target {
@@ -26,6 +27,16 @@ body, html {
 	margin-top: 16px;
 }
 
+// Fixing firefox focus ring
+@-moz-document url-prefix() {
+    select, select:-moz-focusring, select::-moz-focus-inner {
+       color: transparent !important;
+       text-shadow: 0 0 0 #000 !important;
+       background-image: none !important;
+       border:0;
+    }
+}
+
 .orange {
     color: #aa4 !important;
 }
@@ -35,3 +46,5 @@ body, html {
 .green {
     color: green !important;
 }
+
+
