@@ -21,6 +21,9 @@ var ValidatedInput = {
 		vnode.state._lastPromise = undefined;
 		//console.debug(vnode.attrs.id, ': after init ', vnode.state, vnode.attrs);
 	},
+	oncreate: function(vnode) {
+		//this.mdcinstance = new MDCTextField.MDCTextField(vnode.dom);
+	},
 	view: function (vnode) {
 		const help_id = vnode.attrs.id+'_help';
 		const statusIcons = {

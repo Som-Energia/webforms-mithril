@@ -12,7 +12,7 @@ var MDCSelect = require('@material/select');
 require('@material/select/dist/mdc.select.css');
 
 var mdcAutoInit = require('@material/auto-init').default;
-mdcAutoInit.register('MDCSelect',MDCSelect.MDCSelect);
+mdcAutoInit.register('MDCSelect', MDCSelect.MDCSelect);
 
 var Persona = {
 	field: undefined,
@@ -22,10 +22,14 @@ var Persona = {
 };
 
 var Select = {
-	init: function(vn) {
-		
+	oninit: function(vn) {
+	},
+	oncreate: function(vn) {
+		//vn.state.mdcinstance = new MDCSelect.MDCSelect(vn.dom);
 	},
 	view: function(vn) {
+		const options = vn.attrs.options || [];
+		const help_id = vn.attrs.id+'_help';
 		return m('.mdc-form-field', [
 			m('.mdc-select.mdc-select--box', {
 				'data-mdc-auto-init': 'MDCSelect',
@@ -33,23 +37,22 @@ var Select = {
 				},[
 				m('select'+
 				'.mdc-select__native-control'+
-				'', [
+				'', {
+					id: vn.attrs.id,
+					required: vn.attrs.required,
+					disabled: vn.attrs.disabled,
+					'aria-controls': help_id,
+					'aria-describedby': help_id,
+				}, 
 					m('option', {
-						value:'',
-						disabled: true,
+						value:'', // label provides
+						disabled: vn.attrs.required,
 						selected: true
 						}),
-					m('option', {
-						value: 'grains',
-						},
-						'Bread, Cereal, Rice, and Pasta',
-						),
-					m('option', {
-						value: 'vegetables',
-						},
-						'Vegetables',
-						),
-					]),
+					options.map(function (v,i) {
+						return m('option', v, v.text);
+					})
+				),
 				m('label.mdc-floating-label', vn.attrs.label),
 				m('.mdc-line-ripple'),
 			]),
@@ -75,8 +78,27 @@ var PersonalDataEditor = {
 			m(Row, [
 				m(Cell,
 					m(Select, {
+						id: 'state',
 						label: _('State'),
 						help: _('Select the state'),
+						required: true,
+						onchange: vn.attrs.onchange,
+						//disabled: true,
+						options: [
+							{
+								value: 'grains',
+								text: _('Bread, Cereal, Rice, and Pasta'),
+							},
+							{
+								value: 'vegetables',
+								text: _('Vegetables'),
+								selected: true,
+							},
+							{
+								value: 'fruits',
+								text: _('Apple'),
+							},
+						],
 					})
 				),
 				m(Cell,
