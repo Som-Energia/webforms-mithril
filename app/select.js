@@ -31,7 +31,6 @@ var Select = {
 					'aria-describedby': help_id,
 					value: vn.attrs.value,
 					onchange: function(ev) {
-						console.log('select onchange', ev);
 						vn.attrs.value = ev.target.value;
 						vn.attrs.onchange && vn.attrs.onchange(ev);
 					},
@@ -67,7 +66,7 @@ var Example = {
 		name: undefined,
 		nif: undefined,
 		nifValidation: {},
-		gustos: 'vegetables',
+		tastes: 'vegetables',
 	},
 	view: function(vn) {
 		return m('',[
@@ -77,9 +76,9 @@ var Example = {
 				help: _('Select what you like more'),
 				required: true,
 				//disabled: true,
-				value: this.Person.gustos,
+				value: this.Person.tastes,
 				onchange: function(ev) {
-					vn.state.Person.gustos = ev.target.value;
+					vn.state.Person.tastes = ev.target.value;
 				},
 				options: [
 					{
@@ -96,7 +95,7 @@ var Example = {
 					},
 				],
 			}),
-			m('', _('You are fan of '), this.Person.gustos ),
+			m('', _('You are fan of '), this.Person.tastes ),
 		]);
 	},
 };

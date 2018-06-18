@@ -38,7 +38,6 @@ var StateCityChooser = {
 
 	updateStates: function(countryid) {
 		var self = this;
-		console.log("Searching states");
 		requestSom('/data/provincies').then(function(data) {
 			self.states = data.data.provincies;
 		}).catch(function(reason) {
@@ -49,12 +48,11 @@ var StateCityChooser = {
 
 	updateCities: function(stateid) {
 		var self = this;
-		console.log("Searching cities");
 		self.cities = [];
 		self.city = undefined;
-		self.cityError = _('Loading cities from %s');
+		var statename = self.states.find(function(v) {return v.id==stateid;}).name;
+		self.cityError = _('Loading municipalities in %{statename}',{statename:statename});
 		requestSom('/data/municipis/'+stateid).then(function(data) {
-			console.log("Setting cities", data);
 			self.city = undefined;
 			self.cityError = undefined;
 			self.cities = data.data.municipis;
@@ -66,8 +64,6 @@ var StateCityChooser = {
 
 	view: function(vn) {
 		var self=this;
-		//console.log("Redrawing states", self.states, 'cities', self.cities);
-		console.log("Redrawing state", self.state, 'city', self.city);
 		return m(Row, [
 			m(Cell, {span:6},
 				m(Select, {
@@ -193,7 +189,7 @@ var Form = {
 		mdcAutoInit();
 	},
 	view: function() {
-		return m('.form.mdc-layout-grid',
+		return m('.form',
 		[
 			m(PersonalDataEditor),
 			m(ValidatedInput, {
@@ -233,7 +229,6 @@ var Form = {
 				tabindex: 0,
 				},  _("submit")),
 
-			m('', Persona.name, ' (', Persona.nif, ') ', ' fan de los ', Persona.gustos ),
 		]);
 	},
 };
