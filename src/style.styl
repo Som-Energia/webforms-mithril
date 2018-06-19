@@ -60,7 +60,13 @@ body, html {
     margin-bottom: 8px;
 }
 
-// Fixing firefox focus ring
+// Fixes 'required' marker looking for selects like for text-fields
+.mdc-select__native-control:required + .mdc-floating-label::after {
+    margin-left: 1px;
+    content: "*";
+}
+
+// Fixes firefox focus ring
 @-moz-document url-prefix() {
     select, select:-moz-focusring, select::-moz-focus-inner {
        color: transparent !important;
