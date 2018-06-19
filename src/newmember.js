@@ -171,8 +171,7 @@ var WizardPage = {
 				m(Row, [
 					m(Cell,{span:8}, m('.mdc-.red', errors)),
 					m(Cell,{span:2},
-						m('button.mdc-button.mdc'+
-							'', {
+						m('button.mdc-button.mdc-button--outlined', {
 							tabindex: 0,
 							disabled: vn.attrs.prev===undefined,
 							onclick: function() {
