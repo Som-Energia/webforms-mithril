@@ -9,9 +9,6 @@ require('@material/ripple/dist/mdc.ripple.css');
 require('@material/floating-label');
 require('@material/floating-label/dist/mdc.floating-label.css');
 
-var mdcAutoInit = require('@material/auto-init').default;
-mdcAutoInit.register('MDCTextField', MDCTextField.MDCTextField);
-
 var ValidatedInput = {
 	oninit: function(vnode) {
 		//console.debug(vnode.attrs.id, ': init ', vnode.state, vnode.attrs);
@@ -22,7 +19,8 @@ var ValidatedInput = {
 		//console.debug(vnode.attrs.id, ': after init ', vnode.state, vnode.attrs);
 	},
 	oncreate: function(vnode) {
-		//this.mdcinstance = new MDCTextField.MDCTextField(vnode.dom);
+		var mdcinput = vnode.dom.querySelector('.mdc-text-field');
+		this.mdcinstance = new MDCTextField.MDCTextField(mdcinput);
 	},
 	view: function (vnode) {
 		const help_id = vnode.attrs.id+'_help';
@@ -62,7 +60,7 @@ var ValidatedInput = {
 
 			function fielderror(message) {
 				//console.debug(vnode.attrs.id, ' rejecting ', vnode.state);
-				vnode.dom.firstChild.MDCTextField.valid = false;
+				vnode.state.mdcinstance.valid = false;
 				vnode.state.isvalid = false;
 				vnode.state.errormessage = message;
 				ev.target.setCustomValidity(message);
@@ -70,7 +68,7 @@ var ValidatedInput = {
 			}
 			function acceptValue(newValue) {
 				//console.debug(vnode.attrs.id, "Accepting:", newValue);
-				vnode.dom.firstChild.MDCTextField.valid = true;
+				vnode.state.mdcinstance.valid = true;
 				vnode.state.isvalid = true;
 				vnode.state.errormessage = undefined;
 				ev.target.setCustomValidity(undefined);
@@ -78,7 +76,7 @@ var ValidatedInput = {
 				//console.debug(vnode.attrs.id, "Accepted:", vnode.attrs);
 			}
 			function waitValue(newValue) {
-				vnode.dom.firstChild.MDCTextField.valid = true;
+				vnode.state.mdcinstance.valid = true;
 				ev.target.setCustomValidity(undefined);
 				vnode.state.value = newValue;
 				vnode.state.isvalid = undefined; // status checking
@@ -136,7 +134,6 @@ var ValidatedInput = {
 				+(vnode.attrs.fullwidth?'':'.mdc-text-field--box')
 				+(vnode.attrs.disabled?'mdc-text-field--disabled':'')
 			,{
-				'data-mdc-auto-init': 'MDCTextField',
 				style: { width: '100%'},
 			},[
 				m('input[type=text]'+
