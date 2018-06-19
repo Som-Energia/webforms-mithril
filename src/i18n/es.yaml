@@ -1,3 +1,10 @@
+State: Provincia
+City: Municipio
+Choose a state: Escoja una provincia
+Choose a city: Escoja una ciudad
+Loading municipalities in %{statename}: Se están cargando los municipios de %{statename}...
 NIF: Número de identificación fiscal
 Field label: Etiqueta del campo
-
+Holder: Titular
+Supply point: Punto de suministro
+Confirmation: Confirmación
