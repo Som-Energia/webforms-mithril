@@ -18,13 +18,13 @@ var config = {
 			template: './mithriltemplate.html',
 			chunks: ['common','validatedinput_demo'],
 			}),
-		// Analyzes generated sizes
-//		new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
 		// Split css included as js into a separate file again
 		new MiniCssExtractPlugin({
 			filename: "bundle-[name]-[contenthash].css",
 			chunkFilename: "chunk-[id]-[contenthash].css",
 			}),
+		// Analyzes generated sizes
+//		new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
 		new CleanWebpackPlugin('dist/*'),
 	],
 	context: path.resolve(__dirname, 'src'),
