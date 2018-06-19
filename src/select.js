@@ -52,6 +52,7 @@ var Select = {
 				'.mdc-text-field-helper-text--validation-msg'+
 				'', {
 				'aria-hidden': true,
+				id: help_id,
 				},
 				vn.attrs.help
 			),
