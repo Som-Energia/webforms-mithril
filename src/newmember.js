@@ -110,11 +110,9 @@ var WizardPage = {
 		console.log(model.currentTab, vn.attrs.id, style);
 		var errors = model.pageErrors(vn.attrs.id);
 		return m('', {style: style}, [
-			m(Layout,
+			m(Layout, [
 				vn.children,
-			),
-			m(Layout, {align: 'right'},
-				m(Row, [
+				m(Row, {align: 'right'}, [
 					m(Cell,{span:8}, m('.mdc-.red', errors)),
 					m(Cell,{span:2},
 						m('button.mdc-button.mdc-button--outlined', {
@@ -141,7 +139,7 @@ var WizardPage = {
 						)
 					),
 				]),
-			)
+			]),
 		]);
 	},
 };
