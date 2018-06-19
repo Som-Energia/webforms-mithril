@@ -8,14 +8,6 @@ var Select = require('./select');
 var requestSom = require('./somapi').requestSom;
 
 
-var Persona = {
-	field: undefined,
-	name: undefined,
-	nif: undefined,
-	nifValidation: {},
-};
-
-
 var StateCityChooser = {
 	oninit: function(vn) {
 		var self = this;
