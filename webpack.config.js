@@ -41,6 +41,7 @@ var config = {
 		rules: [
 			{ test: /\.yaml$/,   use: ["json-loader", "yaml-loader" ]},
 			{ test: /\.css$/,    use: [ MiniCssExtractPlugin.loader, "css-loader"]},
+			{ test: /\.scss$/,   use: [ MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]},
 			{ test: /\.less$/,   use: [ MiniCssExtractPlugin.loader, "css-loader", "less-loader"]},
 			{ test: /\.styl$/,   use: [ MiniCssExtractPlugin.loader, "css-loader", "stylus-loader"]},
 			{ test: /\.jade$/,   loader: "jade-loader?self" },
