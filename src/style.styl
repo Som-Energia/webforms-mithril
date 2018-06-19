@@ -8,13 +8,6 @@ body, html {
 	margin: 0;
 }
 
-* {
-	--mdc-theme-primary: #6a1;
-	--mdc-theme-on-primary: white;
-	--mdc-theme-text-primary-on-background: #6a1;
-	--mdc-theme-text-primary-on-dark: #6a1;
-}
-
 #mithril-target {
 	height: 100%;
 	margin: 0 auto;
@@ -28,11 +21,18 @@ body, html {
 	height: 100%;
 }
 
+// Theming
+* {
+	--mdc-theme-primary: #6a1;
+	--mdc-theme-on-primary: white;
+	--mdc-theme-text-primary-on-background: #6a1;
+	--mdc-theme-text-primary-on-dark: #6a1;
+}
+
 .mdc-tab-bar .mdc-tab--active,
 .mdc-tab-bar .mdc-tab:hover
 {
-	color: var(--mdc-theme-primary);
-	background-color: var(--mdc-theme-on-primary);
+	background-color: white !important;
 }
 
 .mdc-select:not(.mdc-select--disabled) .mdc-select__native-control:focus ~ .mdc-floating-label,
@@ -41,9 +41,23 @@ body, html {
 	color: var(--mdc-theme-primary) !important;
 }
 
-// Fixes what looks like a bug in mdc
+
+// Fixes margin in boxed selects like in boxed text-fields
 .mdc-select--box {
 	margin-top: 16px;
+}
+
+// Fixes helper-texts looking for selects like for text-fields
+.mdc-select:not(.mdc-select--disabled) + .mdc-text-field-helper-text {
+    color: rgba(0, 0, 0, 0.6);
+}
+.mdc-select--box + .mdc-text-field-helper-text,
+.mdc-select--outlined + .mdc-text-field-helper-text {
+    margin-right: 16px;
+    margin-left: 16px;
+}
+.mdc-select + .mdc-text-field-helper-text {
+    margin-bottom: 8px;
 }
 
 // Fixing firefox focus ring
@@ -55,6 +69,7 @@ body, html {
        border:0;
     }
 }
+
 
 .orange {
     color: #aa4 !important;
