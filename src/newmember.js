@@ -16,71 +16,6 @@ require('font-awesome/css/font-awesome.css');
 
 require('@material/typography/dist/mdc.typography.css').default;
 
-var Persona = {
-	field: undefined,
-	name: undefined,
-	nif: undefined,
-	nifValidation: {},
-};
-
-var PersonalDataEditor = {
-	view: function(vn) {
-		return [
-			m(StateCityChooser),
-			m(Row, [
-				m(Cell,
-					m(ValidatedInput, {
-						id: 'caixa1',
-						label: _('Caixa 1'),
-						help: _('La primera caixa'),
-					})
-				),
-				m(Cell,
-					m(ValidatedInput, {
-						id: 'caixa2',
-						label: _('Caixa 2'),
-						help: _('La segona caixa'),
-					})
-				),
-				m(Cell,
-					m(ValidatedInput, {
-						id: 'caixa3',
-						label: _('Caixa 3'),
-						help: _('I encara una tercera caixa'),
-					})
-				),
-			]),
-			m(Row, [
-				m(Cell, {span:7},
-					m(ValidatedInput, {
-						id: 'iban',
-						label: _('IBAN (compte bancari)'),
-						help: _('I encara una tercera caixa'),
-						defaulterror: _('Invalid IBAN'),
-						required: true,
-						checkurl: '/check/iban/',
-						value: Persona.iban,
-						onChange: function(value) {
-							Persona.iban = value;
-						},
-					})
-				),
-				m(Cell, {span:5},
-					m(ValidatedInput, {
-						id: 'vat',
-						label: _('NIF'),
-					})
-				),
-			]),
-			m(Row, [
-				m(Cell, {span:12},
-					m(Select.Example),
-				),
-			]),
-		];
-	},
-};
-
 var WizardModel = {
 	currentTab: undefined,
 	tabsOrder: [],
@@ -208,6 +143,71 @@ var WizardPage = {
 				]),
 			)
 		]);
+	},
+};
+
+var Persona = {
+	field: undefined,
+	name: undefined,
+	nif: undefined,
+	nifValidation: {},
+};
+
+var PersonalDataEditor = {
+	view: function(vn) {
+		return [
+			m(StateCityChooser),
+			m(Row, [
+				m(Cell,
+					m(ValidatedInput, {
+						id: 'caixa1',
+						label: _('Caixa 1'),
+						help: _('La primera caixa'),
+					})
+				),
+				m(Cell,
+					m(ValidatedInput, {
+						id: 'caixa2',
+						label: _('Caixa 2'),
+						help: _('La segona caixa'),
+					})
+				),
+				m(Cell,
+					m(ValidatedInput, {
+						id: 'caixa3',
+						label: _('Caixa 3'),
+						help: _('I encara una tercera caixa'),
+					})
+				),
+			]),
+			m(Row, [
+				m(Cell, {span:7},
+					m(ValidatedInput, {
+						id: 'iban',
+						label: _('IBAN (compte bancari)'),
+						help: _('I encara una tercera caixa'),
+						defaulterror: _('Invalid IBAN'),
+						required: true,
+						checkurl: '/check/iban/',
+						value: Persona.iban,
+						onChange: function(value) {
+							Persona.iban = value;
+						},
+					})
+				),
+				m(Cell, {span:5},
+					m(ValidatedInput, {
+						id: 'vat',
+						label: _('NIF'),
+					})
+				),
+			]),
+			m(Row, [
+				m(Cell, {span:12},
+					m(Select.Example),
+				),
+			]),
+		];
 	},
 };
 
