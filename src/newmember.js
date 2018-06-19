@@ -11,6 +11,7 @@ var StateCityChooser = require('./statecity');
 require('@material/button/dist/mdc.button.css');
 require('font-awesome/css/font-awesome.css');
 
+require('@material/typography/dist/mdc.typography.css').default;
 var mdcAutoInit = require('@material/auto-init').default;
 
 var Persona = {
