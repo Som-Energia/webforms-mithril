@@ -15,7 +15,6 @@ var MDCTabBar = require('@material/tabs').MDCTabBar;
 require('font-awesome/css/font-awesome.css');
 
 require('@material/typography/dist/mdc.typography.css').default;
-var mdcAutoInit = require('@material/auto-init').default;
 
 var Persona = {
 	field: undefined,
@@ -203,13 +202,8 @@ var WizardPage = {
 };
 
 var Form = {
-	oncreate: function(vnode) {
-//		console.debug('auto init', vnode);
-		//mdcAutoInit();
-	},
 	view: function() {
-		return m('.form.mdc-typography',
-		[
+		return m('.form.mdc-typography', [
 			m(Wizard, {
 				model: WizardModel,
 			}, [

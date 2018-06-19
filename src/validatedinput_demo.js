@@ -6,8 +6,6 @@ require('@material/layout-grid/dist/mdc.layout-grid.css');
 var ValidatedInput = require('./validatedinput');
 require('font-awesome/css/font-awesome.css');
 
-var mdcAutoInit = require('@material/auto-init').default;
-
 console.log(ValidatedInput);
 
 var Persona = {
@@ -17,10 +15,6 @@ var Persona = {
 };
 
 var Form = {
-	oncreate: function(vnode) {
-//		console.debug('auto init', vnode);
-		mdcAutoInit();
-	},
 	view: function() {
 		return m('.form.mdc-layout-grid',
 		[
