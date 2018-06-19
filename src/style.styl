@@ -6,7 +6,13 @@ body, html {
 	width: 100%;
 	padding: 0;
 	margin: 0;
-//	--mdc-theme-primary: #6c1;
+}
+
+* {
+	--mdc-theme-primary: #6a1;
+	--mdc-theme-on-primary: white;
+	--mdc-theme-text-primary-on-background: #6a1;
+	--mdc-theme-text-primary-on-dark: #6a1;
 }
 
 #mithril-target {
@@ -20,6 +26,19 @@ body, html {
 	top: 0;
 	bottom: 0;
 	height: 100%;
+}
+
+.mdc-tab-bar .mdc-tab--active,
+.mdc-tab-bar .mdc-tab:hover
+{
+	color: var(--mdc-theme-primary);
+	background-color: var(--mdc-theme-on-primary);
+}
+
+.mdc-select:not(.mdc-select--disabled) .mdc-select__native-control:focus ~ .mdc-floating-label,
+.mdc-text-field--focused:not(.mdc-text-field--disabled) label.mdc-floating-label
+{
+	color: var(--mdc-theme-primary) !important;
 }
 
 // Fixes what looks like a bug in mdc
