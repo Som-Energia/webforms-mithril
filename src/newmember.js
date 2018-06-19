@@ -25,7 +25,7 @@ var Persona = {
 
 var PersonalDataEditor = {
 	view: function(vn) {
-		return m(Layout, [
+		return [
 			m(StateCityChooser),
 			m(Row, [
 				m(Cell,
@@ -44,16 +44,25 @@ var PersonalDataEditor = {
 				),
 				m(Cell,
 					m(ValidatedInput, {
-						id: 'vat',
-						label: _('NIF'),
+						id: 'caixa3',
+						label: _('Caixa 3'),
+						help: _('I encara una tercera caixa'),
 					})
 				),
 			]),
 			m(Row, [
 				m(Cell, {span:7},
 					m(ValidatedInput, {
-						id: 'vat',
-						label: _('NIF'),
+						id: 'iban',
+						label: _('IBAN (compte bancari)'),
+						help: _('I encara una tercera caixa'),
+						defaulterror: _('Invalid IBAN'),
+						required: true,
+						checkurl: '/check/iban/',
+						value: Persona.iban,
+						onChange: function(value) {
+							Persona.iban = value;
+						},
 					})
 				),
 				m(Cell, {span:5},
@@ -68,7 +77,7 @@ var PersonalDataEditor = {
 					m(Select.Example),
 				),
 			]),
-		]);
+		];
 	},
 };
 
@@ -166,8 +175,10 @@ var WizardPage = {
 		console.log(model.currentTab, vn.attrs.id, style);
 		var errors = model.pageErrors(vn.attrs.id);
 		return m('', {style: style}, [
-			vn.children,
-			m(Layout, //{align: 'right'},
+			m(Layout,
+				vn.children,
+			),
+			m(Layout, {align: 'right'},
 				m(Row, [
 					m(Cell,{span:8}, m('.mdc-.red', errors)),
 					m(Cell,{span:2},
@@ -220,8 +231,13 @@ var Form = {
 					model: WizardModel,
 					prev: 'holder',
 					next: 'confirm',
-				}, [
-					m(ValidatedInput, {
+					validator: function() {
+						if (Persona.field=='caca')
+							return _('Watch your tonge');
+					},
+
+				}, m(Row, [
+					m(Cell, {span:6}, m(ValidatedInput, {
 						id: 'afield',
 						label: _('Field label'),
 						help: _('Field Help'),
@@ -230,8 +246,8 @@ var Form = {
 						onChange: function(value) {
 							Persona.field = value;
 						},
-					}),
-					m(ValidatedInput, {
+					})),
+					m(Cell, {span:6}, m(ValidatedInput, {
 						id: 'nif',
 						label: _('NIF/DNI'),
 						pattern: /[0-9A-Za-z]+/,
@@ -242,15 +258,15 @@ var Form = {
 						onChange: function(value) {
 							Persona.nif = value;
 						},
-					}),
-				]),
+					})),
+				])),
 				m(WizardPage, {
 					id: 'confirm',
 					title: _('Confirmation'),
 					model: WizardModel,
 					prev: 'supply',
-				}, [
-					m(ValidatedInput, {
+				}, m(Row, [
+					m(Cell, {span:8}, m(ValidatedInput, {
 						id: 'name',
 						label: _('Name'),
 						required: true,
@@ -259,8 +275,8 @@ var Form = {
 						onChange: function(value) {
 							Persona.name = value;
 						},
-					}),
-				]),
+					})),
+				])),
 			]),
 		]);
 	},
