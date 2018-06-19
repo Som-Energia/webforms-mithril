@@ -25,7 +25,7 @@ var Select = {
 				'.mdc-select__native-control'+
 				'', {
 					id: vn.attrs.id,
-					required: vn.attrs.required,
+					required: vn.attrs.required, // TODO: current MDC version does not work yet
 					disabled: vn.attrs.disabled,
 					'aria-controls': help_id,
 					'aria-describedby': help_id,
