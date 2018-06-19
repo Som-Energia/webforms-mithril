@@ -51,7 +51,7 @@ var StateCityChooser = {
 	view: function(vn) {
 		var self=this;
 		return m(Row, [
-			m(Cell, {span:6},
+			m(Cell, {spandesktop:6, span:4},
 				m(Select, {
 					options: this.states.map(function(v) {
 						return {
@@ -70,7 +70,7 @@ var StateCityChooser = {
 					},
 				})
 			),
-			m(Cell, {span:6},
+			m(Cell, {spandesktop:6, span:4},
 				m(Select, {
 					options: this.cities.map(function(v) {
 						return {

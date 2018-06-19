@@ -3,6 +3,7 @@ var m = require('mithril');
 require('@material/layout-grid/dist/mdc.layout-grid.css');
 
 function pop(o,k) { var r=o[k]; if (r!==undefined) { delete o[k];} return r; }
+
 var Layout = {
 	view: function(vnode) {
 		var attrs = Object.assign({},vnode.attrs);
@@ -14,25 +15,27 @@ var Layout = {
 			vnode.children);
 	},
 };
+
 var Row = {
 	view: function(vnode) {
 		return m('.mdc-layout-grid__inner', vnode.attrs, vnode.children);
 	},
 };
+
 var Cell = {
 	view: function(vnode) {
 		var attrs = Object.assign({},vnode.attrs);
 		var span = pop(attrs, 'span');
 		var spantablet = pop(attrs, 'spantablet');
 		var spandesktop = pop(attrs, 'spandesktop');
-		var spanmobile = pop(attrs, 'spanmobile');
+		var spanphone = pop(attrs, 'spanphone');
 		var order = pop(attrs, 'order'); // 1 to 12
 		var align = pop(attrs, 'align'); // left, right, undefined (center)
 		return m(
 			(span?'.mdc-layout-grid__cell--span-'+span:'')+
-			(spanmobile?'.mdc-layout-grid__cell--span-'+spanmobile+'-mobile':'')+
-			(spandesktop?'.mdc-layout-grid__cell--span-'+spandesktop+'-desktop':'')+
+			(spanphone?'.mdc-layout-grid__cell--span-'+spanphone+'-phone':'')+
 			(spantablet?'.mdc-layout-grid__cell--span-'+spantablet+'-tablet':'')+
+			(spandesktop?'.mdc-layout-grid__cell--span-'+spandesktop+'-desktop':'')+
 			(order?'.mdc-layout-grid__cell--order-'+order:'')+
 			(align?'.mdc-layout-grid__cell--align-'+align:'')+
 			'.mdc-layout-grid__cell'+
