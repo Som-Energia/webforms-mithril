@@ -16,6 +16,29 @@ require('font-awesome/css/font-awesome.css');
 
 require('@material/typography/dist/mdc.typography.css').default;
 
+var WizardTab = {
+	oncreate: function(vn) {
+		console.log("Tab creating");
+		var mdctab = vn.dom.querySelector('.mdc-tab');
+		//MDCTab.attachTo(mdctab);
+		console.log("Tab created");
+	},
+	view: function(vn) {
+		var active = vn.attrs.active;
+		return m('a.mdc-tab[role=tab]'+
+			(active?'.mdc-tab--active':'')+
+			(active?'.mdc-theme--primary':'.mdc-theme--secondary')+
+		'', {
+			href: '#',
+			tabindex: -1, // Excluded from tab navitation
+			disabled: true,//vn.attrs.disabled,
+		}, [
+			vn.children,
+			m('span.mdc-tab__indicator'),
+		]);
+	},
+};
+
 var WizardModel = {
 	currentTab: undefined,
 	tabsOrder: [],
@@ -43,29 +66,6 @@ var WizardModel = {
 	next: function() {
 		var currentTab = this.tabs[this.currentTab]
 		this.go(currentTab.attrs.next)
-	},
-};
-
-var WizardTab = {
-	oncreate: function(vn) {
-		console.log("Tab creating");
-		var mdctab = vn.dom.querySelector('.mdc-tab');
-		//MDCTab.attachTo(mdctab);
-		console.log("Tab created");
-	},
-	view: function(vn) {
-		var active = vn.attrs.active;
-		return m('a.mdc-tab[role=tab]'+
-			(active?'.mdc-tab--active':'')+
-			(active?'.mdc-theme--primary':'.mdc-theme--secondary')+
-		'', {
-			href: '#',
-			tabindex: -1, // Excluded from tab navitation
-			disabled: true,//vn.attrs.disabled,
-		}, [
-			vn.children,
-			m('span.mdc-tab__indicator'),
-		]);
 	},
 };
 
