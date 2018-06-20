@@ -9,6 +9,7 @@ var Cell = Layout.Cell;
 var Select = require('./select');
 var ValidatedInput = require('./validatedinput');
 var StateCityChooser = require('./statecity');
+var FarePower = require('./farepower');
 require('@material/button/dist/mdc.button.css');
 require('font-awesome/css/font-awesome.css');
 
@@ -83,16 +84,16 @@ var PersonalDataEditor = {
 var Form = {
 	view: function() {
 		return m('.form.mdc-typography', [
-			m(Wizard, {
-			}, [
-				m('', {
+			m(Wizard, {}, [
+				m('.page', {
 					id: 'holder',
 					title: _('Holder'),
 					next: 'supply',
 				}, [
 					m(PersonalDataEditor),
 				]),
-				m('', {
+
+				m('.page', {
 					id: 'supply',
 					title: _('Supply point'),
 					prev: 'holder',
@@ -102,6 +103,12 @@ var Form = {
 							return _('Watch your tonge');
 					},
 
+				}, m(FarePower, {}),
+				),
+				m('.page', {
+					id: 'confirm',
+					title: _('Confirmation'),
+					prev: 'supply',
 				}, m(Row, [
 					m(Cell, {span:6}, m(ValidatedInput, {
 						id: 'afield',
@@ -125,12 +132,6 @@ var Form = {
 							Persona.nif = value;
 						},
 					})),
-				])),
-				m('', {
-					id: 'confirm',
-					title: _('Confirmation'),
-					prev: 'supply',
-				}, m(Row, [
 					m(Cell, {span:8}, m(ValidatedInput, {
 						id: 'name',
 						label: _('Name'),
