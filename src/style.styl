@@ -29,18 +29,13 @@ body, html {
 	--mdc-theme-text-primary-on-dark: #6a1;
 }
 
-.mdc-tab-bar .mdc-tab--active,
-.mdc-tab-bar .mdc-tab:hover
-{
-	background-color: white !important;
-}
 
+// Fixes focused floating label color not taking custom theme's colors
 .mdc-select:not(.mdc-select--disabled) .mdc-select__native-control:focus ~ .mdc-floating-label,
 .mdc-text-field--focused:not(.mdc-text-field--disabled) label.mdc-floating-label
 {
 	color: var(--mdc-theme-primary) !important;
 }
-
 
 // Fixes margin in boxed selects like in boxed text-fields
 .mdc-select--box {
