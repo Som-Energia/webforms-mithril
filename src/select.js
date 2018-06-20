@@ -1,9 +1,6 @@
 'use strict';
 var m = require('mithril');
-var Layout = require('./layout');
 var _ = require('./translate');
-var Row = Layout.Row;
-var Cell = Layout.Cell;
 var MDCSelect = require('@material/select');
 require('@material/select/dist/mdc.select.css');
 
@@ -102,5 +99,7 @@ var Example = {
 };
 
 Select.Example = Example;
+
 module.exports=Select
+
 // vim: noet ts=4 sw=4
