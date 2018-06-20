@@ -61,21 +61,25 @@ const availablePowersTriphase = [
 const FarePower = {
 	type: 'mono',
 	power: undefined,
+	powerp1: undefined,
 	powerp2: undefined,
 	powerp3: undefined,
 	discrimination: 'nodh',
 
 	fare: function() {
+		console.log('this.power', this.power);
 		var newFare = (
-			this.power+0 < 10 ? '2.0' : (
-			this.power+0 < 15 ? '2.1' : (
-			this.power!==undefined ? '3.0' :
-			undefined)));
+			this.power === undefined ? undefined :
+			this.power === '' ? undefined :
+			parseFloat(this.power) < 10 ? '2.0' :
+			parseFloat(this.power) < 15 ? '2.1' :
+			'3.0');
+		console.log('newFare', newFare);
 		if (newFare!=='3.0' && newFare !== undefined) {
-			//$scope.form.power=$scope.form.newpower;
+			//this.powerp1=this.power;
 		}
 		if (newFare === undefined) { return undefined; }
-		var discrimination = this.power+0<15 ?
+		var discrimination = parseFloat(this.power)<15 ?
 			this.discrimination : 'nodh';
 		if (this.discrimination===undefined) { return undefined; }
 		newFare += { nodh:'A', dh:'DHA', dhs:'DHS' }[this.discrimination];
@@ -96,7 +100,7 @@ const FarePower = {
 
 		var powerOptions = [{
 			value: undefined,
-			text: '2.0',
+			text: _('%{fare}-Fare',{fare:'2.0'}),
 			style: "direction: rtl; font-weight: bold; background-color:#df9;",
 			disabled: true,
 		}]
@@ -110,7 +114,7 @@ const FarePower = {
 			}))
 		.concat([{
 			value: undefined,
-			text: '2.1',
+			text: _('%{fare}-Fare',{fare:'2.1'}),
 			style: "direction: rtl; font-weight: bold; background-color:#ae7;",
 			disabled: true,
 		}])
@@ -124,11 +128,11 @@ const FarePower = {
 			}))
 		.concat(vn.state.type === 'tri'?[{
 			value: undefined,
-			text: '3.0',
+			text: _('%{fare}-Fare',{fare:'3.0'}),
 			disabled: true,
 			style: 'background-color:#9d6; direction: rtl;',
 		},{
-			value: 15,
+			value: '15',
 			text: _('More than 15kW'),
 			style: 'background-color:#9d6',
 		}]:[]);
@@ -144,6 +148,9 @@ const FarePower = {
                     },
                     label: _('Installation type'),
 					required: true,
+					help: m.trust(_('See more on <a href="${url}">Trifàsic</a',{
+						url: 'http://todo.com',
+						})),
                     options: [ {
                         value: 'mono',
                         text: _('Monophase (the normal one)'),
@@ -155,9 +162,25 @@ const FarePower = {
 			]),
             m(Cell, {span: 4}, [
                 m(Select, {
+					id: 'power',
+                    label: _('Power (kW)'),
+                    options: powerOptions,
+					required: true,
+					value: vn.state.power,
+					onchange: function(ev) {
+						vn.state.power = ev.target.value;
+						if (vn.state.power === '15') {
+							vn.state.discrimination='nodh';
+						}
+					},
+                }),
+			]),
+            m(Cell, {span: 4}, [
+                m(Select, {
 					id: 'discrimination',
                     label: _('Discrimination'),
 					required: true,
+					disabled: vn.state.power === '15',
                     options: [{
 						value: 'nodh',
 						text: _('No time discrimination (A)'),
@@ -174,18 +197,6 @@ const FarePower = {
 					},
 				}),
 			]),
-            m(Cell, {span: 4}, [
-                m(Select, {
-					id: 'power',
-                    label: _('Power (kW)'),
-                    options: powerOptions,
-					required: true,
-					value: vn.state.power,
-					onchange: function(ev) {
-						vn.state.power = ev.target.value;
-					},
-                }),
-			]),
 		]),
 		(vn.state.power===undefined || vn.state.power+0<15)?[]:
 		m(Row, [
@@ -194,9 +205,9 @@ const FarePower = {
 					id: 'powerp1',
                     label: _('Power Period P1 (kW)'),
 					required: true,
-					value: vn.state.power,
+					value: vn.state.powerp1,
 					onchange: function(ev) {
-						vn.state.power = ev.target.value;
+						vn.state.powerp1 = ev.target.value;
 					},
                 }),
 			]),
