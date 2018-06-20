@@ -62,7 +62,7 @@ var Wizard = {
 							m(Cell,{span:2},
 								m(Button, {
 									outlined: true,
-									faicon: 'arrow-left',
+									faicon: 'chevron-left',
 									tabindex: 0,
 									disabled: page.attrs.prev===undefined,
 									onclick: function() { self.prev(); },
@@ -72,7 +72,7 @@ var Wizard = {
 							m(Cell,{span: 2},
 								m(Button, {
 									raised:true,
-									faicon: 'arrow-right',
+									faicon: 'chevron-right',
 									tabindex: 0,
 									disabled: errors !== undefined,
 									onclick: function() { self.next(); },
