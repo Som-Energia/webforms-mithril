@@ -67,6 +67,11 @@ var WizardModel = {
 };
 
 var Wizard = {
+	oninit: function(vn) {
+		vn.children.map(function(page) {
+			vn.attrs.model.registerPage(page);
+		});
+	},
 	onupdate: function(vn) {
 		var mdctabbar = vn.dom.querySelector('.mdc-tab-bar');
 		//this.mdcinstance = MDCTabBar.attachTo(mdctabbar);
@@ -93,9 +98,6 @@ var Wizard = {
 };
 
 var WizardPage = {
-	oninit: function(vn) {
-		vn.attrs.model.registerPage(vn);
-	},
 	view: function(vn) {
 		var model = vn.attrs.model;
 		var style = model.currentTab === vn.attrs.id?{}:
