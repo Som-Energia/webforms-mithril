@@ -6,7 +6,6 @@ var Row = Layout.Row;
 var Cell = Layout.Cell;
 var Select = require('./select');
 var ValidatedInput = require('./validatedinput');
-var requestSom = require('./somapi').requestSom;
 
 const rates = {
     RATE_20A:   '2.0A',
@@ -58,31 +57,6 @@ const availablePowersTriphase = [
 */
 ];
 
-
-var FarePowerModel = {
-	type: 'mono',
-	power: undefined,
-	powerp2: undefined,
-	powerp3: undefined,
-	discrimination: 'nodh',
-
-	fare: function() {
-		var newFare = (
-			this.power+0 < 10 ? '2.0' : (
-			this.power+0 < 15 ? '2.1' : (
-			this.power!==undefined ? '3.0' :
-			undefined)));
-		if (newFare!=='3.0' && newFare !== undefined) {
-			//$scope.form.power=$scope.form.newpower;
-		}
-		if (newFare === undefined) { return undefined; }
-		var discrimination = this.power+0<15 ?
-			this.discrimination : 'nodh';
-		if (this.discrimination===undefined) { return undefined; }
-		newFare += { nodh:'A', dh:'DHA', dhs:'DHS' }[this.discrimination];
-		return newFare;
-	}
-};
 
 const FarePower = {
 	type: 'mono',
