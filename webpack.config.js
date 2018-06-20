@@ -6,6 +6,16 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 var config = {
+	context: path.resolve(__dirname, 'src'),
+	entry: {
+		newmember: './newmember',
+		validatedinput_demo: './validatedinput_demo',
+	},
+	output: {
+		path: path.resolve(__dirname, 'dist'),
+		filename: 'bundle-[name]-[chunkhash].js',
+		chunkFilename: 'chunk-[id]-[chunkhash].js',
+	},
 	plugins:[
 		// Rewrites html to insert generated css and js
 		new HtmlWebpackPlugin({
@@ -27,16 +37,6 @@ var config = {
 //		new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
 		new CleanWebpackPlugin('dist/*'),
 	],
-	context: path.resolve(__dirname, 'src'),
-	entry: {
-		newmember: './newmember',
-		validatedinput_demo: './validatedinput_demo',
-	},
-	output: {
-		path: path.resolve(__dirname, 'dist'),
-		filename: 'bundle-[name]-[chunkhash].js',
-		chunkFilename: 'chunk-[id]-[chunkhash].js',
-	},
 	module: {
 		rules: [
 			{ test: /\.yaml$/,   use: ["json-loader", "yaml-loader" ]},
