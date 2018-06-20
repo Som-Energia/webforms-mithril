@@ -87,7 +87,7 @@ var Form = {
 		return m('.form.mdc-typography', [
 			//m(Button.Example),
 			//m(Select.Example),
-			m(Wizard, {showall:false}, [
+			m(Wizard, {}, [
 				m('.page', {
 					id: 'holder',
 					title: _('Holder'),
