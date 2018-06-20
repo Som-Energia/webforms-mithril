@@ -8,52 +8,52 @@ var Select = require('./select');
 var ValidatedInput = require('./validatedinput');
 
 const rates = {
-    RATE_20A:   '2.0A',
-    RATE_20DHA: '2.0DHA',
-    RATE_20DHS: '2.0DHS',
-    RATE_21A:   '2.1A',
-    RATE_21DHA: '2.1DHA',
-    RATE_21DHS: '2.1DHS',
-    RATE_30A:   '3.0A',
+	RATE_20A:   '2.0A',
+	RATE_20DHA: '2.0DHA',
+	RATE_20DHS: '2.0DHS',
+	RATE_21A:   '2.1A',
+	RATE_21DHA: '2.1DHA',
+	RATE_21DHS: '2.1DHS',
+	RATE_30A:   '3.0A',
 };
 const availablePowersMonophase = [
 /*
-    0.345,
-    0.69,
-    0.805,
+	0.345,
+	0.69,
+	0.805,
 */
-    1.15,
-    1.725,
-    2.3,
-    3.45,
-    4.6,
-    5.75,
-    6.9,
-    8.05,
-    9.2,
-    10.35,
-    11.5,
-    14.49,
+	1.15,
+	1.725,
+	2.3,
+	3.45,
+	4.6,
+	5.75,
+	6.9,
+	8.05,
+	9.2,
+	10.35,
+	11.5,
+	14.49,
 ];
 const availablePowersTriphase = [
 /*
-    1.039,
-    2.078,
+	1.039,
+	2.078,
 */
-    2.425,
-    3.464,
-    5.196,
-    6.928,
-    10.392,
-    13.856,
+	2.425,
+	3.464,
+	5.196,
+	6.928,
+	10.392,
+	13.856,
 /*
-    17.321,
-    20.785,
-    24.249,
-    27.713,
-    31.177,
-    34.641,
-    43.648,
+	17.321,
+	20.785,
+	24.249,
+	27.713,
+	31.177,
+	34.641,
+	43.648,
 */
 ];
 
@@ -86,12 +86,12 @@ const FarePower = {
 		return newFare;
 	},
 
-    oninit: function(vn) {
-    },
+	oninit: function(vn) {
+	},
 
-    view: function (vn) {
-        var self=this;
-        var availablePowers = (
+	view: function (vn) {
+		var self=this;
+		var availablePowers = (
 			vn.state.type==='mono'?
 				availablePowersMonophase:
 			vn.state.type==='tri'?
@@ -137,34 +137,34 @@ const FarePower = {
 			style: 'background-color:#9d6',
 		}]:[]);
 
-        return [m(Row, [
-            m(Cell, {span: 4}, [
-                m(Select, {
-                    id: 'instal_type',
-                    value: vn.state.type,
-                    onchange: function(ev) {
+		return [m(Row, [
+			m(Cell, {span: 4}, [
+				m(Select, {
+					id: 'instal_type',
+					value: vn.state.type,
+					onchange: function(ev) {
 						vn.state.power = '';
-                        vn.state.type = ev.target.value;
-                    },
-                    label: _('Installation type'),
+						vn.state.type = ev.target.value;
+					},
+					label: _('Installation type'),
 					required: true,
 					help: m.trust(_('See more on <a href="${url}">Trifàsic</a',{
 						url: 'http://todo.com',
 						})),
-                    options: [ {
-                        value: 'mono',
-                        text: _('Monophase (the normal one)'),
-                    },{
-                        value: 'tri',
-                        text: _('Three phase'),
-                    }],
-                }),
+					options: [ {
+						value: 'mono',
+						text: _('Monophase (the normal one)'),
+					},{
+						value: 'tri',
+						text: _('Three phase'),
+					}],
+				}),
 			]),
-            m(Cell, {span: 4}, [
-                m(Select, {
+			m(Cell, {span: 4}, [
+				m(Select, {
 					id: 'power',
-                    label: _('Power (kW)'),
-                    options: powerOptions,
+					label: _('Power (kW)'),
+					options: powerOptions,
 					required: true,
 					value: vn.state.power,
 					onchange: function(ev) {
@@ -173,15 +173,15 @@ const FarePower = {
 							vn.state.discrimination='nodh';
 						}
 					},
-                }),
+				}),
 			]),
-            m(Cell, {span: 4}, [
-                m(Select, {
+			m(Cell, {span: 4}, [
+				m(Select, {
 					id: 'discrimination',
-                    label: _('Discrimination'),
+					label: _('Discrimination'),
 					required: true,
 					disabled: vn.state.power === '15',
-                    options: [{
+					options: [{
 						value: 'nodh',
 						text: _('No time discrimination (A)'),
 						},{
@@ -200,36 +200,36 @@ const FarePower = {
 		]),
 		(vn.state.power===undefined || vn.state.power+0<15)?[]:
 		m(Row, [
-            m(Cell, {span: 4}, [
-                m(ValidatedInput, {
+			m(Cell, {span: 4}, [
+				m(ValidatedInput, {
 					id: 'powerp1',
-                    label: _('Power Period P1 (kW)'),
+					label: _('Power Period P1 (kW)'),
 					required: true,
 					value: vn.state.powerp1,
 					onchange: function(ev) {
 						vn.state.powerp1 = ev.target.value;
 					},
-                }),
+				}),
 			]),
-            m(Cell, {span: 4}, [
-                m(ValidatedInput, {
-                    label: _('Power Period P2 (kW)'),
+			m(Cell, {span: 4}, [
+				m(ValidatedInput, {
+					label: _('Power Period P2 (kW)'),
 					required: true,
 					value: vn.state.powerp2,
 					onchange: function(ev) {
 						vn.state.powerp2 = ev.target.value;
 					},
-                }),
+				}),
 			]),
-            m(Cell, {span: 4}, [
-                m(ValidatedInput, {
-                    label: _('Power Period 3 (kW)'),
+			m(Cell, {span: 4}, [
+				m(ValidatedInput, {
+					label: _('Power Period 3 (kW)'),
 					required: true,
 					value: vn.state.powerp3,
 					onchange: function(ev) {
 						vn.state.powerp3 = ev.target.value;
 					},
-                }),
+				}),
 			]),
 		]),
 		m(Row, [
@@ -241,7 +241,7 @@ const FarePower = {
 				):'',
 			]),
 			m(Cell, {span: 2}),
-        ])];
+		])];
 	},
 };
 
