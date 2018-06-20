@@ -12,10 +12,6 @@ var MDCTabBar = require('@material/tabs').MDCTabBar;
 require('@material/typography/dist/mdc.typography.css').default;
 
 var WizardTab = {
-	oncreate: function(vn) {
-		var mdctab = vn.dom.querySelector('.mdc-tab');
-		//MDCTab.attachTo(mdctab);
-	},
 	view: function(vn) {
 		var active = vn.attrs.active;
 		return m('a.mdc-tab[role=tab]'+
@@ -38,10 +34,6 @@ var Wizard = {
 		this.pages.map(function(page) {
 			vn.state.currentPage = vn.state.currentPage || page.attrs.id;
 		});
-	},
-	onupdate: function(vn) {
-		var mdctabbar = vn.dom.querySelector('.mdc-tab-bar');
-		//this.mdcinstance = MDCTabBar.attachTo(mdctabbar);
 	},
 	view: function(vn) {
 		var self = this;
@@ -69,10 +61,7 @@ var Wizard = {
 								m('button.mdc-button.mdc-button--outlined', {
 									tabindex: 0,
 									disabled: page.attrs.prev===undefined,
-									onclick: function() {
-										var model = page.attrs.model;
-										self.prev();
-									},
+									onclick: function() { self.prev(); },
 									style: {width:'100%'},
 								},  _("Previous")),
 							),
@@ -80,10 +69,7 @@ var Wizard = {
 								m('button.mdc-button.mdc-button--raised', {
 									tabindex: 0,
 									disabled: errors !== undefined,
-									onclick: function() {
-										var model = page.attrs.model;
-										self.next();
-										},
+									onclick: function() { self.next(); },
 									style: {width:'100%'},
 									},
 									page.attrs.next===undefined?_('Submit'):_("Next")
