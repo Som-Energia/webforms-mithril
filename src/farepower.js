@@ -64,7 +64,7 @@ var FarePowerModel = {
 	power: undefined,
 	powerp2: undefined,
 	powerp3: undefined,
-	discrimination: undefined,
+	discrimination: 'nodh',
 
 	fare: function() {
 		var newFare = (
@@ -85,27 +85,87 @@ var FarePowerModel = {
 };
 
 const FarePower = {
+	type: 'mono',
+	power: undefined,
+	powerp2: undefined,
+	powerp3: undefined,
+	discrimination: 'nodh',
+
+	fare: function() {
+		var newFare = (
+			this.power+0 < 10 ? '2.0' : (
+			this.power+0 < 15 ? '2.1' : (
+			this.power!==undefined ? '3.0' :
+			undefined)));
+		if (newFare!=='3.0' && newFare !== undefined) {
+			//$scope.form.power=$scope.form.newpower;
+		}
+		if (newFare === undefined) { return undefined; }
+		var discrimination = this.power+0<15 ?
+			this.discrimination : 'nodh';
+		if (this.discrimination===undefined) { return undefined; }
+		newFare += { nodh:'A', dh:'DHA', dhs:'DHS' }[this.discrimination];
+		return newFare;
+	},
     oninit: function(vn) {
-        FarePowerModel.type = 'mono';
-        FarePowerModel.power = undefined;
-        FarePowerModel.discrimination = 'nodh';
     },
 
     view: function (vn) {
         var self=this;
         var availablePowers = (
-			FarePowerModel.type==='mono'?
+			vn.state.type==='mono'?
 				availablePowersMonophase:
-			FarePowerModel.type==='tri'?
+			vn.state.type==='tri'?
 				availablePowersTriphase:
 				[]);
+
+		var powerOptions = [{
+			value: undefined,
+			text: '2.0',
+			style: "direction: rtl; font-weight: bold; background-color:#df9;",
+			disabled: true,
+		}]
+		.concat(availablePowers.filter(function(v) { return v<10; })
+			.map(function(v) {
+				return {
+					value: v,
+					text: v,
+					style: 'background-color: #df9',
+				};
+			}))
+		.concat([{
+			value: undefined,
+			text: '2.1',
+			style: "direction: rtl; font-weight: bold; background-color:#ae7;",
+			disabled: true,
+		}])
+		.concat(availablePowers.filter(function(v) { return v>=10; })
+			.map(function(v) {
+				return {
+					value: v,
+					text: v,
+					style: 'background-color: #ae7',
+				};
+			}))
+		.concat(vn.state.type === 'tri'?[{
+			value: undefined,
+			text: '3.0',
+			disabled: true,
+			style: 'background-color:#9d6; direction: rtl;',
+		},{
+			value: 15,
+			text: _('More than 15kW'),
+			style: 'background-color:#9d6',
+		}]:[]);
+
         return [m(Row, [
             m(Cell, {span: 4}, [
                 m(Select, {
                     id: 'instal_type',
-                    value: FarePowerModel.type,
+                    value: vn.state.type,
                     onchange: function(ev) {
-                        FarePowerModel.type = ev.target.value;
+						vn.state.power = undefined;
+                        vn.state.type = ev.target.value;
                     },
                     label: _('Installation type'),
 					required: true,
@@ -125,17 +185,17 @@ const FarePower = {
 					required: true,
                     options: [{
 						value: 'nodh',
-						text: _('No time discrimination'),
+						text: _('No time discrimination (A)'),
 						},{
 						value: 'dh',
-						text: _('Two periods discrimination'),
+						text: _('Two periods discrimination (DHA)'),
 						},{
 						value: 'dhs',
-						text: _('Three periods discrimination'),
+						text: _('Three periods discrimination (DHS)'),
 					}],
-					value: FarePowerModel.discrimination,
+					value: vn.state.discrimination,
 					onchange: function(ev) {
-						FarePowerModel.discrimination = ev.target.value;
+						vn.state.discrimination = ev.target.value;
 					},
 				}),
 			]),
@@ -143,31 +203,25 @@ const FarePower = {
                 m(Select, {
 					id: 'power',
                     label: _('Power (kW)'),
-                    options: availablePowers.map(function(v) {
-						return {
-							value: v,
-							text: v,
-							style: {'background-color': '#3f2'},
-						};
-					}).concat(FarePowerModel.type === 'tri'?[{
-						value: 15,
-						text: _('More than 15kW'),
-					}]:[]),
+                    options: powerOptions,
 					required: true,
-					value: FarePowerModel.power,
+					value: vn.state.power,
 					onchange: function(ev) {
-						FarePowerModel.power = ev.target.value;
+						vn.state.power = ev.target.value;
 					},
                 }),
 			]),
+		]),
+		(vn.state.power===undefined || vn.state.power+0<15)?[]:
+		m(Row, [
             m(Cell, {span: 4}, [
                 m(ValidatedInput, {
 					id: 'powerp1',
                     label: _('Power Period P1 (kW)'),
 					required: true,
-					value: FarePowerModel.power,
+					value: vn.state.power,
 					onchange: function(ev) {
-						FarePowerModel.power = ev.target.value;
+						vn.state.power = ev.target.value;
 					},
                 }),
 			]),
@@ -175,9 +229,9 @@ const FarePower = {
                 m(ValidatedInput, {
                     label: _('Power Period P2 (kW)'),
 					required: true,
-					value: FarePowerModel.powerp2,
+					value: vn.state.powerp2,
 					onchange: function(ev) {
-						FarePowerModel.powerp2 = ev.target.value;
+						vn.state.powerp2 = ev.target.value;
 					},
                 }),
 			]),
@@ -185,16 +239,22 @@ const FarePower = {
                 m(ValidatedInput, {
                     label: _('Power Period 3 (kW)'),
 					required: true,
-					value: FarePowerModel.powerp3,
+					value: vn.state.powerp3,
 					onchange: function(ev) {
-						FarePowerModel.powerp3 = ev.target.value;
+						vn.state.powerp3 = ev.target.value;
 					},
                 }),
 			]),
-			m(Cell, {span: 4}, [
-				FarePowerModel.fare()?
-				_('La teva tarifa es %{fare}', {fare: FarePowerModel.fare()}):'',
+		]),
+		m(Row, [
+			m(Cell, {span: 2}),
+			m(Cell, {span: 8, align: 'center'}, [
+				vn.state.fare()?
+				m('.green[style="text-align:center"]',
+					m.trust(_('Your fare is <b>%{fare}</b>', {fare: vn.state.fare()}))
+				):'',
 			]),
+			m(Cell, {span: 2}),
         ])];
 	},
 };
