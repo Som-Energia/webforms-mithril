@@ -107,6 +107,7 @@ const FarePower = {
 		newFare += { nodh:'A', dh:'DHA', dhs:'DHS' }[this.discrimination];
 		return newFare;
 	},
+
     oninit: function(vn) {
     },
 
@@ -164,7 +165,7 @@ const FarePower = {
                     id: 'instal_type',
                     value: vn.state.type,
                     onchange: function(ev) {
-						vn.state.power = undefined;
+						vn.state.power = '';
                         vn.state.type = ev.target.value;
                     },
                     label: _('Installation type'),
