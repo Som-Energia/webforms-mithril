@@ -18,10 +18,8 @@ require('@material/typography/dist/mdc.typography.css').default;
 
 var WizardTab = {
 	oncreate: function(vn) {
-		console.log("Tab creating");
 		var mdctab = vn.dom.querySelector('.mdc-tab');
 		//MDCTab.attachTo(mdctab);
-		console.log("Tab created");
 	},
 	view: function(vn) {
 		var active = vn.attrs.active;
@@ -45,7 +43,6 @@ var WizardModel = {
 	tabs: {},
 	registerPage: function(vnode) {
 		var id = vnode.attrs.id;
-		console.log("Registering", id, this.tabs, this.tabsOrder);
 		this.currentTab = this.currentTab || id;
 		this.tabs[vnode.attrs.id] = vnode;
 		this.tabsOrder.push(vnode.attrs.id);
@@ -71,18 +68,14 @@ var WizardModel = {
 
 var Wizard = {
 	onupdate: function(vn) {
-		console.log("TabBar creating");
 		var mdctabbar = vn.dom.querySelector('.mdc-tab-bar');
 		//this.mdcinstance = MDCTabBar.attachTo(mdctabbar);
-		console.log("TabBar created");
 	},
 	view: function(vn) {
 		var model = vn.attrs.model;
-		console.log("viewing wizard", model);
 		return m('', [
 			m('nav.mdc-tab-bar[role=tablist]', model.tabs?[
 				model.tabsOrder.map(function (v,i) {
-					console.log('tab',v,model.currentTab, v);
 					var tab = model.tabs[v];
 					var active = model.currentTab === v;
 					var title = tab.attrs.title;
@@ -107,7 +100,6 @@ var WizardPage = {
 		var model = vn.attrs.model;
 		var style = model.currentTab === vn.attrs.id?{}:
 			{display: 'none'};
-		console.log(model.currentTab, vn.attrs.id, style);
 		var errors = model.pageErrors(vn.attrs.id);
 		return m('', {style: style}, [
 			m(Layout, [
