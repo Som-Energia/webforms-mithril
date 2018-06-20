@@ -4,10 +4,12 @@ var _ = require('./translate');
 var Layout = require('./layout');
 var Row = Layout.Row;
 var Cell = Layout.Cell;
-require('@material/button/dist/mdc.button.css');
 require('@material/tabs/dist/mdc.tabs.css');
+var Button = require('./button');
 var MDCTab = require('@material/tabs').MDCTab;
 var MDCTabBar = require('@material/tabs').MDCTabBar;
+
+
 
 require('@material/typography/dist/mdc.typography.css').default;
 
@@ -56,9 +58,11 @@ var Wizard = {
 					m(Layout, [
 						page.children,
 						m(Row, {align: 'right'}, [
-							m(Cell,{span:8}, m('.mdc-.red', errors)),
+							m(Cell,{span:8}, m('.red', errors)),
 							m(Cell,{span:2},
-								m('button.mdc-button.mdc-button--outlined', {
+								m(Button, {
+									outlined: true,
+									faicon: 'arrow-left',
 									tabindex: 0,
 									disabled: page.attrs.prev===undefined,
 									onclick: function() { self.prev(); },
@@ -66,7 +70,9 @@ var Wizard = {
 								},  _("Previous")),
 							),
 							m(Cell,{span: 2},
-								m('button.mdc-button.mdc-button--raised', {
+								m(Button, {
+									raised:true,
+									faicon: 'arrow-right',
 									tabindex: 0,
 									disabled: errors !== undefined,
 									onclick: function() { self.next(); },

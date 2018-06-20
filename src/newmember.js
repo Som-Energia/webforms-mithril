@@ -6,6 +6,7 @@ var Wizard = require('./wizard');
 var Layout = require('./layout');
 var Row = Layout.Row;
 var Cell = Layout.Cell;
+var Button = require('./button');
 var Select = require('./select');
 var ValidatedInput = require('./validatedinput');
 var StateCityChooser = require('./statecity');
@@ -84,6 +85,8 @@ var PersonalDataEditor = {
 var Form = {
 	view: function() {
 		return m('.form.mdc-typography', [
+			//m(Button.Example),
+			//m(Select.Example),
 			m(Wizard, {showall:false}, [
 				m('.page', {
 					id: 'holder',
