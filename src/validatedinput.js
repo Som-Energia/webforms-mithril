@@ -11,12 +11,10 @@ require('@material/floating-label/dist/mdc.floating-label.css');
 
 var ValidatedInput = {
 	oninit: function(vnode) {
-		//console.debug(vnode.attrs.id, ': init ', vnode.state, vnode.attrs);
 		vnode.state.value = vnode.attrs.value;
 		vnode.state.isvalid = vnode.attrs.checkurl===undefined;
 		vnode.state.errormessage = undefined;
 		vnode.state._lastPromise = undefined;
-		//console.debug(vnode.attrs.id, ': after init ', vnode.state, vnode.attrs);
 	},
 	oncreate: function(vnode) {
 		var mdcinput = vnode.dom.querySelector('.mdc-text-field');
@@ -48,32 +46,27 @@ var ValidatedInput = {
 
 		var iconState = (vnode.state.value===undefined)? (vnode.attrs.required!==undefined?'missing':'empty') : (
 			vnode.state.isvalid===undefined?'wait':vnode.state.isvalid===false?'ko':'ok');
-		//console.debug(vnode.attrs.id, ': Updating view ', vnode.state, vnode.attrs);
-		//console.debug(vnode.attrs.id, iconState);
 
 		var statusIcon = statusIcons[iconState] || '';
 		var statusColor = statusColors[iconState] || '';
 		var statusMessage = statusMessages[iconState] || '';
 
 		function validateInput(ev) {
-			//console.debug(vnode.attrs.id, ' oninput',ev);
 
+			var newValue = ev.target.value;
 			function fielderror(message) {
-				//console.debug(vnode.attrs.id, ' rejecting ', vnode.state);
 				vnode.state.mdcinstance.valid = false;
 				vnode.state.isvalid = false;
 				vnode.state.errormessage = message;
 				ev.target.setCustomValidity(message);
-				//console.debug(vnode.attrs.id, ' rejected ', vnode.state);
+				ev.target.value = newValue||'';
 			}
 			function acceptValue(newValue) {
-				//console.debug(vnode.attrs.id, "Accepting:", newValue);
 				vnode.state.mdcinstance.valid = true;
 				vnode.state.isvalid = true;
 				vnode.state.errormessage = undefined;
 				ev.target.setCustomValidity(undefined);
 				vnode.attrs.onChange && vnode.attrs.onChange(newValue);
-				//console.debug(vnode.attrs.id, "Accepted:", vnode.attrs);
 			}
 			function waitValue(newValue) {
 				vnode.state.mdcinstance.valid = true;
@@ -83,28 +76,28 @@ var ValidatedInput = {
 				vnode.state.errormessage = undefined;
 			}
 
-			var newValue = ev.target.value;
+			if (vnode.attrs.filter) {
+				newValue = vnode.attrs.filter(newValue);
+			}
 			if (newValue === '') { newValue = undefined; }
 			waitValue(newValue);
 			if (newValue === undefined) {
 				if (vnode.attrs.required !== undefined) {
 					return fielderror(_('Required'));
 				}
-				return acceptValue(newValue);
+				return acceptValue(newValue||'');
 			}
 			if (vnode.attrs.checkurl === undefined) {
-				return acceptValue(newValue); 
+				return acceptValue(newValue||''); 
 			}
 			if (vnode.state._lastPromise!==undefined) {
 				vnode.state._lastPromise.abort();
 			}
-			// TODO: abortar darrera promesa
 			var promise = requestSom(vnode.attrs.checkurl+newValue);
 			vnode.state._lastPromise=promise;
 			promise.value = newValue;
 			promise.then(function(result) {
 				if (promise.value != vnode.state.value) {
-					console.log('Antigua request '+promise.value);
 					return; // value changed while waiting, ignore
 				}
 				if (result.state === false) {
@@ -123,7 +116,6 @@ var ValidatedInput = {
 			}).catch(function(reason) {
 				fielderror(reason || _('Unknown'));
 			});
-			//console.debug('oninput end',vnode.attrs);
 		};
 
 		return m('.mdc-form-field', [
