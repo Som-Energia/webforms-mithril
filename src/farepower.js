@@ -57,24 +57,48 @@ const availablePowersTriphase = [
 */
 ];
 
+function filterSpanishFloat(value) {
+	if (!value) {return value;}
+	var re = /^\d*([.,'])?\d*/g;
+	var match = re.exec(value);
+	if (!match) return '';
+	var result = match[0];
+	result.replace(',', '.');
+	result.replace('\'', '.');
+	return result;
+}
+
+
+const FloatInput = {
+	view: function(vn) {
+		var attrs = Object.assign({},vn.attrs, {
+			filter: filterSpanishFloat,
+		});
+		return m(ValidatedInput,attrs);
+	},
+};
+
+
 
 const FarePower = {
-	type: 'mono',
-	power: undefined,
-	powerp1: undefined,
-	powerp2: undefined,
-	powerp3: undefined,
-	discrimination: 'nodh',
+	oninit: function(vn) {
+		vn.state.type = 'mono';
+		vn.state.power = undefined;
+		vn.state.powerp1 = undefined;
+		vn.state.powerp2 = undefined;
+		vn.state.powerp3 = undefined;
+		vn.state.discrimination = 'nodh';
+		vn.state.currentError = undefined;
+	},
+
 
 	fare: function() {
-		console.log('this.power', this.power);
 		var newFare = (
 			this.power === undefined ? undefined :
 			this.power === '' ? undefined :
 			parseFloat(this.power) < 10 ? '2.0' :
 			parseFloat(this.power) < 15 ? '2.1' :
 			'3.0');
-		console.log('newFare', newFare);
 		if (newFare!=='3.0' && newFare !== undefined) {
 			//this.powerp1=this.power;
 		}
@@ -86,11 +110,53 @@ const FarePower = {
 		return newFare;
 	},
 
-	oninit: function(vn) {
+	errors: function(vn) {
+		var self=vn.state;
+		self.currentError = undefined;
+		function error(message) {
+			if (self.currentError !== message) {
+				self.currentError = message;
+				console.log(message, self);
+			}
+			return message;
+		}
+		if (self.type===undefined) {
+			return error('NO_MONOPHASE_CHOICE');
+		}
+		if (self.power === undefined) {
+			return error('NO_POWER_CHOSEN');
+		}
+		var fare = self.fare();
+		if (fare === '3.0A') {
+			if (self.powerp1 === undefined) {
+				return error('NO_POWER_CHOSEN_P1');
+			}
+			if (self.powerp2 === undefined) {
+				return error('NO_POWER_CHOSEN_P2');
+			}
+			if (self.powerp3 === undefined) {
+				return error('NO_POWER_CHOSEN_P3');
+			}
+			// some of the periods should be over 15
+			if (self.powerp1 <= 15 && self.powerp2 <= 15 && self.powerp3 <= 15) {
+				return error('INVALID_POWER_30');
+			}
+			// none of the periods should be over 450
+			if (self.powerp1 > 450 || self.powerp2 > 450 || self.powerp3 > 450) {
+				return error('INVALID_POWER_30');
+			}
+		}
+		else {
+			if (self.discrimination===undefined) {
+				return error('NO_HOURLY_DISCRIMINATION_CHOSEN');
+			}
+		}
+		return undefined;
 	},
 
 	view: function (vn) {
-		var self=this;
+		var self=vn.state;
+		var errors = self.errors(vn);
 		var availablePowers = (
 			vn.state.type==='mono'?
 				availablePowersMonophase:
@@ -148,15 +214,14 @@ const FarePower = {
 					},
 					label: _('Installation type'),
 					required: true,
-					help: m.trust(_('See more on <a href="${url}">Trifàsic</a',{
-						url: 'http://todo.com',
-						})),
+					help: _('How to identify them?'),
+					helpurl: _('http://todo.com'),
 					options: [ {
 						value: 'mono',
-						text: _('Monophase (the normal one)'),
+						text: _('Monophase (the usual)'),
 					},{
 						value: 'tri',
-						text: _('Three phase'),
+						text: _('Tri-phase'),
 					}],
 				}),
 			]),
@@ -166,6 +231,7 @@ const FarePower = {
 					label: _('Power (kW)'),
 					options: powerOptions,
 					required: true,
+					help: _('How much do I need?'),
 					value: vn.state.power,
 					onchange: function(ev) {
 						vn.state.power = ev.target.value;
@@ -175,7 +241,7 @@ const FarePower = {
 					},
 				}),
 			]),
-			m(Cell, {span: 4}, [
+			m(Cell, {span: 4, style: vn.state.power==='15'?'display:none':''}, [
 				m(Select, {
 					id: 'discrimination',
 					label: _('Discrimination'),
@@ -191,6 +257,7 @@ const FarePower = {
 						value: 'dhs',
 						text: _('Three periods discrimination (DHS)'),
 					}],
+					help: _('Is it convinient for me?'),
 					value: vn.state.discrimination,
 					onchange: function(ev) {
 						vn.state.discrimination = ev.target.value;
@@ -198,50 +265,56 @@ const FarePower = {
 				}),
 			]),
 		]),
-		(vn.state.power===undefined || vn.state.power+0<15)?[]:
+		m(Row, [
+			m(Cell, {span: 2}),
+			m(Cell, {span: 8, align: 'center'}, [
+				m('p.mdc-card.gren[style="text-align:center;margin-bottom:3ex"]',
+				vn.state.fare()?
+					m.trust(_('Your fare is <b class="green">%{fare}</b>', {fare: vn.state.fare()}))
+				:''),
+			]),
+			m(Cell, {span: 2}),
+		]),
+
+		(vn.state.power===undefined || !vn.state.power || parseFloat(vn.state.power)<15)?[]:
 		m(Row, [
 			m(Cell, {span: 4}, [
-				m(ValidatedInput, {
+				m(FloatInput, {
 					id: 'powerp1',
 					label: _('Power Period P1 (kW)'),
+					help: _('Punta: De 11h a 15h en Verano, de 18h a 22h en Invierno'),
 					required: true,
 					value: vn.state.powerp1,
-					onchange: function(ev) {
-						vn.state.powerp1 = ev.target.value;
+					onChange: function(value) {
+						console.log("vn.state", vn.state);
+						vn.state.powerp1 = value;
 					},
 				}),
 			]),
 			m(Cell, {span: 4}, [
-				m(ValidatedInput, {
+				m(FloatInput, {
 					label: _('Power Period P2 (kW)'),
+					help: _('Llano: Resto del dia'),
 					required: true,
 					value: vn.state.powerp2,
-					onchange: function(ev) {
-						vn.state.powerp2 = ev.target.value;
+					onChange: function(value) {
+						vn.state.powerp2 = value;
 					},
 				}),
 			]),
 			m(Cell, {span: 4}, [
-				m(ValidatedInput, {
-					label: _('Power Period 3 (kW)'),
+				m(FloatInput, {
+					label: _('Power Period P3 (kW)'),
+					help: _('Valle: De 0h a 8h todo el año'),
 					required: true,
 					value: vn.state.powerp3,
-					onchange: function(ev) {
-						vn.state.powerp3 = ev.target.value;
+					onChange: function(value) {
+						vn.state.powerp3 = value;
 					},
 				}),
 			]),
 		]),
-		m(Row, [
-			m(Cell, {span: 2}),
-			m(Cell, {span: 8, align: 'center'}, [
-				vn.state.fare()?
-				m('.green[style="text-align:center"]',
-					m.trust(_('Your fare is <b>%{fare}</b>', {fare: vn.state.fare()}))
-				):'',
-			]),
-			m(Cell, {span: 2}),
-		])];
+		];
 	},
 };
 
