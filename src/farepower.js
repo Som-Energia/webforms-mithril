@@ -154,9 +154,7 @@ const FarePower = {
 		return undefined;
 	},
 
-	view: function (vn) {
-		var self=vn.state;
-		var errors = self.errors(vn);
+	powerlist: function(vn) {
 		var availablePowers = (
 			vn.state.type==='mono'?
 				availablePowersMonophase:
@@ -164,7 +162,7 @@ const FarePower = {
 				availablePowersTriphase:
 				[]);
 
-		var powerOptions = [{
+		return [{
 			value: undefined,
 			text: _('%{fare}-Fare',{fare:'2.0'}),
 			style: "direction: rtl; font-weight: bold; background-color:#df9;",
@@ -202,6 +200,13 @@ const FarePower = {
 			text: _('More than 15kW'),
 			style: 'background-color:#9d6',
 		}]:[]);
+	},
+
+	view: function (vn) {
+		var self=vn.state;
+		vn.attrs.onupdate(vn.state);
+		self.currentErrors = self.errors(vn);
+
 
 		return [m(Row, [
 			m(Cell, {span: 4}, [
@@ -229,7 +234,7 @@ const FarePower = {
 				m(Select, {
 					id: 'power',
 					label: _('Power (kW)'),
-					options: powerOptions,
+					options: self.powerlist(vn),
 					required: true,
 					help: _('How much do I need?'),
 					value: vn.state.power,
@@ -265,17 +270,6 @@ const FarePower = {
 				}),
 			]),
 		]),
-		m(Row, [
-			m(Cell, {span: 2}),
-			m(Cell, {span: 8, align: 'center'}, [
-				m('p.mdc-card.gren[style="text-align:center;margin-bottom:3ex"]',
-				vn.state.fare()?
-					m.trust(_('Your fare is <b class="green">%{fare}</b>', {fare: vn.state.fare()}))
-				:''),
-			]),
-			m(Cell, {span: 2}),
-		]),
-
 		(vn.state.power===undefined || !vn.state.power || parseFloat(vn.state.power)<15)?[]:
 		m(Row, [
 			m(Cell, {span: 4}, [
@@ -314,6 +308,17 @@ const FarePower = {
 				}),
 			]),
 		]),
+		m(Row, [
+			m(Cell, {span: 2}),
+			m(Cell, {span: 8, align: 'center'}, [
+				m('p.mdc-card.gren[style="text-align:center;margin-bottom:3ex"]',
+				vn.state.fare()?
+					m.trust(_('Your fare is <b class="green">%{fare}</b>', {fare: vn.state.fare()}))
+				:''),
+			]),
+			m(Cell, {span: 2}),
+		]),
+
 		];
 	},
 };
