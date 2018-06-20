@@ -37,39 +37,11 @@ var WizardTab = {
 	},
 };
 
-var WizardModel = {
-	currentTab: undefined,
-	tabsOrder: [],
-	tabs: {},
-	registerPage: function(vnode) {
-		var id = vnode.attrs.id;
-		this.currentTab = this.currentTab || id;
-		this.tabs[vnode.attrs.id] = vnode;
-		this.tabsOrder.push(vnode.attrs.id);
-	},
-	pageErrors: function(page) {
-		var validator = this.tabs[page].attrs.validator;
-		if (validator === undefined) return undefined;
-		return validator()
-	},
-	go: function(page) {
-		if (!page) {return;}
-		this.currentTab = page;
-	},
-	prev: function() {
-		var currentTab = this.tabs[this.currentTab]
-		this.go(currentTab.attrs.prev)
-	},
-	next: function() {
-		var currentTab = this.tabs[this.currentTab]
-		this.go(currentTab.attrs.next)
-	},
-};
-
 var Wizard = {
 	oninit: function(vn) {
-		vn.children.map(function(page) {
-			vn.attrs.model.registerPage(page);
+		this.pages = vn.children;
+		this.pages.map(function(page) {
+			vn.state.currentPage = vn.state.currentPage || page.attrs.id;
 		});
 	},
 	onupdate: function(vn) {
@@ -77,66 +49,75 @@ var Wizard = {
 		//this.mdcinstance = MDCTabBar.attachTo(mdctabbar);
 	},
 	view: function(vn) {
-		var model = vn.attrs.model;
+		var self = this;
 		return m('', [
-			m('nav.mdc-tab-bar[role=tablist]', model.tabs?[
-				model.tabsOrder.map(function (v,i) {
-					var tab = model.tabs[v];
-					var active = model.currentTab === v;
-					var title = tab.attrs.title;
-					return m(WizardTab, {
-						href: '#',
-						disabled: true,
-						active: active,
-						}, (i+1)+' '+title);
-				}),
-			]:[]),
-			vn.children,
+			m('nav.mdc-tab-bar[role=tablist]', self.pages.map(function(page,i) {
+				var active = self.currentPage === page.attrs.id;
+				var title = page.attrs.title;
+				return m(WizardTab, {
+					href: '#',
+					disabled: true,
+					active: active,
+					}, (i+1)+' '+title);
+			})),
 			m('span.mdc-tab-bar__indicator'),
+			vn.children.map(function(page) {
+				var active = self.currentPage === page.attrs.id;
+				var style = active?{}:{display: 'none'};
+				var errors = page.attrs.validator && page.attrs.validator();
+				return m('', {style: style}, [
+					m(Layout, [
+						page.children,
+						m(Row, {align: 'right'}, [
+							m(Cell,{span:8}, m('.mdc-.red', errors)),
+							m(Cell,{span:2},
+								m('button.mdc-button.mdc-button--outlined', {
+									tabindex: 0,
+									disabled: page.attrs.prev===undefined,
+									onclick: function() {
+										var model = page.attrs.model;
+										self.prev();
+									},
+									style: {width:'100%'},
+								},  _("Previous")),
+							),
+							m(Cell,{span: 2},
+								m('button.mdc-button.mdc-button--raised', {
+									tabindex: 0,
+									disabled: errors !== undefined,
+									onclick: function() {
+										var model = page.attrs.model;
+										self.next();
+										},
+									style: {width:'100%'},
+									},
+									page.attrs.next===undefined?_('Submit'):_("Next")
+								)
+							),
+						]),
+					]),
+				]);
+			}),
 		]);
+	},
+	search: function(pageid) {
+		return this.pages.find(function(v) {
+			return v.attrs.id===pageid; });
+	},
+	go: function(page) {
+		if (!page) {return;}
+		this.currentPage = page;
+	},
+	prev: function() {
+		var currentPage = this.search(this.currentPage);
+		this.go(currentPage.attrs.prev)
+	},
+	next: function() {
+		var currentPage = this.search(this.currentPage);
+		this.go(currentPage.attrs.next)
 	},
 };
 
-var WizardPage = {
-	view: function(vn) {
-		var model = vn.attrs.model;
-		var style = model.currentTab === vn.attrs.id?{}:
-			{display: 'none'};
-		var errors = model.pageErrors(vn.attrs.id);
-		return m('', {style: style}, [
-			m(Layout, [
-				vn.children,
-				m(Row, {align: 'right'}, [
-					m(Cell,{span:8}, m('.mdc-.red', errors)),
-					m(Cell,{span:2},
-						m('button.mdc-button.mdc-button--outlined', {
-							tabindex: 0,
-							disabled: vn.attrs.prev===undefined,
-							onclick: function() {
-								var model = vn.attrs.model;
-								model.prev();
-							},
-							style: {width:'100%'},
-						},  _("Previous")),
-					),
-					m(Cell,{span: 2},
-						m('button.mdc-button.mdc-button--raised', {
-							tabindex: 0,
-							disabled: errors !== undefined,
-							onclick: function() {
-								var model = vn.attrs.model;
-								model.next();
-								},
-							style: {width:'100%'},
-							},
-							vn.attrs.next===undefined?_('Submit'):_("Next")
-						)
-					),
-				]),
-			]),
-		]);
-	},
-};
 
 var Persona = {
 	field: undefined,
@@ -207,20 +188,17 @@ var Form = {
 	view: function() {
 		return m('.form.mdc-typography', [
 			m(Wizard, {
-				model: WizardModel,
 			}, [
-				m(WizardPage, {
+				m('', {
 					id: 'holder',
 					title: _('Holder'),
-					model: WizardModel,
 					next: 'supply',
 				}, [
 					m(PersonalDataEditor),
 				]),
-				m(WizardPage, {
+				m('', {
 					id: 'supply',
 					title: _('Supply point'),
-					model: WizardModel,
 					prev: 'holder',
 					next: 'confirm',
 					validator: function() {
@@ -252,10 +230,9 @@ var Form = {
 						},
 					})),
 				])),
-				m(WizardPage, {
+				m('', {
 					id: 'confirm',
 					title: _('Confirmation'),
-					model: WizardModel,
 					prev: 'supply',
 				}, m(Row, [
 					m(Cell, {span:8}, m(ValidatedInput, {
