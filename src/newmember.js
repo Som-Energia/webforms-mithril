@@ -83,11 +83,12 @@ var PersonalDataEditor = {
 };
 
 var Form = {
-	view: function() {
+	farepower: undefined,
+	view: function(vn) {
 		return m('.form.mdc-typography', [
 			//m(Button.Example),
 			//m(Select.Example),
-			m(Wizard, {showall:false}, [
+			m(Wizard, {showall:true}, [
 				m('.page', {
 					id: 'holder',
 					title: _('Holder'),
@@ -102,11 +103,18 @@ var Form = {
 					prev: 'holder',
 					next: 'confirm',
 					validator: function() {
-						if (Persona.field=='caca')
-							return _('Watch your tonge');
+						if (vn.state.farepower) {
+							return vn.state.farepower.currentError;
+						}
 					},
 
-				}, m(FarePower, {}),
+				}, m(FarePower, {
+					onupdate: function(state) {
+						if (vn.state.farepower===undefined) {
+							vn.state.farepower = state;
+						}
+					}
+				}),
 				),
 				m('.page', {
 					id: 'confirm',
