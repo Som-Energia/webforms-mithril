@@ -84,7 +84,7 @@ var PersonalDataEditor = {
 var Form = {
 	view: function() {
 		return m('.form.mdc-typography', [
-			m(Wizard, {}, [
+			m(Wizard, {showall:false}, [
 				m('.page', {
 					id: 'holder',
 					title: _('Holder'),

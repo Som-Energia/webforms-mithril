@@ -48,9 +48,9 @@ var Wizard = {
 					}, (i+1)+' '+title);
 			})),
 			m('span.mdc-tab-bar__indicator'),
-			vn.children.map(function(page) {
+			this.pages.map(function(page) {
 				var active = self.currentPage === page.attrs.id;
-				var style = active?{}:{display: 'none'};
+				var style = active||vn.attrs.showall?{}:{display: 'none'};
 				var errors = page.attrs.validator && page.attrs.validator();
 				return m('', {style: style}, [
 					m(Layout, [
