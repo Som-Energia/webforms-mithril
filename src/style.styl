@@ -29,10 +29,10 @@ body, html {
 	--mdc-theme-text-primary-on-dark: #6a1;
 }
 
-
 // Fixes focused floating label color not taking custom theme's colors
 .mdc-select:not(.mdc-select--disabled) .mdc-select__native-control:focus ~ .mdc-floating-label,
-.mdc-text-field--focused:not(.mdc-text-field--disabled) label.mdc-floating-label
+.mdc-text-field--focused:not(.mdc-text-field--disabled) label.mdc-floating-label,
+.mdc-text-field--focused:not(.mdc-text-field--disabled) input::placeholder
 {
 	color: var(--mdc-theme-primary) !important;
 }
@@ -45,7 +45,7 @@ body, html {
 	margin-top: 0px !important;
 }
 
-// Fixes helper-texts looking for selects like for text-fields
+// Fixes select's helper-text looking like text-field's
 .mdc-select:not(.mdc-select--disabled) + .mdc-text-field-helper-text {
     color: rgba(0, 0, 0, 0.6);
 }
@@ -58,7 +58,7 @@ body, html {
     margin-bottom: 8px;
 }
 
-// Fixes 'required' marker looking for selects like for text-fields
+// Fixes select's 'required' marker looking like for text-field's
 .mdc-select__native-control:required + .mdc-floating-label::after {
     margin-left: 3px;
     content: "*";
@@ -73,7 +73,6 @@ body, html {
        border:0;
     }
 }
-
 
 .orange {
     color: #aa4 !important;
