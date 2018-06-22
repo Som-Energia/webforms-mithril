@@ -15,65 +15,61 @@ var MDCNotchedOutline = require('@material/notched-outline').MDCNotchedOutline;
 
 
 var TextField = {
-	oninit: function(vn) {
-		vn.state.value = vn.attrs.value;
-		vn.state.isvalid = vn.attrs.checkurl===undefined;
-		vn.state.errormessage = undefined;
-		vn.state._lastPromise = undefined;
-	},
 	oncreate: function(vn) {
 		var mdcinput = vn.dom.querySelector('.mdc-text-field');
 		this.mdcinstance = new MDCTextField.MDCTextField(mdcinput);
-		var inputIcon = vn.dom.querySelector('.mdc-text-field__icon');
+		//var inputIcon = vn.dom.querySelector('.mdc-text-field__icon');
 		//this.mdcIcon = new MDCTextFieldIcon(vn.dom.querySelector('.mdc-text-field-icon'));
-		const notchedOutline = vn.dom.querySelector('.mdc-notched-outline');
-		console.debug(notchedOutline);
-		this.mdcOutline = new MDCNotchedOutline(notchedOutline);
+		//const notchedOutline = vn.dom.querySelector('.mdc-notched-outline');
+		//this.mdcOutline = new MDCNotchedOutline(notchedOutline);
 	},
 	view: function (vn) {
+		var attrs = Object.assign({}, vn.attrs);
+		// Remove the custom attributes no to be applied to the native input
+		function pop(o,k) { var r=o[k]; if (r!==undefined) { delete o[k];} return r; }
+		const fullwidth = pop(attrs, 'fullwidth');
+		const boxed = pop(attrs, 'boxed');
+		const outlined = pop(attrs, 'outlined');
+		const dense = pop(attrs, 'dense');
+		const disabled = pop(attrs, 'disabled');
+		const help = pop(attrs, 'help');
+		const faicon = pop(attrs, 'faicon');
+		const leadingfaicon = pop(attrs, 'leadingfaicon');
 		const help_id = vn.attrs.id+'_help';
+		const nativeattrs = Object.assign({
+			type: 'text',
+			placeholder: fullwidth?_(vn.attrs.label):undefined,
+			'aria-label': fullwidth?_(vn.attrs.label):undefined,
+			'aria-controls': help_id,
+			'aria-describedby': help_id,
+			}, attrs);
 
 		return m('.mdc-form-field', [
 			m(''
 				+'.mdc-text-field'
-				+(vn.attrs.fullwidth?'.mdc-text-field--fullwidth':'')
-				+(vn.attrs.boxed?'.mdc-text-field--box':'')
-				+(vn.attrs.outlined?'':'.mdc-text-field--outlined')
+				+(fullwidth?'.mdc-text-field--fullwidth':'')
+				+(boxed?'.mdc-text-field--box':'')
+				+(outlined?'.mdc-text-field--outlined':'')
 
-				+(vn.attrs.faicon?'.mdc-text-field--with-trailing-icon':'')
-				+(vn.attrs.leadingfaicon?'.mdc-text-field--with-leading-icon':'')
-				+(vn.attrs.disabled?'mdc-text-field--disabled':'')
-				+(vn.attrs.dense?'mdc-text-field--dense':'')
+				+(faicon?'.mdc-text-field--with-trailing-icon':'')
+				+(leadingfaicon?'.mdc-text-field--with-leading-icon':'')
+				+(dense?'.mdc-text-field--dense':'')
+				+(disabled?'.mdc-text-field--disabled':'')
 			,{
 				style: { width: '100%'},
 			},[
-				(vn.attrs.leadingfaicon ? m('i.mdc-text-field__icon.fa.fa-'+vn.attrs.leadingfaicon):''),
-				m('input'+
-					'.mdc-text-field__input'+
-					'',
-				{
-					type: vn.attrs.type? vn.attrs.type:'text',
-					pattern: vn.attrs.pattern,
-					id: vn.attrs.id,
-					value: vn.state.value,
-					disabled: vn.attrs.disabled,
-					required: vn.attrs.required,
-					placeholder: vn.attrs.fullwidth?_(vn.attrs.label):undefined,
-					'aria-label': vn.attrs.fullwidth?_(vn.attrs.label):undefined,
-					'aria-controls': help_id,
-					'aria-describedby': help_id,
-				}, [
-				]),
-				vn.attrs.fullwidth||vn.attrs.outlined?'':m('label'
+				(leadingfaicon ? m('i.mdc-text-field__icon.fa.fa-'+leadingfaicon):''),
+				m('input.mdc-text-field__input', nativeattrs),
+				fullwidth||outlined&&false?'':m('label'
 					+'.mdc-floating-label',
 					{'for': vn.attrs.id}, [
 					vn.attrs.label,
 				]),
-				(vn.attrs.outlined||vn? '': m('.mdc-line-ripple')),
-				(vn.attrs.outlined? m('.mdc-notched-outline',
-					m('svg', m('path.mdc-notched-outline__path'))):''),
-				(vn.attrs.outlined? m('.mdc-notched-outline__idle'):''),
-				(vn.attrs.faicon ? m('i.mdc-text-field__icon.fa.fa-'+vn.attrs.faicon):''),
+				(outlined? []: m('.mdc-line-ripple')),
+				(outlined? m('.mdc-notched-outline',
+					m('svg', m('path.mdc-notched-outline__path'))):[]),
+				(outlined? m('.mdc-notched-outline__idle'):''),
+				(faicon ? m('i.mdc-text-field__icon.fa.fa-'+faicon):[]),
 			]),
 			m('.mdc-text-field-helper-text'+
 				'.mdc-text-field-helper-text--persistent'+
@@ -82,7 +78,7 @@ var TextField = {
 				id: help_id,
 				'aria-hidden': true,
 				},
-				vn.attrs.help
+				help
 			),
 		]);
 	},
@@ -91,7 +87,8 @@ var TextField = {
 TextField.Example = {};
 TextField.Example.view = function(vn) {
 	const Layout = require('./layout');
-	return m(Layout, ['','boxed','outlined','fullwidth'].map(function(type) {
+	return m(Layout, m('h2', 'TextFields'),
+		['','boxed','outlined','fullwidth'].map(function(type) {
 		return m(Layout.Row, [
 			{
 				id: 'mytextfield',
@@ -131,8 +128,45 @@ TextField.Example.view = function(vn) {
 				attrs.label+= " "+type
 			}
 			return m(Layout.Cell, {span:4}, m(TextField, attrs));
-		}));
-	}));
+		}),
+		);
+	}),
+	m(Layout.Row, [
+		{
+			id: 'required',
+			label: _('Required field'),
+			required: true,
+			type: 'requ',
+		},
+		{
+			id: 'number',
+			label: _('Numeric field'),
+			type: 'number',
+			min: 5,
+			max: 12,
+		},
+		{
+			id: 'binary',
+			label: _('Binary Regexp'),
+			pattern: '[01]*'
+		},
+		{
+			id: 'email',
+			boxed: true,
+			label: _('Email'),
+			type: 'email',
+		},
+		{
+			id: 'validator',
+			label: _('Custom Validated'),
+			onchange: function(ev) {
+				console.log("Validating", ev);
+			},
+		},
+	].map(function(v) {
+		return m(Layout.Cell, {span:4}, m(TextField, v));
+	})),
+	);
 };
 
 
