@@ -51,6 +51,13 @@ var PersonalDataEditor = {
 						help: _('I encara una tercera caixa'),
 					})
 				),
+				m(Cell,
+					m(Select, {
+						id: 'caixa4',
+						label: _('Caixa 4'),
+						help: _('I aquesta es un select'),
+					})
+				),
 			]),
 			m(Row, [
 				m(Cell, {span:7},
@@ -83,6 +90,7 @@ var PersonalDataEditor = {
 	},
 };
 var showall=false;
+var skip = function (c) { return []; }
 
 var Form = {
 	farepower: undefined,
@@ -91,7 +99,7 @@ var Form = {
 			m(Button.Example),
 			m(Select.Example),
 			m(TextField.Example),
-			false && m(Wizard, {showall:showall}, [
+			m(Wizard, {showall:showall}, [
 				m('.page.red', {
 					id: 'holder',
 					title: _('Holder'),
@@ -110,7 +118,6 @@ var Form = {
 							return vn.state.farepower.currentError;
 						}
 					},
-
 				}, m(FarePower, {
 					onupdate: function(state) {
 						if (vn.state.farepower===undefined) {
