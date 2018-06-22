@@ -22,21 +22,22 @@ var Button = {
 
 Button.Example = {
 	view: function(vn) {
-		return m('',[
-			m(Button, 'Standard'),
-			m(Button, {raised:true}, 'Raised'),
-			m(Button, {unelevated:true}, 'Unelevated'),
-			m(Button, {outlined:true}, 'Outlined'),
-			m(Button, {dense:true}, 'Standard dense'),
-			m(Button, {dense:true, raised:true}, 'Raised dense'),
-			m(Button, {dense:true, unelevated:true}, 'Unelevated dense'),
-			m(Button, {dense:true, outlined:true}, 'Outlined dense'),
-			m(Button, {raised:true, faicon: 'exclamation' }, 'Icon'),
-			m(Button, {raised:true, faicon: 'spinner.fa-spin' }, 'Icon'),
-			m(Button, {onclick: function(ev) {console.log("Hola mundo");}},'Consoleme'),
-			m(Button, {style: 'color: red'},'Consoleme'),
-			m(Button, {disabled: true},'Consoleme'),
-		]);
+		var Layout = require('./layout');
+		return m(Layout, m(Layout.Row, {align: 'center'}, [
+			m(Layout.Cell, {span:3}, m(Button, 'Standard')),
+			m(Layout.Cell, {span:3}, m(Button, {raised:true}, 'Raised')),
+			m(Layout.Cell, {span:3}, m(Button, {unelevated:true}, 'Unelevated')),
+			m(Layout.Cell, {span:3}, m(Button, {outlined:true}, 'Outlined')),
+			m(Layout.Cell, {span:3}, m(Button, {dense:true}, 'Standard dense')),
+			m(Layout.Cell, {span:3}, m(Button, {dense:true, raised:true}, 'Raised dense')),
+			m(Layout.Cell, {span:3}, m(Button, {dense:true, unelevated:true}, 'Unelevated dense')),
+			m(Layout.Cell, {span:3}, m(Button, {dense:true, outlined:true}, 'Outlined dense')),
+			m(Layout.Cell, {span:3}, m(Button, {raised:true, faicon: 'trash' }, 'Icon')),
+			m(Layout.Cell, {span:3}, m(Button, {raised:true, faicon: 'spinner.fa-spin' }, 'Spinning')),
+			m(Layout.Cell, {span:3}, m(Button, {style: 'color: red'},'Colored')),
+			m(Layout.Cell, {span:3}, m(Button, {disabled: true},'Disabled')),
+			m(Layout.Cell, {span:3}, m(Button, {onclick: function(ev) {console.log("Hola mundo");}},'Consoleme')),
+		]));
 	}
 };
 
