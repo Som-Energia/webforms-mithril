@@ -8,8 +8,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 var config = {
 	context: path.resolve(__dirname, 'src'),
 	entry: {
-		newmember: './newmember',
-		validatedinput_demo: './validatedinput_demo',
+		examples: './examples',
+		contract: './contract',
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
@@ -21,12 +21,12 @@ var config = {
 		new HtmlWebpackPlugin({
 			filename: 'index.html',
 			template: './mithriltemplate.html',
-			chunks: ['common','newmember'],
+			chunks: ['common','examples'],
 			}),
 		new HtmlWebpackPlugin({
-			filename: 'validatedinput_demo.html',
+			filename: 'contract.html',
 			template: './mithriltemplate.html',
-			chunks: ['common','validatedinput_demo'],
+			chunks: ['common','contract'],
 			}),
 		// Split css included as js into a separate file again
 		new MiniCssExtractPlugin({
