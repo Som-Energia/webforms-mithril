@@ -5,8 +5,6 @@ var MDCSelect = require('@material/select');
 require('@material/select/dist/mdc.select.css');
 
 var Select = {
-	oninit: function(vn) {
-	},
 	oncreate: function(vn) {
 		var mdcselect = vn.dom.querySelector('.mdc-select');
 		this.mdcinstance = new MDCSelect.MDCSelect(mdcselect);
@@ -15,7 +13,7 @@ var Select = {
 		const options = vn.attrs.options || [];
 		const help_id = vn.attrs.id+'_help';
 		return m('.mdc-form-field', [
-			m('.mdc-select.mdc-select--box', {
+			m('.mdc-select'+(vn.attrs.boxed?'.mdc-select--box':''), {
 				style: {width: '100%'},
 				},[
 				m('select'+
@@ -30,6 +28,10 @@ var Select = {
 					onchange: function(ev) {
 						vn.attrs.value = ev.target.value;
 						vn.attrs.onchange && vn.attrs.onchange(ev);
+					},
+					oninvalid: function(ev) {
+						console.log("inner invalid");
+						vn.attrs.oninvalid(ev);
 					},
 				}, 
 					m('option', {
@@ -67,33 +69,44 @@ var Example = {
 		tastes: 'vegetables',
 	},
 	view: function(vn) {
-		return m('',[
-			m(Select, {
-				id: 'fan',
-				label: _('Tastes'),
-				help: _('Select what you like more'),
-				required: true,
-				//disabled: true,
-				value: this.Person.tastes,
-				onchange: function(ev) {
-					vn.state.Person.tastes = ev.target.value;
-				},
-				options: [
-					{
-						value: 'grains',
-						text: _('Bread, Cereal, Rice, and Pasta'),
+		var self = this;
+		const Layout = require('./layout');
+		const options = [
+			{
+				value: 'grains',
+				text: _('Bread, Cereal, Rice, and Pasta'),
+			},
+			{
+				value: 'vegetables',
+				text: _('Vegetables'),
+			},
+			{
+				value: 'fruits',
+				text: _('Apple'),
+			},
+		];
+		return m(Layout, [
+			m(Layout.Row, m(Layout.Cell, {span:12},
+				m('h2', 'Selects'))),
+			m(Layout.Row,['','boxed','outlined'].map(function(style) {
+			return m(Layout.Cell,{span:4},
+				m(Select, {
+					boxed: style=='boxed',
+					outlined: style=='outlined',
+					id: 'fan',
+					label: _('Tastes'),
+					help: _('Select what you like more'),
+					required: true,
+					//disabled: true,
+					value: self.Person.tastes,
+					onchange: function(ev) {
+						vn.state.Person.tastes = ev.target.value;
 					},
-					{
-						value: 'vegetables',
-						text: _('Vegetables'),
-					},
-					{
-						value: 'fruits',
-						text: _('Apple'),
-					},
-				],
-			}),
-			m('', _('You are fan of '), this.Person.tastes ),
+					options: options,
+				}));
+			})),
+			m(Layout.Row, m(Layout.Cell, {span:12},
+				_('You are fan of '), self.Person.tastes )),
 		]);
 	},
 };
