@@ -4,24 +4,11 @@ var _ = require('./translate');
 var requestSom = require('./somapi').requestSom
 var MDCTextField = require('@material/textfield');
 require('@material/textfield/dist/mdc.textfield.css');
-require('@material/ripple');
-require('@material/ripple/dist/mdc.ripple.css');
-require('@material/floating-label');
-require('@material/floating-label/dist/mdc.floating-label.css');
-
-var MDCTextFieldIcon = require('@material/textfield/icon').MDCTextFieldIcon;
-require('@material/notched-outline/dist/mdc.notched-outline.min.css');
-var MDCNotchedOutline = require('@material/notched-outline').MDCNotchedOutline;
-
 
 var TextField = {
 	oncreate: function(vn) {
 		var mdcinput = vn.dom.querySelector('.mdc-text-field');
 		this.mdcinstance = new MDCTextField.MDCTextField(mdcinput);
-		//var inputIcon = vn.dom.querySelector('.mdc-text-field__icon');
-		//this.mdcIcon = new MDCTextFieldIcon(vn.dom.querySelector('.mdc-text-field-icon'));
-		//const notchedOutline = vn.dom.querySelector('.mdc-notched-outline');
-		//this.mdcOutline = new MDCNotchedOutline(notchedOutline);
 	},
 	view: function (vn) {
 		var attrs = Object.assign({}, vn.attrs);
