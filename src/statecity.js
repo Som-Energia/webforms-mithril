@@ -60,6 +60,7 @@ var StateCityChooser = {
 						};
 					}),
 					label: _('State'),
+					boxed: true,
 					help: this.stateError?this.stateError:(this.states?_('Choose a state'):_('Loading...')),
 					required: true,
 					value: self.state,
@@ -79,6 +80,7 @@ var StateCityChooser = {
 						};
 					}),
 					label: _('City'),
+					boxed: true,
 					help: this.cityError?this.cityError:(this.cities?_('Choose a city'):_('Loading...')),
 					required: true,
 					value: self.city || '',
