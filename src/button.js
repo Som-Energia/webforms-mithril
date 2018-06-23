@@ -23,7 +23,9 @@ var Button = {
 Button.Example = {
 	view: function(vn) {
 		var Layout = require('./layout');
-		return m(Layout, m(Layout.Row, {align: 'center'}, [
+		return m(Layout,
+			m(Layout.Row, m(Layout.Cell, m('h2', 'Buttons'))),
+			m(Layout.Row, {align: 'center'}, [
 			m(Layout.Cell, {span:3}, m(Button, 'Standard')),
 			m(Layout.Cell, {span:3}, m(Button, {raised:true}, 'Raised')),
 			m(Layout.Cell, {span:3}, m(Button, {unelevated:true}, 'Unelevated')),
