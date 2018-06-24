@@ -262,7 +262,7 @@ const FarePower = {
 						value: 'dhs',
 						text: _('Three periods discrimination (DHS)'),
 					}],
-					help: _('Is it convinient for me?'),
+					help: _('Is time discrimination convinient for me?'),
 					value: vn.state.discrimination,
 					onchange: function(ev) {
 						vn.state.discrimination = ev.target.value;

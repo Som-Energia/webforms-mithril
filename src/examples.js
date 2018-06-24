@@ -97,8 +97,8 @@ var Form = {
 	view: function(vn) {
 		return m('.form.mdc-typography', [
 			m(Button.Example),
-			m(Select.Example),
 			m(TextField.Example),
+			m(Select.Example),
 			m(Wizard, {showall:showall}, [
 				m('.page.red', {
 					id: 'holder',
