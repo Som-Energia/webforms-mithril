@@ -1,10 +1,10 @@
 'use strict';
 var m = require('mithril');
 var _ = require('./translate');
-var Layout = require('./layout');
+var Layout = require('./mdc/layout');
 var Row = Layout.Row;
 var Cell = Layout.Cell;
-var Select = require('./select');
+var Select = require('./mdc/select');
 var requestSom = require('./somapi').requestSom;
 
 

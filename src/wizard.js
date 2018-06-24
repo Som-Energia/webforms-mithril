@@ -1,11 +1,11 @@
 'use strict';
 var m = require('mithril');
 var _ = require('./translate');
-var Layout = require('./layout');
+var Layout = require('./mdc/layout');
 var Row = Layout.Row;
 var Cell = Layout.Cell;
 require('@material/tabs/dist/mdc.tabs.css');
-var Button = require('./button');
+var Button = require('./mdc/button');
 var MDCTab = require('@material/tabs').MDCTab;
 var MDCTabBar = require('@material/tabs').MDCTabBar;
 

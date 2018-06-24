@@ -2,17 +2,16 @@
 var m = require('mithril');
 var _ = require('./translate');
 var css = require('./style.styl');
-var Wizard = require('./wizard');
-var Layout = require('./layout');
+var Layout = require('./mdc/layout');
 var Row = Layout.Row;
 var Cell = Layout.Cell;
-var Button = require('./button');
-var Select = require('./select');
-var TextField = require('./textfield');
+var Button = require('./mdc/button');
+var Select = require('./mdc/select');
+var TextField = require('./mdc/textfield');
+var Wizard = require('./wizard');
 var ValidatedInput = require('./validatedinput');
 var StateCityChooser = require('./statecity');
 var FarePower = require('./farepower');
-require('@material/button/dist/mdc.button.css');
 require('font-awesome/css/font-awesome.css');
 
 require('@material/typography/dist/mdc.typography.css').default;

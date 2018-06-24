@@ -1,6 +1,6 @@
 'use strict';
 var m = require('mithril');
-var _ = require('./translate');
+var _ = require('../translate');
 var MDCSelect = require('@material/select');
 require('@material/select/dist/mdc.select.css');
 

@@ -1,7 +1,6 @@
 'use strict';
 var m = require('mithril');
-var _ = require('./translate');
-var requestSom = require('./somapi').requestSom
+var _ = require('../translate');
 var MDCTextField = require('@material/textfield');
 require('@material/textfield/dist/mdc.textfield.css');
 
