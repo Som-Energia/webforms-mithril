@@ -22,14 +22,29 @@ var TextField = {
 		const help = pop(attrs, 'help');
 		const faicon = pop(attrs, 'faicon');
 		const leadingfaicon = pop(attrs, 'leadingfaicon');
+		const inputfilter = pop(attrs, 'inputfilter');
 		const help_id = vn.attrs.id+'_help';
 		const nativeattrs = Object.assign({
+			// defaults
 			type: 'text',
 			placeholder: fullwidth?_(vn.attrs.label):undefined,
 			'aria-label': fullwidth?_(vn.attrs.label):undefined,
 			'aria-controls': help_id,
 			'aria-describedby': help_id,
-			}, attrs);
+		}, attrs, {
+			// redefined
+			oninput: function(ev) {
+				var value = ev.target.value;
+				if (inputfilter) {
+					ev.target.value =
+						inputfilter instanceof Function ?
+							inputfilter(value):
+							ev.target.value = RegExp(inputfilter).exec(value)[0];
+				}
+				if (attrs.oninput) attrs.oninput(ev);
+				vn.state.errorMessage = ev.target.validationMessage;
+			}
+		});
 
 		return m('.mdc-form-field', [
 			m(''
@@ -62,12 +77,12 @@ var TextField = {
 			]),
 			m('.mdc-text-field-helper-text'+
 				'.mdc-text-field-helper-text--persistent'+
-				'.mdc-text-field-helper-text--validation-msg'+
+				(vn.state.errorMessage||true?'.mdc-text-field-helper-text--validation-msg':'')+
 				'', {
 				id: help_id,
 				'aria-hidden': true,
 				},
-				help
+				vn.state.errorMessage || help || m.trust('&nbsp;')
 			),
 		]);
 	},
@@ -77,6 +92,92 @@ TextField.Example = {};
 TextField.Example.view = function(vn) {
 	const Layout = require('./layout');
 	return m(Layout, m('h2', 'TextFields'),
+		m(Layout.Row, [
+			{
+				id: 'required',
+				label: _('Required field'),
+				required: true,
+			},
+			{
+				id: 'number',
+				label: _('Numeric field'),
+				type: 'number',
+				min: 5,
+				max: 12,
+			},
+			{
+				id: 'binary',
+				label: _('Binary Regexp'),
+				pattern: '[01]*',
+			},
+			{
+				id: 'email',
+				boxed: true,
+				label: _('Email'),
+				type: 'email',
+				oninput: function(ev) {
+					vn.state.value1error = ev.target.validationMessage;
+				},
+			},
+			{
+				id: 'inputvalidator',
+				label: _('Standard and custom validation'),
+				value: vn.state.value1,
+				pattern: '.{0,7}',
+				oninput: function(ev) {
+					ev.target.setCustomValidity('');
+					if (ev.target.value.indexOf('t')!==-1) {
+						ev.target.setCustomValidity('\'t\' are forbidden');
+					}
+					vn.state.value1=ev.target.value;
+					vn.state.value1error = ev.target.validationMessage;
+				},
+				errorMessage: vn.state.value1error,
+				help: _('up to 7 not tees'),
+			},
+			{
+				id: 'inputfilter',
+				label: _('Input filter'),
+				value: vn.state.value2,
+				inputfilter: /[01]*/, // allows incomplete answers
+				pattern: "[01]{0,6}1", // more restritive, final validation
+				oninput: function(ev) {
+					vn.state.value2 = ev.target.value;
+					vn.state.value2error = ev.target.validationMessage;
+				},
+				help: 'Quick input filter with a regexp',
+			},
+			{
+				id: 'inputfilterfunction',
+				label: _('input filter function'),
+				help: _('Binary turns o into 0 and i into 1'),
+				value: vn.state.value2,
+				inputfilter: function(value) {
+					return value
+						.replace('i','1','g')
+						.replace('I','1','g')
+						.replace('o','0','g')
+						.replace('O','0','g')
+						;
+				},
+				pattern: "[01]{0,6}",
+				oninput: function(ev) {
+					vn.state.value2 = ev.target.value;
+					vn.state.value2error = ev.target.validationMessage;
+				},
+			},
+		].map(function(v) {
+			return m(Layout.Cell, {span:4}, m(TextField, v));
+		}),
+		[
+			m(Layout.Cell, m('',"value1: ", this.value1),
+			this.value1error? m('b.red'," error: ", this.value1error):''),
+			m(Layout.Cell, m('',"value2: ", this.value2),
+			this.value2error? m('b.red'," error: ", this.value2error):''),
+		]),
+		m(Layout.Row, [
+			m(Layout.Cell, m('h3',"Textfield styles")),
+		]),
 		['','boxed','outlined','fullwidth'].map(function(type) {
 		return m(Layout.Row, [
 			{
@@ -120,41 +221,6 @@ TextField.Example.view = function(vn) {
 		}),
 		);
 	}),
-	m(Layout.Row, [
-		{
-			id: 'required',
-			label: _('Required field'),
-			required: true,
-			type: 'requ',
-		},
-		{
-			id: 'number',
-			label: _('Numeric field'),
-			type: 'number',
-			min: 5,
-			max: 12,
-		},
-		{
-			id: 'binary',
-			label: _('Binary Regexp'),
-			pattern: '[01]*'
-		},
-		{
-			id: 'email',
-			boxed: true,
-			label: _('Email'),
-			type: 'email',
-		},
-		{
-			id: 'validator',
-			label: _('Custom Validated'),
-			onchange: function(ev) {
-				console.log("Validating", ev);
-			},
-		},
-	].map(function(v) {
-		return m(Layout.Cell, {span:4}, m(TextField, v));
-	})),
 	);
 };
 
