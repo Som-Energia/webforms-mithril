@@ -48,7 +48,9 @@ var TextField = {
 				(leadingfaicon ? m('i.mdc-text-field__icon.fa.fa-'+leadingfaicon):''),
 				m('input.mdc-text-field__input', nativeattrs),
 				fullwidth||outlined&&false?'':m('label'
-					+'.mdc-floating-label',
+					+'.mdc-floating-label'
+					+(vn.attrs.value?'.mdc-floating-label--float-above':'')
+					,
 					{'for': vn.attrs.id}, [
 					vn.attrs.label,
 				]),
