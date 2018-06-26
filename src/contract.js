@@ -8,6 +8,7 @@ var Row = Layout.Row;
 var Cell = Layout.Cell;
 var Button = require('./mdc/button');
 var Select = require('./mdc/select');
+var TextField = require('./mdc/textfield');
 var ValidatedField = require('./validatedfield');
 var StateCityChooser = require('./statecity');
 var FarePower = require('./farepower');
@@ -15,147 +16,183 @@ require('font-awesome/css/font-awesome.css');
 require('@material/typography/dist/mdc.typography.css').default;
 
 
-var Persona = {
-	field: undefined,
-	name: undefined,
-	nif: undefined,
-	nifValidation: {},
-};
+var showall = false;
 
-var PersonalDataEditor = {
-	view: function(vn) {
-		return [
-			m(StateCityChooser),
-			m(Row, [
-				m(Cell,
-					m(ValidatedField, {
-						id: 'caixa1',
-						label: _('Caixa 1'),
-						help: _('La primera caixa'),
-					})
-				),
-				m(Cell,
-					m(ValidatedField, {
-						id: 'caixa2',
-						label: _('Caixa 2'),
-						help: _('La segona caixa'),
-					})
-				),
-				m(Cell,
-					m(ValidatedField, {
-						id: 'caixa3',
-						label: _('Caixa 3'),
-						help: _('I encara una tercera caixa'),
-					})
-				),
-			]),
-			m(Row, [
-				m(Cell, {span:7},
-					m(ValidatedField, {
-						id: 'iban',
-						label: _('IBAN (compte bancari)'),
-						help: _('I encara una tercera caixa'),
-						defaulterror: _('Invalid IBAN'),
-						required: true,
-						checkurl: '/check/iban/',
-						value: Persona.iban,
-						onChange: function(value) {
-							Persona.iban = value;
-						},
-					})
-				),
-				m(Cell, {span:5},
-					m(ValidatedField, {
-						id: 'vat',
-						label: _('NIF'),
-					})
-				),
-			]),
-			m(Row, [
-				m(Cell, {span:12},
-					m(Select.Example),
-				),
-			]),
-		];
+var Contract = {
+	holder: {
+		vat: { data: {}},
+		isphisical: function() {
+			if (this.vat===undefined) return undefined;
+			if (this.vat.value===undefined) return undefined;
+			var firstchar = this.vat.value[0];
+			return '0123456789KLMXYZ'.indexOf(firstchar) !== -1;
+		},
 	},
 };
 
-var Form = {
-	farepower: undefined,
-	view: function(vn) {
-		return m('.form.mdc-typography', [
-			//m(Button.Example),
-			//m(Select.Example),
-			m(Wizard, {showall:true}, [
-				m('.page', {
-					id: 'holder',
-					title: _('Holder'),
-					next: 'supply',
-				}, [
-					m(PersonalDataEditor),
-				]),
+var Form = {};
+Form.view = function(vn) {
+	return [
+		m(Wizard, {
+			showall: showall,
+		}, [
+			IntroPage(),
+			HolderPage(),
+			SupplyPage(),
+			TermsPage(),
+			PaymentPage(),
+			ReviewPage(),
+		]),
+		m('pre', JSON.stringify(Contract, null, 2)),
+	];
+};
 
-				m('.page', {
-					id: 'supply',
-					title: _('Supply point'),
-					prev: 'holder',
-					next: 'confirm',
-					validator: function() {
-						if (vn.state.farepower) {
-							return vn.state.farepower.currentError;
-						}
+
+var IntroPage = function() {
+	return m('.page', {
+		id: 'intro',
+		title: _('Intro'),
+		next: 'holder',
+	},[ m(Row, m(Cell, {span:12},
+		m('.intro',_('CONTRACT_INTRO')),
+	))]);
+};
+
+var HolderPage = function() {
+	var holder = Contract.holder;
+	var passwordRequired = (
+		holder.vat.isvalid===true &&
+		holder.vat.exists===true &&
+		true);
+		
+	var detailsRequired = (
+		holder.vat.isvalid===true && 
+		holder.vat.exists!==true &&
+		true);
+		
+	return m('.page', {
+		id: 'holder',
+		title: _('Holder'),
+		next: 'supply',
+		prev: 'intro',
+	},[
+
+		m(Row, [
+			m(Cell, {span:4}, m(ValidatedField, {
+				id: 'vat',
+				checkurl: '/check/vat/',
+				label: _('NIF'),
+				boxed: true,
+				required: true,
+				maxlength: 9,
+				fieldData: holder.vat,
+				inputfilter: function(value) {
+					if (!value) return value;
+					value=value.toUpperCase();
+					value=value.replace(/[^0-9A-Z]/,'');
+					return value.slice(0,9);
+				},
+				onvalidated: function() {
+					holder.vat.exists=true;
+				}
+			})),
+			passwordRequired? m(Cell, {span:4}, m(ValidatedField, {
+				type: 'password',
+			})):'',
+		]),
+		detailsRequired || true? [
+			m(Row, [
+				m(Cell, {span:5}, m(TextField, {
+					id: 'name',
+					label: _('Name'),
+					value: holder.name,
+					oninput: function(ev) {
+						holder.name = ev.target.value;
 					},
-
-				}, m(FarePower, {
-					onupdate: function(state) {
-						if (vn.state.farepower===undefined) {
-							vn.state.farepower = state;
-						}
-					}
-				}),
-				),
-				m('.page', {
-					id: 'confirm',
-					title: _('Confirmation'),
-					prev: 'supply',
-				}, m(Row, [
-					m(Cell, {span:6}, m(ValidatedField, {
-						id: 'afield',
-						label: _('Field label'),
-						help: _('Field Help'),
-						icon: '.fa-spinner.fa-spin',
-						value: Persona.field,
-						onChange: function(value) {
-							Persona.field = value;
+					required: true,
+					boxed: true,
+				})),
+				holder.isphisical()?
+					m(Cell, {span:7}, m(TextField, {
+						id: 'suname',
+						label: _('Surname'),
+						value: holder.surname,
+						oninput: function(ev) {
+							holder.surname = ev.target.value;
 						},
-					})),
-					m(Cell, {span:6}, m(ValidatedField, {
-						id: 'nif',
-						label: _('NIF/DNI'),
-						pattern: /[0-9A-Za-z]+/,
-						defaulterror: _('Invalid VAT'),
-						checkurl: '/check/vat/',
-						help: _('Tax ID'),
-						value: Persona.nif,
-						onChange: function(value) {
-							Persona.nif = value;
-						},
-					})),
-					m(Cell, {span:8}, m(ValidatedField, {
-						id: 'name',
-						label: _('Name'),
 						required: true,
-						help: _('Ayuda'),
-						value: Persona.name,
-						onChange: function(value) {
-							Persona.name = value;
-						},
-					})),
-				])),
+						boxed: true,
+					}))
+				:'',
 			]),
-		]);
-	},
+			m(StateCityChooser, {
+				onvaluechanged: function(chooser) {
+					console.log(chooser, holder);
+					holder.state = chooser.states.find(function(v) {
+						return v.id==chooser.state;
+					});
+					holder.city = chooser.cities.find(function(v) {
+						return v.id==chooser.city;
+					});
+				},
+			}),
+			m(Row,
+				m(Cell, {span:12}, m(TextField, {
+					id: 'streetaddress',
+					label: _('Street address'),
+					value: holder.streetaddress,
+					oninput: function(ev) {
+						holder.streetaddress = ev.target.value;
+					},
+					required: true,
+					boxed: true,
+					
+				})),
+			),
+		]:'',
+
+	]);
 };
+
+var SupplyPage = function() {
+	return m('.page', {
+		id: 'supply',
+		title: _('Supply'),
+		next: 'terms',
+		prev: 'holder',
+	},[
+	]);
+};
+
+var TermsPage = function() {
+	return m('.page', {
+		id: 'terms',
+		title: _('Terms'),
+		next: 'payment',
+		prev: 'supply',
+	},[
+	]);
+};
+
+var PaymentPage = function() {
+	return m('.page', {
+		id: 'payment',
+		title: _('Payment'),
+		next: 'review',
+		prev: 'terms',
+	},[
+	]);
+};
+
+var ReviewPage = function() {
+	return m('.page', {
+		id: 'review',
+		title: _('Review'),
+		prev: 'payment',
+	},[
+	]);
+};
+
 
 
 window.onload = function() {
