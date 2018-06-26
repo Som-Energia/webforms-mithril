@@ -5,7 +5,8 @@ var Layout = require('./mdc/layout');
 var Row = Layout.Row;
 var Cell = Layout.Cell;
 var Select = require('./mdc/select');
-var ValidatedInput = require('./validatedinput');
+var ValidatedField = require('./validatedfield');
+var TextField = require('./mdc/textfield');
 
 const rates = {
 	RATE_20A:   '2.0A',
@@ -59,22 +60,20 @@ const availablePowersTriphase = [
 
 function filterSpanishFloat(value) {
 	if (!value) {return value;}
-	var re = /^\d*([.,'])?\d*/g;
-	var match = re.exec(value);
-	if (!match) return '';
-	var result = match[0];
-	result.replace(',', '.');
-	result.replace('\'', '.');
-	return result;
+	value = value.replace(/[^0-9,.']/, '');
+	value = value.replace(/[',]/, '.');
+	var parts = value.split('.');
+	value = (parts[0]||'0')+(parts.slice(1).length?('.'+parts.slice(1).join('')):'');
+	return value;
 }
 
 
 const FloatInput = {
 	view: function(vn) {
 		var attrs = Object.assign({},vn.attrs, {
-			filter: filterSpanishFloat,
+			inputfilter: filterSpanishFloat,
 		});
-		return m(ValidatedInput,attrs);
+		return m(TextField,attrs);
 	},
 };
 
@@ -116,33 +115,37 @@ const FarePower = {
 		function error(message) {
 			if (self.currentError !== message) {
 				self.currentError = message;
-				console.log(message, self);
+				console.log(message);
 			}
 			return message;
 		}
-		if (self.type===undefined) {
+		if (self.type === undefined) {
 			return error('NO_MONOPHASE_CHOICE');
 		}
-		if (self.power === undefined) {
+		if (self.power === undefined || self.power === '') {
 			return error('NO_POWER_CHOSEN');
 		}
 		var fare = self.fare();
 		if (fare === '3.0A') {
-			if (self.powerp1 === undefined) {
+			var p1=parseFloat(self.powerp1);
+			var p2=parseFloat(self.powerp2);
+			var p3=parseFloat(self.powerp3);
+			if (isNaN(p1)) {
 				return error('NO_POWER_CHOSEN_P1');
 			}
-			if (self.powerp2 === undefined) {
+			if (isNaN(p2)) {
 				return error('NO_POWER_CHOSEN_P2');
 			}
-			if (self.powerp3 === undefined) {
+			if (isNaN(p3)) {
 				return error('NO_POWER_CHOSEN_P3');
 			}
 			// some of the periods should be over 15
-			if (self.powerp1 <= 15 && self.powerp2 <= 15 && self.powerp3 <= 15) {
+			if (p1 <= 15 && p2 <= 15 && p3 <= 15) {
 				return error('INVALID_POWER_30');
 			}
 			// none of the periods should be over 450
-			if (self.powerp1 > 450 || self.powerp2 > 450 || self.powerp3 > 450) {
+			if (p1 > 450 || p2 > 450 || p3 > 450) {
+				// TODO: Different error for power
 				return error('INVALID_POWER_30');
 			}
 		}
@@ -155,6 +158,7 @@ const FarePower = {
 	},
 
 	powerlist: function(vn) {
+		/** Computes the list of powers to shown depending on the context */
 		var availablePowers = (
 			vn.state.type==='mono'?
 				availablePowersMonophase:
@@ -202,10 +206,14 @@ const FarePower = {
 		}]:[]);
 	},
 
+	onupdate(vn) {
+		var self=vn.state;
+		self.errors(vn);
+		vn.attrs.onchanged(vn.state);
+	},
+
 	view: function (vn) {
 		var self=vn.state;
-		vn.attrs.onupdate(vn.state);
-		self.currentErrors = self.errors(vn);
 
 
 		return [m(Row, [
@@ -213,9 +221,11 @@ const FarePower = {
 				m(Select, {
 					id: 'instal_type',
 					value: vn.state.type,
+					boxed: true,
 					onchange: function(ev) {
 						vn.state.power = '';
 						vn.state.type = ev.target.value;
+						self.errors(vn);
 					},
 					label: _('Installation type'),
 					required: true,
@@ -234,6 +244,7 @@ const FarePower = {
 				m(Select, {
 					id: 'power',
 					label: _('Power (kW)'),
+					boxed: true,
 					options: self.powerlist(vn),
 					required: true,
 					help: _('How much do I need?'),
@@ -243,6 +254,7 @@ const FarePower = {
 						if (vn.state.power === '15') {
 							vn.state.discrimination='nodh';
 						}
+						self.errors(vn);
 					},
 				}),
 			]),
@@ -250,6 +262,7 @@ const FarePower = {
 				m(Select, {
 					id: 'discrimination',
 					label: _('Discrimination'),
+					boxed: true,
 					required: true,
 					disabled: vn.state.power === '15',
 					options: [{
@@ -266,6 +279,7 @@ const FarePower = {
 					value: vn.state.discrimination,
 					onchange: function(ev) {
 						vn.state.discrimination = ev.target.value;
+						self.errors(vn);
 					},
 				}),
 			]),
@@ -277,11 +291,12 @@ const FarePower = {
 					id: 'powerp1',
 					label: _('Power Period P1 (kW)'),
 					help: _('Punta: De 11h a 15h en Verano, de 18h a 22h en Invierno'),
+					boxed: true,
 					required: true,
 					value: vn.state.powerp1,
-					onChange: function(value) {
-						console.log("vn.state", vn.state);
-						vn.state.powerp1 = value;
+					oninput: function(ev) {
+						vn.state.powerp1 = ev.target.value;
+						self.errors(vn);
 					},
 				}),
 			]),
@@ -289,10 +304,12 @@ const FarePower = {
 				m(FloatInput, {
 					label: _('Power Period P2 (kW)'),
 					help: _('Llano: Resto del dia'),
+					boxed: true,
 					required: true,
 					value: vn.state.powerp2,
-					onChange: function(value) {
-						vn.state.powerp2 = value;
+					oninput: function(ev) {
+						vn.state.powerp2 = ev.target.value;
+						self.errors(vn);
 					},
 				}),
 			]),
@@ -300,10 +317,12 @@ const FarePower = {
 				m(FloatInput, {
 					label: _('Power Period P3 (kW)'),
 					help: _('Valle: De 0h a 8h todo el año'),
+					boxed: true,
 					required: true,
 					value: vn.state.powerp3,
-					onChange: function(value) {
-						vn.state.powerp3 = value;
+					oninput: function(ev) {
+						vn.state.powerp3 = ev.target.value;
+						self.errors(vn);
 					},
 				}),
 			]),
