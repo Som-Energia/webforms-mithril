@@ -17,7 +17,6 @@ var TextField = {
 	onupdate: function(vn) {
 		var errormessage = vn.attrs.errormessage || vn.state.errormessage || '';
 		var valid = !errormessage;
-		vn.attrs.id==='iban' && console.log(vn.attrs.id, "valid", valid);
 		if (vn.state.mdcinstance.valid !== !errormessage) {
 			vn.state.mdcinstance.valid = !errormessage;
 		}
