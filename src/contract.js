@@ -8,7 +8,7 @@ var Row = Layout.Row;
 var Cell = Layout.Cell;
 var Button = require('./mdc/button');
 var Select = require('./mdc/select');
-var ValidatedInput = require('./validatedinput');
+var ValidatedField = require('./validatedfield');
 var StateCityChooser = require('./statecity');
 var FarePower = require('./farepower');
 require('font-awesome/css/font-awesome.css');
@@ -28,21 +28,21 @@ var PersonalDataEditor = {
 			m(StateCityChooser),
 			m(Row, [
 				m(Cell,
-					m(ValidatedInput, {
+					m(ValidatedField, {
 						id: 'caixa1',
 						label: _('Caixa 1'),
 						help: _('La primera caixa'),
 					})
 				),
 				m(Cell,
-					m(ValidatedInput, {
+					m(ValidatedField, {
 						id: 'caixa2',
 						label: _('Caixa 2'),
 						help: _('La segona caixa'),
 					})
 				),
 				m(Cell,
-					m(ValidatedInput, {
+					m(ValidatedField, {
 						id: 'caixa3',
 						label: _('Caixa 3'),
 						help: _('I encara una tercera caixa'),
@@ -51,7 +51,7 @@ var PersonalDataEditor = {
 			]),
 			m(Row, [
 				m(Cell, {span:7},
-					m(ValidatedInput, {
+					m(ValidatedField, {
 						id: 'iban',
 						label: _('IBAN (compte bancari)'),
 						help: _('I encara una tercera caixa'),
@@ -65,7 +65,7 @@ var PersonalDataEditor = {
 					})
 				),
 				m(Cell, {span:5},
-					m(ValidatedInput, {
+					m(ValidatedField, {
 						id: 'vat',
 						label: _('NIF'),
 					})
@@ -119,7 +119,7 @@ var Form = {
 					title: _('Confirmation'),
 					prev: 'supply',
 				}, m(Row, [
-					m(Cell, {span:6}, m(ValidatedInput, {
+					m(Cell, {span:6}, m(ValidatedField, {
 						id: 'afield',
 						label: _('Field label'),
 						help: _('Field Help'),
@@ -129,7 +129,7 @@ var Form = {
 							Persona.field = value;
 						},
 					})),
-					m(Cell, {span:6}, m(ValidatedInput, {
+					m(Cell, {span:6}, m(ValidatedField, {
 						id: 'nif',
 						label: _('NIF/DNI'),
 						pattern: /[0-9A-Za-z]+/,
@@ -141,7 +141,7 @@ var Form = {
 							Persona.nif = value;
 						},
 					})),
-					m(Cell, {span:8}, m(ValidatedInput, {
+					m(Cell, {span:8}, m(ValidatedField, {
 						id: 'name',
 						label: _('Name'),
 						required: true,
