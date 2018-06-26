@@ -2,11 +2,13 @@
 var m = require('mithril');
 var _ = require('./translate');
 var css = require('./style.styl');
+var Layout = require('./mdc/layout');
+var Row = Layout.Row;
+var Cell = Layout.Cell;
 var Button = require('./mdc/button');
 var Select = require('./mdc/select');
 var TextField = require('./mdc/textfield');
-var ValidatedInput = require('./validatedinput');
-var ValidatedTextField = require('./validatedtextfield');
+var ValidatedField = require('./validatedfield');
 var Wizard = require('./wizard');
 var StateCityChooser = require('./statecity');
 var FarePower = require('./farepower');
@@ -28,21 +30,21 @@ var PersonalDataEditor = {
 			m(StateCityChooser),
 			m(Row, [
 				m(Cell,
-					m(ValidatedInput, {
+					m(ValidatedField, {
 						id: 'caixa1',
 						label: _('Caixa 1'),
 						help: _('La primera caixa'),
 					})
 				),
 				m(Cell,
-					m(ValidatedInput, {
+					m(ValidatedField, {
 						id: 'caixa2',
 						label: _('Caixa 2'),
 						help: _('La segona caixa'),
 					})
 				),
 				m(Cell,
-					m(ValidatedInput, {
+					m(ValidatedField, {
 						id: 'caixa3',
 						label: _('Caixa 3'),
 						help: _('I encara una tercera caixa'),
@@ -58,21 +60,18 @@ var PersonalDataEditor = {
 			]),
 			m(Row, [
 				m(Cell, {span:7},
-					m(ValidatedInput, {
+					m(ValidatedField, {
 						id: 'iban',
 						label: _('IBAN (compte bancari)'),
 						help: _('I encara una tercera caixa'),
 						defaulterror: _('Invalid IBAN'),
 						required: true,
 						checkurl: '/check/iban/',
-						value: Persona.iban,
-						onChange: function(value) {
-							Persona.iban = value;
-						},
+						fieldData: Persona.iban,
 					})
 				),
 				m(Cell, {span:5},
-					m(ValidatedInput, {
+					m(ValidatedField, {
 						id: 'vat',
 						label: _('NIF'),
 					})
@@ -116,60 +115,26 @@ var Subcomponent = {
 		}));
 	},
 };
-var Super = {
-	view: function(vn) {
-		function validator(ev) {
-			ev.target.setCustomValidity('');
-			vn.state.error = '';
-			var checkurl = 'https://api.somenergia.coop/check/vat/';
-			if (!ev.target.value) {
-				console.log("setting error empty");
-				// sync validation
-				// this does not work
-				Experiment.error = 'empty by attribute';
-				// this works
-				//ev.target.setCustomValidity('empty');
-				return;
-			}
-			m.request(checkurl+ev.target.value).then(function (response) {
-				// async validation
-				// ...
-				console.log(response);
-				if (response.state !== true) {
-					console.log("setting error api");
-					// This does not work
-					Experiment.error = 'Error from API';
-					// This does not work either
-					//ev.target.setCustomValidity('Error from API');
-				}
-				// ...
-			});
-		};
-		return [
-			m('style', 'input.experiment:invalid { background-color: red; }'),
-			m('style', 'input.experiment { background-color: green; }'),
-			m(Subcomponent, {
-				error: Experiment.error,
-				oninput: validator,
-			}),
-			m('button', { onclick: function (ev) { Experiment.error="Clicked"; }}, "Error"),
-			m('button', { onclick: function (ev) { Experiment.error=undefined; }}, "Clear"),
-		];
-	},	
-};
-
 
 var Form = {
 	farepower: undefined,
 	view: function(vn) {
 		return m('.form.mdc-typography', [
-			//m(Super),
-			//m(ValidatedInput.Example),
-			m(ValidatedTextField.Example),
-			//m(Button.Example),
+			m(Button.Example),
 			m(TextField.Example),
-			//m(Select.Example),
-			'' && m(Wizard, {showall:showall}, [
+			m(ValidatedField.Example),
+			m(Select.Example),
+			m(Layout,[
+				m(Row, m(Cell,{span:12}, m('h2', 'State/City chooser'))),
+				m(StateCityChooser),
+				m(FarePower, {
+					onchanged: function(state) {
+						vn.state.farepower = state;
+					}
+				}),
+				m(Row, m(Cell, {span:12}, JSON.stringify(vn.state.farepower,null,2))),
+			]),
+			m(Wizard, {showall:showall}, [
 				m('.page', {
 					id: 'holder',
 					title: _('Holder'),
@@ -188,20 +153,13 @@ var Form = {
 							return vn.state.farepower.currentError;
 						}
 					},
-				}, m(FarePower, {
-					onupdate: function(state) {
-						if (vn.state.farepower===undefined) {
-							vn.state.farepower = state;
-						}
-					}
 				}),
-				),
 				m('.page', {
 					id: 'confirm',
 					title: _('Confirmation'),
 					prev: 'supply',
 				}, m(Row, [
-					m(Cell, {span:6}, m(ValidatedInput, {
+					m(Cell, {span:6}, m(ValidatedField, {
 						id: 'afield',
 						label: _('Field label'),
 						help: _('Field Help'),
@@ -211,7 +169,7 @@ var Form = {
 							Persona.field = value;
 						},
 					})),
-					m(Cell, {span:6}, m(ValidatedInput, {
+					m(Cell, {span:6}, m(ValidatedField, {
 						id: 'nif',
 						label: _('NIF/DNI'),
 						pattern: /[0-9A-Za-z]+/,
@@ -223,7 +181,7 @@ var Form = {
 							Persona.nif = value;
 						},
 					})),
-					m(Cell, {span:8}, m(ValidatedInput, {
+					m(Cell, {span:8}, m(ValidatedField, {
 						id: 'name',
 						label: _('Name'),
 						required: true,

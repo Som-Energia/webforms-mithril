@@ -6,11 +6,12 @@ var MDCTextField = require('@material/textfield');
 require('@material/textfield/dist/mdc.textfield.css');
 var TextField = require('./mdc/textfield');
 
-var ValidatedInput = {
+var ValidatedField = {
 	oninit: function(vnode) {
-		vnode.state.value = vnode.attrs.value;
-		vnode.state.isvalid = vnode.attrs.checkurl===undefined;
-		vnode.state.errormessage = undefined;
+		vnode.state.fieldData = vnode.attrs.fieldData || {};
+		vnode.state.fieldData.value = vnode.attrs.value;
+		vnode.state.fieldData.isvalid = vnode.attrs.checkurl===undefined;
+		vnode.state.fieldData.errormessage = undefined;
 		vnode.state._lastPromise = undefined;
 	},
 	oncreate: function(vnode) {
@@ -34,8 +35,8 @@ var ValidatedInput = {
 			wait:   _('Checking...'),
 		};
 
-		var state = (vnode.state.value===undefined)? (vnode.attrs.required!==undefined?'missing':'empty') : (
-			vnode.state.isvalid===undefined?'wait':vnode.state.isvalid===false?'ko':'ok');
+		var state = (vnode.state.fieldData.value===undefined)? (vnode.attrs.required!==undefined?'missing':'empty') : (
+			vnode.state.fieldData.isvalid===undefined?'wait':vnode.state.fieldData.isvalid===false?'ko':'ok');
 
 		var statusIcon = statusIcons[state] || undefined;
 		var statusMessage = statusMessages[state] || '';
@@ -43,26 +44,21 @@ var ValidatedInput = {
 		function validateInput(ev) {
 			var newValue = ev.target.value;
 			function fielderror(message) {
-				//vnode.state.mdcinstance.valid = false;
-				vnode.state.isvalid = false;
-				vnode.state.errormessage = message;
+				vnode.state.fieldData.isvalid = false;
+				vnode.state.fieldData.errormessage = message;
 				ev.target.setCustomValidity(message);
 				ev.target.value = newValue||'';
 			}
 			function acceptValue(newValue) {
-				//vnode.state.mdcinstance.valid = true;
-				vnode.state.isvalid = true;
-				vnode.state.errormessage = undefined;
-				ev.target.setCustomValidity('Checking...');
-				console.log('accepting', newValue);
+				vnode.state.fieldData.isvalid = true;
+				vnode.state.fieldData.errormessage = undefined;
 				vnode.attrs.onvalidated && vnode.attrs.onvalidated(newValue);
+				ev.target.setCustomValidity('');
 			}
 			function waitValue(newValue) {
-				//vnode.state.mdcinstance.valid = true;
-				ev.target.setCustomValidity('');
-				vnode.state.value = newValue;
-				vnode.state.isvalid = undefined; // status checking
-				vnode.state.errormessage = undefined;
+				vnode.state.fieldData.value = newValue;
+				vnode.state.fieldData.isvalid = undefined; // status checking
+				vnode.state.fieldData.errormessage = undefined;
 			}
 			if (newValue === '') { newValue = undefined; }
 			waitValue(newValue);
@@ -72,9 +68,15 @@ var ValidatedInput = {
 				}
 				return acceptValue(newValue||'');
 			}
+			// Synchronous validation (via provided function)
+			if (vnode.attrs.validator!==undefined) {
+				var error = vnode.attrs.validator(newValue);
+				if (error) { return fielderror(error); }
+			}
 			if (vnode.attrs.checkurl === undefined) {
 				return acceptValue(newValue||''); 
 			}
+			// Asynchronous validation (via API)
 			if (vnode.state._lastPromise!==undefined) {
 				vnode.state._lastPromise.abort();
 			}
@@ -82,7 +84,7 @@ var ValidatedInput = {
 			vnode.state._lastPromise=promise;
 			promise.value = newValue;
 			promise.then(function(result) {
-				if (promise.value != vnode.state.value) {
+				if (promise.value != vnode.state.fieldData.value) {
 					return; // value changed while waiting, ignore
 				}
 				if (result.state === false) {
@@ -92,8 +94,9 @@ var ValidatedInput = {
 					fielderror(undefined);
 					acceptValue(newValue); 
 				}
+				console.debug(result);
 				if (result.data !== undefined) {
-					vnode.state.data = result.data;
+					vnode.state.fieldData.data = result.data;
 					if (result.data.invalid_fields !== undefined) {
 						fielderror(result.data.invalid_fields[0].error);
 					}
@@ -102,11 +105,6 @@ var ValidatedInput = {
 				fielderror(reason || _('Unknown Error'));
 			});
 		};
-		if (vnode.attrs.id==='vat') {
-			console.log('errormessage', vnode.state.errormessage);
-			console.log('statusMessage', statusMessage);
-			console.log('help', vnode.attrs.help);
-		}
 		return m(TextField, Object.assign({
 			// defaults
 			}, vnode.attrs, {
@@ -114,7 +112,6 @@ var ValidatedInput = {
 			onchange: validateInput,
 			oninput: validateInput,
 			value: vnode.state.value,
-			valid: vnode.state.isvalid,
 			faicon: statusIcon,
 			errormessage: vnode.state.errormessage,
 			help: statusMessage || vnode.attrs.help,
@@ -124,10 +121,10 @@ var ValidatedInput = {
 
 const Example = {};
 Example.Persona = {
-	field: undefined,
-	name: undefined,
-	nif: undefined,
-	nifValidation: {},
+	iban: {},
+	vat: {},
+	name: {},
+	cups: {},
 };
 
 Example.view = function(vn) {
@@ -136,10 +133,10 @@ Example.view = function(vn) {
 		m(Layout.Row, m(Layout.Cell, m('h2', 'Validated input'))),
 		m(Layout.Row, [
 		m(Layout.Cell, {span:7},
-			m(ValidatedInput, {
+			m(ValidatedField, {
 				id: 'iban',
 				label: _('IBAN (compte bancari)'),
-				help: _('El codi internacional de la compte corrent'),
+				help: _('Un com aquest: ES77 1234 1234 1612 3456 7890'),
 				defaulterror: _('Invalid IBAN'),
 				required: true,
 				maxlength: 29,
@@ -152,66 +149,52 @@ Example.view = function(vn) {
 					return value
 				},
 				checkurl: '/check/iban/',
-				value: ValidatedInput.Example.Persona.iban,
-				onvalidated: function(value) {
-					ValidatedInput.Example.Persona.iban = value;
-				},
+				fieldData: Example.Persona.iban,
 			})
 		),
 		m(Layout.Cell, {span:5},
-			m(ValidatedInput, {
+			m(ValidatedField, {
 				label: _('NIF'),
 				required: true,
 				id: 'vat',
 				inputfilter: /[a-zA-Z0-9]{0,9}/,
 				pattern: "[0-9]{8}[a-zA-Z]",
 				checkurl: '/check/vat/',
-				value: ValidatedInput.Example.Persona.vat,
-				onvalidated: function(value) {
-					ValidatedInput.Example.Persona.vat = value;
-				},
+				fieldData: Example.Persona.vat,
 				help: _('NIF/DNI/NIE'),
 			})
 		),
 		m(Layout.Cell, {span:12}, [
-			m(ValidatedInput, {
+			m(ValidatedField, {
+				id: 'cups',
+				label: _('CUPS'),
+				help: _('"ES" followed by 16 numbers and two check letters'),
+				checkurl: '/check/cups/',
+				inputfilter: function(value) {
+					return value.toUpperCase();
+				},
+				fieldData: ValidatedField.Example.Persona.cups,
+			}),
+			m(ValidatedField, {
 				id: 'afield',
 				label: _('Field label'),
 				help: _('Field Help'),
-				icon: '.fa-spinner.fa-spin',
-				value: ValidatedInput.Example.Persona.field,
-				onvalidated: function(value) {
-					ValidatedInput.Example.Persona.field = value;
-				},
+				faicon: 'spinner.fa-spin',
+				fieldData: ValidatedField.Example.Persona.field,
 			}),
-			m(ValidatedInput, {
-				id: 'nif',
-				label: _('NIF/DNI'),
-				pattern: /[0-9A-Za-z]+/,
-				defaulterror: _('Invalid VAT'),
-				checkurl: '/check/vat/',
-				help: _('Tax ID'),
-				value: ValidatedInput.Example.Persona.nif,
-				onvalidated: function(value) {
-					ValidatedInput.Example.Persona.nif = value;
-				},
-			}),
-			m(ValidatedInput, {
+			m(ValidatedField, {
 				id: 'name',
 				label: _('Name'),
 				required: true,
 				help: _('Ayuda'),
-				value: ValidatedInput.Example.Persona.name,
-				onvalidated: function(value) {
-					ValidatedInput.Example.Persona.name = value;
-				},
+				fieldData: ValidatedField.Example.Persona.name,
 			}),
-			m('', ValidatedInput.Example.Persona.name, '(', ValidatedInput.Example.Persona.nif, ')'),
+			m('tt', JSON.stringify(ValidatedField.Example.Persona,null,2)),
 		]),
 	]));
 };
 
-ValidatedInput.Example = Example;
-module.exports = ValidatedInput
+ValidatedField.Example = Example;
+module.exports = ValidatedField
 
 // vim: noet ts=4 sw=4
