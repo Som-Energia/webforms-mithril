@@ -98,6 +98,7 @@ var HolderPage = function() {
 			})),
 			passwordRequired? m(Cell, {span:4}, m(ValidatedField, {
 				type: 'password',
+				boxed: true,
 			})):'',
 		]),
 		detailsRequired || true? [
