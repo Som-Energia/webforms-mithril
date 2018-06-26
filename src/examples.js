@@ -2,18 +2,16 @@
 var m = require('mithril');
 var _ = require('./translate');
 var css = require('./style.styl');
-var Layout = require('./mdc/layout');
-var Row = Layout.Row;
-var Cell = Layout.Cell;
 var Button = require('./mdc/button');
 var Select = require('./mdc/select');
 var TextField = require('./mdc/textfield');
-var Wizard = require('./wizard');
 var ValidatedInput = require('./validatedinput');
+var ValidatedTextField = require('./validatedtextfield');
+var Wizard = require('./wizard');
 var StateCityChooser = require('./statecity');
 var FarePower = require('./farepower');
-require('font-awesome/css/font-awesome.css');
 
+require('font-awesome/css/font-awesome.css');
 require('@material/typography/dist/mdc.typography.css').default;
 
 
@@ -91,15 +89,88 @@ var PersonalDataEditor = {
 var showall=false;
 var skip = function (c) { return []; }
 
+
+var Experiment = {
+	error: undefined,
+};
+var Subcomponent1 = {
+	view: function(vn) {
+		return m('input.experiment[type=text]', Object.assign(vn.attrs, {
+			invalid: vn.attrs.error, // This does not work, offcourse
+		}));
+	},
+};
+
+var Subcomponent = {
+	oncreate: function(vn) {
+		vn.state.input = vn.dom.querySelector('input');
+	},
+	onupdate: function(vn) {
+		var input = vn.dom.querySelector('input');
+		input = vn.dom;
+		console.log('updating', vn.attrs.error, input);
+		input && input.setCustomValidity(vn.attrs.error||'');
+	},
+	view: function(vn) {
+		return m('input.experiment[type=text]', Object.assign(vn.attrs, {
+		}));
+	},
+};
+var Super = {
+	view: function(vn) {
+		function validator(ev) {
+			ev.target.setCustomValidity('');
+			vn.state.error = '';
+			var checkurl = 'https://api.somenergia.coop/check/vat/';
+			if (!ev.target.value) {
+				console.log("setting error empty");
+				// sync validation
+				// this does not work
+				Experiment.error = 'empty by attribute';
+				// this works
+				//ev.target.setCustomValidity('empty');
+				return;
+			}
+			m.request(checkurl+ev.target.value).then(function (response) {
+				// async validation
+				// ...
+				console.log(response);
+				if (response.state !== true) {
+					console.log("setting error api");
+					// This does not work
+					Experiment.error = 'Error from API';
+					// This does not work either
+					//ev.target.setCustomValidity('Error from API');
+				}
+				// ...
+			});
+		};
+		return [
+			m('style', 'input.experiment:invalid { background-color: red; }'),
+			m('style', 'input.experiment { background-color: green; }'),
+			m(Subcomponent, {
+				error: Experiment.error,
+				oninput: validator,
+			}),
+			m('button', { onclick: function (ev) { Experiment.error="Clicked"; }}, "Error"),
+			m('button', { onclick: function (ev) { Experiment.error=undefined; }}, "Clear"),
+		];
+	},	
+};
+
+
 var Form = {
 	farepower: undefined,
 	view: function(vn) {
 		return m('.form.mdc-typography', [
-			m(Button.Example),
+			//m(Super),
+			//m(ValidatedInput.Example),
+			m(ValidatedTextField.Example),
+			//m(Button.Example),
 			m(TextField.Example),
-			m(Select.Example),
-			m(Wizard, {showall:showall}, [
-				m('.page.red', {
+			//m(Select.Example),
+			'' && m(Wizard, {showall:showall}, [
+				m('.page', {
 					id: 'holder',
 					title: _('Holder'),
 					next: 'supply',

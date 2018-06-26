@@ -8,7 +8,23 @@ var TextField = {
 	oncreate: function(vn) {
 		var mdcinput = vn.dom.querySelector('.mdc-text-field');
 		this.mdcinstance = new MDCTextField.MDCTextField(mdcinput);
+		var errormessage = vn.attrs.errormessage || vn.state.errormessage || '';
+		vn.state.mdcinstance.valid = !errormessage;
+		var nativeInput = vn.dom.querySelector('.mdc-text-field__input');
+		nativeInput.setCustomValidity(errormessage);
 	},
+
+	onupdate: function(vn) {
+		var errormessage = vn.attrs.errormessage || vn.state.errormessage || '';
+		var valid = !errormessage;
+		vn.attrs.id==='iban' && console.log(vn.attrs.id, "valid", valid);
+		if (vn.state.mdcinstance.valid !== !errormessage) {
+			vn.state.mdcinstance.valid = !errormessage;
+		}
+		var nativeInput = vn.dom.querySelector('.mdc-text-field__input');
+		nativeInput.setCustomValidity(errormessage);
+	},
+
 	view: function (vn) {
 		var attrs = Object.assign({}, vn.attrs);
 		// Remove the custom attributes no to be applied to the native input
@@ -16,6 +32,7 @@ var TextField = {
 		const fullwidth = pop(attrs, 'fullwidth');
 		const boxed = pop(attrs, 'boxed');
 		const outlined = pop(attrs, 'outlined');
+		const errormessage = pop(attrs, 'errormessage') || vn.state.errormessage;
 		const dense = pop(attrs, 'dense');
 		const disabled = pop(attrs, 'disabled');
 		const help = pop(attrs, 'help');
@@ -35,14 +52,19 @@ var TextField = {
 			oninput: function(ev) {
 				var value = ev.target.value;
 				if (inputfilter) {
-					ev.target.value =
-						inputfilter instanceof Function ?
-							inputfilter(value):
-							ev.target.value = RegExp(inputfilter).exec(value)[0];
+					var selectionStart = ev.target.selectionStart;
+					ev.target.value = inputfilter instanceof Function ?
+						inputfilter(value, selectionStart):
+						ev.target.value = RegExp(inputfilter).exec(value)[0];
+					if (selectionStart<value.length) {
+						ev.target.selectionStart=selectionStart;
+						ev.target.selectionEnd=selectionStart;
+					}
 				}
+				ev.target.setCustomValidity('');
 				if (attrs.oninput) attrs.oninput(ev);
-				vn.state.errorMessage = ev.target.validationMessage;
-			}
+				vn.state.errormessage = ev.target.validationMessage;
+			},
 		});
 
 		return m('.mdc-form-field', [
@@ -51,7 +73,6 @@ var TextField = {
 				+(fullwidth?'.mdc-text-field--fullwidth':'')
 				+(boxed?'.mdc-text-field--box':'')
 				+(outlined?'.mdc-text-field--outlined':'')
-
 				+(faicon?'.mdc-text-field--with-trailing-icon':'')
 				+(leadingfaicon?'.mdc-text-field--with-leading-icon':'')
 				+(dense?'.mdc-text-field--dense':'')
@@ -63,7 +84,6 @@ var TextField = {
 				m('input.mdc-text-field__input', nativeattrs),
 				fullwidth||outlined&&false?'':m('label'
 					+'.mdc-floating-label'
-					+(vn.attrs.value?'.mdc-floating-label--float-above':'')
 					,
 					{'for': vn.attrs.id}, [
 					vn.attrs.label,
@@ -76,12 +96,12 @@ var TextField = {
 			]),
 			m('.mdc-text-field-helper-text'+
 				'.mdc-text-field-helper-text--persistent'+
-				(vn.state.errorMessage||true?'.mdc-text-field-helper-text--validation-msg':'')+
+				(errormessage?'.mdc-text-field-helper-text--validation-msg':'')+
 				'', {
 				id: help_id,
 				'aria-hidden': true,
 				},
-				vn.state.errorMessage || help || m.trust('&nbsp;')
+				errormessage || help || m.trust('&nbsp;')
 			),
 		]);
 	},
@@ -92,6 +112,12 @@ TextField.Example.view = function(vn) {
 	const Layout = require('./layout');
 	return m(Layout, m('h2', 'TextFields'),
 		m(Layout.Row, [
+			{
+				id: 'errormessageexample',
+				label: _('Attribute errormessage'),
+				help: _('Setting the error as attribute'),
+				errormessage: 'You guilty',
+			},
 			{
 				id: 'required',
 				label: _('Required field'),
@@ -122,17 +148,17 @@ TextField.Example.view = function(vn) {
 				id: 'inputvalidator',
 				label: _('Standard and custom validation'),
 				value: vn.state.value1,
-				pattern: '.{0,7}',
+				inputfilter: '[^d]*', // you can not input dees
+				pattern: '[^p]*', // standard complains on pees
 				oninput: function(ev) {
-					ev.target.setCustomValidity('');
+					// custom complains on tees
 					if (ev.target.value.indexOf('t')!==-1) {
 						ev.target.setCustomValidity('\'t\' are forbidden');
 					}
 					vn.state.value1=ev.target.value;
 					vn.state.value1error = ev.target.validationMessage;
 				},
-				errorMessage: vn.state.value1error,
-				help: _('up to 7 not tees'),
+				help: _('not pees, tees, or dees'),
 			},
 			{
 				id: 'inputfilter',
