@@ -67,7 +67,8 @@ var StateCityChooser = {
 					onchange: function (ev) {
 						self.state = ev.target.value;
 						self.updateCities(self.state);
-						vn.attrs.onchange && vn.attrs.onchange(self)
+						console.log(vn.attrs.onvaluechanged);
+						vn.attrs.onvaluechanged && vn.attrs.onvaluechanged(self)
 					},
 				})
 			),
@@ -86,7 +87,7 @@ var StateCityChooser = {
 					value: self.city || '',
 					onchange: function (ev) {
 						self.city = ev.target.value;
-						vn.attrs.onchange && vn.attrs.onchange(self)
+						vn.attrs.onvaluechanged && vn.attrs.onvaluechanged(self)
 					},
 				})
 			),
