@@ -143,9 +143,9 @@ Example.view = function(vn) {
 				inputfilter: function(value) {
 					if (!value) return value;
 					// Separate it in 4 chunks
-					value=value.toUpperCase()
+					value=value.toUpperCase();
 					value=value.split(' ').join('');
-					value=value.match(/.{1,4}/g).join(' ')
+					value=value.match(/.{1,4}/g).join(' ');
 					return value
 				},
 				checkurl: '/check/iban/',
