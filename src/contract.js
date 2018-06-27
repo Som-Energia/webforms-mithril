@@ -111,10 +111,15 @@ var HolderPage = function() {
 					holder.vat.exists=true;
 				}
 			})),
-			passwordRequired? m(Cell, {span:4}, m(ValidatedField, {
+			m(Cell, {hidden: !passwordRequired, span:4}, m(TextField, {
+				label: _('Password'),
+				leadingfaicon: 'key',
 				type: 'password',
 				boxed: true,
-			})):'',
+			})),
+			m(Cell, {hidden: !passwordRequired, span:4}, m(Button, {
+				unelevated: true,
+			},_('Login'))),
 		]),
 		detailsRequired || true? [
 			m(Row, [
