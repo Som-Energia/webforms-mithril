@@ -22,6 +22,7 @@ var showall = false;
 var Contract = {
 	holder: {
 		vat: { data: {}},
+		privacypolicyaccepted: false,
 		isphisical: function() {
 			if (this.vat===undefined) return undefined;
 			if (this.vat.value===undefined) return undefined;
@@ -237,7 +238,7 @@ var HolderPage = function() {
 			m(Row, [
 				m(Cell, {span:12}, m(Select, {
 					id: 'lang',
-					label: _('CHOOSE_LANGUAGE'),
+					label: _('Language'),
 					options: [
 						{id: 'es', text: 'Español'},
 						{id: 'ca', text: 'Català'},
@@ -245,6 +246,7 @@ var HolderPage = function() {
 					onchange: function(ev) {
 						holder.language = ev.target.value;
 					},
+					help: _('Choose the language we will address you'),
 					required: true,
 					boxed: true,
 				})),
@@ -252,7 +254,8 @@ var HolderPage = function() {
 			m(Row, [
 				m(Cell, {span:12}, m(Checkbox, {
 					id: 'privacypolicy',
-					label: _('ACCEPT_PRIVACY_POLIC'),
+					label: m.trust(_('ACCEPT_PRIVACY_POLICY', {
+						url: _('ACCEPT_PRIVACY_POLICY_URL')})),
 					checked: holder.privacypolicyaccepted,
 					onchange: function(ev) {
 						holder.privacypolicyaccepted = ev.target.checked;

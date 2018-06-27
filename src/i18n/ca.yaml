@@ -9,4 +9,8 @@ Previous: Anterior
 Submit: Enviar
 CONTRACT_INTRO:
     Per contractar la llum amb Som Energia... bla bla
+ACCEPT_PRIVACY_POLICY:
+    He llegit i accepto la <strong><a target="_blank" href="%{url}">política de privacitat</a></strong> de Som Energia',
+ACCEPT_PRIVACY_POLICY_URL:
+    //www.somenergia.coop/ca/politica-de-privacitat-cookies-i-avis-legal/
 
