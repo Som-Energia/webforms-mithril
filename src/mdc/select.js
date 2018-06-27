@@ -12,7 +12,7 @@ var Select = {
 	view: function(vn) {
 		const options = vn.attrs.options || [];
 		const help_id = vn.attrs.id+'_help';
-		return m('.mdc-form-field', [
+		return m('', [
 			m('.mdc-select'+(vn.attrs.boxed?'.mdc-select--box':''), {
 				style: {width: '100%'},
 				},[

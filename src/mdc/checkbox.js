@@ -4,8 +4,7 @@ var _ = require('../translate');
 var MDCCheckbox = require('@material/checkbox');
 var MDCFormField = require('@material/form-field');
 require('@material/checkbox/dist/mdc.checkbox.css');
-// TODO: Choose: proper layout for checkboxes or textfields/selects
-//require('@material/form-field/dist/mdc.form-field.css');
+require('@material/form-field/dist/mdc.form-field.css');
 
 var Checkbox = {
 	oncreate: function(vn) {

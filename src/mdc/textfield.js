@@ -66,7 +66,7 @@ var TextField = {
 			},
 		});
 
-		return m('.mdc-form-field', [
+		return m('', [
 			m(''
 				+'.mdc-text-field'
 				+(fullwidth?'.mdc-text-field--fullwidth':'')
