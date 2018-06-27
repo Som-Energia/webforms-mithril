@@ -8,6 +8,7 @@ var Row = Layout.Row;
 var Cell = Layout.Cell;
 var Button = require('./mdc/button');
 var Select = require('./mdc/select');
+var Checkbox = require('./mdc/checkbox');
 var TextField = require('./mdc/textfield');
 var ValidatedField = require('./validatedfield');
 var StateCityChooser = require('./statecity');
@@ -27,6 +28,11 @@ var Contract = {
 			var firstchar = this.vat.value[0];
 			return '0123456789KLMXYZ'.indexOf(firstchar) !== -1;
 		},
+	},
+
+	postdata: function() {
+		return {
+		};
 	},
 };
 
@@ -126,6 +132,36 @@ var HolderPage = function() {
 					}))
 				:'',
 			]),
+			m(Row, [
+				m(Cell, {span:8}, m(TextField, {
+					id: 'streetaddress',
+					label: _('Street address'),
+					leadingfaicon: 'home',
+					value: holder.streetaddress,
+					oninput: function(ev) {
+						holder.streetaddress = ev.target.value;
+					},
+					required: true,
+					boxed: true,
+					
+				})),
+				m(Cell, {span:4}, m(TextField, {
+					id: 'postalcode',
+					label: _('Postal code'),
+					value: holder.postalcode,
+					maxlength: 5,
+					oninput: function(ev) {
+						holder.postalcode = ev.target.value;
+					},
+					inputfilter: function(value) {
+						value = value.replace(/[^0-9]/,'');
+						return value;
+					},
+					required: true,
+					boxed: true,
+					
+				})),
+			]),
 			m(StateCityChooser, {
 				onvaluechanged: function(chooser) {
 					console.log(chooser, holder);
@@ -137,19 +173,93 @@ var HolderPage = function() {
 					});
 				},
 			}),
-			m(Row,
-				m(Cell, {span:12}, m(TextField, {
-					id: 'streetaddress',
-					label: _('Street address'),
-					value: holder.streetaddress,
+			m(Row, [
+				m(Cell, {span:6}, m(TextField, {
+					id: 'phone1',
+					label: _('Phone'),
+					maxlength: 10,
+					leadingfaicon: 'phone',
+					value: holder.phone1,
 					oninput: function(ev) {
-						holder.streetaddress = ev.target.value;
+						holder.phone1 = ev.target.value;
+					},
+					inputfilter: function(value) {
+						value = value.replace(/[^0-9]/,'');
+						return value;
 					},
 					required: true,
 					boxed: true,
 					
 				})),
-			),
+				m(Cell, {span:6}, m(TextField, {
+					id: 'phone2',
+					label: _('Additional phone (optional)'),
+					maxlength: 10,
+					leadingfaicon: 'phone',
+					value: holder.phone2,
+					oninput: function(ev) {
+						holder.phone2 = ev.target.value;
+					},
+					inputfilter: function(value) {
+						value = value.replace(/[^0-9]/,'');
+						return value;
+					},
+					boxed: true,
+					
+				})),
+			]),
+			m(Row, [
+				m(Cell, {span:6}, m(TextField, {
+					id: 'email',
+					label: _('e-mail'),
+					type: 'email',
+					leadingfaicon: 'envelope',
+					value: holder.email,
+					oninput: function(ev) {
+						holder.email = ev.target.value;
+					},
+					help: _('This address will identify you'),
+					boxed: true,
+				})),
+				m(Cell, {span:6}, m(TextField, {
+					id: 'email2',
+					label: _('e-mail (repeat)'),
+					type: 'email',
+					leadingfaicon: 'envelope',
+					value: holder.email2,
+					oninput: function(ev) {
+						holder.email2 = ev.target.value;
+					},
+					help: _('Repeat the e-mail address to be sure'),
+					boxed: true,
+				})),
+			]),
+			m(Row, [
+				m(Cell, {span:12}, m(Select, {
+					id: 'lang',
+					label: _('CHOOSE_LANGUAGE'),
+					options: [
+						{id: 'es', text: 'Español'},
+						{id: 'ca', text: 'Català'},
+					],
+					onchange: function(ev) {
+						holder.language = ev.target.value;
+					},
+					required: true,
+					boxed: true,
+				})),
+			]),
+			m(Row, [
+				m(Cell, {span:12}, m(Checkbox, {
+					id: 'privacypolicy',
+					label: _('ACCEPT_PRIVACY_POLIC'),
+					checked: holder.privacypolicyaccepted,
+					onchange: function(ev) {
+						holder.privacypolicyaccepted = ev.target.checked;
+					},
+					required: true,
+				})),
+			]),
 		]:'',
 
 	]);
