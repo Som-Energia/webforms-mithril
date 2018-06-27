@@ -56,7 +56,33 @@ var Example = {
 			m(Layout.Row, m(Layout.Cell, {span:12},
 				m('h2', 'Checkboxes'))),
 			m(Layout.Row,[
-				m(Layout.Cell,{span:4},
+				m(Layout.Cell,{span:3}, [
+					m(Checkbox, {
+						id: 'applesv',
+						label: _('I like apples'),
+						checked: self.model.apples,
+						onchange: function(ev) {
+							vn.state.model.apples = ev.target.checked;
+						},
+					}),
+					m(Checkbox, {
+						id: 'pearsv',
+						label: _('I like pears, mellons, pineapples, grapes, strawberries...'),
+						checked: self.model.pears,
+						onchange: function(ev) {
+							vn.state.model.pears = ev.target.checked;
+						},
+					}),
+					m(Checkbox, {
+						id: 'tomatoesv',
+						label: _('I like tomatoes'),
+						checked: self.model.tomatoes,
+						onchange: function(ev) {
+							vn.state.model.tomatoes = ev.target.checked;
+						},
+					})
+				]),
+				m(Layout.Cell,{span:3},
 					m(Checkbox, {
 						id: 'apples',
 						label: _('I like apples'),
@@ -64,19 +90,19 @@ var Example = {
 						onchange: function(ev) {
 							vn.state.model.apples = ev.target.checked;
 						},
-					})
+					}),
 				),
-				m(Layout.Cell,{span:4},
+				m(Layout.Cell,{span:3},
 					m(Checkbox, {
 						id: 'pears',
-						label: _('I like pears'),
+						label: _('I like pears, mellons, pineapples, grapes, strawberries...'),
 						checked: self.model.pears,
 						onchange: function(ev) {
 							vn.state.model.pears = ev.target.checked;
 						},
 					})
 				),
-				m(Layout.Cell,{span:4},
+				m(Layout.Cell,{span:3},
 					m(Checkbox, {
 						id: 'tomatoes',
 						label: _('I like tomatoes'),
