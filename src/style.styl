@@ -78,6 +78,17 @@ body, html {
     }
 }
 
+// Tab panels
+[role="tabpanel"][aria-hidden='true'] {
+    display: none;
+}
+
+// Still seeing the current tab in showall mode
+[role="tabpanel"][aria-hidden='false']:not(.active) {
+    opacity: .5;
+}
+
+
 .orange {
     color: #aa4 !important;
 }

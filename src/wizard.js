@@ -52,9 +52,12 @@ var Wizard = {
 			m('span.mdc-tab-bar__indicator'),
 			vn.children.map(function(page) {
 				var active = self.currentPage === page.attrs.id;
-				var style = active||vn.attrs.showall?{}:{display: 'none'};
 				var errors = page.attrs.validator && page.attrs.validator();
-				return m('', {style: style}, [
+				return m('.tabpanel[role=tabpanel]'+
+						(active?'.active':'')+
+						'', {
+						'aria-hidden': (!active && !vn.attrs.showall)?'true':'false',
+					}, [
 					m(Layout, [
 						page.children,
 						m(Row, {align: 'right'}, [
