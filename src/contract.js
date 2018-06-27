@@ -12,6 +12,7 @@ var Checkbox = require('./mdc/checkbox');
 var TextField = require('./mdc/textfield');
 var ValidatedField = require('./validatedfield');
 var StateCityChooser = require('./statecity');
+var LanguageChooser = require('./languagechooser');
 var FarePower = require('./farepower');
 require('font-awesome/css/font-awesome.css');
 require('@material/typography/dist/mdc.typography.css').default;
@@ -26,6 +27,10 @@ Mousetrap.bind('ctrl+y', function() {
 	return false;
 });
 
+var languages = [
+	{id: 'es', name: 'Español'},
+	{id: 'ca', name: 'Català'},
+];
 
 var Contract = {
 	holder: {
@@ -178,7 +183,6 @@ var HolderPage = function() {
 			]),
 			m(StateCityChooser, {
 				onvaluechanged: function(chooser) {
-					console.log(chooser, holder);
 					holder.state = chooser.states.find(function(v) {
 						return v.id==chooser.state;
 					});
@@ -248,22 +252,16 @@ var HolderPage = function() {
 					boxed: true,
 				})),
 			]),
-			m(Row, [
-				m(Cell, {span:12}, m(Select, {
-					id: 'lang',
-					label: _('Language'),
-					options: [
-						{id: 'es', text: 'Español'},
-						{id: 'ca', text: 'Català'},
-					],
-					onchange: function(ev) {
-						holder.language = ev.target.value;
-					},
-					help: _('Choose the language we will address you'),
-					required: true,
-					boxed: true,
-				})),
-			]),
+			m(LanguageChooser, {
+				id: 'lang',
+				onvaluechanged: function(chooser) {
+					holder.language = chooser.languages.find(function(v) {
+						return v.code==chooser.language;
+					});
+				},
+				help: _('Choose the language we will address you'),
+				required: true,
+			}),
 			m(Row, [
 				m(Cell, {span:12}, m(Checkbox, {
 					id: 'privacypolicy',
