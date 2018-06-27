@@ -15,9 +15,17 @@ var StateCityChooser = require('./statecity');
 var FarePower = require('./farepower');
 require('font-awesome/css/font-awesome.css');
 require('@material/typography/dist/mdc.typography.css').default;
-
+var Mousetrap = require('mousetrap');
 
 var showall = false;
+
+Mousetrap.bind('ctrl+y', function() {
+	showall = !showall;
+	m.redraw();
+	console.log('showall', showall);
+	return false;
+});
+
 
 var Contract = {
 	holder: {
