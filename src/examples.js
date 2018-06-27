@@ -90,33 +90,6 @@ var showall=false;
 var skip = function (c) { return []; }
 
 
-var Experiment = {
-	error: undefined,
-};
-var Subcomponent1 = {
-	view: function(vn) {
-		return m('input.experiment[type=text]', Object.assign(vn.attrs, {
-			invalid: vn.attrs.error, // This does not work, offcourse
-		}));
-	},
-};
-
-var Subcomponent = {
-	oncreate: function(vn) {
-		vn.state.input = vn.dom.querySelector('input');
-	},
-	onupdate: function(vn) {
-		var input = vn.dom.querySelector('input');
-		input = vn.dom;
-		console.log('updating', vn.attrs.error, input);
-		input && input.setCustomValidity(vn.attrs.error||'');
-	},
-	view: function(vn) {
-		return m('input.experiment[type=text]', Object.assign(vn.attrs, {
-		}));
-	},
-};
-
 var Form = {
 	farepower: undefined,
 	view: function(vn) {
