@@ -7,6 +7,7 @@ var Row = Layout.Row;
 var Cell = Layout.Cell;
 var Button = require('./mdc/button');
 var Select = require('./mdc/select');
+var Checkbox = require('./mdc/checkbox');
 var TextField = require('./mdc/textfield');
 var ValidatedField = require('./validatedfield');
 var Wizard = require('./wizard');
@@ -120,6 +121,7 @@ var Form = {
 	farepower: undefined,
 	view: function(vn) {
 		return m('.form.mdc-typography', [
+			m(Checkbox.Example),
 			m(Button.Example),
 			m(TextField.Example),
 			m(ValidatedField.Example),
