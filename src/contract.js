@@ -42,6 +42,77 @@ var Contract = {
 			var firstchar = this.vat.value[0];
 			return '0123456789KLMXYZ'.indexOf(firstchar) !== -1;
 		},
+		validate: function() {
+			console.log('validating',this);
+			var self = this;
+			function error(message) {
+				if (self.error !== message) {
+					console.log(message);
+					self.error = message;
+				}
+				return false;
+			}
+			if (!this.vat.isvalid) {
+				console.log('nif valid', this.vat);
+				return error('NO_NIF');
+			}
+			this.usertype = this.isphisical()?'person':'company';
+
+			// TODO: Obsolete
+			if (this.usertype === undefined) {
+				return error('NO_PERSON_TYPE');
+			}
+			if (this.name === undefined) {
+				return error('NO_NAME');
+			}
+			if (this.usertype === 'person') {
+				if (this.surname === undefined) {
+					return error('NO_SURNAME');
+				}
+			}
+			// TODO:  This is not implemented yet
+			if (this.usertype === 'company') {
+				if (this.representantname === undefined) {
+					return error('NO_PROXY_NAME');
+				}
+				if (this.representantdni === undefined ||
+					this.dniRepresentantIsInvalid !== false) {
+					return error('NO_PROXY_NIF');
+				}
+			}
+			if (this.address === undefined) {
+				return error('NO_ADDRESS');
+			}
+			if (this.postalcode === undefined) {
+				return error('NO_POSTALCODE');
+			}
+			if (this.state === undefined) {
+				return error('NO_STATE');
+			}
+			if (this.city === undefined) {
+				return error('NO_CITY');
+			}
+
+			if (this.email === undefined ||
+				this.emailError) {
+				return error('NO_EMAIL');
+			}
+			if (this.email2 === undefined ||
+				this.email !== this.email2) {
+				return error('NO_REPEATED_EMAIL');
+			}
+			if (this.phone1 === undefined) {
+				return error('NO_PHONE');
+			}
+			if (this.language === undefined) {
+				return error('NO_LANGUAGE');
+			}
+			if (this.privacypolicyaccepted !== true) {
+				return error('UNACCEPTED_PRIVACY_POLICY');
+			}
+			this.error = undefined;
+			return true;
+		},
 	},
 
 	postdata: function() {
@@ -67,7 +138,6 @@ Form.view = function(vn) {
 	];
 };
 
-
 var IntroPage = function() {
 	return m('.page', {
 		id: 'intro',
@@ -77,6 +147,7 @@ var IntroPage = function() {
 		m('.intro',_('CONTRACT_INTRO')),
 	))]);
 };
+
 
 var HolderPage = function() {
 	var holder = Contract.holder;
@@ -95,6 +166,10 @@ var HolderPage = function() {
 		title: _('Holder'),
 		next: 'supply',
 		prev: 'intro',
+		validator: function() {
+			holder.validate();
+			return holder.error;
+		},
 	},[
 
 		m(Row, [
@@ -153,12 +228,12 @@ var HolderPage = function() {
 			]),
 			m(Row, [
 				m(Cell, {span:8}, m(TextField, {
-					id: 'streetaddress',
+					id: 'address',
 					label: _('Street address'),
 					leadingfaicon: 'home',
-					value: holder.streetaddress,
+					value: holder.address,
 					oninput: function(ev) {
-						holder.streetaddress = ev.target.value;
+						holder.address = ev.target.value;
 					},
 					required: true,
 					boxed: true,
@@ -169,11 +244,13 @@ var HolderPage = function() {
 					label: _('Postal code'),
 					value: holder.postalcode,
 					maxlength: 5,
+					minlength: 5,
 					oninput: function(ev) {
 						holder.postalcode = ev.target.value;
 					},
 					inputfilter: function(value) {
 						value = value.replace(/[^0-9]/,'');
+						value = value.slice(0,5);
 						return value;
 					},
 					required: true,
@@ -193,9 +270,37 @@ var HolderPage = function() {
 			}),
 			m(Row, [
 				m(Cell, {span:6}, m(TextField, {
+					id: 'email',
+					label: _('e-mail'),
+					type: 'email',
+					leadingfaicon: 'envelope',
+					value: holder.email,
+					oninput: function(ev) {
+						holder.email = ev.target.value;
+						holder.emailError = ev.target.validationMessage;
+						// TODO var emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+					},
+					help: _('This address will identify you'),
+					boxed: true,
+				})),
+				m(Cell, {span:6}, m(TextField, {
+					id: 'email2',
+					label: _('e-mail (repeat)'),
+					type: 'email',
+					leadingfaicon: 'envelope',
+					value: holder.email2,
+					oninput: function(ev) {
+						holder.email2 = ev.target.value;
+					},
+					help: _('Repeat the e-mail address to be sure'),
+					boxed: true,
+				})),
+			]),
+			m(Row, [
+				m(Cell, {span:6}, m(TextField, {
 					id: 'phone1',
 					label: _('Phone'),
-					maxlength: 10,
+					maxlength: 9,
 					leadingfaicon: 'phone',
 					value: holder.phone1,
 					oninput: function(ev) {
@@ -212,7 +317,7 @@ var HolderPage = function() {
 				m(Cell, {span:6}, m(TextField, {
 					id: 'phone2',
 					label: _('Additional phone (optional)'),
-					maxlength: 10,
+					maxlength: 9,
 					leadingfaicon: 'phone',
 					value: holder.phone2,
 					oninput: function(ev) {
@@ -224,32 +329,6 @@ var HolderPage = function() {
 					},
 					boxed: true,
 					
-				})),
-			]),
-			m(Row, [
-				m(Cell, {span:6}, m(TextField, {
-					id: 'email',
-					label: _('e-mail'),
-					type: 'email',
-					leadingfaicon: 'envelope',
-					value: holder.email,
-					oninput: function(ev) {
-						holder.email = ev.target.value;
-					},
-					help: _('This address will identify you'),
-					boxed: true,
-				})),
-				m(Cell, {span:6}, m(TextField, {
-					id: 'email2',
-					label: _('e-mail (repeat)'),
-					type: 'email',
-					leadingfaicon: 'envelope',
-					value: holder.email2,
-					oninput: function(ev) {
-						holder.email2 = ev.target.value;
-					},
-					help: _('Repeat the e-mail address to be sure'),
-					boxed: true,
 				})),
 			]),
 			m(LanguageChooser, {
