@@ -27,11 +27,6 @@ Mousetrap.bind('ctrl+y', function() {
 	return false;
 });
 
-var languages = [
-	{id: 'es', name: 'Español'},
-	{id: 'ca', name: 'Català'},
-];
-
 var Contract = {
 	holder: {
 		vat: { data: {}},
@@ -43,7 +38,6 @@ var Contract = {
 			return '0123456789KLMXYZ'.indexOf(firstchar) !== -1;
 		},
 		validate: function() {
-			console.log('validating',this);
 			var self = this;
 			function error(message) {
 				if (self.error !== message) {
@@ -53,7 +47,6 @@ var Contract = {
 				return false;
 			}
 			if (!this.vat.isvalid) {
-				console.log('nif valid', this.vat);
 				return error('NO_NIF');
 			}
 			this.usertype = this.isphisical()?'person':'company';

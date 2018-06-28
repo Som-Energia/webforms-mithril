@@ -18,6 +18,7 @@
 - [ ] Preguntar si es vol fer soci
 - [ ] Volver a activar el js en el checkbox
 - [ ] Set default language from form language or from token data
+- [ ] Postal code, el dona per valid abans de tenir els 5 digits
 
 
 ## Postponed task (to get them out of the way but not forgetting about them)
