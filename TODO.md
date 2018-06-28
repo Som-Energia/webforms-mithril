@@ -11,6 +11,7 @@
 - [x] Language chooser component
 - [x] Personal data validation
 - [x] Recover person validation from angular: telephon, postalcode, dni, email
+- [x] Development shortcuts
 - [ ] Extract personaldata into its own component
 - [ ] Proxy fields (representant de p. juridica)
     - Validació Nif del representant: ha de ser de p. física

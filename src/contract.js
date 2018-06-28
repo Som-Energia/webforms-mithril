@@ -17,15 +17,18 @@ var FarePower = require('./farepower');
 require('font-awesome/css/font-awesome.css');
 require('@material/typography/dist/mdc.typography.css').default;
 var Mousetrap = require('mousetrap');
+require('mousetrap-global-bind');
 
 var showall = false;
 
-Mousetrap.bind('ctrl+y', function() {
+Mousetrap.bindGlobal('ctrl+y', function() {
 	showall = !showall;
 	m.redraw();
 	console.log('showall', showall);
 	return false;
 });
+
+
 
 var Contract = {
 	holder: {
@@ -112,10 +115,9 @@ var Contract = {
 	},
 };
 
-Mousetrap.bind('ctrl+shift+1', function() {
+Mousetrap.bindGlobal('ctrl+shift+1', function() {
 	Contract.holder.vat.value = '12345678z';
 	Contract.holder.vat.isvalid = true;
-	Contract.holder.feo='mucho';
 	Contract.holder.name='Perico';
 	Contract.holder.surname='Palotes';
 	Contract.holder.address='Percebe 13';
@@ -125,7 +127,14 @@ Mousetrap.bind('ctrl+shift+1', function() {
 	Contract.holder.email ='a@a';
 	Contract.holder.email2='a@a';
 	m.redraw();
+	return false;
 });
+Mousetrap.bindGlobal('ctrl+shift+d', function() {
+	var inspector = document.querySelector('.inspector');
+	inspector.classList.toggle('shown');
+	return false;
+});
+
 
 var Form = {};
 Form.view = function(vn) {
