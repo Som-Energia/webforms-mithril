@@ -184,7 +184,7 @@ var HolderPage = function() {
 				inputfilter: function(value) {
 					if (!value) return value;
 					value=value.toUpperCase();
-					value=value.replace(/[^0-9A-Z]/,'');
+					value=value.replace(/[^0-9A-Z]/g,'');
 					return value.slice(0,9);
 				},
 				onvalidated: function() {
@@ -307,7 +307,7 @@ var HolderPage = function() {
 						holder.phone1 = ev.target.value;
 					},
 					inputfilter: function(value) {
-						value = value.replace(/[^0-9]/,'');
+						value = value.replace(/[^0-9]/g,'');
 						return value;
 					},
 					required: true,
@@ -324,7 +324,7 @@ var HolderPage = function() {
 						holder.phone2 = ev.target.value;
 					},
 					inputfilter: function(value) {
-						value = value.replace(/[^0-9]/,'');
+						value = value.replace(/[^0-9]/g,'');
 						return value;
 					},
 					boxed: true,
