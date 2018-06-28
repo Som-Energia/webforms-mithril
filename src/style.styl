@@ -88,6 +88,30 @@ body, html {
     opacity: .5;
 }
 
+// Debugging aid
+.inspector:hover {
+    z-index: 1000;
+    background-color: #eef;
+    width: 20em;
+    overflow: visible;
+    transition: width color 1s;
+}
+ 
+.inspector {
+    z-index: 0;
+    position: absolute;
+    opacity: .7;
+    top: 0;
+    right: 0;
+    padding: 1ex;
+    height:100%;
+    color: #002;
+    background-color: #fafaff;
+    width: 2em;
+    overflow: hidden;
+    margin: 5px;
+    transition: width 1s;
+}
 
 .orange {
     color: #aa4 !important;

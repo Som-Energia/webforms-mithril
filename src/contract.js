@@ -130,6 +130,9 @@ Mousetrap.bind('ctrl+shift+1', function() {
 var Form = {};
 Form.view = function(vn) {
 	return [
+		m('.inspector',
+			m('pre', JSON.stringify(Contract, null, 2))),
+		m('.main', [
 		m(Wizard, {
 			showall: showall,
 		}, [
@@ -140,7 +143,7 @@ Form.view = function(vn) {
 			PaymentPage(),
 			ReviewPage(),
 		]),
-		m('pre', JSON.stringify(Contract, null, 2)),
+		]),
 	];
 };
 
