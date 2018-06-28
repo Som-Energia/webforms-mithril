@@ -14,6 +14,7 @@
 - [ ] Extract personaldata into its own component
 - [ ] Proxy fields (representant de p. juridica)
     - Validació Nif del representant: ha de ser de p. física
+- [ ] Marcar el correu duplicat com a invalid quan no coincideix
 - [ ] Preguntar si es vol fer soci
 - [ ] Volver a activar el js en el checkbox
 - [ ] Set default language from form language or from token data
