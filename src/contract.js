@@ -55,11 +55,11 @@ var Contract = {
 			if (this.usertype === undefined) {
 				return error('NO_PERSON_TYPE');
 			}
-			if (this.name === undefined) {
+			if (!this.name) {
 				return error('NO_NAME');
 			}
 			if (this.usertype === 'person') {
-				if (this.surname === undefined) {
+				if (!this.surname) {
 					return error('NO_SURNAME');
 				}
 			}
@@ -73,10 +73,10 @@ var Contract = {
 					return error('NO_PROXY_NIF');
 				}
 			}
-			if (this.address === undefined) {
+			if (!this.address) {
 				return error('NO_ADDRESS');
 			}
-			if (this.postalcode === undefined) {
+			if (!this.postalcode || this.postalcodeError) {
 				return error('NO_POSTALCODE');
 			}
 			if (this.state === undefined) {
@@ -86,15 +86,13 @@ var Contract = {
 				return error('NO_CITY');
 			}
 
-			if (this.email === undefined ||
-				this.emailError) {
+			if (!this.email || this.emailError) {
 				return error('NO_EMAIL');
 			}
-			if (this.email2 === undefined ||
-				this.email !== this.email2) {
+			if (!this.email2 || this.email !== this.email2) {
 				return error('NO_REPEATED_EMAIL');
 			}
-			if (this.phone1 === undefined) {
+			if (!this.phone1) {
 				return error('NO_PHONE');
 			}
 			if (this.language === undefined) {
@@ -113,6 +111,21 @@ var Contract = {
 		};
 	},
 };
+
+Mousetrap.bind('ctrl+shift+1', function() {
+	Contract.holder.vat.value = '12345678z';
+	Contract.holder.vat.isvalid = true;
+	Contract.holder.feo='mucho';
+	Contract.holder.name='Perico';
+	Contract.holder.surname='Palotes';
+	Contract.holder.address='Percebe 13';
+	Contract.holder.postalcode='12345';
+	Contract.holder.phone1='123456789';
+	Contract.holder.phone2='987654321';
+	Contract.holder.email ='a@a';
+	Contract.holder.email2='a@a';
+	m.redraw();
+});
 
 var Form = {};
 Form.view = function(vn) {
@@ -238,14 +251,17 @@ var HolderPage = function() {
 					value: holder.postalcode,
 					maxlength: 5,
 					minlength: 5,
+					pattern: '[0-9]{5}',
 					oninput: function(ev) {
 						holder.postalcode = ev.target.value;
+						holder.postalcodeError = ev.target.validationMessage;
 					},
 					inputfilter: function(value) {
 						value = value.replace(/[^0-9]/,'');
 						value = value.slice(0,5);
 						return value;
 					},
+					help: m.trust('&nbsp;'),
 					required: true,
 					boxed: true,
 					
