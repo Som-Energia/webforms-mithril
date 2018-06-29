@@ -14,6 +14,7 @@ var Wizard = require('./wizard');
 var StateCityChooser = require('./statecity');
 var FarePower = require('./farepower');
 var PersonEditor = require('./personeditor');
+var Chooser = require('./chooser');
 
 require('font-awesome/css/font-awesome.css');
 require('@material/typography/dist/mdc.typography.css').default;
@@ -95,13 +96,14 @@ var Form = {
 	farepower: undefined,
 	view: function(vn) {
 		return m('.form.mdc-typography', [
-			m(PersonEditor.Example),
+			m(Chooser.Example),
 			m(Checkbox.Example),
 			m(Button.Example),
 			m(TextField.Example),
 			m(ValidatedField.Example),
 			m(Select.Example),
-			m(Layout,[
+			m(PersonEditor.Example),
+			'' && m(Layout,[
 				m(Row, m(Cell,{span:12}, m('h2', 'State/City chooser'))),
 				m(StateCityChooser),
 				m(FarePower, {
