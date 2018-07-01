@@ -10,9 +10,6 @@ var Checkbox = require('./mdc/checkbox');
 require('./chooser.styl');
 
 const Chooser = {};
-Chooser.init = function (vn) {
-	vn.state.value = vn.attrs.value;
-};
 Chooser.view = function (vn) {
 	return m(Layout, {className: 'chooser'}, [
 		m(Row, m(Cell, {
@@ -30,28 +27,27 @@ Chooser.view = function (vn) {
 				className: 'chooser__options',
 			}, [
 				m('.chooser__option'+
-					(vn.state.value === option.id?'.chooser__option--selected':'')+
+					(vn.attrs.value === option.value?'.chooser__option--selected':'')+
 					'',[
 					m(Checkbox,
 					{
-						id: option.id,
+						id: optionid,
 						label: option.label,
-						checked: vn.state.value===option.id,
+						checked: vn.attrs.value===option.value,
 						onchange: function(ev) {
 							var newvalue = ev.target.checked;
-							console.log(newvalue, option.id);
 							if (ev.target.checked===true) {
-								vn.state.value = option.id;
+								vn.attrs.value = option.value;
 							}
-							else if (vn.state.value === option.id) {
-								vn.state.value = undefined;
+							else if (vn.attrs.value === option.value) {
+								vn.attrs.value = undefined;
 							}
 							vn.attrs.onvaluechanged &&
-								vn.attrs.onvaluechanged(vn.state.value);
+								vn.attrs.onvaluechanged(vn.attrs.value);
 						},
 					}),
 					m('.choser__option__description', m('label', {
-						'for': option.id,
+						'for': optionid,
 					},
 						option.description
 					)),
@@ -63,31 +59,56 @@ Chooser.view = function (vn) {
 
 
 Chooser.Example = {};
+Chooser.Example.value2 = 'bluepill'; // default value provided
 Chooser.Example.view = function(vn) {
 	return m(Layout, [
 		m(Row, m(Cell, {span:12}, m('h2', 'Chooser'))),
 		m(Chooser, {
 			question: _('Do you want to take either the red or the blue pill?'),
 			options: [{
-				id: 'redpill',
+				value: 'redpill',
 				label: _('Red pill'),
 				description: _(
 					'The brutal and akward freedom of thruth. '+
 					'Take it if you want to know the real and desperate thruth.'
 				),
 			},{
-				id: 'bluepill',
+				value: 'bluepill',
 				label: _('Blue pill'),
 				description: _(
 					'The conforting ignorance of dellusion.'+
 					'Take it if you want to go back to your reality.'
 				),
 			}],
+			value: Chooser.Example.value,
 			onvaluechanged: function(newvalue) {
 				Chooser.Example.value = newvalue;
 			},
 		}),
 		m(Row, m(Cell, {span:12}, m('', _('You chose ')+Chooser.Example.value))),
+		m(Chooser, {
+			id: 'chooser_by_default',
+			question: _('A chooser with default value and required'),
+			required: true,
+			options: [{
+				value: 'redpill',
+				label: _('Red pill'),
+				description: _(
+					'The brutal and akward freedom of thruth.'
+				),
+			},{
+				value: 'bluepill',
+				label: _('Blue pill'),
+				description: _(
+					'The conforting ignorance of dellusion.'
+				),
+			}],
+			value: Chooser.Example.value2,
+			onvaluechanged: function(newvalue) {
+				Chooser.Example.value2 = newvalue;
+			},
+		}),
+		m(Row, m(Cell, {span:12}, m('', _('You chose ')+Chooser.Example.value2))),
 	]);
 };
 
