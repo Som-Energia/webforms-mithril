@@ -17,7 +17,7 @@ Chooser.view = function (vn) {
 			span: 12,
 			}, 
 			vn.attrs.question,
-			m('i.fa.fa-asterisk.red')
+			(vn.attrs.required?m('i.fa.fa-asterisk.red'):''),
 		)),
 		m(Row, vn.attrs.options.map(function(option) { 
 			return m(Cell, {
