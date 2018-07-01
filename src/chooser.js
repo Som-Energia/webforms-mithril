@@ -20,6 +20,7 @@ Chooser.view = function (vn) {
 			(vn.attrs.required?m('i.fa.fa-asterisk.red'):''),
 		)),
 		m(Row, vn.attrs.options.map(function(option) { 
+			var optionid = vn.attrs.id+'_value_'+option.value;
 			return m(Cell, {
 				phonespan:2,
 				spantablet:4,
