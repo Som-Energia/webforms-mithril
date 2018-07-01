@@ -78,97 +78,98 @@ const FloatInput = {
 };
 
 
-
 const FarePower = {
 	oninit: function(vn) {
-		vn.state.type = 'mono';
-		vn.state.power = undefined;
-		vn.state.powerp1 = undefined;
-		vn.state.powerp2 = undefined;
-		vn.state.powerp3 = undefined;
-		vn.state.discrimination = 'nodh';
-		vn.state.currentError = undefined;
+		console.log("FarePower init", vn.attrs.model);
+		vn.state.model = vn.attrs.model || {};
+		vn.state.model.error = undefined;
+		vn.state.model.type = 'mono';
+		vn.state.model.power = undefined;
+		vn.state.model.powerp1 = undefined;
+		vn.state.model.powerp2 = undefined;
+		vn.state.model.powerp3 = undefined;
+		vn.state.model.discrimination = 'nodh';
+		vn.state.model.fare = function() {
+			var newFare = (
+				this.power === undefined ? undefined :
+				this.power === '' ? undefined :
+				parseFloat(this.power) < 10 ? '2.0' :
+				parseFloat(this.power) < 15 ? '2.1' :
+				'3.0');
+			if (newFare!=='3.0' && newFare !== undefined) {
+				//this.powerp1=this.power;
+			}
+			if (newFare === undefined) { return undefined; }
+			var discrimination = parseFloat(this.power)<15 ?
+				this.discrimination : 'nodh';
+			if (this.discrimination===undefined) { return undefined; }
+			newFare += { nodh:'A', dh:'DHA', dhs:'DHS' }[this.discrimination];
+			return newFare;
+		};
+		vn.state.model.validate = function() {
+			var self=this;
+			self.error = undefined;
+			function error(message) {
+				if (self.error !== message) {
+					self.error = message;
+				}
+				return message;
+			}
+			if (self.type === undefined) {
+				return error('NO_MONOPHASE_CHOICE');
+			}
+			if (self.power === undefined || self.power === '') {
+				return error('NO_POWER_CHOSEN');
+			}
+			var fare = self.fare();
+			if (fare === '3.0A') {
+				var p1=parseFloat(self.powerp1);
+				var p2=parseFloat(self.powerp2);
+				var p3=parseFloat(self.powerp3);
+				if (isNaN(p1)) {
+					return error('NO_POWER_CHOSEN_P1');
+				}
+				if (isNaN(p2)) {
+					return error('NO_POWER_CHOSEN_P2');
+				}
+				if (isNaN(p3)) {
+					return error('NO_POWER_CHOSEN_P3');
+				}
+				// some of the periods should be over 15
+				if (p1 <= 15 && p2 <= 15 && p3 <= 15) {
+					return error('INVALID_POWER_30');
+				}
+				// none of the periods should be over 450
+				if (p1 > 450 || p2 > 450 || p3 > 450) {
+					// TODO: Different error for power
+					return error('INVALID_POWER_30');
+				}
+			}
+			else {
+				if (self.discrimination===undefined) {
+					return error('NO_HOURLY_DISCRIMINATION_CHOSEN');
+				}
+			}
+			return undefined;
+		};
 	},
 
-
-	fare: function() {
-		var newFare = (
-			this.power === undefined ? undefined :
-			this.power === '' ? undefined :
-			parseFloat(this.power) < 10 ? '2.0' :
-			parseFloat(this.power) < 15 ? '2.1' :
-			'3.0');
-		if (newFare!=='3.0' && newFare !== undefined) {
-			//this.powerp1=this.power;
-		}
-		if (newFare === undefined) { return undefined; }
-		var discrimination = parseFloat(this.power)<15 ?
-			this.discrimination : 'nodh';
-		if (this.discrimination===undefined) { return undefined; }
-		newFare += { nodh:'A', dh:'DHA', dhs:'DHS' }[this.discrimination];
-		return newFare;
-	},
-
-	errors: function(vn) {
-		var self=vn.state;
-		self.currentError = undefined;
-		function error(message) {
-			if (self.currentError !== message) {
-				self.currentError = message;
-				console.log(message);
-			}
-			return message;
-		}
-		if (self.type === undefined) {
-			return error('NO_MONOPHASE_CHOICE');
-		}
-		if (self.power === undefined || self.power === '') {
-			return error('NO_POWER_CHOSEN');
-		}
-		var fare = self.fare();
-		if (fare === '3.0A') {
-			var p1=parseFloat(self.powerp1);
-			var p2=parseFloat(self.powerp2);
-			var p3=parseFloat(self.powerp3);
-			if (isNaN(p1)) {
-				return error('NO_POWER_CHOSEN_P1');
-			}
-			if (isNaN(p2)) {
-				return error('NO_POWER_CHOSEN_P2');
-			}
-			if (isNaN(p3)) {
-				return error('NO_POWER_CHOSEN_P3');
-			}
-			// some of the periods should be over 15
-			if (p1 <= 15 && p2 <= 15 && p3 <= 15) {
-				return error('INVALID_POWER_30');
-			}
-			// none of the periods should be over 450
-			if (p1 > 450 || p2 > 450 || p3 > 450) {
-				// TODO: Different error for power
-				return error('INVALID_POWER_30');
-			}
-		}
-		else {
-			if (self.discrimination===undefined) {
-				return error('NO_HOURLY_DISCRIMINATION_CHOSEN');
-			}
-		}
-		return undefined;
-	},
 
 	powerlist: function(vn) {
 		/** Computes the list of powers to shown depending on the context */
 		var availablePowers = (
-			vn.state.type==='mono'?
+			vn.state.model.type==='mono'?
 				availablePowersMonophase:
-			vn.state.type==='tri'?
+			vn.state.model.type==='tri'?
 				availablePowersTriphase:
 				[]);
 
+		var label20 = _('%{fare}_Fare',{fare:'2.0'});
+		var label21 = _('%{fare}_Fare',{fare:'2.1'});
+		var label30 = _('%{fare}_Fare',{fare:'3.0'});
 		return [{
 			value: undefined,
-			text: _('%{fare}-Fare',{fare:'2.0'}),
+			text: label20,
 			style: "direction: rtl; font-weight: bold; background-color:#df9;",
 			disabled: true,
 		}]
@@ -182,7 +183,7 @@ const FarePower = {
 			}))
 		.concat([{
 			value: undefined,
-			text: _('%{fare}-Fare',{fare:'2.1'}),
+			text: label21,
 			style: "direction: rtl; font-weight: bold; background-color:#ae7;",
 			disabled: true,
 		}])
@@ -194,11 +195,11 @@ const FarePower = {
 					style: 'background-color: #ae7',
 				};
 			}))
-		.concat(vn.state.type === 'tri'?[{
+		.concat(vn.state.model.type === 'tri'?[{
 			value: undefined,
-			text: _('%{fare}-Fare',{fare:'3.0'}),
+			text: label30,
 			disabled: true,
-			style: 'background-color:#9d6; direction: rtl;',
+			style: "direction: rtl; font-weight: bold; background-color:#9d6;",
 		},{
 			value: '15',
 			text: _('More than 15kW'),
@@ -207,26 +208,19 @@ const FarePower = {
 	},
 
 	onupdate(vn) {
-		var self=vn.state;
-		self.errors(vn);
-		vn.attrs.onchanged(vn.state);
+		vn.state.model.validate();
+		vn.attrs.onvaluechanged &&
+			vn.attrs.onvaluechanged(vn.state);
 	},
 
 	view: function (vn) {
 		var self=vn.state;
 
-
 		return [m(Row, [
 			m(Cell, {span: 4}, [
 				m(Select, {
-					id: 'instal_type',
-					value: vn.state.type,
+					id: 'install_type',
 					boxed: true,
-					onchange: function(ev) {
-						vn.state.power = '';
-						vn.state.type = ev.target.value;
-						self.errors(vn);
-					},
 					label: _('Installation type'),
 					required: true,
 					help: _('How to identify them?'),
@@ -238,6 +232,14 @@ const FarePower = {
 						value: 'tri',
 						text: _('Tri-phase'),
 					}],
+					value: vn.state.model.type,
+					onchange: function(ev) {
+						vn.state.model.power = '';
+						vn.state.model.type = ev.target.value;
+						vn.state.model.validate(vn);
+						vn.attrs.onvaluechanged &&
+							vn.attrs.onvaluechanged(vn.state);
+					},
 				}),
 			]),
 			m(Cell, {span: 4}, [
@@ -248,23 +250,25 @@ const FarePower = {
 					options: self.powerlist(vn),
 					required: true,
 					help: _('How much do I need?'),
-					value: vn.state.power,
+					value: vn.state.model.power,
 					onchange: function(ev) {
-						vn.state.power = ev.target.value;
-						if (vn.state.power === '15') {
-							vn.state.discrimination='nodh';
+						vn.state.model.power = ev.target.value;
+						if (vn.state.model.power === '15') {
+							vn.state.model.discrimination='nodh';
 						}
-						self.errors(vn);
+						vn.state.model.validate();
+						vn.attrs.onvaluechanged &&
+							vn.attrs.onvaluechanged(vn.state);
 					},
 				}),
 			]),
-			m(Cell, {span: 4, style: vn.state.power==='15'?'display:none':''}, [
+			m(Cell, {span: 4, style: vn.state.model.power==='15'?'display:none':''}, [
 				m(Select, {
 					id: 'discrimination',
 					label: _('Discrimination'),
 					boxed: true,
 					required: true,
-					disabled: vn.state.power === '15',
+					disabled: vn.state.model.power === '15',
 					options: [{
 						value: 'nodh',
 						text: _('No time discrimination (A)'),
@@ -276,27 +280,31 @@ const FarePower = {
 						text: _('Three periods discrimination (DHS)'),
 					}],
 					help: _('Is time discrimination convinient for me?'),
-					value: vn.state.discrimination,
+					value: vn.state.model.discrimination,
 					onchange: function(ev) {
-						vn.state.discrimination = ev.target.value;
-						self.errors(vn);
+						vn.state.model.discrimination = ev.target.value;
+						vn.state.model.validate(vn);
+						vn.attrs.onvaluechanged &&
+							vn.attrs.onvaluechanged(vn.state);
 					},
 				}),
 			]),
 		]),
-		(vn.state.power===undefined || !vn.state.power || parseFloat(vn.state.power)<15)?[]:
+		(vn.state.model.power===undefined || !vn.state.model.power || parseFloat(vn.state.model.power)<15)?[]:
 		m(Row, [
 			m(Cell, {span: 4}, [
 				m(FloatInput, {
 					id: 'powerp1',
 					label: _('Power Period P1 (kW)'),
-					help: _('Punta: De 11h a 15h en Verano, de 18h a 22h en Invierno'),
+					help: _('Punta: Verano de 11h a 15h, Invierno de 18h a 22h'),
 					boxed: true,
 					required: true,
-					value: vn.state.powerp1,
+					value: vn.state.model.powerp1,
 					oninput: function(ev) {
-						vn.state.powerp1 = ev.target.value;
-						self.errors(vn);
+						vn.state.model.powerp1 = ev.target.value;
+						vn.state.model.validate(vn);
+						vn.attrs.onvaluechanged &&
+							vn.attrs.onvaluechanged(vn.state);
 					},
 				}),
 			]),
@@ -306,10 +314,12 @@ const FarePower = {
 					help: _('Llano: Resto del dia'),
 					boxed: true,
 					required: true,
-					value: vn.state.powerp2,
+					value: vn.state.model.powerp2,
 					oninput: function(ev) {
-						vn.state.powerp2 = ev.target.value;
-						self.errors(vn);
+						vn.state.model.powerp2 = ev.target.value;
+						vn.state.model.validate(vn);
+						vn.attrs.onvaluechanged &&
+							vn.attrs.onvaluechanged(vn.state);
 					},
 				}),
 			]),
@@ -319,10 +329,12 @@ const FarePower = {
 					help: _('Valle: De 0h a 8h todo el año'),
 					boxed: true,
 					required: true,
-					value: vn.state.powerp3,
+					value: vn.state.model.powerp3,
 					oninput: function(ev) {
-						vn.state.powerp3 = ev.target.value;
-						self.errors(vn);
+						vn.state.model.powerp3 = ev.target.value;
+						vn.state.model.validate(vn);
+						vn.attrs.onvaluechanged &&
+							vn.attrs.onvaluechanged(vn.state);
 					},
 				}),
 			]),
@@ -331,8 +343,8 @@ const FarePower = {
 			m(Cell, {span: 2}),
 			m(Cell, {span: 8, align: 'center'}, [
 				m('p.mdc-card.gren[style="text-align:center;margin-bottom:3ex"]',
-				vn.state.fare()?
-					m.trust(_('Your fare is <b class="green">%{fare}</b>', {fare: vn.state.fare()}))
+				vn.state.model.fare()?
+					m.trust(_('Your fare is <b class="green">%{fare}</b>', {fare: vn.state.model.fare()}))
 				:''),
 			]),
 			m(Cell, {span: 2}),

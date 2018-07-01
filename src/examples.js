@@ -129,7 +129,7 @@ var Form = {
 					next: 'confirm',
 					validator: function() {
 						if (vn.state.farepower) {
-							return vn.state.farepower.currentError;
+							return vn.state.farepower.error;
 						}
 					},
 				}),
