@@ -40,7 +40,7 @@ var Select = {
 						selected: true
 						}),
 					options.map(function (v,i) {
-						return m('option', v, v.text);
+						return m('option', Object.assign({},v), v.text);
 					})
 				),
 				m('label.mdc-floating-label', vn.attrs.label),
