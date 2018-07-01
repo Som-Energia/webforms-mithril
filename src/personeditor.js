@@ -31,7 +31,6 @@ PersonEditor.oninit = function(vn) {
 		var self = this;
 		function error(message) {
 			if (self.error !== message) {
-				console.log(message);
 				self.error = message;
 			}
 			return false;
@@ -95,7 +94,6 @@ PersonEditor.oninit = function(vn) {
 		return true;
 	};
 	person.vat = {data: {}};
-	console.log(vn.attrs.id, person);
 };
 PersonEditor.oncreate = function(vn) {
 	Mousetrap(vn.dom).bindGlobal('ctrl+shift+1', function() {

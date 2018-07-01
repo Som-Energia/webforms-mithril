@@ -18,16 +18,13 @@ PaymentEditor.oninit = function(vn) {
     var self = this.model;
 
     this.model.validate = function() {
-        //console.log('- isPayerPageComplete');
         function error(message) {
             if (self.error !== message) {
                 self.error = message;
-                //console.log(message);
             }
             return false;
         }
 
-        console.log('self', self);
         self.error = undefined;
         // Recover self code if we add other payers than holder
         /*
