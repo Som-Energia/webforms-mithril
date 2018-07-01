@@ -15,6 +15,7 @@ var StateCityChooser = require('./statecity');
 var FarePower = require('./farepower');
 var PersonEditor = require('./personeditor');
 var Chooser = require('./chooser');
+var Terms = require('./terms');
 
 require('font-awesome/css/font-awesome.css');
 require('@material/typography/dist/mdc.typography.css').default;
@@ -96,6 +97,7 @@ var Form = {
 	farepower: undefined,
 	view: function(vn) {
 		return m('.form.mdc-typography', [
+			m(Terms.Example),
 			m(Chooser.Example),
 			m(Checkbox.Example),
 			m(Button.Example),
