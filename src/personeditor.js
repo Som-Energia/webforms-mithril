@@ -218,7 +218,6 @@ PersonEditor.view = function(vn) {
 					},
 					required: true,
 					boxed: true,
-					
 				})),
 				m(Cell, {span:4}, m(TextField, {
 					id: prefix+'postalcode',
@@ -239,7 +238,6 @@ PersonEditor.view = function(vn) {
 					help: m.trust('&nbsp;'),
 					required: true,
 					boxed: true,
-					
 				})),
 			]),
 			m(StateCityChooser, {
