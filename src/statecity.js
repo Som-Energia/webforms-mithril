@@ -7,11 +7,13 @@ var Cell = Layout.Cell;
 var Select = require('./mdc/select');
 var requestSom = require('./somapi').requestSom;
 
+// TODO: Share state list among instances to reduce api requests
+// TODO: Setting the initial values from upper component
 
 var StateCityChooser = {
 	oninit: function(vn) {
 		var self = this;
-		self.states = []; // TODO: Shared by instances
+		self.states = [];
 		self.state = undefined;
 		self.stateError = undefined;
 		self.city = undefined;
@@ -91,6 +93,39 @@ var StateCityChooser = {
 			),
 		]);
 	},
+};
+
+StateCityChooser.Example = {};
+StateCityChooser.Example.model = {};
+StateCityChooser.Example.model2 = {};
+StateCityChooser.Example.view = function(vn) {
+	var model = StateCityChooser.Example.model;
+	var model2 = StateCityChooser.Example.model2;
+	return m(Layout,[
+		m(Row, m(Cell,{span:12}, m('h2', 'State/City chooser'))),
+		m(StateCityChooser, {
+			onvaluechanged: function(state) {
+				model.state = state.states.find(function(v) {
+					return v.id==state.state;
+				});
+				model.city = state.cities.find(function(v) {
+					return v.id==state.city;
+				});
+			}
+		}),
+		m(Row, m(Cell, {span:12}, JSON.stringify(model,null,2))),
+		m(StateCityChooser, {
+			onvaluechanged: function(state) {
+				model2.state = state.states.find(function(v) {
+					return v.id==state.state;
+				});
+				model2.city = state.cities.find(function(v) {
+					return v.id==state.city;
+				});
+			}
+		}),
+		m(Row, m(Cell, {span:12}, JSON.stringify(model2,null,2))),
+	]);
 };
 
 
