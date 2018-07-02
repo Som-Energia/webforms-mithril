@@ -36,8 +36,9 @@ var Form = {
 	farepower: undefined,
 	view: function(vn) {
 		return m('.form.mdc-typography', [
-			m(Terms.Example),
+			m(StateCityChooser.Example),
 			m(Chooser.Example),
+			m(Terms.Example),
 			m(Checkbox.Example),
 			m(Button.Example),
 			m(TextField.Example),
