@@ -27,9 +27,9 @@ Chooser.view = function (vn) {
 				spandesktop:6,
 				className: 'chooser__options',
 			}, [
-				m('.chooser__option'+
+				m('label.chooser__option'+
 					(vn.attrs.value === option.value?'.chooser__option--selected':'')+
-					'',[
+					'', [
 					m(Checkbox,
 					{
 						id: optionid,
