@@ -61,7 +61,7 @@ var Form = {
 					title: _('Holder'),
 					next: 'supply',
 				}, [
-					m('.red', m(PersonalDataEditor)),
+					m('h2', 'Page 1'),
 				]),
 
 				m('.page', {
@@ -74,7 +74,9 @@ var Form = {
 							return vn.state.farepower.error;
 						}
 					},
-				}),
+				}, [
+					m(FarePower, {model: vn.state.farepower})
+				]),
 				m('.page', {
 					id: 'confirm',
 					title: _('Confirmation'),
