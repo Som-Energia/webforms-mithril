@@ -28,67 +28,6 @@ var Persona = {
 	nifValidation: {},
 };
 
-var PersonalDataEditor = {
-	view: function(vn) {
-		return [
-			m(StateCityChooser),
-			m(Row, [
-				m(Cell,
-					m(ValidatedField, {
-						id: 'caixa1',
-						label: _('Caixa 1'),
-						help: _('La primera caixa'),
-					})
-				),
-				m(Cell,
-					m(ValidatedField, {
-						id: 'caixa2',
-						label: _('Caixa 2'),
-						help: _('La segona caixa'),
-					})
-				),
-				m(Cell,
-					m(ValidatedField, {
-						id: 'caixa3',
-						label: _('Caixa 3'),
-						help: _('I encara una tercera caixa'),
-					})
-				),
-				m(Cell,
-					m(Select, {
-						id: 'caixa4',
-						label: _('Caixa 4'),
-						help: _('I aquesta es un select'),
-					})
-				),
-			]),
-			m(Row, [
-				m(Cell, {span:7},
-					m(ValidatedField, {
-						id: 'iban',
-						label: _('IBAN (compte bancari)'),
-						help: _('I encara una tercera caixa'),
-						defaulterror: _('Invalid IBAN'),
-						required: true,
-						checkurl: '/check/iban/',
-						fieldData: Persona.iban,
-					})
-				),
-				m(Cell, {span:5},
-					m(ValidatedField, {
-						id: 'vat',
-						label: _('NIF'),
-					})
-				),
-			]),
-			m(Row, [
-				m(Cell, {span:12},
-					m(Select.Example),
-				),
-			]),
-		];
-	},
-};
 var showall=false;
 var skip = function (c) { return []; }
 
