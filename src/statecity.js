@@ -12,7 +12,6 @@ var StateCityChooser = {
 	oninit: function(vn) {
 		var self = this;
 		self.states = []; // TODO: Shared by instances
-		self.stateIndex = 0;
 		self.state = undefined;
 		self.stateError = undefined;
 		self.city = undefined;
