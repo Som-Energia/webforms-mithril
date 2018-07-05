@@ -6,12 +6,13 @@ var Wizard = require('./wizard');
 var Layout = require('./mdc/layout');
 var Row = Layout.Row;
 var Cell = Layout.Cell;
-var Mousetrap = require('mousetrap');
-require('mousetrap-global-bind');
 var PersonEditor = require('./personeditor');
 var PaymentEditor = require('./paymenteditor');
+var IntroContract = require('./introcontract');
 var Terms = require('./terms');
 
+var Mousetrap = require('mousetrap');
+require('mousetrap-global-bind');
 require('font-awesome/css/font-awesome.css');
 require('@material/typography/dist/mdc.typography.css').default;
 
@@ -30,11 +31,14 @@ Mousetrap.bindGlobal('ctrl+shift+d', function() {
 	return false;
 });
 
+
 var Contract = {
+	intro: {},
 	holder: {},
 	payment: {},
 	terms: {},
 };
+
 
 var Form = {};
 Form.view = function(vn) {
@@ -42,28 +46,36 @@ Form.view = function(vn) {
 		m('.inspector',
 			m('pre', JSON.stringify(Contract, null, 2))),
 		m('.main', [
-		m(Wizard, {
-			showall: showall,
-		}, [
-			IntroPage(),
-			HolderPage(),
-			SupplyPage(),
-			TermsPage(),
-			PaymentPage(),
-			ReviewPage(),
-		]),
+			m(Wizard, {
+				showall: showall,
+			}, [
+				IntroPage(),
+				HolderPage(),
+				SupplyPage(),
+				TermsPage(),
+				PaymentPage(),
+				ReviewPage(),
+			]),
 		]),
 	]);
 };
 
+
 var IntroPage = function() {
+	var intro = Contract.intro;
 	return m('.page', {
 		id: 'intro',
 		title: _('Intro'),
 		next: 'holder_page',
-	},[ m(Row, m(Cell, {span:12},
-		m('.intro',_('CONTRACT_INTRO')),
-	))]);
+		validator: function() {
+			intro.validate && intro.validate();
+			return intro.error;
+		},
+	},[ m(Row, m(Cell, {span:12}, [
+		m(IntroContract, {
+			model: intro,
+		}),
+	]))]);
 };
 
 
