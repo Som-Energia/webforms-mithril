@@ -18,9 +18,13 @@
 
 - [ ] Proxy fields (representant de p. juridica)
     - Validació Nif del representant: ha de ser de p. física
+- [ ] Marcar invalids camps de potencia Pn quan cap dels tres es >15
+- [ ] Marcar invalid camp de potencia Pn si es major del tope per 3.1 (O explicar que cal contractacio especial)
 - [ ] Marcar el correu duplicat com a invalid quan no coincideix
 - [ ] Preguntar si es vol fer soci
-- [ ] Set default language from form language or from token data
+- [ ] Set default language from form language or from token data or nif info
+
+
 
 
 ## Postponed task (to get them out of the way but not forgetting about them)
