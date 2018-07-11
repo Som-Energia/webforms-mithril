@@ -64,7 +64,7 @@ Form.view = function(vn) {
 var IntroPage = function() {
 	var intro = Contract.intro;
 	return m('.page', {
-		id: 'intro',
+		id: 'intro_page',
 		title: _('Intro'),
 		next: 'holder_page',
 		validator: function() {
@@ -84,8 +84,8 @@ var HolderPage = function() {
 	return m('.page', {
 		id: 'holder_page',
 		title: _('Holder'),
-		next: 'supply',
-		prev: 'intro',
+		next: 'supply_page',
+		prev: 'intro_page',
 		validator: function() {
 			holder.validate && holder.validate();
 			return holder.error;
@@ -100,7 +100,7 @@ var HolderPage = function() {
 
 var SupplyPage = function() {
 	return m('.page', {
-		id: 'supply',
+		id: 'supply_page',
 		title: _('Supply'),
 		next: 'terms_page',
 		prev: 'holder_page',
@@ -112,8 +112,8 @@ var TermsPage = function() {
 	return m('.page', {
 		id: 'terms_page',
 		title: _('Terms'),
-		next: 'payment',
-		prev: 'supply',
+		next: 'payment_page',
+		prev: 'supply_page',
 		validator: function() {
 			Contract.terms.validate &&
 				Contract.terms.validate();
@@ -126,9 +126,9 @@ var TermsPage = function() {
 
 var PaymentPage = function() {
 	return m('.page', {
-		id: 'payment',
+		id: 'payment_page',
 		title: _('Payment'),
-		next: 'review',
+		next: 'review_page',
 		prev: 'terms_page',
 		validator: function() {
 			Contract.payment.validate && Contract.payment.validate();
@@ -141,9 +141,9 @@ var PaymentPage = function() {
 
 var ReviewPage = function() {
 	return m('.page', {
-		id: 'review',
+		id: 'review_page',
 		title: _('Review'),
-		prev: 'payment',
+		prev: 'payment_page',
 	},[
 	]);
 };
