@@ -78,23 +78,16 @@ Dialog.Example = {};
 Dialog.Example.dialog = {
 	backdrop: true,
 	scrollable: false,
+	inner: {},
 };
-Dialog.Example.dialog2 = {};
 Dialog.Example.view = function(vn) {
 	var self = this;
 	var Layout = require('./layout');
 	var Checkbox = require('./checkbox');
 	var Button = require('./button');
-	console.log("Example view:", Dialog.Example.dialog);
 	return m(Layout,
 		m(Layout.Row, m(Layout.Cell, m('h2', 'Dialogs'))),
 		m(Layout.Row, {align: 'center'}, [
-			m(Layout.Cell, {span:3}, m(Button, {
-				onclick: function(ev) {
-					console.log(self);
-					self.dialog.open();
-				},
-			}, 'Show dialog')),
 			m(Layout.Cell, {span:3}, m(Checkbox, {
 				id: 'enable-backdrop',
 				label: 'Backdrop',
@@ -111,6 +104,12 @@ Dialog.Example.view = function(vn) {
 					self.dialog.scrollable = ev.target.checked;
 				},
 			})),
+			m(Layout.Cell, {span:3}, m(Button, {
+				onclick: function(ev) {
+					console.log(self);
+					self.dialog.open();
+				},
+			}, 'Show dialog')),
 
 		]),
 		m(Layout.Row, m(Layout.Cell, {span:12},
@@ -124,8 +123,7 @@ Dialog.Example.view = function(vn) {
 				text: 'Doit',
 				action: true,
 				onclick: function () {
-					console.log("Modal action executed!");
-					self.dialog2.open();
+					self.dialog.inner.open();
 				},
 			},{
 				text: 'Reject',
@@ -135,10 +133,12 @@ Dialog.Example.view = function(vn) {
 				accept: true,
 			}],
 			onaccept: function() {
-				console.log("Accepted!!");
+				self.dialog.exit = 'Accepted';
+				m.redraw();
 			},
 			oncancel: function() {
-				console.log("Rejected!!");
+				self.dialog.exit = 'Rejected';
+				m.redraw();
 			},
 			backdrop: self.dialog.backdrop,
 			scrollable: self.dialog.scrollable,
@@ -148,7 +148,7 @@ Dialog.Example.view = function(vn) {
 		m(Dialog, {
 			id: 'innerdialog',
 			header: "Inner dialog",
-			model: self.dialog2,
+			model: self.dialog.inner,
 			buttons: [{
 				text: 'Doit',
 				action: true,
@@ -163,10 +163,12 @@ Dialog.Example.view = function(vn) {
 				accept: true,
 			}],
 			onaccept: function() {
-				console.log("Inner Accepted!!");
+				self.dialog.inner.exit = 'Accepted';
+				m.redraw();
 			},
 			oncancel: function() {
-				console.log("Inner Rejected!!");
+				self.dialog.inner.exit = 'Rejected';
+				m.redraw();
 			},
 			backdrop: false,
 			scrollable: false,
