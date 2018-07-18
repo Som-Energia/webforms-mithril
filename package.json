@@ -7,7 +7,7 @@
     "deploy": "webpack --mode production --color --progress -p",
     "build": "webpack --mode development --color --progress",
     "server": "webpack-dev-server --mode development --open --watch -d",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ospec"
   },
   "repository": {
     "type": "git",
@@ -38,6 +38,7 @@
     "mini-css-extract-plugin": "^0.4.0",
     "mousetrap": "^1.6.2",
     "mousetrap-global-bind": "^1.1.0",
+    "ospec": "^3.0.1",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "webpack": "^4.12.0",
