@@ -4,8 +4,6 @@ require('@material/dialog/dist/mdc.dialog.css');
 
 const mdcDialog = require('@material/dialog');
 const MDCDialog = mdcDialog.MDCDialog;
-const MDCDialogFoundation = mdcDialog.MDCDialogFoundation;
-const util = mdcDialog.util;
 
 /**
 # Attributes
@@ -110,7 +108,6 @@ Dialog.Example.view = function(vn) {
 					self.dialog.open();
 				},
 			}, 'Show dialog')),
-
 		]),
 		m(Layout.Row, m(Layout.Cell, {span:12},
 			m('pre', JSON.stringify(this.dialog, null, 2))
@@ -122,7 +119,7 @@ Dialog.Example.view = function(vn) {
 			buttons: [{
 				text: 'Doit',
 				action: true,
-				onclick: function () {
+				onclick: function() {
 					self.dialog.inner.open();
 				},
 			},{
