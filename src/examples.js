@@ -19,6 +19,7 @@ var Terms = require('./terms');
 var Dialog = require('./mdc/dialog');
 var Card = require('./mdc/card');
 var LinearProgress = require('./mdc/linearprogress');
+var Slider = require('./mdc/slider');
 
 require('font-awesome/css/font-awesome.css');
 require('@material/typography/dist/mdc.typography.css').default;
@@ -39,19 +40,20 @@ var Examples = {
 	farepower: undefined,
 	view: function(vn) {
 		return m('.form.mdc-typography', [
+			m(Slider.Example),
 			m(LinearProgress.Example),
 			m(Dialog.Example),
 			m(Card.Example),
-			skip(StateCityChooser.Example),
-			skip(Chooser.Example),
-			skip(Terms.Example),
-			skip(Checkbox.Example),
-			skip(Button.Example),
-			skip(TextField.Example),
-			skip(ValidatedField.Example),
-			skip(Select.Example),
-			skip(PersonEditor.Example),
-			skip(Layout,[
+			m(StateCityChooser.Example),
+			m(Chooser.Example),
+			m(Terms.Example),
+			m(Checkbox.Example),
+			m(Button.Example),
+			m(TextField.Example),
+			m(ValidatedField.Example),
+			m(Select.Example),
+			m(PersonEditor.Example),
+			m(Layout,[
 				m(FarePower, {
 					onchanged: function(state) {
 						vn.state.farepower = state;
