@@ -44,14 +44,20 @@ Slider.view = function(vn) {
 			'aria-disabled': vn.attrs.disabled,
 		}, [
 
-		m('.mdc-slider__track-container', [
-			m('.mdc-slider__track'),
+		m('.mdc-slider__track-container',[
+			m('.mdc-slider__track',
+				vn.attrs.color&&{style: {'background-color': vn.attrs.color}}
+				),
 			vn.attrs.marked && m('.mdc-slider__track-marker-container'),
 		]),
 		m('.mdc-slider__thumb-container', [
-			m('.mdc-slider__pin', m('span.mdc-slider__pin-value-marker', 'ca'+vn.attrs.value)),
+			m('.mdc-slider__pin',
+				vn.attrs.color&&{style: {'background-color': vn.attrs.color}},
+				m('span.mdc-slider__pin-value-marker',
+					vn.attrs.value)),
 			m('svg.mdc-slider__thumb[width="21"][height="21"]',
-			  m('circle', {cx:10.5,cy:10.5,r:7.875})
+				vn.attrs.color&&{style: {'fill': vn.attrs.color,'stroke': vn.attrs.color}},
+				m('circle', {cx:10.5,cy:10.5,r:7.875})
 			),
 			m('.mdc-slider__focus-ring')
 		]),
@@ -149,8 +155,8 @@ Slider.Example.view = function(vn) {
 					discrete: true,
 					min:0, max:255, step: 1,
 					value: vn.state.red,
+					color: 'red',
 					oninput: function(ev, value) {
-						console.log("Updating red", value);
 						vn.state.red = value;
 					},
 				}),
@@ -158,6 +164,7 @@ Slider.Example.view = function(vn) {
 					discrete: true,
 					min:0, max:255, step: 1,
 					value: vn.state.green,
+					color: '#00b100',
 					oninput: function(ev, value) {
 						vn.state.green = value;
 					},
@@ -166,6 +173,7 @@ Slider.Example.view = function(vn) {
 					discrete: true,
 					min:0, max:255, step: 1,
 					value: vn.state.blue,
+					color: 'blue',
 					oninput: function(ev, value) {
 						vn.state.blue = value;
 					},
