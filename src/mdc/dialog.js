@@ -36,6 +36,9 @@ Dialog.oncreate = function(vn) {
 		vn.attrs.oncancel && vn.attrs.oncancel();
 	});
 };
+Dialog.onremove = function(vn) {
+	vn.state.widget.destroy();
+};
 Dialog.view = function(vn) {
     var id = vn.attrs.id;
     return m('aside.mdc-dialog[role=alertdialog]', {
