@@ -40,6 +40,12 @@ var Select = {
 						selected: true
 						}),
 					options.map(function (v,i) {
+						if (v.group) {
+							return m('optgroup', Object.assign({label: v.text}, v),
+								v.group.map(function(v,i) {
+									return m('option', Object.assign({},v), v.text);
+								}));
+						}
 						return m('option', Object.assign({},v), v.text);
 					})
 				),

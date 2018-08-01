@@ -164,46 +164,43 @@ const FarePower = {
 				availablePowersTriphase:
 				[]);
 
-		var label20 = _('%{fare}_Fare',{fare:'2.0'});
-		var label21 = _('%{fare}_Fare',{fare:'2.1'});
-		var label30 = _('%{fare}_Fare',{fare:'3.0'});
+		var label20 = _('%{fare} Fare',{fare:'2.0'});
+		var label21 = _('%{fare} Fare',{fare:'2.1'});
+		var label30 = _('%{fare} Fare',{fare:'3.0'});
 		return [{
 			value: undefined,
 			text: label20,
-			style: "direction: rtl; font-weight: bold; background-color:#df9;",
-			disabled: true,
-		}]
-		.concat(availablePowers.filter(function(v) { return v<10; })
-			.map(function(v) {
-				return {
-					value: v,
-					text: v,
-					style: 'background-color: #df9',
-				};
-			}))
-		.concat([{
+			style: "background-color:#df9;",
+			group: availablePowers
+				.filter(function(v) { return v<10; })
+				.map(function(v) {
+					return {
+						value: v,
+						text: v,
+					};
+				}),
+			},{
 			value: undefined,
 			text: label21,
-			style: "direction: rtl; font-weight: bold; background-color:#ae7;",
-			disabled: true,
-		}])
-		.concat(availablePowers.filter(function(v) { return v>=10; })
-			.map(function(v) {
-				return {
-					value: v,
-					text: v,
-					style: 'background-color: #ae7',
-				};
-			}))
+			style: "background-color:#ae7;",
+			group: availablePowers
+				.filter(function(v) { return v>=10; })
+				.map(function(v) {
+					return {
+						value: v,
+						text: v,
+					};
+				}),
+			}]
 		.concat(vn.state.model.type === 'tri'?[{
 			value: undefined,
 			text: label30,
-			disabled: true,
-			style: "direction: rtl; font-weight: bold; background-color:#9d6;",
-		},{
-			value: '15',
-			text: _('More than 15kW'),
-			style: 'background-color:#9d6',
+			style: "background-color:#9d6;",
+			group: [{
+				value: '15',
+				text: _('More than 15kW'),
+				style: 'background-color:#9d6',
+			}],
 		}]:[]);
 	},
 
