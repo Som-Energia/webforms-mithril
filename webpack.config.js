@@ -16,7 +16,11 @@ var config = {
 		filename: 'bundle-[name]-[chunkhash].js',
 		chunkFilename: 'chunk-[id]-[chunkhash].js',
 	},
+	devServer: {
+		contentBase: path.resolve(__dirname, 'dist'),
+	},
 	plugins:[
+		new CleanWebpackPlugin('dist/*'),
 		// Rewrites html to insert generated css and js
 		new HtmlWebpackPlugin({
 			filename: 'index.html',
@@ -35,7 +39,6 @@ var config = {
 			}),
 		// Analyzes generated sizes
 //		new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
-		new CleanWebpackPlugin('dist/*'),
 	],
 	module: {
 		rules: [
@@ -61,6 +64,17 @@ var config = {
 	},
 };
 
-module.exports = config;
+module.exports = (env, argv) => {
+
+  if (argv.mode === 'development') {
+    config.devtool = 'source-map';
+  }
+
+  if (argv.mode === 'production') {
+  }
+
+  return config;
+};
+
 
 // vim: noet ts=4 sw=4
