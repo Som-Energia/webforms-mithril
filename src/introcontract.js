@@ -10,6 +10,7 @@ var Checkbox = require('./mdc/checkbox');
 var TextField = require('./mdc/textfield');
 var ValidatedField = require('./validatedfield');
 var LanguageChooser = require('./languagechooser');
+var UserValidator = require('./uservalidator');
 var Mousetrap = require('mousetrap');
 require('mousetrap-global-bind');
 
@@ -39,13 +40,45 @@ function TokenRetriever() {
 };
 
 var IntroContract = {};
+/* states */
+const checkingSession     = 'checkingSession';
+const welcomeExistingUser = 'welcomeExistingUser';
+const askDni              = 'askDni';
+const checkDniExist       = 'checkDniExist';
+const welcomeNewUser      = 'welcomeNewUser';
+const askPassword         = 'askPassword';
+const checkingPassword    = 'checkingPassword';
 
 IntroContract.oninit = function(vn) {
 	vn.state.model = vn.attrs.model || {};
+	vn.state.state = checkingSession;
+	UserValidator.isValidated().then(function (data) {
+		vn.state.state = welcomeExistingUser;
+		model.name = data.name;
+	}, function (reason) {
+		vn.state.state = askDni;
+	});
+
 	var model = vn.state.model;
 	model.vat = {};
 	model.cups = {};
-	model.tokenretriever = new TokenRetriever();
+	model.login = function() {
+		m.request({
+			method: 'GET',
+			url: 'http://cas.somenergia.local:8000/login',
+			withCredentials: true,
+			extract: function(xhr) {
+				console.log(xhr.getResponseHeader('Set-Cookie'));
+			},
+		})
+		.then(function(result) {
+			console.log(result);
+		})
+		.catch(function(reason) {
+			console.log('Query failed', reason);
+		});
+	};
+	// model.tokenretriever = new TokenRetriever();
 	model.privacypolicyaccepted=false;
 	model.isphisical = function() {
 		if (this.vat===undefined) return undefined;
@@ -106,10 +139,79 @@ IntroContract.oncreate = function(vn) {
 	});
 };
 
-IntroContract.statechanged = function(vn) {
-	
-};
 IntroContract.view = function(vn) {
+	console.debug('view state', vn.state);
+	return (
+		vn.state.state === checkingSession ?
+			m('.mdc-typograpy--button',
+			{style: {width:'100%', 'text-align': 'center'}},
+			_('Validating session...')) : (
+		vn.state.state === welcomeExistingUser ?
+			m('.mdc--elevation-6', _(
+				'Hola %{name}. Wellcome to Som Energia contract form. '+
+				'Proceed to enter the CUPS number of the installation.'
+				, vn.state.model)) : (
+		vn.state.state === askDni ?
+			m(Row, [
+				m(Cell, {span:6}, m(ValidatedField, {
+					id: 'vat',
+					checkurl: '/check/vat/exists/',
+					label: _('NIF'),
+					boxed: true,
+					required: true,
+					maxlength: 9,
+					fieldData: vn.state.model.vat,
+					inputfilter: function(value) {
+						if (!value) return value;
+						value=value.toUpperCase();
+						value=value.replace(/[^0-9A-Z]/g,'');
+						return value.slice(0,9);
+					},
+					fieldData: vn.state.model.vat,
+					onvalidated: function() {
+
+					}
+				})),
+				m(Cell, {span:6}, m(Button, {
+					raised: true,
+					disabled: vn.state.model.vat.isvalid!==true,
+					onclick: function() {
+						vn.state.state = (vn.state.model.vat.data.exists===true)?
+							askPassword : welcomeNewUser;
+					},
+				}, _('Next'))),
+			]):
+		vn.state.state === askPassword ?
+			m(Row, [
+				m(Cell, {span:6}, m(TextField, {
+					label: _('Password'),
+					leadingfaicon: 'key',
+					type: 'password',
+					boxed: true,
+					oninput: function(ev) {
+						vn.state.model.password = ev.target.value
+					},
+				})),
+				m(Cell, {span:4}, m(Button, {
+					unelevated: true,
+					onclick: function(ev) {
+						var validationPromise = UserValidator.validate(
+							vn.state.model.vat.value,
+							vn.state.model.password);
+						validationPromise.then(function(data) {
+							vn.state.state = welcomeExistingUser;
+							vn.state.model.name = data.name;
+						});
+						validationPromise.catch(function (error) {
+							console.debug('TODO: manage validation errores');
+						});
+					},
+				},_('Login'))),
+			]) :
+		m('', vn.state.state)
+		))
+	);
+/*
 	var id=vn.attrs.id;
 	var prefix=id?id+'_':'';
 	var model = vn.state.model;
@@ -117,9 +219,9 @@ IntroContract.view = function(vn) {
 		model.vat.isvalid===true &&
 		model.vat.exists===true &&
 		true);
-		
+
 	var detailsRequired = (
-		model.vat.isvalid===true && 
+		model.vat.isvalid===true &&
 		model.vat.exists!==true &&
 		true);
 	return m('.personeditor', {
@@ -129,7 +231,7 @@ IntroContract.view = function(vn) {
 			return model.error;
 		},
 	},[
-
+*/
 /*
 			model.tokenretriever.token?(
 			model.tokenretriever.loading?
@@ -139,6 +241,7 @@ IntroContract.view = function(vn) {
 					model.tokenretriever)):
 			[]):[],
 */
+/*
 		m(Row, [
 			m(Cell, {span:12},
 				m('.intro',_('CONTRACT_INTRO')),
@@ -176,6 +279,9 @@ IntroContract.view = function(vn) {
 			})),
 			m(Cell, {span:4}, m(Button, {
 				unelevated: true,
+				onclick: function(ev) {
+					model.login();
+				},
 			},_('Login'))),
 		]),
 		m(Row, [
@@ -197,7 +303,7 @@ IntroContract.view = function(vn) {
 					return value.toUpperCase();
 				},
 				onvalidated: function(state) {
-					console.log('CUPS',state);
+					console.log('CUPS');
 				}
 			})),
 			m(Cell, {span:6}, m(TextField, {
@@ -212,44 +318,9 @@ IntroContract.view = function(vn) {
 			})),
 
 		]),
-	]);
+	]);*/
 };
 
-const Example = {};
-
-Example.Persona0 = {
-};
-Example.Persona1 = {
-};
-Example.Persona2 = {
-};
-
-Example.oncreate = function(vn) {
-};
-Example.view = function(vn) {
-	const Layout = require('./mdc/layout');
-	return m(Layout, [
-		m('h2', 'Person Editor'),
-		m('h3', 'Persona0'),
-		m(IntroContract, {id: 'p0'}, {
-			onvaluechanged: function(model) {
-				Object.assign(Example.Persona0, model);
-			},
-		}),
-		m('.red', this.Persona0.error),
-		m('pre', JSON.stringify(this.Persona0, null, 2)),
-		m('h3', 'Persona1'),
-		m(IntroContract, {id: 'p1', model: this.Persona1}),
-		m('.red', this.Persona1.error),
-		m('pre', JSON.stringify(this.Persona1, null, 2)),
-		m('h3', 'Persona2'),
-		m(IntroContract, {id: 'p2', model: this.Persona2}),
-		m('.red', this.Persona2.error),
-		m('pre', JSON.stringify(this.Persona2, null, 2)),
-	]);
-};
-
-IntroContract.Example = Example;
 module.exports = IntroContract;
 
 // vim: noet ts=4 sw=4
