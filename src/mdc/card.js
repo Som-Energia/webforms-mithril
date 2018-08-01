@@ -116,6 +116,7 @@ Card.Example.view = function(vn) {
 				m('p'),
 				m(Card, {
 						onprimary: function() {alert('Primary Action');},
+						outlined: true,
 					},
 					m(Card.Media, {
 					image: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(50,155,0,0.5) 100%)'
