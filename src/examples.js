@@ -20,28 +20,22 @@ var Dialog = require('./mdc/dialog');
 var Card = require('./mdc/card');
 var LinearProgress = require('./mdc/linearprogress');
 var Slider = require('./mdc/slider');
+var TabBar = require('./mdc/tabbar');
+var PageSlider = require('./pageslider');
 
 require('font-awesome/css/font-awesome.css');
 require('@material/typography/dist/mdc.typography.css').default;
 
-
-var Persona = {
-	field: undefined,
-	name: undefined,
-	nif: undefined,
-	nifValidation: {},
-};
-
-var showall=false;
 var skip = function (c) { return []; }
 
-
 var Examples = {
-	farepower: undefined,
 	view: function(vn) {
 		return m('.form.mdc-typography', [
+			m(Wizard.Example),
+			m(TabBar.Example),
+			m(PageSlider.Example),
 			m(Slider.Example),
-			m(LinearProgress.Example),
+			skip(LinearProgress.Example),
 			m(Dialog.Example),
 			m(Card.Example),
 			m(StateCityChooser.Example),
