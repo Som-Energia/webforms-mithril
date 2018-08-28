@@ -113,13 +113,13 @@ TabBar.Example.view = function(vn) {
 	var model = vn.state.model;
 	var Checkbox = require('./checkbox');
 	var Button = require('./button');
-	return [
-		m('h1', 'Tab bars'),
+	var Layout = require('./layout');
+	return m(Layout, m(Layout.Cell, {span: 12} , [
+		m('h2', 'Tab bars'),
 		m(TabBar, {
 			model: TabBar.Example.model,
 			index: model.active,
 			onactivated: function(ev) {
-				console.log('onactivated', ev.detail.index);
 				model.active = ev.detail.index;
 			},
 			align: model.align,
@@ -188,7 +188,7 @@ TabBar.Example.view = function(vn) {
 				};
 			}),
 		}),
-	];
+	]));
 };
 
 

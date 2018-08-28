@@ -57,7 +57,7 @@ LinearProgress.Example.oninit = function(vn) {
 LinearProgress.Example.view = function(vn) {
 	var Layout = require('./layout');
 	return m(Layout,
-		m(Layout.Row, m(Layout.Cell, m('h2', 'Linear Progress '))),
+		m(Layout.Cell, m('h2', 'Linear Progress ')),
 		m(Layout.Row, [
 			false && m(Layout.Cell, {span: 12}, 'Indeterminate', m(LinearProgress)),
 			m(Layout.Cell, {span: 12}, 'Determinate', m(LinearProgress, {max:50, value: vn.state.value1})),
