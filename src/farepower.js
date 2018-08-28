@@ -352,6 +352,18 @@ const FarePower = {
 };
 
 
+FarePower.Example = {};
+FarePower.Example.view = function(vn) {
+	return m(Layout,[
+		m(Cell, {span:12}, m('h2', 'FarePower')),
+		m(Cell, {span:12}, m(FarePower, {
+			onchanged: function(state) {
+				vn.state.farepower = state;
+			}
+		})),
+		m(Cell, {span:12}, JSON.stringify(vn.state.farepower,null,2)),
+	]);
+};
 
 
 module.exports = FarePower;
