@@ -5,29 +5,17 @@
 
 Widget used to navigate within elements of the same hierarchy by means of tabs.
 
-
 ## Attributes:
 
-- align: (center, start, end)
-- index: current tab index
-- onactivated: change handler ev.detail.index
-
-## Tab
-
-A tab in a tab bar.
-
-### Attributes
-
-- text: (string) text to be shown if any
-- icon: (string) material icon name to be shown if any
-- active: (bool) is the active tab
-- minwidth: (bool) adapts to the content (do not expand)
-- stacked: (bool) places the icon above the text instead
-- disabled: (bool) non interactive
-
+- align: (*center, start, end, expand)
+- mode: (*icontext, textonly, icononly, stacked)
+- index: (int) current tab index
+- onactivated: (callback) change handler ev.detail.index
+- tabs: an array of objects containing:
+	- text: (string) the text to be shown if any
+	- icon: (string) the material icon name to be shown if any
+	- disabled: (bool) non interactive (default: false)
 */
-
-
 
 
 var m = require('mithril');
@@ -72,7 +60,17 @@ TabBar.view = function(vn) {
 			, [
 			m('.mdc-tab-scroller__scroll-area',
 				m('.mdc-tab-scroller__scroll-content',
-					vn.children
+					vn.attrs.tabs && vn.attrs.tabs.map(function(tab, index) {
+						return m(Tab, {
+							id: tab.id,
+							disabled: tab.disabled,
+							text: vn.attrs.mode!=='icononly' && tab.text,
+							icon: vn.attrs.mode!=='textonly' && tab.icon,
+							stacked: vn.attrs.mode==='stacked',
+							minwidth: vn.attrs.align !== 'expand',
+							active: vn.attrs.index===index,
+						});
+					})
 				)
 			),
 		])
@@ -103,15 +101,10 @@ Tab.view = function(vn) {
 	]);
 };
 
-TabBar.Tab = Tab;
 
 TabBar.Example = {};
 TabBar.Example.model = {
 	active: 1,
-	expand: true,
-	stacked: false,
-	icons: true,
-	text: true,
 	align: 'center',
 	disableunfavorite: false,
 	active2: 0,
@@ -130,51 +123,40 @@ TabBar.Example.view = function(vn) {
 				model.active = ev.detail.index;
 			},
 			align: model.align,
-		}, [
-			m(Tab, {
+			mode: model.mode,
+			tabs: [{
 				id: 'tabfavorites',
-				text: model.text && 'Favorites',
-				icon: model.icons && 'favorite',
-				active: model.active==0,
-				minwidth: !model.expand,
-				stacked: model.stacked,
-			}),
-			m(Tab, {
+				text: 'Favorites',
+				icon: 'favorite',
+			},{
 				id: 'tabunfavorites',
-				text: model.text && 'Unfavorites',
-				icon: model.icons && 'thumb_down',
-				active: model.active==1,
-				minwidth: !model.expand,
+				text: 'Unfavorites',
+				icon: 'thumb_down',
 				disabled: model.disableunfavorite,
-				stacked: model.stacked,
-			}),
-			m(Tab, {
+			},{
 				id: 'tabowner',
-				text: model.text && 'Owner',
-				icon: model.icons && 'face',
-				active: model.active==2,
-				minwidth: !model.expand,
-				stacked: model.stacked,
-			}),
-		]),
+				text: 'Owner',
+				icon: 'face',
+			}],
+		}),
 		m('', 'Alignment:', [
-			m(Button, {onclick: function() { model.align='start'; model.expand=false; }},
+			m(Button, {onclick: function() { model.align='start'; }},
 				'Align Start'),
-			m(Button, {onclick: function() { model.align='center'; model.expand=false; }},
+			m(Button, {onclick: function() { model.align='center'; }},
 				'Align Center'),
-			m(Button, {onclick: function() { model.align='end'; model.expand=false; }},
+			m(Button, {onclick: function() { model.align='end'; }},
 				'Align End'),
-			m(Button, {onclick: function() { model.expand=true; }},
+			m(Button, {onclick: function() { model.align='expand'; }},
 				'Expand'),
 		]),
 		m('', 'Content:', [
-			m(Button, {onclick: function() { model.stacked=false; model.icons=true; model.text=true;}},
+			m(Button, {onclick: function() { model.mode='icontext'; }},
 				'Text & Icons'),
-			m(Button, {onclick: function() { model.stacked=false; model.icons=true; model.text=false;}},
+			m(Button, {onclick: function() { model.mode='icononly'; }},
 				'Icons Only'),
-			m(Button, {onclick: function() { model.stacked=false; model.icons=false; model.text=true;}},
+			m(Button, {onclick: function() { model.mode='textonly'; }},
 				'Text Only'),
-			m(Button, {onclick: function() { model.stacked=true; model.icons=true; model.text=true;}},
+			m(Button, {onclick: function() { model.mode='stacked'; }},
 				'Stacked'),
 		]),
 		m('', 'Programmatic jump:', [
@@ -199,14 +181,13 @@ TabBar.Example.view = function(vn) {
 			onactivated: function(ev) {
 				model.active2 = ev.detail.index;
 			},
-		}, [0,1,2,3,4,5,6,7,8,9,10,11].map(function(v) {
-			return m(Tab, {
+			tabs: [0,1,2,3,4,5,6,7,8,9,10,11].map(function(v, index) {
+			return {
 				id: 'tabscroll'+v,
-				active: v==0,
 				text: 'Scrolled Tab '+v,
-				minwidth: true,
-			});
-		})),
+				};
+			}),
+		}),
 	];
 };
 
