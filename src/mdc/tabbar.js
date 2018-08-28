@@ -25,11 +25,6 @@ A tab in a tab bar.
 - stacked: (bool) places the icon above the text instead
 - disabled: (bool) non interactive
 
-## TODO
-
-- [ ] Bug: Changing from and to stacked losses the current item
-- [ ] Bug: Changing from and to expanded losses the current item
-
 */
 
 
@@ -70,10 +65,6 @@ TabBar.oncreate = function(vn) {
 	});
 	vn.state.index !== undefined && vn.state.model.activateTab(vn.attrs.index);
 };
-TabBar.onupdate = function(vn) {
-	console.log('onupdate', vn.state.widget);
-	//vn.state.widget && vn.state.widget.activateTab(vn.state.index);
-};
 TabBar.view = function(vn) {
 	return m('.mdc-tab-bar[role="tablist"]',
 		m('.mdc-tab-scroller'
@@ -90,14 +81,6 @@ TabBar.view = function(vn) {
 
 
 var Tab = {};
-Tab.oninit = function(vn) {
-};
-Tab.onupdate = function(vn) {
-	console.log('tab updated', vn.dom);
-};
-Tab.onremove = function(vn) {
-	console.log('tab removed', vn.dom);
-};
 Tab.view = function(vn) {
 	return m('button.mdc-tab'+
 		(vn.attrs.active? '.mdc-tab--active':'')+
@@ -152,7 +135,7 @@ TabBar.Example.view = function(vn) {
 				id: 'tabfavorites',
 				text: model.text && 'Favorites',
 				icon: model.icons && 'favorite',
-				active: true,
+				active: model.active==0,
 				minwidth: !model.expand,
 				stacked: model.stacked,
 			}),
@@ -160,6 +143,7 @@ TabBar.Example.view = function(vn) {
 				id: 'tabunfavorites',
 				text: model.text && 'Unfavorites',
 				icon: model.icons && 'thumb_down',
+				active: model.active==1,
 				minwidth: !model.expand,
 				disabled: model.disableunfavorite,
 				stacked: model.stacked,
@@ -168,6 +152,7 @@ TabBar.Example.view = function(vn) {
 				id: 'tabowner',
 				text: model.text && 'Owner',
 				icon: model.icons && 'face',
+				active: model.active==2,
 				minwidth: !model.expand,
 				stacked: model.stacked,
 			}),
