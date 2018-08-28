@@ -1,34 +1,15 @@
 'use strict';
 var m = require('mithril');
 var _ = require('./translate');
+
+
+var TabBar = require('./mdc/tabbar');
 var Layout = require('./mdc/layout');
 var Row = Layout.Row;
 var Cell = Layout.Cell;
-require('@material/tabs/dist/mdc.tabs.css');
 var Button = require('./mdc/button');
-var MDCTab = require('@material/tabs').MDCTab;
-var MDCTabBar = require('@material/tabs').MDCTabBar;
-
-
-
-require('@material/typography/dist/mdc.typography.css').default;
-
-var WizardTab = {
-	view: function(vn) {
-		var active = vn.attrs.active;
-		return m('a.mdc-tab[role=tab]'+
-			(active?'.mdc-tab--active':'')+
-			(active?'.mdc-theme--primary':'.mdc-theme--secondary')+
-		'', {
-			href: '#',
-			tabindex: -1, // Excluded from tab navitation
-			disabled: true,//vn.attrs.disabled,
-		}, [
-			vn.children,
-			m('span.mdc-tab__indicator'),
-		]);
-	},
-};
+var Pager = require('./pageslider');
+var LinearProgress = require('./mdc/linearprogress');
 
 var Wizard = {
 	oninit: function(vn) {
@@ -39,18 +20,30 @@ var Wizard = {
 	},
 	view: function(vn) {
 		var self = this;
+		var currentIndex = vn.children.findIndex(function(child) {
+			return self.currentPage === child.attrs.id;
+		});
 		return m('', [
-			m('nav.mdc-tab-bar[role=tablist]', self.pages.map(function(page,i) {
-				var active = self.currentPage === page.attrs.id;
-				var title = page.attrs.title;
-				return m(WizardTab, {
-					href: '#',
-					disabled: true,
-					active: active,
-					}, (i+1)+' '+title);
-			})),
-			m('span.mdc-tab-bar__indicator'),
-			vn.children.map(function(page) {
+			m(LinearProgress, {
+				max: vn.children.length-1,
+				value: currentIndex,
+			}),
+			false && m(TabBar, {
+				align:'center',
+				index: currentIndex,
+				tabs: self.pages.map(function(page,i) {
+					var active = self.currentPage === page.attrs.id;
+					var title = page.attrs.title;
+					return {
+						disabled: true,
+						icon: (i+1),
+						text: (i+1)+' '+title,
+					};
+				}),
+			}),
+			m(Pager, {
+				current: currentIndex,
+			}, vn.children.map(function(page) {
 				var active = self.currentPage === page.attrs.id;
 				var errors = page.attrs.validator && page.attrs.validator();
 				return m('.tabpanel[role=tabpanel]'+
@@ -59,6 +52,7 @@ var Wizard = {
 						'aria-hidden': (!active && !vn.attrs.showall)?'true':'false',
 					}, [
 					m(Layout, [
+						m(Cell, {span:12}, m('h2', page.attrs.title)),
 						page.children,
 						m(Row, {align: 'right'}, [
 							m(Cell,{span:8}, m('.red', errors)),
@@ -75,7 +69,7 @@ var Wizard = {
 							m(Cell,{span: 2},
 								m(Button, {
 									raised:true,
-									faicon: 'chevron-right',
+									faicon: page.attrs.next===undefined?'send':'chevron-right',
 									tabindex: 0,
 									disabled: errors !== undefined,
 									onclick: function() { self.next(); },
@@ -87,7 +81,7 @@ var Wizard = {
 						]),
 					]),
 				]);
-			}),
+			})),
 		]);
 	},
 	search: function(pageid) {
@@ -107,6 +101,89 @@ var Wizard = {
 		this.go(currentPage.attrs.next)
 	},
 };
+
+var Persona = {
+	field: undefined,
+	name: undefined,
+	nif: undefined,
+	nifValidation: {},
+};
+
+Wizard.Example = {};
+Wizard.Example.showall=false;
+Wizard.Example.view = function(vn) {
+	var FarePower = require('./farepower');
+	var ValidatedField = require('./validatedfield');
+	return m(Layout, [
+		m(Layout.Cell, {span: 12}, m('h2', 'Wizard')),
+		m(Layout.Cell, {span: 12}, m(Wizard, {
+			showall: Wizard.Example.showall,
+		}, [
+			m('.page', {
+				id: 'holder',
+				title: _('Holder'),
+				next: 'supply',
+			}, [
+				m('h2', 'Page 1'),
+			]),
+
+			m('.page', {
+				id: 'supply',
+				title: _('Supply point'),
+				prev: 'holder',
+				next: 'confirm',
+				validator: function() {
+					if (vn.state.farepower) {
+						return vn.state.farepower.error;
+					}
+				},
+			}, [
+				m(FarePower, {model: vn.state.farepower})
+			]),
+			m('.page', {
+				id: 'confirm',
+				title: _('Confirmation'),
+				prev: 'supply',
+			}, m(Row, [
+				m(Cell, {span:6}, m(ValidatedField, {
+					id: 'afield',
+					label: _('Field label'),
+					help: _('Field Help'),
+					icon: '.fa-spinner.fa-spin',
+					value: Persona.field,
+					onChange: function(value) {
+						Persona.field = value;
+					},
+				})),
+				m(Cell, {span:6}, m(ValidatedField, {
+					id: 'nif',
+					label: _('NIF/DNI'),
+					pattern: /[0-9A-Za-z]+/,
+					defaulterror: _('Invalid VAT'),
+					checkurl: '/check/vat/',
+					help: _('Tax ID'),
+					value: Persona.nif,
+					onChange: function(value) {
+						Persona.nif = value;
+					},
+				})),
+				m(Cell, {span:8}, m(ValidatedField, {
+					id: 'name',
+					label: _('Name'),
+					required: true,
+					help: _('Ayuda'),
+					value: Persona.name,
+					onChange: function(value) {
+						Persona.name = value;
+					},
+				})),
+			])),
+		])),
+	]);
+};
+
+
+
 
 module.exports=Wizard
 // vim: noet ts=4 sw=4
