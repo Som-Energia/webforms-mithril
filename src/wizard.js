@@ -49,7 +49,7 @@ var Wizard = {
 				return m('.tabpanel[role=tabpanel]'+
 						(active?'.active':'')+
 						'', {
-						'aria-hidden': (!active && !vn.attrs.showall)?'true':'false',
+//						'aria-hidden': (!active && !vn.attrs.showall)?'true':'false',
 					}, [
 					m(Layout, [
 						m(Cell, {span:12}, m('h2', page.attrs.title)),

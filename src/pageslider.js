@@ -7,20 +7,20 @@ require('./pageslider.styl');
 const PageSlider = {};
 
 PageSlider.oninit = function(vn) {
+	console.log('init');
 	vn.state.current = vn.attrs.current || 0;
 	vn.state.model = vn.attrs.model || {};
-	vn.state.height = vn.attrs.height || 300;
+	vn.state.height = vn.attrs.height;
 };
 
 function updateHeight(vn, mode) {
 	var newHeight = vn.state.height = Math.max.apply(Math,
 		vn.children.map(function(child) {
-			console.log(child.dom, child.dom.offsetHeight);
-			return child.dom.offsetHeight;
+			console.log(child.dom.offsetHeight, child.dom);
+			return child.dom.offsetHeight+50;
 		}));
-	console.log('height', mode, newHeight);
+	console.log('height', mode, vn.state.height, newHeight);
 	if (newHeight && newHeight !== vn.state.height) {
-		console.log('redrawing', newHeight, vn.state.height);
 		vn.state.height = newHeight;
 		m.redraw();
 	}
@@ -28,6 +28,7 @@ function updateHeight(vn, mode) {
 
 
 PageSlider.oncreate = function(vn) {
+	// TODO: This does not work as expected
 	updateHeight(vn, 'create');
 };
 PageSlider.onupdate = function(vn) {
@@ -35,7 +36,7 @@ PageSlider.onupdate = function(vn) {
 };
 
 PageSlider.view = function(vn) {
-	return m('.pageslider', {style: {height: vn.state.height+'pt'}},
+	return m('.pageslider', {style: {height: vn.state.height+'px'}},
 		vn.children.map(function(child,index) {
 			return m('.pageslider-page'
 				+(vn.attrs.current===index?'.active':'')
