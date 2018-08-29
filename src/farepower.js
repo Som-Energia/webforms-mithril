@@ -80,7 +80,6 @@ const FloatInput = {
 
 const FarePower = {
 	oninit: function(vn) {
-		console.log("FarePower init", vn.attrs.model);
 		vn.state.model = vn.attrs.model || {};
 		vn.state.model.error = undefined;
 		vn.state.model.type = 'mono';

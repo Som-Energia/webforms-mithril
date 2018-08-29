@@ -27,12 +27,6 @@ require('material-design-icons/iconfont/material-icons.css');
 
 var MDCTabBar = require('@material/tab-bar').MDCTabBar;
 
-
-function traceFocus() {
-	console.log('focus:', document.activeElement);
-};
-window.addEventListener('focus', traceFocus, true);
-
 var TabBar = {};
 TabBar.oninit = function(vn) {
 	vn.state.index = vn.attrs.index === undefined ? 0 : vn.attrs.index;

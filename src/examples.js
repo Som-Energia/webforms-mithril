@@ -26,6 +26,8 @@ var PageSlider = require('./pageslider');
 require('font-awesome/css/font-awesome.css');
 require('@material/typography/dist/mdc.typography.css').default;
 
+var traceFocus = require('./debughelpers').traceFocus;
+
 var skip = function (c) { return []; }
 
 var Examples = {
@@ -56,5 +58,6 @@ var Examples = {
 window.onload = function() {
 	var element = document.getElementById("mithril-target");
 	m.mount(element, Examples);
+	//traceFocus();
 };
 // vim: noet ts=4 sw=4
