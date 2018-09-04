@@ -3,6 +3,7 @@ var m = require('mithril');
 var UserValidator = {};
 
 UserValidator._mockPreValidated = false;
+UserValidator._mockPreValidationTimeoutMs = 1000;
 UserValidator._mockPostValidated = true;
 
 UserValidator.isValidated = function() {
@@ -25,7 +26,7 @@ UserValidator.isValidated = function() {
 					type: 'NonValidated',
 				});
 			}
-		}, 500);
+		}, self._mockPreValidationTimeoutMs);
 	});
 	return promise;
 };
