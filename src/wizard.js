@@ -171,7 +171,7 @@ Wizard.Example.view = function(vn) {
 			])),
 			m('.page', {
 				id: 'asyncNext',
-				title: _('Ejemplo next funcion'),
+				title: _('Ejemplo next function'),
 				prev: 'funcNext',
 				next: function() {
 					return new Promise(function(accept, reject) {
