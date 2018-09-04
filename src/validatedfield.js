@@ -111,7 +111,6 @@ var ValidatedField = {
 			// defaults
 			}, vnode.attrs, {
 			// overrrides
-			onchange: validateInput,
 			oninput: validateInput,
 			value: vnode.state.value,
 			faicon: statusIcon,
