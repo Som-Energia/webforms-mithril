@@ -153,6 +153,9 @@ IntroContract.view = function(vn) {
 				, vn.state.model)) : (
 		vn.state.state === askDni ?
 			m(Row, [
+				m(Cell, {span:12}, 
+					_('Wellcome to Som Energia electricity contract form. ')
+				),
 				m(Cell, {span:6}, m(ValidatedField, {
 					id: 'vat',
 					checkurl: '/check/vat/exists/',

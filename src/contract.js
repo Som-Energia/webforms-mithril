@@ -65,7 +65,7 @@ var IntroPage = function() {
 	var intro = Contract.intro;
 	return m('.page', {
 		id: 'intro_page',
-		title: _('Intro'),
+		title: _('Wellcome'),
 		next: 'holder_page',
 		validator: function() {
 			intro.validate && intro.validate();
