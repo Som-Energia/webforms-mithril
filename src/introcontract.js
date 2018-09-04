@@ -14,31 +14,6 @@ var UserValidator = require('./uservalidator');
 var Mousetrap = require('mousetrap');
 require('mousetrap-global-bind');
 
-function TokenRetriever() {
-	var self = this;
-	self.token = m.parseQueryString(location.search).token || false;
-	self.loading = false;
-	self.data = false;
-	self.error = false;
-	if (!self.token) { return; }
-	self.loading = true;
-	m.request({
-		method: 'GET',
-		url: 'http://localhost:5001/data/token/:token',
-		data: {
-			token: self.token,
-		},
-	}).then(function(response) {
-		self.loading = false;
-		if (response.state !== true) {
-			self.error = response.data.error;
-			self.errorDescription = response.data.description;
-			return;
-		}
-		self.tokendata=response.data;
-	});
-};
-
 var IntroContract = {};
 /* states */
 const checkingSession     = 'checkingSession';
@@ -78,7 +53,6 @@ IntroContract.oninit = function(vn) {
 			console.log('Query failed', reason);
 		});
 	};
-	// model.tokenretriever = new TokenRetriever();
 	model.privacypolicyaccepted=false;
 	model.isphisical = function() {
 		if (this.vat===undefined) return undefined;
