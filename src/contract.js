@@ -15,7 +15,7 @@ var Mousetrap = require('mousetrap');
 require('mousetrap-global-bind');
 require('font-awesome/css/font-awesome.css');
 require('@material/typography/dist/mdc.typography.css').default;
-
+var Inspector = require('./inspector');
 var showall = false;
 
 Mousetrap.bindGlobal('ctrl+shift+y', function() {
@@ -24,13 +24,6 @@ Mousetrap.bindGlobal('ctrl+shift+y', function() {
 	console.log('showall', showall);
 	return false;
 });
-
-Mousetrap.bindGlobal('ctrl+shift+d', function() {
-	var inspector = document.querySelector('.inspector');
-	inspector.classList.toggle('shown');
-	return false;
-});
-
 
 var Contract = {
 	intro: {},
@@ -43,8 +36,11 @@ var Contract = {
 var Form = {};
 Form.view = function(vn) {
 	return m('.form.mdc-typography', [
-		m('.inspector',
-			m('pre', JSON.stringify(Contract, null, 2))),
+		m(Inspector, {
+			shortcut: 'ctrl+shift+d',
+			model: Contract,
+		}),
+		
 		m('.main', [
 			m(Wizard, {
 				showall: showall,
