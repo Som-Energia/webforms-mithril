@@ -1,0 +1,123 @@
+## Wizard Pages
+
+			- Contratar la luz desde la pagina web
+				- No aporta info
+			- Invitacion a no socio de un socio
+				- Sabemos el socio vinculado $MEMBERNAME
+			- Intercoop
+				- Sabemos el socio vinculado $MEMBERNAME
+				- Sabemos los datos del titular $NIF
+			- Invitacion a cambiar titular del antiguo titular
+				- Sabemos el CUPS $CUPSADDRESS
+				- Si lo ha escogido así, sabemos el socio vinculado $MEMBERNAME
+				- Lectura y fecha del cambio
+				- Surrogacion o no
+			- Contratar la luz desde la OV o ya logeado
+				- Sabemos el titular
+
+1. IntroPage:
+	- ""
+	- "Bienvenido al formulario de contratación de la electricidad con SomEnergia."
+	- Mientras este detectando el origen de la situacion: "Cargando datos..."
+	- Si viene con token de invitacion a cambio titular:
+		- "Esta cambiando la titularidad del contrato de: $CUPSADDRESS"
+	- Si viene con token de apadrinamiento:
+		- "Su contrato estará apadrinado por: $MEMBERNAME"
+	- Si se detecta sesion CAS o que viene de OV
+		- "El titular del nuevo contrato serà $NAME."
+		- "Si eso no es correcto, por favor, cierre la sesión con dicho usuario (enlace)."
+		- Siguiente activo en cuanto se comprueba que hay sesion
+		- Siguiente va a CupsPage
+	- Si se detecta sesion CAS o que viene de OV
+		- "Por favor, introduzca el NIF del titular del nuevo contrato []"
+		- Se valida el NIF según se va entrando
+		- Siguiente activo en cuanto el NIF sea uno vàlido
+		- Si el NIF existe Siguiente va a PasswordPage, si no se va a OwnerPage
+
+1. PasswordPage. Solo si no esta logeado y se detecta que el usuario existe
+	- "Este NIF existe en nuestro sistema y requiere contraseña"
+	- "Contraseña []"
+	- "[Olvidé la contraseña]()"
+	- Se valida la contraseña y recoge la información (nombre, si es socio).
+
+1. Datos personales: Solo si se detecta que el usuario no existe
+	- "Introduzca los datos del titular con NIF $NIF"
+	- ...
+
+1. Si no es una invitacio a cambio de titular
+	- "Introduzca el código CUPS de la instalación"
+	- "Código CUPS: []"
+	- Si se detecta: El código CUPS corresponde a "$CUPSADDRESS"
+	- Apuntar si es un contrato activo con SomEnergia
+
+1. Si no es socio
+	1. Si no es invitado y no es un cambio de titular:
+		- "Para poder contratar, ha de ser socio o haber recibido una invitación de uno".
+		- "Ser socio comporta una aportacion única de 100€ que se retorna al dejar de serlo."
+		- "[ ] Acepto convertirme persona socia de la cooperativa mediante el pago de la aportación."
+
+	1. Si no es invitado pero es un cambio de titular:
+		- "La contratación en SE requiere ser socia de la cooperativa."
+		- "En los cambios de titularidad, damos un margen de un año para que nos conozcas."
+		- "Despues de un año, se te dará la opción de entrar en la cooperativa o pasar a la comercializadora del monopolio de tu zona."
+		- "[ ] Me quiero hacer socio ya sin esperar a un año, y acepto el pago de la participación."
+
+	1. Si le ha invitado alguien:
+		- "La contratación en SE requiere ser socia de la cooperativa."
+		- "En tu caso **no es necesario** por que te ha invitado $MEMBERNAME pero te damos la opción de serlo si marcas la opción.
+		- "Ser socio comporta una aportacion única de 100€ que se retorna al dejar de serlo."
+		- "[ ] Acepto ser persona socia de la cooperativa y el pago de la participación."
+
+
+1. Si es un CUPS nuevo:
+	- "Datos del punto de suministro"
+	- ...
+
+1. Si el CUPS no esta activo en SE
+	- "¿Hay luz en el punto de suministro?"
+	- "() No, será necesario dar de alta el suministro"
+	- "() Si, ya hay luz, sólo quiero cambiar la comercializadora"
+	- Si no, es alta
+
+1. Si es alta
+	- "Datos de suministro:"
+	- Potencia/tarifa
+	- Documentacion de alta
+
+1. Si no es alta y no es CUPS activo:
+	- "¿Hasta ahora el contrato de este punto de suministro estaba tambien a nombre de $NAME?"
+	- "( ) Si. Se matiene la misma titularidad."
+	- "( ) No. Comportará un cambio de titular."
+	- "Atención: Si no se informa correctamente de esto, la distribuidora rechazará el cambio"
+	- Si se informa que no, se activa el flag de cambio de titular, como si fuera una invitacion a cambio o el cups estuviera activo
+
+1. Si hay un cambio de titular (indicado, invitacion o detectado cups activo):
+	- TODO: Que tiene que decir el antiguo titular aqui?
+	- "¿Que método quieres para hacer el cambio?"
+	- "( ) Surrogación: el nuevo titular acepta las posibles deudas pendientes del anterior contrato."
+	- "( ) No surrogación: el nuevo titular pagará la fianza de la distribuidora."
+
+1. Centimo voluntario
+	- "Opcionalmente, puedes donar 1¢/kWh de tu consumo, para potenciar actividades accesorias de la cooperativa."
+	- "La asamblea decidió que fuera un tercio a la lucha contra la pobreza energética,"
+	- "otro tercio a actividades de lobby para cambiar el modelo energético, "
+	- "y otro tercio a financiar la actividad voluntaria de los grupos locales."
+	- "Siempre podrás cambiar esta opción desde la oficina virtual."
+	- "( ) Si, estoy de acuerdo con donar el céntimo voluntario en este contrato."
+	- "( ) No, soy un egoista asqueroso."
+
+1. Payment Conditions
+	- "IBAN: []"
+	- "Confirmo que soy el titular de la cuenta y acepto que carguen los pagos en ella."
+
+1. Resumen del contrato y confirmación
+	- "Aun no has acabado. Lee la información recopilada y firma el contrato."
+	- Info
+	- "Acepto las condiciones generales"
+	- "[Contratar > ]"
+
+
+
+
+
+
