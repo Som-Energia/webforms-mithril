@@ -17,6 +17,7 @@ var Wizard = {
 		this.pages.map(function(page) {
 			vn.state.currentPage = vn.state.currentPage || page.attrs.id;
 		});
+		this.intransition = false;
 	},
 	view: function(vn) {
 		var self = this;
@@ -61,7 +62,7 @@ var Wizard = {
 									outlined: true,
 									faicon: 'chevron-left',
 									tabindex: 0,
-									disabled: page.attrs.prev===undefined,
+									disabled: page.attrs.prev===undefined || self.intransition,
 									onclick: function() { self.prev(); },
 									style: {width:'100%'},
 								},  _("Previous")),
@@ -69,9 +70,9 @@ var Wizard = {
 							m(Cell,{span: 2},
 								m(Button, {
 									raised:true,
-									faicon: page.attrs.next===undefined?'send':'chevron-right',
+									faicon: self.intransition?'spinner.fa-spin': page.attrs.next===undefined?'send':'chevron-right',
 									tabindex: 0,
-									disabled: errors !== undefined,
+									disabled: errors !== undefined || self.intransition,
 									onclick: function() { self.next(); },
 									style: {width:'100%'},
 									},
@@ -97,8 +98,28 @@ var Wizard = {
 		this.go(currentPage.attrs.prev)
 	},
 	next: function() {
-		var currentPage = this.search(this.currentPage);
-		this.go(currentPage.attrs.next)
+		function isPromise(thing) {
+			return thing.then !== undefined;
+		}
+		var self = this;
+		var currentPage = self.search(self.currentPage);
+		var nextAttribute = currentPage.attrs.next;
+		if (typeof nextAttribute !== 'function') {
+			self.go(nextAttribute);
+			return;
+		}
+		var maybePromise = nextAttribute();
+		if (!isPromise(maybePromise)) {
+			self.go(maybePromise);
+			return;
+		}
+		// TODO: Common async next actions
+		self.intransition=true;
+		maybePromise.then(function (nextPage) {
+			self.intransition=false;
+			self.go(nextPage);
+			m.redraw();
+		});
 	},
 };
 
@@ -131,7 +152,7 @@ Wizard.Example.view = function(vn) {
 				id: 'supply',
 				title: _('Supply point'),
 				prev: 'holder',
-				next: 'confirm',
+				next: 'funcNext',
 				validator: function() {
 					if (vn.state.farepower) {
 						return vn.state.farepower.error;
@@ -141,9 +162,31 @@ Wizard.Example.view = function(vn) {
 				m(FarePower, {model: vn.state.farepower})
 			]),
 			m('.page', {
+				id: 'funcNext',
+				title: _('Avance sincrono'),
+				prev: 'supply',
+				next: function() { return 'asyncNext'; },
+			}, m(Row, [
+				m(Cell, {span:12}, "Ejemplo de avance sincrono"),
+			])),
+			m('.page', {
+				id: 'asyncNext',
+				title: _('Ejemplo next funcion'),
+				prev: 'funcNext',
+				next: function() {
+					return new Promise(function(accept, reject) {
+						setTimeout(function() {
+							accept('confirm');
+						}, 2000);
+					});
+				},
+			}, m(Row, [
+				m(Cell, {span:12}, "Validacion asincrona"),
+			])),
+			m('.page', {
 				id: 'confirm',
 				title: _('Confirmation'),
-				prev: 'supply',
+				prev: 'asyncNext',
 			}, m(Row, [
 				m(Cell, {span:6}, m(ValidatedField, {
 					id: 'afield',
