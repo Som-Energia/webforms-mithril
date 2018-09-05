@@ -1,5 +1,8 @@
 ## Wizard Pages
 
+![Flujo de aplicación](contract.svg)
+
+
 0. Origenes
 	- Contratar la luz desde la pagina web
 		- No aporta info
