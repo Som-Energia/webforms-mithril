@@ -1,0 +1,56 @@
+digraph G {
+    graph [layout=dot]
+    
+    UserIdentified [color=red, shape=diamond, label=""]
+    CupsIdentified [color=red, shape=diamond, label=""]
+    MembershipSolved [color=red, shape=diamond, label=""]
+    CupsDataCompleted [color=red, shape=diamond, label=""]
+
+	Loading [label="Cargando datos..."]
+	WelcomeUser [label="Bienvenida Usuario"]
+	Nif [label="Preguntar NIF"]
+	Password [label="Preguntar Contraseña"]
+	PersonalData [label="Datos Personales"]
+	CupsCode [label="Código CUPS"]
+	BecomeMember [label="¿Quieres ser socia?"]
+	CupsData [label="Datos punto suministro"]
+	HasSupply [label="¿Tiene luz?"]
+	Technical [label="Potencia\nTarifa\nDocumentación"]
+	NewHolder [label="¿Titular diferente?"]
+	Surrogation [label="¿Por surrogación?"]
+	SwitchDate [label="¿Quieres fecha de cambio?"]
+	VoluntaryCent [label="¿Céntimo voluntario?"]
+	Payment [label="Datos de pago"]
+	Summary [label="Resum y signatura"]
+	Error [label="Error"]
+	Success [label="¡Felicidades!"]
+
+   
+    Loading -> WelcomeUser [id="hasSession" label="Con sesión"]
+    Loading -> Nif [id="noSession" label="Sin sesión"]
+    Nif -> Password [id="existingVat" label="NIF existente"]
+    Nif -> PersonalData [id="newVat" label="NIF nuevo"]
+    WelcomeUser -> UserIdentified
+    PersonalData -> UserIdentified
+    Password -> UserIdentified
+    UserIdentified -> CupsCode [id="noStartedByOldHolder" label="No iniciado por\nanterior titular"]
+    CupsCode -> CupsIdentified
+    UserIdentified -> CupsIdentified [id="startedByOldHolder" label="Iniciado por\nanterior titular"]
+    CupsIdentified -> BecomeMember [id="notMember" label="No es socia"]
+    CupsIdentified -> MembershipSolved [id="isMember" label="Es socia"]
+    BecomeMember -> MembershipSolved
+    MembershipSolved -> CupsData [id="newCups" label="CUPS nuevo"]
+    MembershipSolved -> CupsDataCompleted [id="existingCups" label="CUPS existente"]
+    CupsData -> CupsDataCompleted
+    CupsDataCompleted -> HasSupply [id="noActiveCups" label="CUPS sin contrato\nactivo en Som"]
+    CupsDataCompleted -> Surrogation [id="isActiveCups" label="CUPS con contrato\nactivo en Som"]
+    HasSupply -> Technical [id=noSupply label="Sin luz"]
+    Technical -> VoluntaryCent
+    HasSupply -> NewHolder [id=hasSupply label="Con luz"]
+    NewHolder -> Surrogation [id=newHolder label="Cambia el titular"]
+    NewHolder -> VoluntaryCent [id=sameHolder label="Mismo titular"]
+    Surrogation -> SwitchDate
+    SwitchDate -> VoluntaryCent -> Payment -> Summary 
+    Summary ->  Error
+    Summary -> Success
+} 

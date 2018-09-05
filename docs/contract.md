@@ -18,6 +18,7 @@
 	- Contratar la luz desde la OV o ya logeado
 		- Sabemos el titular $NIF
 
+
 1. **IntroPage**: Pagina de bienvenida
 	- "Formulario de contratación de electricidad con SomEnergia."
 	- "Bienvenido."
@@ -31,7 +32,7 @@
 		- "Si eso no es correcto, por favor, cierre la sesión con dicho usuario (enlace)."
 		- Desbloqueo: cuando se comprueba que hay sesion
 		- Siguiente: CupsPage
-	- Si se detecta sesion abierta (CAS o OV)
+	- Si no se detecta sesion abierta (CAS o OV)
 		- "Por favor, introduzca el NIF del titular del nuevo contrato [   ]"
 		- Se valida el NIF según se va entrando
 		- Desbloqueo: Cuando el nif es uno válido
@@ -59,6 +60,7 @@
 		- "Para poder contratar, ha de ser socio o haber recibido una invitación de uno".
 		- "Ser socio comporta una aportacion única de 100€ que se retorna al dejar de serlo."
 		- "[ ] Acepto convertirme persona socia de la cooperativa mediante el pago de la aportación."
+		- Validate: Tiene que aceptar por narices
 
 	1. Si no es invitado pero es un cambio de titular:
 		- "La contratación en SE requiere ser socia de la cooperativa."
