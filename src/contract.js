@@ -81,7 +81,6 @@ var HolderPage = function() {
 		id: 'holder_page',
 		title: _('Holder'),
 		next: 'supply_page',
-		prev: 'intro_page',
 		validator: function() {
 			holder.validate && holder.validate();
 			return holder.error;
@@ -99,7 +98,6 @@ var SupplyPage = function() {
 		id: 'supply_page',
 		title: _('Supply'),
 		next: 'terms_page',
-		prev: 'holder_page',
 	},[
 	]);
 };
@@ -109,7 +107,6 @@ var TermsPage = function() {
 		id: 'terms_page',
 		title: _('Terms'),
 		next: 'payment_page',
-		prev: 'supply_page',
 		validator: function() {
 			Contract.terms.validate &&
 				Contract.terms.validate();
@@ -125,7 +122,6 @@ var PaymentPage = function() {
 		id: 'payment_page',
 		title: _('Payment'),
 		next: 'review_page',
-		prev: 'terms_page',
 		validator: function() {
 			Contract.payment.validate && Contract.payment.validate();
 			return Contract.payment.error;
@@ -139,7 +135,6 @@ var ReviewPage = function() {
 	return m('.page', {
 		id: 'review_page',
 		title: _('Review'),
-		prev: 'payment_page',
 	},[
 	]);
 };

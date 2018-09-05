@@ -18,6 +18,7 @@ var Wizard = {
 			vn.state.currentPage = vn.state.currentPage || page.attrs.id;
 		});
 		this.intransition = false;
+		this.history = [];
 	},
 	view: function(vn) {
 		var self = this;
@@ -62,7 +63,7 @@ var Wizard = {
 									outlined: true,
 									faicon: 'chevron-left',
 									tabindex: 0,
-									disabled: page.attrs.prev===undefined || self.intransition,
+									disabled: !self.history.length || self.intransition,
 									onclick: function() { self.prev(); },
 									style: {width:'100%'},
 								},  _("Previous")),
@@ -94,8 +95,7 @@ var Wizard = {
 		this.currentPage = page;
 	},
 	prev: function() {
-		var currentPage = this.search(this.currentPage);
-		this.go(currentPage.attrs.prev)
+		this.go(this.history.pop());
 	},
 	next: function() {
 		function isPromise(thing) {
@@ -105,11 +105,13 @@ var Wizard = {
 		var currentPage = self.search(self.currentPage);
 		var nextAttribute = currentPage.attrs.next;
 		if (typeof nextAttribute !== 'function') {
+			nextAttribute && self.history.push(self.currentPage);
 			self.go(nextAttribute);
 			return;
 		}
 		var maybePromise = nextAttribute();
 		if (!isPromise(maybePromise)) {
+			maybePromise && self.history.push(self.currentPage);
 			self.go(maybePromise);
 			return;
 		}
@@ -117,7 +119,11 @@ var Wizard = {
 		self.intransition=true;
 		maybePromise.then(function (nextPage) {
 			self.intransition=false;
+			nextPage && self.history.push(self.currentPage);
 			self.go(nextPage);
+			m.redraw();
+		}).catch(function(reason) {
+			self.intransition=false;
 			m.redraw();
 		});
 	},
