@@ -286,8 +286,15 @@ const FarePower = {
 				}),
 			]),
 		]),
-		(vn.state.model.power===undefined || !vn.state.model.power || parseFloat(vn.state.model.power)<15)?[]:
-		m(Row, [
+		m(Row, { style: {
+			visibility: (
+				vn.state.model.power===undefined ||
+				!vn.state.model.power ||
+				parseFloat(vn.state.model.power)<15
+				)?'hidden':'visible'
+			},
+		},
+		[
 			m(Cell, {span: 4}, [
 				m(FloatInput, {
 					id: 'powerp1',
@@ -337,11 +344,13 @@ const FarePower = {
 		]),
 		m(Row, [
 			m(Cell, {span: 2}),
-			m(Cell, {span: 8, align: 'center'}, [
+			m(Cell, {span: 8, align: 'center',
+				style: { visibility: vn.state.model.fare()?'visible':'hidden',}
+				}, [
+
 				m('p.mdc-card.gren[style="text-align:center;margin-bottom:3ex"]',
-				vn.state.model.fare()?
 					m.trust(_('Your fare is <b class="green">%{fare}</b>', {fare: vn.state.model.fare()}))
-				:''),
+				),
 			]),
 			m(Cell, {span: 2}),
 		]),
