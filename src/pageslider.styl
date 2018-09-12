@@ -1,18 +1,24 @@
 .pageslider {
-	overflow-x: hidden;
-	width: 100%;
+	//overflow-x: hidden;
+	//overflow-y: auto;
 	position: relative;
 	top: 0;
 	left: 0;
+	width: 100%;
+	transition-property: height;
+	transition-duration: 0.1s;
 }
 .pageslider-page {
 	position: absolute;
 	width: 100%;
-	transition-property: transform, opacity;
+	top: 0;
+	bottom: 0;
+	transition: transform, opacity;
 	transition-duration: 0.5s;
 }
 .pageslider-page.active {
 	opacity: 1;
+	transition-timing-function: ease-in-out, ease-in-out, step-end;
 }
 .pageslider-page.back {
 	opacity: 0;
@@ -22,4 +28,23 @@
 	opacity: 0;
 	transform: translate(100%,0);
 }
+
+.pageslider-page.back.showall,
+.pageslider-page.next.showall
+{
+	opacity: 0.6;
+	transform: none;
+	position: relative;
+}
+
+.pageslider-page.active.showall
+{
+	opacity: 1;
+	transform: none;
+	position: relative;
+	border-left: 4px solid green;
+	background-color: #efd;
+}
+
+
 

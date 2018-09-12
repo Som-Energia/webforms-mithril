@@ -39,6 +39,7 @@ PageSlider.view = function(vn) {
 	return m('.pageslider', {style: {height: vn.state.height+'px'}},
 		vn.children.map(function(child,index) {
 			return m('.pageslider-page'
+				+(vn.attrs.showall?'.showall':'')
 				+(vn.attrs.current===index?'.active':'')
 				+(vn.attrs.current>index?'.back':'')
 				+(vn.attrs.current<index?'.next':'')

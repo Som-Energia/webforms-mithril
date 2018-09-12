@@ -26,6 +26,8 @@ const checkingPassword    = 'checkingPassword';
 
 IntroContract.oninit = function(vn) {
 	vn.state.model = vn.attrs.model || {};
+	var model = vn.state.model;
+
 	vn.state.state = checkingSession;
 	UserValidator.isValidated().then(function (data) {
 		vn.state.state = welcomeExistingUser;

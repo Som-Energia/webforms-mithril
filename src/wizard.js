@@ -45,6 +45,7 @@ var Wizard = {
 			}),
 			m(Pager, {
 				current: currentIndex,
+				showall: vn.attrs.showall,
 			}, vn.children.map(function(page) {
 				var active = self.currentPage === page.attrs.id;
 				var errors = page.attrs.validator && page.attrs.validator();
