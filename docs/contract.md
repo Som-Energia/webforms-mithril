@@ -23,13 +23,22 @@
 
 
 1. **LoadingPage**:
-	- *Al entrar:* Se detecta si hay token en la URL (invitacion, OV) o si hay una sesion del CAS abierta (Decidim, OV)
+	- *Al entrar:* Se detecta
+		- si hay una sesion del CAS abierta (Decidim, OV), y se carga la info
+			- $NAME, $ISMEMBER, $NIF
+		- si hay token en la URL (invitacion, OV, intercoop), y se carga la info
+			- $CUPSNAME (traspaso), $MEMBERNAME (apadrinamiento, intercoop), $NIF, $NAME... (intercoop) 
 	- "# Formulario de contratación"
-	- Mientras recibimos la info: "Por favor, espere mientras se cargan los datos..."
+	- Hasta que recuperemos la info de token y de sesión:
+		- "Por favor, espere mientras se cargan los datos..."
 	- Si viene con token de traspaso:
 		- "Le han invitado a poner a su nombre el contrato de: $CUPSADDRESS"
 	- Si viene con token de apadrinamiento:
 		- "El socio $MEMBERNAME le ha invitado a contratar la luz con nosotros sin ser socio."
+	- Si viene con token de intercoop:
+		- "El titular de este nuevo contrato serà $NAME."
+		- "Accedes por convenio de intercooperación con $MEMBERNAME."
+		- TODO: Que hacer si $NIF ya existe
 	- Si se detecta sesion abierta (CAS o OV)
 		- "El titular de este nuevo contrato serà $NAME."
 		- "Si eso no es correcto, por favor, cierre la sesión con dicho usuario (enlace)."
@@ -41,7 +50,7 @@
 		- *Desbloqueo:* Cuando el nif es uno válido
 
 1. **PasswordPage**: Identifíquese
-	- *Entra:* Si no había sesion y el NIF indicado existe.
+	- **skipif:** `sessionExists || ! knownVat`
 	- "Bienvenido '$NIF' introduce la contraseña"
 	- "Contraseña []"
 	- "[Olvidé la contraseña]()"
@@ -49,13 +58,14 @@
 		- Si no valida, mensaje de error y no se avanza
 
 1. **PersonalDataPage**: Datos personales
-	- *Entra:* Si no había sesion y el NIF indicado no existe.
+	- **skipif:** `sessionExists || knownVat`
+	- *Entra:* Si no había sesion y el NIF indicado no existe. `!sessionExists && !knownVat`
 	- "Introduzca los datos del titular con NIF $NIF"
 	- ...
 	- TODO: La contraseña a posteriori?
 
 1. **CupsCodePage**:
-	- *Entra:* Si no es un traspaso
+	- **skipif:** `transferToken`
 	- "Identifique el punto de suministro"
 	- "Código CUPS: []"
 	- El CUPS se valida mientras se va introduciendo.
@@ -71,25 +81,25 @@
 	- *Al salir:* Si $CUPSSTATUS es activo, es traspaso
 
 1. **BecomeMemberPage**:
-	- *Entra:* Si no es persona socia
+	- **skipif:** `isMember`
 	- Casos:
-		1. Si no es invitado y no es un cambio de titular:
+		1. `inviteToken`: Si le ha invitado alguien:
+			- "La contratación en SE requiere ser socia de la cooperativa."
+			- "En tu caso **no es necesario** por que te ha invitado $MEMBERNAME pero te damos la opción de serlo si marcas la opción.
+			- "Ser socio comporta una aportacion única de 100€ que se retorna al dejar de serlo."
+			- "[ ] Acepto ser persona socia de la cooperativa y el pago de la participación."
+
+		1. `!inviteToken && !activeCups`: Si no es invitado y no es un cambio interno de titular:
 			- "Para poder contratar, ha de ser socio o haber recibido una invitación de uno".
 			- "Ser socio comporta una aportacion única de 100€ que se retorna al dejar de serlo."
 			- "[ ] Acepto convertirme persona socia de la cooperativa mediante el pago de la aportación."
 			- Validate: Tiene que aceptar por narices
 
-		1. Si no es invitado pero es un cambio de titular:
+		1. `!inviteToken && activeCups`: Si no es invitado pero es un cambio interno de titular:
 			- "La contratación en SE requiere ser socia de la cooperativa."
 			- "En los cambios de titularidad, damos un margen de un año para que nos conozcas."
 			- "Despues de un año, se te dará la opción de entrar en la cooperativa o pasar a la comercializadora del monopolio de tu zona."
 			- "[ ] Me quiero hacer socio ya sin esperar a un año, y acepto el pago de la participación."
-
-		1. Si le ha invitado alguien:
-			- "La contratación en SE requiere ser socia de la cooperativa."
-			- "En tu caso **no es necesario** por que te ha invitado $MEMBERNAME pero te damos la opción de serlo si marcas la opción.
-			- "Ser socio comporta una aportacion única de 100€ que se retorna al dejar de serlo."
-			- "[ ] Acepto ser persona socia de la cooperativa y el pago de la participación."
 
 
 1. **NewCupsPage**:
@@ -164,6 +174,43 @@
 1. **ErrorPage**:
 
 1. **SuccessPage**:
+
+
+### States:
+
+Boolean values that sets the wizard flow:
+
+- **sessionExists:** `true` si existe session de CAS si no existe `false`, or `undefined` si se esta comprobando la sesión
+- **knownVat:**  `true` si el usuario ha introducido un nif conocido, si no se conoce `false`, or `undefined` si se esta comprobando o no se ha introducido nif valido
+- **transferToken:** `true` si se ha recibido un token de invitacion a cambio de titular, `false`, si no la lleva, `undefined` si se está comprobando el token.
+- **isMember:**: `true` si el titular existía y era socio, `false` si no lo era, `undefined` mientras se comprueba
+- **cupsState:**
+	- `undefined`: mientras se esta comprobando el CUPS
+	- `invalid`: cuando el CUPS no valida
+	- `new`: cuando valida pero no lo tenemos
+	- `inactive`: cuando valida, lo tenemos, pero no hay contrato activo
+	- `active`: cuando hay un contrato activo y sin procesos pendientes
+	- `busy`: cuando hay un contrato activo con procesos pendientes
+- **hasSupply:** `true` cuando el usuario ha indicado que tiene suministro, `false` cuando ha dicho que no, o `undefined` cuando no lo ha seleccionado.
+	- Nota: si el cups es activo, el usuario no puede indicarlo y sera `undefined`
+- **differentHolder:** `true` si el usuario indica que hay un cambio en la titularidad, `false` cuando se indica que no, o `undefined` cuando no se ha seleccionado.
+	- Nota: si el cups es activo, el usuario no puede indicarlo y sera `undefined`
+- **success:** `true` cuando se recibimos la respuesta de éxito del envio del formulario. `false` cuando tras la api contesta el post con un mensaje de error, `undefined` cuando aun no ha llegado respuesta.
+- **inviteToken:** `true` if the token contains an invitation to contract without being member, `false` if not, `undefined` if still checking
+
+
+### Composite states
+
+- **activeCups:** `true` if `transferToken===true || cupsState === 'active'` TODO: transferToken podria setear cupsState='active'
+
+
+
+
+
+
+
+
+
 
 
 
