@@ -22,12 +22,7 @@ var Wizard = {
 	},
 	view: function(vn) {
 		var self = this;
-		var currentIndex = vn.children.findIndex(function(child) {
-			return self.currentPage === child.attrs.id;
-		});
-		if (currentIndex === -1) {
-			currentIndex = 0;
-		}
+		var currentIndex = self.pageIndex(self.currentPage);
 		return m('', [
 			m(LinearProgress, {
 				max: vn.children.length-1,
@@ -90,10 +85,17 @@ var Wizard = {
 			})),
 		]);
 	},
-	search: function(pageid) {
-		return this.pages.find(function(v) {
-			return v.attrs.id===pageid;
+	page: function(pageid) {
+		return this.pages.find(function(child) {
+			return child.attrs.id===pageid;
 		});
+	},
+	pageIndex: function(pageid) {
+		var index = this.pages.findIndex(function(child) {
+			return child.attrs.id === pageid;
+		});
+		if (index === -1) index = 0;
+		return index;
 	},
 	go: function(page) {
 		if (!page) {return;}
@@ -106,29 +108,21 @@ var Wizard = {
 		if (!page) { return; }
 		if (page === true) {
 			page = this.defaultNext();
-			console.log('default', page);
 		}
 		this.history.push(this.currentPage);
 		this.go(page);
 	},
-	/// Finds the next not skipped page
+	/// Finds the next by order
 	defaultNext: function() {
 		var self = this;
-		var currentIndex = self.pages.findIndex(function(child) {
-			return self.currentPage === child.attrs.id;
-		});
-		if (currentIndex === -1) {
-			// By default first page
-			currentIndex = 0;
-		}
-		console.log('current', currentIndex);
+		var currentIndex = self.pageIndex(self.currentPage);
 		var next = self.pages.slice(currentIndex+1).find(function(page) {
-			console.debug("checking", page.attrs.id, page)
 			if (page.attrs.skipif !== undefined) {
 				return ! page.attrs.skipif();
 			}
 			return true;
 		})
+		if (next===undefined) return false; // we were at the last one, do not move
 		return next.attrs.id;
 	},
 	next: function() {
@@ -136,7 +130,7 @@ var Wizard = {
 			return thing.then !== undefined;
 		}
 		var self = this;
-		var currentPage = self.search(self.currentPage);
+		var currentPage = self.page(self.currentPage);
 		var nextAttribute = currentPage.attrs.next;
 		if (typeof nextAttribute !== 'function') {
 			return self.goNext(nextAttribute);
