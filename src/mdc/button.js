@@ -3,6 +3,25 @@ var m = require('mithril');
 require('@material/button/dist/mdc.button.css');
 
 
+/**
+@namespace mdc
+@class Button
+Mithril component wrapping a MDC Button component.
+
+Attributes:
+
+- raised: shows the button in raised style
+- unelevated: shows the button in unelevated style
+- outlined: shows the button in outlined style
+- dense: shows the inner letters in dense mode
+- faicon: name for a leading icon of the font-awesome collection
+- Any other attributes are set to the button 
+
+Children:
+
+- The content (text) of the button.
+
+*/
 var Button = {
 	view: function(vn) {
 		var attrs = vn.attrs;	
