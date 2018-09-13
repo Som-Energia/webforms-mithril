@@ -92,7 +92,8 @@ var Wizard = {
 	},
 	search: function(pageid) {
 		return this.pages.find(function(v) {
-			return v.attrs.id===pageid; });
+			return v.attrs.id===pageid;
+		});
 	},
 	go: function(page) {
 		if (!page) {return;}
