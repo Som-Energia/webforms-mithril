@@ -25,6 +25,9 @@ var Wizard = {
 		var currentIndex = vn.children.findIndex(function(child) {
 			return self.currentPage === child.attrs.id;
 		});
+		if (currentIndex === -1) {
+			currentIndex = 0;
+		}
 		return m('', [
 			m(LinearProgress, {
 				max: vn.children.length-1,
