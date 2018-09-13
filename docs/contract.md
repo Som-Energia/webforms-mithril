@@ -96,10 +96,6 @@
 			- "[ ] Acepto convertirme persona socia de la cooperativa **mediante el pago de la aportación de 100€**."
 			- Validate: Tiene que aceptar por narices
 
-
-		- Poderlos bajar si no cumple
-		- Que se lo vayan mirando y se p
-
 		1. `!inviteToken && activeCups`: Si no es invitado pero es un cambio interno de titular:
 
 			- "La contratación en SE ha de estar vinculada a una socia de la cooperativa."
