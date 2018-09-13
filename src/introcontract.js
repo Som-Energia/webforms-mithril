@@ -13,49 +13,31 @@ var LanguageChooser = require('./languagechooser');
 var UserValidator = require('./uservalidator');
 var Mousetrap = require('mousetrap');
 require('mousetrap-global-bind');
+require('@material/elevation/dist/mdc.elevation.css');
 
 var IntroContract = {};
 /* states */
 const checkingSession     = 'checkingSession';
 const welcomeExistingUser = 'welcomeExistingUser';
 const askDni              = 'askDni';
-const checkDniExist       = 'checkDniExist';
 const welcomeNewUser      = 'welcomeNewUser';
-const askPassword         = 'askPassword';
-const checkingPassword    = 'checkingPassword';
 
 IntroContract.oninit = function(vn) {
 	vn.state.model = vn.attrs.model || {};
 	var model = vn.state.model;
 
 	vn.state.state = checkingSession;
-	UserValidator.isValidated().then(function (data) {
+	UserValidator.isSessionOpen().then(function (data) {
+		console.log('checked session open');
 		vn.state.state = welcomeExistingUser;
 		model.name = data.name;
+		model.validatedNif = data.nif;
+		m.redraw();
 	}, function (reason) {
 		vn.state.state = askDni;
 	});
 
-	var model = vn.state.model;
-	model.vat = {};
-	model.cups = {};
-	model.login = function() {
-		m.request({
-			method: 'GET',
-			url: 'http://cas.somenergia.local:8000/login',
-			withCredentials: true,
-			extract: function(xhr) {
-				console.log(xhr.getResponseHeader('Set-Cookie'));
-			},
-		})
-		.then(function(result) {
-			console.log(result);
-		})
-		.catch(function(reason) {
-			console.log('Query failed', reason);
-		});
-	};
-	model.privacypolicyaccepted=false;
+	model.vat = {data: {}};
 	model.isphisical = function() {
 		if (this.vat===undefined) return undefined;
 		if (this.vat.value===undefined) return undefined;
@@ -65,21 +47,21 @@ IntroContract.oninit = function(vn) {
 	model.validate = function() {
 		var self = this;
 		function error(message) {
-			if (self.error !== message) {
-				self.error = message;
-			}
-			return false;
+			self.error = message;
+			return self.error===undefined;
 		}
-		if (!this.vat.isvalid) {
+
+		if (vn.state.state === checkingSession) {
+			return error('STILL_VALIDATING_SESSION'); // TODO: Translate
+		}
+		if (vn.state.state === welcomeExistingUser) {
+			return error(undefined);
+		}
+		if (!self.vat.isvalid) {
 			return error('NO_NIF');
 		}
-		if (!this.cups.isvalid) {
-			return error('NO_CUPS');
-		}
-		this.error = undefined;
-		return true;
+		return error(undefined);
 	};
-	model.vat = {data: {}};
 };
 IntroContract.oncreate = function(vn) {
 	Mousetrap(vn.dom).bindGlobal('ctrl+shift+1', function() {
@@ -116,80 +98,45 @@ IntroContract.oncreate = function(vn) {
 };
 
 IntroContract.view = function(vn) {
-	console.debug('view state', vn.state);
-	return (
-		vn.state.state === checkingSession ?
-			m('.mdc-typograpy--button',
-			{style: {width:'100%', 'text-align': 'center'}},
-			_('Validating session...')) : (
-		vn.state.state === welcomeExistingUser ?
-			m('.mdc--elevation-6', _(
-				'Hola %{name}. Wellcome to Som Energia contract form. '+
-				'Proceed to enter the CUPS number of the installation.'
-				, vn.state.model)) : (
-		vn.state.state === askDni ?
-			m(Row, [
-				m(Cell, {span:12}, 
-					_('Wellcome to Som Energia electricity contract form. ')
-				),
-				m(Cell, {span:6}, m(ValidatedField, {
-					id: 'vat',
-					checkurl: '/check/vat/exists/',
-					label: _('NIF'),
-					boxed: true,
-					required: true,
-					maxlength: 9,
-					fieldData: vn.state.model.vat,
-					inputfilter: function(value) {
-						if (!value) return value;
-						value=value.toUpperCase();
-						value=value.replace(/[^0-9A-Z]/g,'');
-						return value.slice(0,9);
-					},
-					fieldData: vn.state.model.vat,
-					onvalidated: function() {
+	return m(Row, [
+		vn.state.state === checkingSession ? [
+			m(Cell, {span:12}, [
+				m('', _('Validating session...')),
+			])
+		] : (
+		vn.state.state === welcomeExistingUser ?  [
+			m(Cell, {span:12}, [
+				m('', _('You are now contracting as: %{name}.', vn.state.model)),
+				m('', m.trust(_('If you are not that person, please <a href="TODO">logout</a>'))),
+			]),
+		] : (
+		vn.state.state === askDni ? [
+			m(Cell, {span:12}, 
+				_('Please introduce the VAT number for the new contract holder:')
+			),
+			m(Cell, {span:6}, m(ValidatedField, {
+				id: 'vat',
+				checkurl: '/check/vat/exists/',
+				label: _('NIF'),
+				boxed: true,
+				required: true,
+				maxlength: 9,
+				fieldData: vn.state.model.vat,
+				inputfilter: function(value) {
+					if (!value) return value;
+					value=value.toUpperCase();
+					value=value.replace(/[^0-9A-Z]/g,'');
+					return value.slice(0,9);
+				},
+				fieldData: vn.state.model.vat,
+				onvalidated: function() {
 
-					}
-				})),
-				m(Cell, {span:6}, m(Button, {
-					raised: true,
-					disabled: vn.state.model.vat.isvalid!==true,
-					onclick: function() {
-						vn.state.state = (vn.state.model.vat.data.exists===true)?
-							askPassword : welcomeNewUser;
-					},
-				}, _('Next'))),
-			]):
-		vn.state.state === askPassword ?
-			m(Row, [
-				m(Cell, {span:6}, m(TextField, {
-					label: _('Password'),
-					leadingfaicon: 'key',
-					type: 'password',
-					boxed: true,
-					oninput: function(ev) {
-						vn.state.model.password = ev.target.value
-					},
-				})),
-				m(Cell, {span:4}, m(Button, {
-					unelevated: true,
-					onclick: function(ev) {
-						var validationPromise = UserValidator.validate(
-							vn.state.model.vat.value,
-							vn.state.model.password);
-						validationPromise.then(function(data) {
-							vn.state.state = welcomeExistingUser;
-							vn.state.model.name = data.name;
-						});
-						validationPromise.catch(function (error) {
-							console.debug('TODO: manage validation errores');
-						});
-					},
-				},_('Login'))),
-			]) :
+				}
+			})),
+		] :
 		m('', vn.state.state)
-		))
-	);
+		)),
+	]);
 /*
 	var id=vn.attrs.id;
 	var prefix=id?id+'_':'';
