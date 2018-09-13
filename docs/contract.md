@@ -27,7 +27,7 @@
 		- si hay una sesion del CAS abierta (Decidim, OV), y se carga la info
 			- $NAME, $ISMEMBER, $NIF
 		- si hay token en la URL (invitacion, OV, intercoop), y se carga la info
-			- $CUPSNAME (traspaso), $MEMBERNAME (apadrinamiento, intercoop), $NIF, $NAME... (intercoop) 
+			- $CUPSNAME (traspaso), $CUPS (traspaso), $MEMBERNAME (apadrinamiento, intercoop), $NIF, $NAME... (intercoop) 
 	- "# Formulario de contratación"
 	- Hasta que recuperemos la info de token y de sesión:
 		- "Por favor, espere mientras se cargan los datos..."
@@ -91,13 +91,18 @@
 
 		1. `!inviteToken && !activeCups`: Si no es invitado y no es un cambio interno de titular:
 			- "Para poder contratar, ha de ser socio o haber recibido una invitación de uno".
-			- "Ser socio comporta una aportacion única de 100€ que se retorna al dejar de serlo."
-			- "[ ] Acepto convertirme persona socia de la cooperativa mediante el pago de la aportación."
+			- "En cambios de titular, Som Energia dará de baja el contrato si en un año no está vinculado a un socio, o incluso antes en caso de incumplimiento contratual."
+			- "Opcionalmente, puedes convertirte ya en socio:"
+			- "[ ] Acepto convertirme persona socia de la cooperativa **mediante el pago de la aportación de 100€**."
 			- Validate: Tiene que aceptar por narices
 
+
+		- Poderlos bajar si no cumple
+		- Que se lo vayan mirando y se p
+
 		1. `!inviteToken && activeCups`: Si no es invitado pero es un cambio interno de titular:
-			- "La contratación en SE requiere ser socia de la cooperativa."
-			- "En los cambios de titularidad, damos un margen de un año para que nos conozcas."
+
+			- "La contratación en SE ha de estar vinculada a una socia de la cooperativa."
 			- "Despues de un año, se te dará la opción de entrar en la cooperativa o pasar a la comercializadora del monopolio de tu zona."
 			- "[ ] Me quiero hacer socio ya sin esperar a un año, y acepto el pago de la participación."
 
@@ -132,8 +137,8 @@
 	- *Entra:* Si hay un cambio de titular (indicado, invitacion o detectado cups activo):
 	- TODO: Que tiene que decir el antiguo titular aqui?
 	- "¿Que método quieres para hacer el cambio?"
-	- "( ) Surrogación: el nuevo titular acepta las posibles deudas pendientes del anterior contrato."
-	- "( ) No surrogación: el nuevo titular pagará la fianza de la distribuidora."
+	- "( ) Subrogación: el nuevo titular acepta las posibles deudas pendientes del anterior contrato."
+	- "( ) No subrogación: el nuevo titular pagará la fianza de la distribuidora."
 
 1. **SwitchChange**:
 	- *Entra:* Si es un cambio de titular interno en SomEnergia

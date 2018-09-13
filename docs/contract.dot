@@ -47,8 +47,7 @@ digraph G {
     HasSupply -> Technical [id=noSupply label="Sin luz"]
     Technical -> VoluntaryCent
     HasSupply -> NewHolder [id=hasSupply label="Con luz"]
-    NewHolder -> Surrogation [id=newHolder label="Cambia el titular"]
-    NewHolder -> VoluntaryCent [id=sameHolder label="Mismo titular"]
+    NewHolder -> VoluntaryCent
     Surrogation -> SwitchDate
     SwitchDate -> VoluntaryCent -> Payment -> Summary 
     Summary ->  Error
