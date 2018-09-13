@@ -4,23 +4,23 @@ var UserValidator = {};
 
 UserValidator._mockPreValidated = false;
 UserValidator._mockPreValidationTimeoutMs = 1000;
-UserValidator._mockPostValidated = true;
+UserValidator._mockPassword = 'caca';
 
-UserValidator.isValidated = function() {
+UserValidator.isSessionOpen = function() {
 	console.debug("checking previous validation", this);
 	var self = this;
 	var promise = new Promise(function(accept, reject) {
 		setTimeout(function() {
 			if (self._mockPreValidated === true) {
-				console.log('accepting');
+				console.log('simulated open session');
 				promise.then(function() {m.redraw()})
 				accept({
-					dni: '12345678Z',
+					nif: '12345678Z',
 					name: 'Rodofo Valentino',
 				});
 			}
 			else {
-				console.log('rejecting');
+				console.log('simulated no session');
 				promise.catch(function() {m.redraw()})
 				reject({
 					type: 'NonValidated',
@@ -34,14 +34,14 @@ UserValidator.isValidated = function() {
 UserValidator.exists = function() {
 };
 
-UserValidator.validate = function(user, password) {
+UserValidator.openSession = function(user, password) {
 	var self = this;
 	var promise = new Promise(function(accept, reject) {
 		setTimeout(function() {
-			if (self._mockPostValidated) {
+			if (self._mockPassword===password) {
 				promise.then(function() {m.redraw()})
 				accept({
-					dni: '12345678Z',
+					nif: '12345678Z',
 					name: 'Rodofo Valentino',
 				});
 			}
