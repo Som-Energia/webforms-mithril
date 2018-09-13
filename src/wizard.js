@@ -11,7 +11,47 @@ var Button = require('./mdc/button');
 var Pager = require('./pageslider');
 var LinearProgress = require('./mdc/linearprogress');
 
+
+/**
+# Wizard
+
+Controls the progress within a serie of steps.
+
+- Each children is a step and the default flow is the children order.
+- You can alter this order by setting attributes on the steps.
+- You can perform validations on each page
+- You can perform exit actions on each page
+
+## Attributes
+
+- `showall`: (bool) show all pages, for debug purposes
+
+## Children
+
+Children are elements representing the pages with the following attributes:
+
+- `id`: (string) the page id, it is important to set it
+- `title`: (string) the title to be displayed for the step
+- `nexticon`: (string) Font awesome icon name for the next button. Default 'chevron-right'
+- `nextlabel`: (string) Lavel for the next button. Default: 'Next'
+- `prev`: if defined false, it cannot go back. 
+- `next`: (undefined/bool/string/function)
+	- `undefined` or `true`: just go to the next in order
+	- `false`: do not jump at all
+	- `string`: jump to the page with such id
+	- `promise`: freezes the buttons and jump when the promise resolves
+	- `function`: execute the function that returns the page (any of the other)
+- `skipif`: (function) jumping to this page by order, just jumps to the next in order
+- `validator`: (function) Returns either false or a reason why you cannot advance.
+	If an error message is returned it will be displayed and the 'Next' button will be disabled.
+	If it returns undefined, the 'Next' button will be enabled.
+	Default: `function () {}`
+*/
+
 var Wizard = {
+	onupdate: function(vn) {
+		this.pages = vn.children;
+	},
 	oninit: function(vn) {
 		this.pages = vn.children;
 		this.pages.map(function(page) {
@@ -47,6 +87,8 @@ var Wizard = {
 			}, vn.children.map(function(page) {
 				var active = self.currentPage === page.attrs.id;
 				var errors = page.attrs.validator && page.attrs.validator();
+				var showNext = page.attrs.next !== false;
+				var showPrev = page.attrs.prev !== false;
 				return m('.tabpanel[role=tabpanel]'+
 						(active?'.active':'')+
 						'', {
@@ -58,7 +100,7 @@ var Wizard = {
 						m(Row, {align: 'right'}, [
 							m(Cell,{span:8}, m('.red', errors)),
 							m(Cell,{span:2},
-								m(Button, {
+								showPrev && m(Button, {
 									outlined: true,
 									faicon: 'chevron-left',
 									tabindex: 0,
@@ -68,15 +110,15 @@ var Wizard = {
 								},  _("Previous")),
 							),
 							m(Cell,{span: 2},
-								m(Button, {
+								showNext && m(Button, {
 									raised:true,
-									faicon: self.intransition?'spinner.fa-spin': page.attrs.next===undefined?'send':'chevron-right',
+									faicon: self.intransition?'spinner.fa-spin': (page.attrs.nexticon||'chevron-right'),
 									tabindex: 0,
 									disabled: errors !== undefined || self.intransition,
 									onclick: function() { self.next(); },
 									style: {width:'100%'},
 									},
-									page.attrs.next===undefined?_('Submit'):_("Next")
+									page.attrs.nextlabel||_("Next")
 								)
 							),
 						]),
@@ -105,10 +147,10 @@ var Wizard = {
 		this.go(this.history.pop());
 	},
 	goNext: function(page) {
-		if (!page) { return; }
 		if (page === true) {
 			page = this.defaultNext();
 		}
+		if (!page) { return; }
 		this.history.push(this.currentPage);
 		this.go(page);
 	},
@@ -132,6 +174,11 @@ var Wizard = {
 		var self = this;
 		var currentPage = self.page(self.currentPage);
 		var nextAttribute = currentPage.attrs.next;
+		// default value
+		console.log("Next: ", self.currentPage, nextAttribute);
+		if (nextAttribute===undefined) {
+			nextAttribute=true;
+		}
 		if (typeof nextAttribute !== 'function') {
 			return self.goNext(nextAttribute);
 		}
@@ -164,19 +211,19 @@ TODO: TEST
 - next=function evaluates the function
 - next=promise evaluates the promise async
 - on start, skipif is considered to jump 0 or later
+- next=true, but none left, stays
 */
-
-
-var Persona = {
-	field: undefined,
-	name: undefined,
-	nif: undefined,
-	nifValidation: {},
-};
 
 Wizard.Example = {};
 Wizard.Example.showall=false;
+Wizard.Example.clearerror=false;
 Wizard.Example.skippage3=false;
+Wizard.Example.skippage4=false;
+Wizard.Example.skippage5=false;
+Wizard.Example.skippage6=false;
+Wizard.Example.simulateSubmitError=false;
+Wizard.Example.recoverableError=false;
+Wizard.Example.farepower={};
 Wizard.Example.view = function(vn) {
 	var FarePower = require('./farepower');
 	var ValidatedField = require('./validatedfield');
@@ -195,19 +242,27 @@ Wizard.Example.view = function(vn) {
 			m('.page', {
 				id: 'examplepage1',
 				title: _('Page 1: Default page'),
-				next: true, // TODO: if undefined true
-			},
+				validator: function() {
+					return vn.state.clearerror?undefined:
+						_('You must mark the check');
+				},
+			}, [
 				m('',_('No next, just by order')),
-			),
+				m(Checkbox, {
+					id: 'wizardexample_errorpage1',
+					label: _('Mark this to be able to go on'),
+					checked: vn.state.clearerror,
+					onchange: function(ev) {vn.state.clearerror=ev.target.checked;},
+				}),
+			]),
 
 			m('.page', {
 				id: 'page2',
-				title: _('Page 2'),
-				next: true, // TODO: if undefined true
+				title: _('Page 2: Default but next have skipif'),
 			}, [
 				m('', _('By default, next go to page 3')),
 				m(Checkbox, {
-					id: 'wizardexampleskipifcheck',
+					id: 'wizardexample_skippage3',
 					label: _('Skip page 3'),
 					checked: vn.state.skippage3,
 					onchange: function(ev) {vn.state.skippage3=ev.target.checked;},
@@ -215,24 +270,57 @@ Wizard.Example.view = function(vn) {
 			]),
 			m('.page', {
 				id: 'page3',
-				title: _('Page 3'),
+				title: _('Page 3: Explicit next'),
 				skipif: function() {return vn.state.skippage3;},
-				next: true, // TODO: if undefined true
+				next: vn.state.skippage4?'page5':true,
 			}, [
-				m('', _('By default, next go to page 3')),
+				m('', _('next is set to a conditional expression, computed on render')),
+				m('', _('If you check this, the result is `\'page5\'`, if not, `true` meaning normal flow')),
+				m('', _('Current value: %{value}', {value: vn.state.skippage4?'page5':true})),
 				m(Checkbox, {
-					id: 'wizardexampleskipifcheck',
-					label: _('Skip page 3'),
-					checked: vn.state.skippage3,
-					onchange: function(ev) {vn.state.skippage3=ev.target.checked;},
+					id: 'wizardexample_skippage4',
+					label: _('Skip page 4'),
+					checked: vn.state.skippage4,
+					onchange: function(ev) {vn.state.skippage4=ev.target.checked;},
 				}),
 			]),
 
 			m('.page', {
-				id: 'supply',
-				title: _('Supply point'),
-				prev: 'holder',
-				next: 'funcNext',
+				id: 'page4',
+				title: _('Page 4: Functional next'),
+				next: function() { return vn.state.skippage5?'page6':true; },
+			}, [
+				m('', _('next is a function that is only evaluated when you click it')),
+				m(Checkbox, {
+					id: 'wizardexample_skippage5',
+					label: _('Skip page 5'),
+					checked: vn.state.skippage5,
+					onchange: function(ev) {vn.state.skippage5=ev.target.checked;},
+				}),
+			]),
+
+			m('.page', {
+				id: 'page5',
+				title: _('Page 5: Asynchronous jump'),
+				next: function() {
+					return new Promise(function(accept, reject) {
+						setTimeout(function() {
+							accept(vn.state.skippage6?'confirm':true);
+						}, 2000);
+					});
+				},
+			}, [
+				m('', _('')),
+				m(Checkbox, {
+					id: 'wizardexample_skippage6',
+					label: _('Skip page 6'),
+					checked: vn.state.skippage6,
+					onchange: function(ev) {vn.state.skippage6=ev.target.checked;},
+				}),
+			]),
+			m('.page', {
+				id: 'page6',
+				title: _('Page 6: Complex validation'),
 				validator: function() {
 					if (vn.state.farepower) {
 						return vn.state.farepower.error;
@@ -242,65 +330,56 @@ Wizard.Example.view = function(vn) {
 				m(FarePower, {model: vn.state.farepower})
 			]),
 			m('.page', {
-				id: 'funcNext',
-				title: _('Avance sincrono'),
-				prev: 'supply',
-				next: function() { return 'asyncNext'; },
-			}, m(Row, [
-				m(Cell, {span:12}, "Ejemplo de avance sincrono"),
-			])),
-			m('.page', {
-				id: 'asyncNext',
-				title: _('Ejemplo next function'),
-				prev: 'funcNext',
-				next: function() {
-					return new Promise(function(accept, reject) {
-						setTimeout(function() {
-							accept('confirm');
-						}, 2000);
-					});
-				},
-			}, m(Row, [
-				m(Cell, {span:12}, "Validacion asincrona"),
-			])),
-			m('.page', {
 				id: 'confirm',
 				title: _('Confirmation'),
-				prev: 'asyncNext',
-			}, m(Row, [
-				m(Cell, {span:6}, m(ValidatedField, {
-					id: 'afield',
-					label: _('Field label'),
-					help: _('Field Help'),
-					icon: '.fa-spinner.fa-spin',
-					value: Persona.field,
-					onChange: function(value) {
-						Persona.field = value;
-					},
-				})),
-				m(Cell, {span:6}, m(ValidatedField, {
-					id: 'nif',
-					label: _('NIF/DNI'),
-					pattern: /[0-9A-Za-z]+/,
-					defaulterror: _('Invalid VAT'),
-					checkurl: '/check/vat/',
-					help: _('Tax ID'),
-					value: Persona.nif,
-					onChange: function(value) {
-						Persona.nif = value;
-					},
-				})),
-				m(Cell, {span:8}, m(ValidatedField, {
-					id: 'name',
-					label: _('Name'),
-					required: true,
-					help: _('Ayuda'),
-					value: Persona.name,
-					onChange: function(value) {
-						Persona.name = value;
-					},
-				})),
-			])),
+				nexticon: 'send',
+				nextlabel: _('Submit'),
+				next: function() {
+					// This should be the post
+					return new Promise(function(accept, reject) {
+						setTimeout(function() {
+							accept(vn.state.simulateSubmitError?'error':'success');
+						}, 1000);
+					});
+				},
+			}, [
+				m(Checkbox, {
+					id: 'wizardexample_submiterror',
+					label: _('Simulate a submit error'),
+					checked: vn.state.simulateSubmitError,
+					onchange: function(ev) {vn.state.simulateSubmitError=ev.target.checked;},
+				}),
+				m(Checkbox, {
+					id: 'wizardexample_recoverableError',
+					label: _('The error is recoverable'),
+					checked: vn.state.recoverableError,
+					onchange: function(ev) {vn.state.recoverableError=ev.target.checked;},
+				}),
+			]),
+			m('.page', {
+				id: 'error',
+				title: _('Error'),
+				prev: vn.state.recoverableError,
+				next: false,
+			}, [
+				m('',_('Error while sending wizard info')),
+				m('',_('Next button not available')),
+			]),
+			m('.page', {
+				id: 'success',
+				title: _('Succes!!'),
+				prev: false,
+				next: false,
+			}, [
+				m('',_('The information has been accepted')),
+				m('',_('Next and Prev buttons not available')),
+			]),
+			m('.page', {
+				id: 'secret',
+				title: _('Secret page'),
+			}, [
+				m('',_('This page is only accessible by jump')),
+			]),
 		])),
 	]);
 };
