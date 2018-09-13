@@ -51,11 +51,19 @@ PageSlider.view = function(vn) {
 PageSlider.Example = {};
 PageSlider.Example.model = {};
 PageSlider.Example.model.index = 0;
+PageSlider.Example.model.showall = false;
 PageSlider.Example.view = function() {
 	const Layout = require('./mdc/layout');
 	const TabBar = require('./mdc/tabbar');
+	const Checkbox = require('./mdc/checkbox');
 	return m(Layout, [
 		m('h2', 'Page Slider'),
+		m(Checkbox, {
+			id: 'showallmode',
+			label: 'Showall mode',
+			checked: PageSlider.Example.model.showall,
+			onchange: function(ev) {PageSlider.Example.model.showall = ev.target.checked; },
+		}),
 		m(TabBar, {
 			index: PageSlider.Example.model.index,
 			onactivated: function(ev) {
@@ -75,6 +83,7 @@ PageSlider.Example.view = function() {
 		}),
 		m(PageSlider, {
 			current: PageSlider.Example.model.index,
+			showall: PageSlider.Example.model.showall,
 			height: 100,
 		}, [
 			m('h1', {style: 'background-color: red;'}, 'Page 1'),
