@@ -49,7 +49,7 @@ LinearProgress.Example.oninit = function(vn) {
 	function tick() {
 		vn.state.value1++;
 		vn.state.value1%=51;
-		setTimeout(tick, 2000);
+		setTimeout(tick, 3000);
 		m.redraw();
 	}
 	tick();
