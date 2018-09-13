@@ -102,6 +102,35 @@ var Wizard = {
 	prev: function() {
 		this.go(this.history.pop());
 	},
+	goNext: function(page) {
+		if (!page) { return; }
+		if (page === true) {
+			page = this.defaultNext();
+			console.log('default', page);
+		}
+		this.history.push(this.currentPage);
+		this.go(page);
+	},
+	/// Finds the next not skipped page
+	defaultNext: function() {
+		var self = this;
+		var currentIndex = self.pages.findIndex(function(child) {
+			return self.currentPage === child.attrs.id;
+		});
+		if (currentIndex === -1) {
+			// By default first page
+			currentIndex = 0;
+		}
+		console.log('current', currentIndex);
+		var next = self.pages.slice(currentIndex+1).find(function(page) {
+			console.debug("checking", page.attrs.id, page)
+			if (page.attrs.skipif !== undefined) {
+				return ! page.attrs.skipif();
+			}
+			return true;
+		})
+		return next.attrs.id;
+	},
 	next: function() {
 		function isPromise(thing) {
 			return thing.then !== undefined;
@@ -110,22 +139,16 @@ var Wizard = {
 		var currentPage = self.search(self.currentPage);
 		var nextAttribute = currentPage.attrs.next;
 		if (typeof nextAttribute !== 'function') {
-			nextAttribute && self.history.push(self.currentPage);
-			self.go(nextAttribute);
-			return;
+			return self.goNext(nextAttribute);
 		}
 		var maybePromise = nextAttribute();
 		if (!isPromise(maybePromise)) {
-			maybePromise && self.history.push(self.currentPage);
-			self.go(maybePromise);
-			return;
+			return self.goNext(maybePromise);
 		}
-		// TODO: Common async next actions
 		self.intransition=true;
 		maybePromise.then(function (nextPage) {
 			self.intransition=false;
-			nextPage && self.history.push(self.currentPage);
-			self.go(nextPage);
+			self.goNext(nextPage);
 			m.redraw();
 		}).catch(function(reason) {
 			self.intransition=false;
@@ -133,6 +156,22 @@ var Wizard = {
 		});
 	},
 };
+
+/*
+TODO: TEST
+- onstart, first page is 0
+- next=true, goes to next in order
+- next=undefined, goes to next in order
+- next=false stays
+- next=true and next skipif evaluates to true, skips
+- next=true and next skipif evaluates to false, do not skip
+- next=explicitPage
+- next=notExistingPage
+- next=function evaluates the function
+- next=promise evaluates the promise async
+- on start, skipif is considered to jump 0 or later
+*/
+
 
 var Persona = {
 	field: undefined,
@@ -143,20 +182,56 @@ var Persona = {
 
 Wizard.Example = {};
 Wizard.Example.showall=false;
+Wizard.Example.skippage3=false;
 Wizard.Example.view = function(vn) {
 	var FarePower = require('./farepower');
 	var ValidatedField = require('./validatedfield');
+	var Checkbox = require('./mdc/checkbox');
 	return m(Layout, [
 		m(Layout.Cell, {span: 12}, m('h2', 'Wizard')),
+		m(Layout.Cell, {span: 12}, m(Checkbox, {
+			id: 'showall',
+			label: 'Debug showall mode',
+			checked: vn.state.showall,
+			onchange: function(ev) {vn.state.showall = ev.target.checked; },
+		})),
 		m(Layout.Cell, {span: 12}, m(Wizard, {
-			showall: Wizard.Example.showall,
+			showall: vn.state.showall,
 		}, [
 			m('.page', {
-				id: 'holder',
-				title: _('Holder'),
-				next: 'supply',
+				id: 'examplepage1',
+				title: _('Page 1: Default page'),
+				next: true, // TODO: if undefined true
+			},
+				m('',_('No next, just by order')),
+			),
+
+			m('.page', {
+				id: 'page2',
+				title: _('Page 2'),
+				next: true, // TODO: if undefined true
 			}, [
-				m('h2', 'Page 1'),
+				m('', _('By default, next go to page 3')),
+				m(Checkbox, {
+					id: 'wizardexampleskipifcheck',
+					label: _('Skip page 3'),
+					checked: vn.state.skippage3,
+					onchange: function(ev) {vn.state.skippage3=ev.target.checked;},
+				}),
+			]),
+			m('.page', {
+				id: 'page3',
+				title: _('Page 3'),
+				skipif: function() {return vn.state.skippage3;},
+				next: true, // TODO: if undefined true
+			}, [
+				m('', _('By default, next go to page 3')),
+				m(Checkbox, {
+					id: 'wizardexampleskipifcheck',
+					label: _('Skip page 3'),
+					checked: vn.state.skippage3,
+					onchange: function(ev) {vn.state.skippage3=ev.target.checked;},
+				}),
 			]),
 
 			m('.page', {
