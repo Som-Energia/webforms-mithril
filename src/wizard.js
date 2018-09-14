@@ -25,6 +25,14 @@ Controls the progress within a serie of steps.
 ## Attributes
 
 - `showall`: (bool) show all pages, for debug purposes
+- `model`: a dictionary that will be populated with the public api funcitons
+
+## Model api functions
+
+- `jump(pageid)`: jumps to the next page (uses `pageid` as the `next` attribute)
+- `next()`: jumps to next page
+- `prev()`: jumps to previous page in history
+- `current()`: returns the id of the current page
 
 ## Children
 
@@ -56,11 +64,14 @@ var Wizard = {
 		var self = this;
 		self.model = vn.attrs.model || {};
 		// public api
-		self.model.goNext = function(value) {
+		self.model.jump = function(value) {
 			self.goNext(value);
 		};
-		self.model.prev = function(value) {
-			self.prev(value);
+		self.model.next = function() {
+			self.next();
+		};
+		self.model.prev = function() {
+			self.prev();
 		};
 		self.model.current = function() {
 			return vn.state.currentPage;
@@ -188,7 +199,6 @@ var Wizard = {
 		var currentPage = self.page(self.currentPage);
 		var nextAttribute = currentPage.attrs.next;
 		// default value
-		console.log("Next: ", self.currentPage, nextAttribute);
 		if (nextAttribute===undefined) {
 			nextAttribute=true;
 		}
@@ -250,13 +260,23 @@ Wizard.Example.view = function(vn) {
 			checked: vn.state.showall,
 			onchange: function(ev) {vn.state.showall = ev.target.checked; },
 		})),
-		m(Layout.Cell, {span: 3}, 
+		m(Layout.Cell, {span: 2}, 
 			m('button',{
-				onclick: function() {
-					console.log(vn.state.wizardModel);
-					vn.state.wizardModel.goNext('secret');
-				},
+				onclick: function() { vn.state.wizardModel.jump('secret'); },
 			},_('Jump to the secret page'))
+		),
+		m(Layout.Cell, {span: 2}, 
+			m('button',{
+				onclick: function() { vn.state.wizardModel.prev(); },
+			},_('Go back'))
+		),
+		m(Layout.Cell, {span: 2}, 
+			m('button',{
+				onclick: function() { vn.state.wizardModel.next(); },
+			},_('Go next'))
+		),
+		m(Layout.Cell, {span: 2}, 
+			m('', _('Current page id: '), vn.state.wizardModel.current && vn.state.wizardModel.current())
 		),
 		m(Layout.Cell, {span: 12}, m(Wizard, {
 			showall: vn.state.showall,
