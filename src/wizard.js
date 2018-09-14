@@ -53,6 +53,19 @@ var Wizard = {
 		this.pages = vn.children;
 	},
 	oninit: function(vn) {
+		var self = this;
+		self.model = vn.attrs.model || {};
+		// public api
+		self.model.goNext = function(value) {
+			self.goNext(value);
+		};
+		self.model.prev = function(value) {
+			self.prev(value);
+		};
+		self.model.current = function() {
+			return vn.state.currentPage;
+		};
+
 		this.pages = vn.children;
 		this.pages.map(function(page) {
 			vn.state.currentPage = vn.state.currentPage || page.attrs.id;
@@ -224,20 +237,30 @@ Wizard.Example.skippage6=false;
 Wizard.Example.simulateSubmitError=false;
 Wizard.Example.recoverableError=false;
 Wizard.Example.farepower={};
+Wizard.Example.wizardModel={};
 Wizard.Example.view = function(vn) {
 	var FarePower = require('./farepower');
 	var ValidatedField = require('./validatedfield');
 	var Checkbox = require('./mdc/checkbox');
-	return m(Layout, [
+	return m(Layout.Row, [
 		m(Layout.Cell, {span: 12}, m('h2', 'Wizard')),
-		m(Layout.Cell, {span: 12}, m(Checkbox, {
+		m(Layout.Cell, {span: 3}, m(Checkbox, {
 			id: 'showall',
 			label: 'Debug showall mode',
 			checked: vn.state.showall,
 			onchange: function(ev) {vn.state.showall = ev.target.checked; },
 		})),
+		m(Layout.Cell, {span: 3}, 
+			m('button',{
+				onclick: function() {
+					console.log(vn.state.wizardModel);
+					vn.state.wizardModel.goNext('secret');
+				},
+			},_('Jump to the secret page'))
+		),
 		m(Layout.Cell, {span: 12}, m(Wizard, {
 			showall: vn.state.showall,
+			model: vn.state.wizardModel,
 		}, [
 			m('', {
 				id: 'page1',
@@ -379,6 +402,8 @@ Wizard.Example.view = function(vn) {
 				title: _('Secret page'),
 			}, [
 				m('',_('This page is only accessible by jump')),
+				m('',_('Because it is the last one, pressing next does nothing')),
+				m('',_('Pressing prev, should go back to which ever page you come from')),
 			]),
 		])),
 	]);
