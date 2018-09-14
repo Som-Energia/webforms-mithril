@@ -239,8 +239,8 @@ Wizard.Example.view = function(vn) {
 		m(Layout.Cell, {span: 12}, m(Wizard, {
 			showall: vn.state.showall,
 		}, [
-			m('.page', {
-				id: 'examplepage1',
+			m('', {
+				id: 'page1',
 				title: _('Page 1: Default page'),
 				validator: function() {
 					return vn.state.clearerror?undefined:
@@ -256,7 +256,7 @@ Wizard.Example.view = function(vn) {
 				}),
 			]),
 
-			m('.page', {
+			m('', {
 				id: 'page2',
 				title: _('Page 2: Default but next have skipif'),
 			}, [
@@ -268,7 +268,7 @@ Wizard.Example.view = function(vn) {
 					onchange: function(ev) {vn.state.skippage3=ev.target.checked;},
 				}),
 			]),
-			m('.page', {
+			m('', {
 				id: 'page3',
 				title: _('Page 3: Explicit next'),
 				skipif: function() {return vn.state.skippage3;},
@@ -285,7 +285,7 @@ Wizard.Example.view = function(vn) {
 				}),
 			]),
 
-			m('.page', {
+			m('', {
 				id: 'page4',
 				title: _('Page 4: Functional next'),
 				next: function() { return vn.state.skippage5?'page6':true; },
@@ -299,7 +299,7 @@ Wizard.Example.view = function(vn) {
 				}),
 			]),
 
-			m('.page', {
+			m('', {
 				id: 'page5',
 				title: _('Page 5: Asynchronous jump'),
 				next: function() {
@@ -318,7 +318,7 @@ Wizard.Example.view = function(vn) {
 					onchange: function(ev) {vn.state.skippage6=ev.target.checked;},
 				}),
 			]),
-			m('.page', {
+			m('', {
 				id: 'page6',
 				title: _('Page 6: Complex validation'),
 				validator: function() {
@@ -329,7 +329,7 @@ Wizard.Example.view = function(vn) {
 			}, [
 				m(FarePower, {model: vn.state.farepower})
 			]),
-			m('.page', {
+			m('', {
 				id: 'confirm',
 				title: _('Confirmation'),
 				nexticon: 'send',
@@ -356,7 +356,7 @@ Wizard.Example.view = function(vn) {
 					onchange: function(ev) {vn.state.recoverableError=ev.target.checked;},
 				}),
 			]),
-			m('.page', {
+			m('', {
 				id: 'error',
 				title: _('Error'),
 				prev: vn.state.recoverableError,
@@ -365,7 +365,7 @@ Wizard.Example.view = function(vn) {
 				m('',_('Error while sending wizard info')),
 				m('',_('Next button not available')),
 			]),
-			m('.page', {
+			m('', {
 				id: 'success',
 				title: _('Succes!!'),
 				prev: false,
@@ -374,7 +374,7 @@ Wizard.Example.view = function(vn) {
 				m('',_('The information has been accepted')),
 				m('',_('Next and Prev buttons not available')),
 			]),
-			m('.page', {
+			m('', {
 				id: 'secret',
 				title: _('Secret page'),
 			}, [
