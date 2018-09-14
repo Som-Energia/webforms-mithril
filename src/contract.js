@@ -62,46 +62,38 @@ Form.view = function(vn) {
 	]);
 };
 
-
 var IntroPage = function() {
 	var intro = Contract.intro;
-	return m('.page', {
+	return m('', {
 		id: 'intro_page',
 		title: _('Welcome'),
-		next: function() {
-			if (intro.vat.data.exists===true)
-				return 'password_page';
-			if (intro.vat.data.exists===false)
-				return 'holder_page';
-			if (intro.vat.data.exists===undefined)
-				return 'cups_page';
-		},
 		validator: function() {
-			intro.validate && intro.validate();
-			return intro.error;
+			return intro.validationErrors && intro.validationErrors();
 		},
-	},[ m(Row, m(Cell, {span:12}, [
+	},[
 		m(IntroContract, {
-			model: intro,
+			model: intro
 		}),
-	]))]);
+	]);
 };
+
 
 var PasswordPage = function() {
 	var intro = Contract.intro;
-	return m('.page', {
+	return m('', {
 		id: 'password_page',
 		title: _('Identify'),
+		skipif: function() { return intro.vateditor.data.exists!==true; },
 		next: function() {
 			return new Promise(function (resolve, reject) {
 				UserValidator.openSession(
-					intro.vat.value,
+					intro.vateditor.value,
 					intro.password,
 				).then(function(data) {
 					console.log('valid', data);
 					intro.name = data.name;
 					intro.validatedNif = data.nif;
-					resolve('cups_page');
+					resolve(true);
 				}).catch(function(reason) {
 					// TODO: Set the error
 					console.log('invalid', reason);
@@ -125,7 +117,26 @@ var PasswordPage = function() {
 			},
 		})),
 	])]);
+};
 
+var HolderPage = function() {
+	var intro = Contract.intro;
+	var holder = Contract.holder;
+	return m('.page', {
+		id: 'holder_page',
+		title: _('Holder'),
+		next: 'supply_page',
+		skipif: function() { return intro.vateditor.data.exists===true; },
+		validator: function() {
+			holder.validate && holder.validate();
+			return holder.error;
+		},
+	},[
+		m(PersonEditor, {
+			id: 'holder',
+			model: holder,
+		}),
+	]);
 };
 
 
@@ -172,24 +183,6 @@ var CupsPage = function() {
 			})),
 
 		]),
-	]);
-};
-
-var HolderPage = function() {
-	var holder = Contract.holder;
-	return m('.page', {
-		id: 'holder_page',
-		title: _('Holder'),
-		next: 'supply_page',
-		validator: function() {
-			holder.validate && holder.validate();
-			return holder.error;
-		},
-	},[
-		m(PersonEditor, {
-			id: 'holder',
-			model: holder,
-		}),
 	]);
 };
 

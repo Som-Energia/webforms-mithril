@@ -109,39 +109,33 @@ var Wizard = {
 				var errors = page.attrs.validator && page.attrs.validator();
 				var showNext = page.attrs.next !== false;
 				var showPrev = page.attrs.prev !== false;
-				return m('.tabpanel[role=tabpanel]'+
-						(active?'.active':'')+
-						'', {
-//						'aria-hidden': (!active && !vn.attrs.showall)?'true':'false',
-					}, [
-					m(Layout, [
-						m(Cell, {span:12}, m('h2', page.attrs.title)),
-						page.children,
-						m(Row, {align: 'right'}, [
-							m(Cell,{span:8}, m('.red', errors)),
-							m(Cell,{span:2},
-								showPrev && m(Button, {
-									outlined: true,
-									faicon: 'chevron-left',
-									tabindex: 0,
-									disabled: !self.history.length || self.intransition,
-									onclick: function() { self.prev(); },
-									style: {width:'100%'},
-								},  _("Previous")),
-							),
-							m(Cell,{span: 2},
-								showNext && m(Button, {
-									raised:true,
-									faicon: self.intransition?'spinner.fa-spin': (page.attrs.nexticon||'chevron-right'),
-									tabindex: 0,
-									disabled: errors !== undefined || self.intransition,
-									onclick: function() { self.next(); },
-									style: {width:'100%'},
-									},
-									page.attrs.nextlabel||_("Next")
-								)
-							),
-						]),
+				return m(Layout, [
+					m(Cell, {span:12}, m('h2', page.attrs.title)),
+					page.children,
+					m(Row, {align: 'center'}, [
+						m(Cell,{span:8}, m('.red', errors)),
+						m(Cell,{span:2},
+							showPrev && m(Button, {
+								outlined: true,
+								faicon: 'chevron-left',
+								tabindex: 0,
+								disabled: !self.history.length || self.intransition,
+								onclick: function() { self.prev(); },
+								style: {width:'100%'},
+							},  _("Previous")),
+						),
+						m(Cell,{span: 2},
+							showNext && m(Button, {
+								raised:true,
+								faicon: self.intransition?'spinner.fa-spin': (page.attrs.nexticon||'chevron-right'),
+								tabindex: 0,
+								disabled: errors !== undefined || self.intransition,
+								onclick: function() { self.next(); },
+								style: {width:'100%'},
+								},
+								page.attrs.nextlabel||_("Next")
+							)
+						),
 					]),
 				]);
 			})),
