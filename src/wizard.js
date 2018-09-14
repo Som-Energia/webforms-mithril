@@ -12,32 +12,28 @@ var Pager = require('./pageslider');
 var LinearProgress = require('./mdc/linearprogress');
 
 
-/**
-# Wizard
+/** @module */
 
-Controls the progress within a serie of steps.
+/**
+@namespace Wizard
+@description Controls the progress within a serie of steps.
 
 - Each children is a step and the default flow is the children order.
 - You can alter this order by setting attributes on the steps.
 - You can perform validations on each page
 - You can perform exit actions on each page
 
-## Attributes
+@property {bool} showall Ahow all pages, for debug purposes
 
-- `showall`: (bool) show all pages, for debug purposes
-- `model`: a dictionary that will be populated with the public api funcitons
+@property {Object} model A dictionary that will be populated with the public api functions
 
-## Model api functions
-
-- `jump(pageid)`: jumps to the next page (uses `pageid` as the `next` attribute)
+- jump(pageid) jumps to the next page (uses `pageid` as the `next` attribute)
 - `next()`: jumps to next page
 - `prev()`: jumps to previous page in history
 - `current()`: returns the id of the current page
 
-## Children
-
-Children are elements representing the pages with the following attributes:
-
+@property {vnode[]} children
+Every children vnodes of the componenent represent a steps.
 - `id`: (string) the page id, it is important to set it
 - `title`: (string) the title to be displayed for the step
 - `nexticon`: (string) Font awesome icon name for the next button. Default 'chevron-right'

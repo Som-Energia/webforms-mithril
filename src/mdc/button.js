@@ -2,24 +2,25 @@
 var m = require('mithril');
 require('@material/button/dist/mdc.button.css');
 
+/** @module */
 
 /**
-@namespace mdc
-@class Button
-Mithril component wrapping a MDC Button component.
+@namespace Button
 
-Attributes:
+@description
+A Mithril component wrapping a Material Design Button.
 
-- raised: shows the button in raised style
-- unelevated: shows the button in unelevated style
-- outlined: shows the button in outlined style
-- dense: shows the inner letters in dense mode
-- faicon: name for a leading icon of the font-awesome collection
-- Any other attributes are set to the button 
+It can be used as a regular HTML `<button>` but it adds
+severall attributes to control the look and feel.
 
-Children:
-
-- The content (text) of the button.
+@property {bool} raised   Shows the button in raised style
+@property {bool} unelevated  Shows the button in unelevated style
+@property {bool} outlined  Shows the button in outlined style
+@property {bool} dense  Shows the inner letters in dense mode
+@property {bool} faicon  Name for a leading icon of the font-awesome collection
+@property - Any other attribute is propagated to the button subelement.
+  Interesting ones are `onclick`, `disabled`, `style`...
+@property {text/vnode} children Any component children are taken as the content of the button
 
 */
 var Button = {

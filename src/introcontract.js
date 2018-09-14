@@ -11,16 +11,20 @@ var TextField = require('./mdc/textfield');
 var ValidatedField = require('./validatedfield');
 var LanguageChooser = require('./languagechooser');
 var UserValidator = require('./uservalidator');
-var Mousetrap = require('mousetrap');
-require('mousetrap-global-bind');
 require('@material/elevation/dist/mdc.elevation.css');
 
+/** @module */
+
+/**
+@class
+*/
 var IntroContract = {};
+
+
 /* states */
 const checkingSession     = 'checkingSession';
 const welcomeExistingUser = 'welcomeExistingUser';
 const askDni              = 'askDni';
-const welcomeNewUser      = 'welcomeNewUser';
 
 IntroContract.oninit = function(vn) {
 	vn.state.model = vn.attrs.model || {};

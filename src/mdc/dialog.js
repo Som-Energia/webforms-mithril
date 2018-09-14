@@ -5,19 +5,26 @@ require('@material/dialog/dist/mdc.dialog.css');
 const mdcDialog = require('@material/dialog');
 const MDCDialog = mdcDialog.MDCDialog;
 
+/** @module */
+
 /**
-# Attributes
+@namespace Dialog
+@description Modal dialog
 
-- header: (node) to show within the header
-- scrollable: (bool) enables the scroll on the dialog content
-- backdrop: (bool) darkens the background, and closes on out clicks
+@property {vnode} header  Content of the header
+@property {bool} scrollable  Enables the scroll on the dialog content
+@property {bool} backdrop  If true darkens the background, and cancels on out clicks
+@property {object} model Empty object to be used to hold the public API
+@property {function} model.open()  Opens the dialog
+@property {function} onaccept   Called when the dialog is accepted
+@property {function} oncancel   Called when the dialog is cancelled
+@property {Object[]} buttons  Array of objects representing the dialog buttons.
+@property {string} button.text Button text
+@property {bool} button.action mark the button as special action (secondary style)
+@property {bool} button.cancel mark the button as cancel button (closes and rejects)
+@property {bool} button.accept mark the button as accept button (closes accepting)
+@property {vnode[]} _children_  Main content of the dialog
 
-# Button attributes
-
-- text: Button text
-- action: (bool) mark the button as special action (secondary style)
-- cancel: (bool) mark the button as cancel button (closes and rejects)
-- accept: (bool) mark the button as accept button (closes accepting)
 */
 
 var Dialog = {};

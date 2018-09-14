@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const JsDocPlugin = require('jsdoc-webpack4-plugin');
 
 var config = {
 	context: path.resolve(__dirname, 'src'),
@@ -36,6 +37,9 @@ var config = {
 		new MiniCssExtractPlugin({
 			filename: "bundle-[name]-[contenthash].css",
 			chunkFilename: "chunk-[id]-[contenthash].css",
+			}),
+        new JsDocPlugin({
+            conf: './.jsdoc.json'
 			}),
 		// Analyzes generated sizes
 //		new BundleAnalyzerPlugin({ analyzerMode: 'static' }),

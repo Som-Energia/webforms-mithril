@@ -1,4 +1,7 @@
 'use strict';
+/** @module */
+
+
 var m = require('mithril');
 var _ = require('./translate');
 var css = require('./style.styl');
@@ -9,6 +12,50 @@ var Cell = Layout.Cell;
 var Checkbox = require('./mdc/checkbox');
 require('./chooser.styl');
 
+/**
+@namespace
+@description A widget to choose among several exclusive options.
+
+![chooser screenshot](../docs/shots/chooser.png)
+
+@property {string} id  Id for the chooser, needed in order to work properly.
+@property {string} question  The header question to be asked.
+@property {bool} required  The answer is required or not.
+@property {Object[]} options  The available options to choose among, refered as `option` below.
+@property {any} option.value  The value for the widget if this option is set
+@property {string} option.label  A short text that heads the option
+@property {string} option.description  A longer text that explains the option
+@property {any/undefined}  value The current chosen value, undefined if none.
+@property {function} onvaluechanged(value) callback to be called whenever the value changes.
+
+@example
+// do not set the value if you want to force the user to choose one
+var model = { value ='bluepill' };
+...
+m(Chooser, {
+	id: 'matrix_chooser',
+	question: _('Which path do you choose?'),
+	required: true,
+	options: [{
+		value: 'redpill',
+		label: _('Red pill'),
+		description: _(
+			'The brutal and akward freedom of thruth.'
+		),
+	},{
+		value: 'bluepill',
+		label: _('Blue pill'),
+		description: _(
+			'The conforting ignorance of dellusion.'
+		),
+	}],
+	value: model.value,
+	onvaluechanged: function(newvalue) {
+		model.value = newvalue;
+	},
+});
+
+*/
 const Chooser = {};
 Chooser.view = function (vn) {
 	return m(Layout, {className: 'chooser'}, [
@@ -57,7 +104,6 @@ Chooser.view = function (vn) {
 		})),
 	]);
 };
-
 
 Chooser.Example = {};
 Chooser.Example.value2 = 'bluepill'; // default value provided
