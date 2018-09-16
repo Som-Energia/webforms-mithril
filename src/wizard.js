@@ -34,22 +34,25 @@ var LinearProgress = require('./mdc/linearprogress');
 
 @property {vnode[]} children
 Every children vnodes of the componenent represent a steps.
-- `id`: (string) the page id, it is important to set it
-- `title`: (string) the title to be displayed for the step
-- `nexticon`: (string) Font awesome icon name for the next button. Default 'chevron-right'
-- `nextlabel`: (string) Lavel for the next button. Default: 'Next'
-- `prev`: if defined false, it cannot go back. 
-- `next`: (undefined/bool/string/function)
-	- `undefined` or `true`: just go to the next in order
-	- `false`: do not jump at all
-	- `string`: jump to the page with such id
-	- `promise`: freezes the buttons and jump when the promise resolves
-	- `function`: execute the function that returns the page (any of the other)
-- `skipif`: (function) jumping to this page by order, just jumps to the next in order
-- `validator`: (function) Returns either false or a reason why you cannot advance.
-	If an error message is returned it will be displayed and the 'Next' button will be disabled.
-	If it returns undefined, the 'Next' button will be enabled.
-	Default: `function () {}`
+
+@property {string} children.id  The page id, it is important to set it
+@property {string} children.title  the title to be displayed for the step
+@property {string} children.nexticon  Font awesome icon name for the next button. Default 'chevron-right'
+@property {string} children.nextlabel  Label for the next button. Default: 'Next'
+@property {function} children.skipif  jumping to this page by order, just jumps to the next in order
+@property {function} children.validator  Returns either false or a reason why you cannot advance.
+If an error message is returned it will be displayed and the 'Next' button will be disabled.
+If it returns undefined, the 'Next' button will be enabled.
+Default: `function() {}`
+@property {undefined|bool|string|funcion|promise} children.next
+	Changes the normal flow for the next step
+- `undefined` or `true`: just go to the next in order
+- `false`: do not jump at all
+- `string`: jump to the page with such id
+- `function`: execute the function that returns the page (any of the other)
+- `promise`: freezes the buttons and jump when the promise resolves, or stays if fails
+@property {bool|undefined} children.prev  if defined false, it cannot go back. 
+
 */
 
 var Wizard = {

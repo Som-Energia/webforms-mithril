@@ -31,13 +31,14 @@
 - [ ] Setting state by programming
 - [ ] Setting validated by default
 - [ ] Setting validated by programming
+- [ ] Fer servir jsdoc-external-example per separar els exmples i que surtin a la documentacio
 
 
 ### New wizard
 
-- Progress bar
-- Slide de pagina
-- Logica no linial
+- [x] Progress bar
+- [x] Slide de pagina
+- [x] Logica no linial
 
 ### Terms Acceptation
 

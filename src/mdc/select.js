@@ -1,9 +1,50 @@
 'use strict';
+/** @module */
+
 var m = require('mithril');
 var _ = require('../translate');
 var MDCSelect = require('@material/select');
 require('@material/select/dist/mdc.select.css');
 
+/**
+Mithril component wrapping an MDC Select input field.
+
+Input field that unfolds in a set of options you can choose.
+@namespace
+@property {string} id  (it won't work if you don't provide one)
+@property {string} label  Text to be shown as label of the input
+@property {string} help  Helper text to be shown in the bottom of the control
+@property {bool} required  Makes the field madatory
+@property {bool} disabled  Disables the input
+@property {bool} boxed  Activates the boxed style
+@property {bool} outlined  Activates the outlined style
+@property {string} value  The currently selected value
+@property {function} onchange  A callback to be called when the user changes the value
+@property {function} oninvalid  A callback to be called when the chosen value is invalid
+@property {Object[]} options  A list of objects defining the options
+@property {string} options.text  The text to be shown for the option
+@property {string} options.value  The value taken by this option
+@property {bool} options.disabled  Disables the option to be selected
+@property {Object[]} options.group  A list of objects defining suboptions
+@example
+const Dialog = require('./mdc/dialog');
+var mydialog = {};
+...
+m(Dialog, {
+    oncancel: function() { }, // Whatever to do on cancel
+    onaccept: function() { }, // Whatever to do on accept
+    model: mydialog, // inject object
+    buttons: [
+        { text: "Help", onclick: showhelp }, // Custom action
+        { text: "No", cancel: true }, // Default cancel action
+        { text: "Yes", accept: true }, // Default accept action
+    ],
+}, m('',_('Proceed?')),
+m(Buttton, {
+    // open is accessible via mydialog
+    onclick: function() { mydialog.open(); },
+}, "Open Dialog");
+*/
 var Select = {
 	oncreate: function(vn) {
 		var mdcselect = vn.dom.querySelector('.mdc-select');

@@ -13,6 +13,8 @@ A Mithril component wrapping a Material Design Button.
 It can be used as a regular HTML `<button>` but it adds
 severall attributes to control the look and feel.
 
+![Different styles for button](../docs/shots/mdc-button.png)
+
 @property {bool} raised   Shows the button in raised style
 @property {bool} unelevated  Shows the button in unelevated style
 @property {bool} outlined  Shows the button in outlined style
