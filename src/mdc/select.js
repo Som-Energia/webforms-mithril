@@ -26,24 +26,6 @@ Input field that unfolds in a set of options you can choose.
 @property {string} options.value  The value taken by this option
 @property {bool} options.disabled  Disables the option to be selected
 @property {Object[]} options.group  A list of objects defining suboptions
-@example
-const Dialog = require('./mdc/dialog');
-var mydialog = {};
-...
-m(Dialog, {
-    oncancel: function() { }, // Whatever to do on cancel
-    onaccept: function() { }, // Whatever to do on accept
-    model: mydialog, // inject object
-    buttons: [
-        { text: "Help", onclick: showhelp }, // Custom action
-        { text: "No", cancel: true }, // Default cancel action
-        { text: "Yes", accept: true }, // Default accept action
-    ],
-}, m('',_('Proceed?')),
-m(Buttton, {
-    // open is accessible via mydialog
-    onclick: function() { mydialog.open(); },
-}, "Open Dialog");
 */
 var Select = {
 	oncreate: function(vn) {

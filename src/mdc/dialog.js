@@ -11,6 +11,8 @@ const MDCDialog = mdcDialog.MDCDialog;
 @namespace Dialog
 @description Modal dialog
 
+![](../docs/shots/mdc-dialog.png)
+
 @property {vnode} header  Content of the header
 @property {bool} scrollable  Enables the scroll on the dialog content
 @property {bool} backdrop  If true darkens the background, and cancels on out clicks
@@ -25,6 +27,25 @@ const MDCDialog = mdcDialog.MDCDialog;
 @property {bool} button.accept mark the button as accept button (closes accepting)
 @property {vnode[]} _children_  Main content of the dialog
 
+@example
+const Dialog = require('./mdc/dialog');
+var mydialog = {};
+...
+m(Dialog, {
+    oncancel: function() { }, // Whatever to do on cancel
+    onaccept: function() { }, // Whatever to do on accept
+    model: mydialog, // inject object
+    buttons: [
+        { text: "Help", onclick: showhelp }, // Custom action
+        { text: "No", cancel: true }, // Default cancel action
+        { text: "Yes", accept: true }, // Default accept action
+    ],
+}, m('',_('Proceed?'))),
+
+m(Button, {
+    // open is accessible via mydialog
+    onclick: function() { mydialog.open(); },
+}, "Open Dialog"),
 */
 
 var Dialog = {};
