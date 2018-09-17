@@ -66,6 +66,9 @@ var config = {
 			//chunks: 'all',
 		}
 	},
+	externals: [
+		'child_process',
+	],
 };
 
 module.exports = (env, argv) => {
