@@ -122,5 +122,17 @@
 - Select label colors (focus and not) are not as dimmer as in textfields
 
 
+- NIF?
+    - Token contratacion desde OV o no
+    - Validados en el CAS o no
+    - Validados en OV o no
+    - En los casos que todo no puede aun ser usuario o no
+    - API NIF:
+        - valido o invalido
+        - fisica o juridia
+        - usuario o no
+        - socio o no
+
+
 
 
