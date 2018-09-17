@@ -3,7 +3,9 @@ var m = require('mithril');
 require('@material/card/dist/mdc.card.css');
 require('@material/icon-button/dist/mdc.icon-button.css');
 require('@material/icon-button');
+require('@material/ripple/dist//mdc.ripple.css');
 require('material-design-icons/iconfont/material-icons.css');
+var MDCRipple = require('@material/ripple').MDCRipple;
 
 /**
 # Attributes
@@ -28,13 +30,17 @@ which may contain itself content.
 */
 
 var Card = {};
+Card.oncreate = function(vn) {
+	var primary = vn.dom.querySelector('.mdc-card__primary-action')
+	primary && MDCRipple.attachTo(primary);
+};
 Card.view = function(vn) {
 	return m('.mdc-card'
 		+(vn.attrs.outlined?'.mdc-card--outlined':'')
 		, vn.attrs, [
 		(vn.attrs.onprimary ?
 			m('a.mdc-card__primary-action',
-				{onclick: vn.attrs.onprimary },
+				{onclick: vn.attrs.onprimary},
 				vn.children
 			) : vn.children),
 		(vn.attrs.buttons||vn.attrs.icons) && m('.mdc-card__actions', [
