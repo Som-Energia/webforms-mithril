@@ -1,32 +1,31 @@
 'use strict';
+/** @module */
 var m = require('mithril');
 require('@material/card/dist/mdc.card.css');
 require('@material/icon-button/dist/mdc.icon-button.css');
+require('@material/ripple/dist/mdc.ripple.css');
 require('@material/icon-button');
 require('@material/ripple/dist//mdc.ripple.css');
 require('material-design-icons/iconfont/material-icons.css');
 var MDCRipple = require('@material/ripple').MDCRipple;
 
 /**
-# Attributes
+@namespace Card
+@description Displays a packed bit of information you can interact with.
 
-- `outlined`: instead of casting a shadow, draw an outline
-- `fullbleed`: expans the only button in the action area to the whole width
+![](../docs/shots/mdc-card.png)
 
-# Button Action attributes
+@property {bool} outlined  Shows the card in the outlined style instead of casting a shadow
+@property {bool} fullbleed TODO: expans the only button in the action area to the whole width
 
-# Icon Action attributes
-
-# Card.Media
-
-Card media is an image covered portion of the Card content
-which may contain itself content.
-
-## Card.Media attributes
-- `image`: the image to show as background
-- `square`: set the height equal to the width on the media area
-- `wide`: set the media area height to 16-9 proportion (default
-
+@property {function} onprimary  Callback to be called if you click on the main body
+@property {Object[]} buttons  Array of object with the attributes for the buttons
+@property {string} buttons.text  Array of object with the attributes for the buttons
+@property {} buttons.* Any other parameter is passed as is to the button
+@property {Object[]} icons  Array of object with the attributes for the icon buttons
+@property {string} icons.micon  Material icon name
+@property {string} icons.title  Text to be shown on hover for the icon button
+@property {} icons.* Any other parameter is passed as is to the icon button
 */
 
 var Card = {};
@@ -61,17 +60,30 @@ Card.view = function(vn) {
 						+'.material-icons'
 						+'.mdc-card__action'
 						+'.mdc-card__action--icon'
-						, {
-							title: icon.title,
-							//'data-mdc-ripple-is-unbounded': "",
-						}, icon.micon
+						, Object.assign(icon, {
+							// 'data-mdc-ripple-is-unbounded': "",
+						}),  icon.micon
 					);
 				}),
 			]),
 		]),
 	]);
 };
+Card.oncreate = function(vn) {
+	
+};
 
+/**
+@namespace Media
+@memberof! module:mdc/card.Card
+@description Card media is an image covered portion of the Card content
+which may contain itself content.
+
+@property {string} image  - The image to show as background
+@property {bool} square - Set the height equal to the width on the media area
+@property {bool} wide - Set the media area height to 16-9 proportion
+@property {vnode[]} _children_ - Content
+*/
 Card.Media = {};
 Card.Media.view = function(vn) {
 	return m('.mdc-card__media'
@@ -85,6 +97,7 @@ Card.Media.view = function(vn) {
 		m('a.mdc-card__media-content', vn.children)
 	]);
 };
+
 
 Card.Example = {};
 Card.Example.card = {
@@ -150,6 +163,7 @@ Card.Example.view = function(vn) {
 					title: 'More options',
 				}],
 			}, 
+				// If you want the titles to outstand outside the media
 				m('.mdc-typography--overline', 'Overline'),
 				m('.mdc-typography--headline5', 'Titulo'),
 				m(Card.Media, {

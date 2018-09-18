@@ -9,22 +9,29 @@ const MDCDialog = mdcDialog.MDCDialog;
 
 /**
 @namespace Dialog
-@description Modal dialog
+@description A Material Design Modal Dialog wrapped as Mithril component.
+
+A modal dialog is used to require the user total atention on a piece
+of information or decision that has to be taken.
+
+Material Design guidelines recommend whenever is possible to use other components like
+Banners and Snack Bars which are non blocking and less disturbing to the user.
 
 ![](../docs/shots/mdc-dialog.png)
 
 @property {vnode} header  Content of the header
 @property {bool} scrollable  Enables the scroll on the dialog content
-@property {bool} backdrop  If true darkens the background, and cancels on out clicks
-@property {object} model Empty object to be used to hold the public API
+@property {bool} backdrop  If true darkens the background, and cancels clicking outside
+@property {object} model An empty object to be filled with the public API methods.
 @property {function} model.open()  Opens the dialog
 @property {function} onaccept   Called when the dialog is accepted
 @property {function} oncancel   Called when the dialog is cancelled
 @property {Object[]} buttons  Array of objects representing the dialog buttons.
-@property {string} button.text Button text
-@property {bool} button.action mark the button as special action (secondary style)
-@property {bool} button.cancel mark the button as cancel button (closes and rejects)
-@property {bool} button.accept mark the button as accept button (closes accepting)
+@property {string} buttons.text Button text
+@property {bool} buttons.action mark the button as special action (secondary style)
+@property {bool} buttons.cancel mark the button as cancel button (closes and rejects)
+@property {bool} buttons.accept mark the button as accept button (closes accepting)
+@property {bool} buttons.* any other attribute will be passed to the underlying button, notably `onclick`
 @property {vnode[]} _children_  Main content of the dialog
 
 @example
@@ -35,17 +42,18 @@ m(Dialog, {
     oncancel: function() { }, // Whatever to do on cancel
     onaccept: function() { }, // Whatever to do on accept
     model: mydialog, // inject object
+    header: _("Warning"),
     buttons: [
-        { text: "Help", onclick: showhelp }, // Custom action
-        { text: "No", cancel: true }, // Default cancel action
-        { text: "Yes", accept: true }, // Default accept action
+        { text: _("Help"), onclick: showhelp }, // Custom action
+        { text: _("No"), cancel: true }, // Default cancel action
+        { text: _("Yes"), accept: true }, // Default accept action
     ],
-}, m('',_('Proceed?'))),
+}, m('',_('We are really doing it. Proceed?'))),
 
 m(Button, {
     // open is accessible via mydialog
     onclick: function() { mydialog.open(); },
-}, "Open Dialog"),
+}, _("Open Dialog")),
 */
 
 var Dialog = {};

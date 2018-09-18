@@ -1,22 +1,5 @@
 'use strict';
-
-/*
-# Tab bar
-
-Widget used to navigate within elements of the same hierarchy by means of tabs.
-
-## Attributes:
-
-- align: (*center, start, end, expand)
-- mode: (*icontext, textonly, icononly, stacked)
-- index: (int) current tab index
-- onactivated: (callback) change handler ev.detail.index
-- tabs: an array of objects containing:
-	- text: (string) the text to be shown if any
-	- icon: (string) the material icon name to be shown if any
-	- disabled: (bool) non interactive (default: false)
-*/
-
+/** @module */
 
 var m = require('mithril');
 require('@material/tab-bar/dist/mdc.tab-bar.css');
@@ -27,6 +10,29 @@ require('material-design-icons/iconfont/material-icons.css');
 
 var MDCTabBar = require('@material/tab-bar').MDCTabBar;
 
+/**
+@namespace TabBar
+@description A Material Design TabBar wrapped as Mithril component.
+
+Widget used to navigate within elements of the same hierarchy by means of tabs.
+
+![](../docs/shots/mdc-tabbar.png)
+
+@see PageSlider for smooth pane transitions
+
+@property {Object} model - An empty object to inject public API
+@property {function} model.activateTab(index) - Programatically activates tab at index
+@property {function} model.scrollIntoView(index) - Ensures the tab at index visible if scroll is active
+@param index The tab index to show
+@property {string} [align=center] - How to align the tabs horizontally (center, start, end, expand)
+@property {string} [mode=icontext] - How to display icons and text (*icontext, textonly, icononly, stacked)
+@property {int} index - Current tab index
+@property {function} onactivated - Change handler ev.detail.index
+@property {Object[]} tabs - Objects containing attributes for each tab
+@property {string} tabs.text - The text to be shown if any
+@property {string} tabs.icon - The material icon name to be shown if any
+@property {bool} tabs.disabled - Non interactive (default: false)
+*/
 var TabBar = {};
 TabBar.oninit = function(vn) {
 	vn.state.index = vn.attrs.index === undefined ? 0 : vn.attrs.index;

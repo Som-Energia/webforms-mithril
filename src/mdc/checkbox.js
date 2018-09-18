@@ -1,4 +1,5 @@
 'use strict';
+/** @module */
 var m = require('mithril');
 var _ = require('../translate');
 var MDCCheckbox = require('@material/checkbox');
@@ -6,6 +7,15 @@ var MDCFormField = require('@material/form-field');
 require('@material/checkbox/dist/mdc.checkbox.css');
 require('@material/form-field/dist/mdc.form-field.css');
 
+/**
+@namespace Checkbox
+@description Material Design Checkbox wrapped as Mithril component
+@property {string} id - Required id in order to work properly
+@property {string} label - The label shown aside the checkbox
+@property {bool} checked - Whether is checked or not
+@property {} * - Any extra attribute is passed to the native checkbox.
+	Notably `name`, `onchange`, `disabled`...
+*/
 var Checkbox = {
 	oncreate: function(vn) {
 		var mdccheckbox = vn.dom.querySelector('.mdc-checkbox');

@@ -1,9 +1,16 @@
 'use strict';
+/** @module */
 var m = require('mithril');
 require('@material/layout-grid/dist/mdc.layout-grid.css');
 
 function pop(o,k) { var r=o[k]; if (r!==undefined) { delete o[k];} return r; }
 
+
+/**
+@namespace Layout
+@description Container for a layout 
+@property {string} Child alignment: left, right or undefined (center)
+*/
 var Layout = {
 	view: function(vnode) {
 		var attrs = Object.assign({},vnode.attrs);
@@ -16,12 +23,20 @@ var Layout = {
 	},
 };
 
+/**
+@namespace Row
+@description Cell containing other cells
+*/
 var Row = {
 	view: function(vnode) {
 		return m('.mdc-layout-grid__inner', vnode.attrs, vnode.children);
 	},
 };
 
+/**
+@namespace Cell
+@description Leaf Cell of the layout tree
+*/
 var Cell = {
 	view: function(vnode) {
 		var attrs = Object.assign({},vnode.attrs);

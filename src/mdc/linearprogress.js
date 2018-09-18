@@ -1,10 +1,30 @@
 'use strict';
+/** @module */
 
 var m = require('mithril');
 var MDCLinearProgress = require('@material/linear-progress').MDCLinearProgress;
 require('@material/linear-progress/dist/mdc.linear-progress.css');
 
+/**
+@namespace LinearProgress
+@description A Material Design LinearProgress wrapped as Mithril component.
 
+A LinearProgress gives feedback on the proces of some ongoing process.
+It can display either a concrete progress (% of completion) or an
+indeterminate one (just feeds back that the process is ongoing.
+
+![screenshot](../docs/shots/mdc-linearprogress.png)
+
+@property {undefined|int} - Number of total steps.
+	If not defined, the progres will feedback an undeterminate length process.
+@property {int} value - Number of completed steps.
+@property {int} buffer - Number of steps preprocessed in advance.
+	Commonly used in streaming media playback.
+@property {bool} reversed - Invert left-right
+@property {bool} closed - Hides the widget
+@property {color} color - Color for the progress line
+@property {color2} color2 - Color for the buffer line
+*/
 var LinearProgress = {};
 LinearProgress.oncreate = function(vn) {
 	this.widget = MDCLinearProgress.attachTo(vn.dom);
