@@ -1,9 +1,30 @@
 'use strict';
+/** @module */
+
 
 const m = require('mithril');
 require('./pageslider.styl');
 
+/**
+@namespace PageSlider
+@description A widget sliding among several pages horizontally.
 
+Pages slide gently from left to right or backwards from right to left
+controlled by the `current` attribute.
+
+A debug mode is available to show all pages stacked horizontally
+where the current page is just hightlighted and the rest are dimished.
+
+It can be used as base for a Carruselle, the panes controlled by a TabBar,
+or the pages of a Wizard.
+
+@property {int} current The index of the page to appear.
+@property {bool} showall Show all pages, for debug purposes.
+@property {vnode} __children__ The pages
+@todo Remove the hidden pages from the tab order.
+@see TabBar
+@see Wizard
+*/
 const PageSlider = {};
 
 PageSlider.oninit = function(vn) {
