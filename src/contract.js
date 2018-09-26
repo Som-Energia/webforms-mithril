@@ -48,39 +48,41 @@ Form.view = function(vn) {
 			m('h1', _('Contract Form')),
 			m(Wizard, {
 				showall: showall,
-			}, [
-				IntroPage(),
-				PasswordPage(),
-				HolderPage(),
-				CupsPage(),
-				SupplyPage(),
-				TermsPage(),
-				PaymentPage(),
-				ReviewPage(),
-			]),
+				pages:[
+					IntroPage(),
+					PasswordPage(),
+					HolderPage(),
+					CupsPage(),
+					SupplyPage(),
+					TermsPage(),
+					PaymentPage(),
+					ReviewPage(),
+				],
+			}),
 		]),
 	]);
 };
 
 var IntroPage = function() {
 	var intro = Contract.intro;
-	return m('', {
+	return {
 		id: 'intro_page',
 		title: _('Welcome'),
 		validator: function() {
 			return intro.validationErrors && intro.validationErrors();
 		},
-	},[
-		m(IntroContract, {
-			model: intro
-		}),
-	]);
+		content: [
+			m(IntroContract, {
+				model: intro
+			}),
+		]
+	};
 };
 
 
 var PasswordPage = function() {
 	var intro = Contract.intro;
-	return m('', {
+	return {
 		id: 'password_page',
 		title: _('Identify'),
 		skipif: function() { return intro.vateditor.data.exists!==true; },
@@ -101,28 +103,29 @@ var PasswordPage = function() {
 				});
 			});
 		},
-	},[ m(Row, [
-		m(Cell, {span:6},
-			m('', _('Please, identify yourself using your Virtual Office password'))),
-		m(Cell, {span:6},
-			m('a', { href: 'TODO', },
-			_('[I don\'t remember my password]'))),
-		m(Cell, {span:6}, m(TextField, {
-			label: _('Password'),
-			leadingfaicon: 'key',
-			type: 'password',
-			boxed: true,
-			oninput: function(ev) {
-				intro.password = ev.target.value;
-			},
-		})),
-	])]);
+		content: [ m(Row, [
+			m(Cell, {span:6},
+				m('', _('Please, identify yourself using your Virtual Office password'))),
+			m(Cell, {span:6},
+				m('a', { href: 'TODO', },
+				_('[I don\'t remember my password]'))),
+			m(Cell, {span:6}, m(TextField, {
+				label: _('Password'),
+				leadingfaicon: 'key',
+				type: 'password',
+				boxed: true,
+				oninput: function(ev) {
+					intro.password = ev.target.value;
+				},
+			})),
+		])],
+	};
 };
 
 var HolderPage = function() {
 	var intro = Contract.intro;
 	var holder = Contract.holder;
-	return m('.page', {
+	return {
 		id: 'holder_page',
 		title: _('Holder'),
 		next: 'supply_page',
@@ -131,18 +134,19 @@ var HolderPage = function() {
 			holder.validate && holder.validate();
 			return holder.error;
 		},
-	},[
-		m(PersonEditor, {
-			id: 'holder',
-			model: holder,
-		}),
-	]);
+		content: [
+			m(PersonEditor, {
+				id: 'holder',
+				model: holder,
+			}),
+		],
+	};
 };
 
 
 var CupsPage = function() {
 	var model = Contract.cups;
-	return m('.page', {
+	return {
 		id: 'cups_page',
 		title: _('Identify the supply point'),
 		next: 'supply_page',
@@ -152,51 +156,50 @@ var CupsPage = function() {
 			}
 			return undefined;
 		},
-	},[
-		m(Row, [
-			m(Cell, {span:6}, m(ValidatedField, {
-				id: 'cups',
-				checkurl: '/check/cups/status/',
-				label: _('Supply point identifier (CUPS)'),
-				help: _('"ES" followed by 16 numbers and two check letters'),
-				boxed: true,
-				required: true,
-				maxlength: 24,
-				fieldData: model.field,
-				inputfilter: function(value) {
-					return value.toUpperCase();
-				},
-				onvalidated: function(state) {
-					console.log('CUPS validated', state);
-				}
-			})),
-			m(Cell, {span:6}, m(TextField, {
-				id: 'cupsaddress',
-				label: _('Supply point address'),
-				help: _(''),
-				boxed: true,
-				disabled: true,
-				tabindex: -1,
-				required: true,
-				maxlength: 24,
-				value: (model.field.data && model.field.isvalid || '') && model.field.data.address,
-			})),
-
-		]),
-	]);
+		content: [
+			m(Row, [
+				m(Cell, {span:6}, m(ValidatedField, {
+					id: 'cups',
+					checkurl: '/check/cups/status/',
+					label: _('Supply point identifier (CUPS)'),
+					help: _('"ES" followed by 16 numbers and two check letters'),
+					boxed: true,
+					required: true,
+					maxlength: 24,
+					fieldData: model.field,
+					inputfilter: function(value) {
+						return value.toUpperCase();
+					},
+					onvalidated: function(state) {
+						console.log('CUPS validated', state);
+					}
+				})),
+				m(Cell, {span:6}, m(TextField, {
+					id: 'cupsaddress',
+					label: _('Supply point address'),
+					help: _(''),
+					boxed: true,
+					disabled: true,
+					tabindex: -1,
+					required: true,
+					maxlength: 24,
+					value: (model.field.data && model.field.isvalid || '') && model.field.data.address,
+				})),
+			]),
+		],
+	};
 };
 
 var SupplyPage = function() {
-	return m('.page', {
+	return {
 		id: 'supply_page',
 		title: _('Supply'),
 		next: 'terms_page',
-	},[
-	]);
+	};
 };
 
 var TermsPage = function() {
-	return m('.page', {
+	return {
 		id: 'terms_page',
 		title: _('Terms'),
 		next: 'payment_page',
@@ -205,13 +208,14 @@ var TermsPage = function() {
 				Contract.terms.validate();
 			return Contract.terms.error;
 		},
-	},[
-		m(Terms, {model: Contract.terms}),
-	]);
+		content: [
+			m(Terms, {model: Contract.terms}),
+		],
+	};
 };
 
 var PaymentPage = function() {
-	return m('.page', {
+	return {
 		id: 'payment_page',
 		title: _('Payment'),
 		next: 'review_page',
@@ -219,17 +223,17 @@ var PaymentPage = function() {
 			Contract.payment.validate && Contract.payment.validate();
 			return Contract.payment.error;
 		},
-	},[
-		m(PaymentEditor, {model: Contract.payment}),
-	]);
+		content: [
+			m(PaymentEditor, {model: Contract.payment}),
+		],
+	};
 };
 
 var ReviewPage = function() {
-	return m('.page', {
+	return {
 		id: 'review_page',
 		title: _('Review'),
-	},[
-	]);
+	};
 };
 
 
