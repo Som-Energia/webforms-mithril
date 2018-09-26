@@ -16,9 +16,9 @@ var LinearProgress = require('./mdc/linearprogress');
 
 /**
 @namespace Wizard
-@description Controls the progress within a serie of steps.
+@description Controls the progress of user interaction within a serie of steps.
 
-- Each children is a step and the default flow is the children order.
+- The default flow matches the order of the array of pages
 - You can alter this order by setting attributes on the steps.
 - You can perform validations on each page
 - You can perform exit actions on each page
@@ -32,27 +32,27 @@ var LinearProgress = require('./mdc/linearprogress');
 - `prev()`: jumps to previous page in history
 - `current()`: returns the id of the current page
 
-@property {vnode[]} children
-Every children vnodes of the componenent represent a steps.
+@property {Object[]} pages
+A list of Objects for each page.
 
-@property {string} children.id  The page id, it is important to set it
-@property {string} children.title  the title to be displayed for the step
-@property {string} children.nexticon  Font awesome icon name for the next button. Default 'chevron-right'
-@property {string} children.nextlabel  Label for the next button. Default: 'Next'
-@property {function} children.skipif  jumping to this page by order, just jumps to the next in order
-@property {function} children.validator  Returns either false or a reason why you cannot advance.
+@property {string} pages.id  The page id, it is important to set it
+@property {string} pages.title  The title to be displayed for the step
+@property {string} pages.nexticon  Font awesome icon name for the next button. Default 'chevron-right'
+@property {string} pages.nextlabel  Label for the next button. Default: 'Next'
+@property {function} pages.skipif  Jumping to this page by order, just jumps to the next in order
+@property {function} pages.validator  Returns either false or a reason why you cannot advance.
 If an error message is returned it will be displayed and the 'Next' button will be disabled.
 If it returns undefined, the 'Next' button will be enabled.
 Default: `function() {}`
-@property {undefined|bool|string|funcion|promise} children.next
+@property {undefined|bool|string|funcion|promise} pages.next
 	Changes the normal flow for the next step
 - `undefined` or `true`: just go to the next in order
 - `false`: do not jump at all
 - `string`: jump to the page with such id
 - `function`: execute the function that returns the page (any of the other)
 - `promise`: freezes the buttons and jump when the promise resolves, or stays if fails
-@property {bool|undefined} children.prev  if defined false, it cannot go back. 
-
+@property {bool|undefined} pages.prev  If defined false, it cannot go back.
+@property {vnode|vnode[]|string} pages.content Content of the page
 */
 
 var Wizard = {
