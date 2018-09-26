@@ -23,7 +23,7 @@ var IntroContract = {};
 
 /* states */
 const checkingSession     = 'checkingSession';
-const welcomeExistingUser = 'welcomeExistingUser';
+const welcomeExistingSession = 'welcomeExistingSession';
 const askDni              = 'askDni';
 
 IntroContract.oninit = function(vn) {
@@ -33,7 +33,7 @@ IntroContract.oninit = function(vn) {
 	vn.state.state = checkingSession;
 	UserValidator.isSessionOpen().then(function (data) {
 		console.log('checked session open');
-		vn.state.state = welcomeExistingUser;
+		vn.state.state = welcomeExistingSession;
 		model.name = data.name;
 		model.validatedNif = data.nif;
 		m.redraw();
@@ -49,11 +49,10 @@ IntroContract.oninit = function(vn) {
 		return '0123456789KLMXYZ'.indexOf(firstchar) !== -1;
 	};
 	model.validationErrors = function() {
-		var self = this;
 		if (vn.state.state === checkingSession) {
 			return _('STILL_VALIDATING_SESSION'); // TODO: Translate
 		}
-		if (vn.state.state === welcomeExistingUser) {
+		if (vn.state.state === welcomeExistingSession) {
 			return undefined;
 		}
 		if (model.vateditor.isvalid !== true) {
