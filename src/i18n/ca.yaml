@@ -1,5 +1,4 @@
 City: Municipi
-NIF: Número d'identificació fiscal
 Field label: Etiqueta del camp
 Holder: Titular
 Supply point: Punt de subministrament
@@ -13,4 +12,10 @@ ACCEPT_PRIVACY_POLICY:
     He llegit i accepto la <strong><a target="_blank" href="%{url}">política de privacitat</a></strong> de Som Energia',
 ACCEPT_PRIVACY_POLICY_URL:
     //www.somenergia.coop/ca/politica-de-privacitat-cookies-i-avis-legal/
+
+VALIDATING_SESSION: S'està validant la sessió
+CONTRACTING_AS: "Està contractant com a: %{name}."
+NOT_YOU_LOGOUT: Si no sou aquesta persona, si us plau,  <a href="%{url}">tanqueu la sessió</a>
+FILL_VAT: "Si us plau, ompli el número de identificació fiscal de la persona que serà titular del contracte"
+VAT: Número d'identificació fiscal
 

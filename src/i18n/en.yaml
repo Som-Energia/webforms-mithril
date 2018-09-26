@@ -1,0 +1,12 @@
+STILL_VALIDATING_SESSION: ''
+NO_NIF: ''
+
+
+
+
+VALIDATING_SESSION: Validating session...
+CONTRACTING_AS: "You are now contracting as: %{name}."
+NOT_YOU_LOGOUT: If you are not that person, please <a href="%{url}">logout</a>
+FILL_VAT: "Please fill in the VAT number for the new contract holder:"
+VAT: Value Added Tax ID
+

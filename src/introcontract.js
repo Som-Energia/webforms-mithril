@@ -66,23 +66,23 @@ IntroContract.view = function(vn) {
 	return m(Row, [
 		vn.state.state === checkingSession ? [
 			m(Cell, {span:12}, [
-				m('', _('Validating session...')),
+				m('', _('VALIDATING_SESSION')),
 			])
 		] : (
-		vn.state.state === welcomeExistingUser ?  [
+		vn.state.state === welcomeExistingSession ?  [
 			m(Cell, {span:12}, [
-				m('', _('You are now contracting as: %{name}.', vn.state.model)),
-				m('', m.trust(_('If you are not that person, please <a href="TODO">logout</a>'))),
+				m('', _('CONTRACTING_AS', vn.state.model)),
+				m('', m.trust(_('NOT_YOU_LOGOUT', {url:'TODO'}))),
 			]),
 		] : (
 		vn.state.state === askDni ? [
 			m(Cell, {span:12}, 
-				_('Please introduce the VAT number for the new contract holder:')
+				_('FILL_VAT')
 			),
 			m(Cell, {span:6}, m(ValidatedField, {
 				id: 'vat',
 				checkurl: '/check/vat/exists/',
-				label: _('NIF'),
+				label: _('VAT'),
 				boxed: true,
 				required: true,
 				maxlength: 9,
