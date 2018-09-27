@@ -120,6 +120,7 @@
 	- "Datos de suministro:"
 	- Potencia/tarifa
 	- Documentacion de alta
+    - TODO: Posar un text nou que expliqui quina documentació cal aportar.
 
 1. **NewOwnerPage**:
 	- *Entra:* Si no es alta y no es CUPS activo:
