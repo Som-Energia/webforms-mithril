@@ -15,6 +15,7 @@ var uriBase = 'https://opendata.somenergia.coop/';
 
 var sending = false;
 var result = undefined;
+var apierror = undefined;
 var metric = 'members';
 
 var geolevel = '';
@@ -27,6 +28,9 @@ function uri() {
 }
 
 function doRequest() {
+    sending=true;
+    result=undefined;
+    apierror=undefined;
     var promise = m.request({
         method: 'GET',
         deserialize: jsyaml.load,
@@ -41,6 +45,7 @@ function doRequest() {
     promise.catch(function(error){
         console.log("Error:",error)
         sending=false;
+        apierror=error;
     });
 }
 
@@ -112,11 +117,11 @@ var OpenData = {
                 disabled: sending,
                 faicon: sending?"spinner.fa-spin":"paper-plane",
                 onclick: function() {
-                    sending=true;
                     doRequest();
                 },
             }, "Envia"),
             result && m('pre', jsyaml.dump(result)),
+            apierror && m('pre.red', "Error: ", apierror.message),
         ]);
     },
 };
