@@ -39,7 +39,6 @@ var config = {
 			template: './mithriltemplate.html',
 			chunks: ['common','opendata'],
 			}),
-
 		// Split css included as js into a separate file again
 		new MiniCssExtractPlugin({
 			filename: "bundle-[name]-[contenthash].css",
