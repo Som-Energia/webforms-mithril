@@ -25,6 +25,7 @@
     "i18n4v": "^0.2.2",
     "json-loader": "^0.5.7",
     "material-components-web": "^0.39.3",
+    "material-datepicker": "github:freddyfy/material-datepicker",
     "material-design-icons": "^3.0.1",
     "mithril": "^1.1.6",
     "mousetrap": "^1.6.2",
