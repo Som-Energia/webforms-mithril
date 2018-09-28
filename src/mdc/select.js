@@ -36,7 +36,10 @@ var Select = {
 		const options = vn.attrs.options || [];
 		const help_id = vn.attrs.id+'_help';
 		return m('', [
-			m('.mdc-select'+(vn.attrs.boxed?'.mdc-select--box':''), {
+			m('.mdc-select'+
+				(vn.attrs.disabled?'.mdc-select--disabled':'')+
+				(vn.attrs.outlined?'.mdc-select--outlined':'')+
+				(vn.attrs.boxed?'.mdc-select--box':''), {
 				style: {width: '100%'},
 				},[
 				m('select'+
@@ -73,7 +76,10 @@ var Select = {
 					})
 				),
 				m('label.mdc-floating-label', vn.attrs.label),
-				m('.mdc-line-ripple'),
+				vn.attrs.outlined && m('.mdc-notched-outline',
+					m('svg', m('path.mdc-notched-outline__path'))),
+				vn.attrs.outlined && m('.mdc-notched-outline__idle'),
+				vn.attrs.boxed && m('.mdc-line-ripple'),
 			]),
 			m('.mdc-text-field-helper-text'+
 				'.mdc-text-field-helper-text--persistent'+
@@ -122,7 +128,7 @@ var Example = {
 				m(Select, {
 					boxed: style=='boxed',
 					outlined: style=='outlined',
-					id: 'fan',
+					id: 'fan'+style,
 					label: _('Tastes'),
 					help: _('Select what you like more'),
 					required: true,
