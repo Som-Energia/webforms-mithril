@@ -17,11 +17,13 @@ var sending = false;
 var result = undefined;
 var metric = 'members';
 
-var geolevel = undefined;
+var geolevel = '';
+var time = 'last';
 
 function uri() {
     var geolevelPart = geolevel?"/by/"+geolevel:"";
-    return 'http://0.0.0.0:5001/v0.2/'+metric+geolevelPart;
+    var timePart = time==="last"?"":"/"+time;
+    return 'http://0.0.0.0:5001/v0.2/'+metric+geolevelPart+timePart;
 }
 
 function doRequest() {
@@ -79,7 +81,30 @@ var OpenData = {
                     text: _('City'),
                     value: 'city',
                 }],
-
+            }),
+            m(Select, {
+                id: 'time',
+                label: _('Time line'),
+                help: _('Time points when the metrics are measured'),
+                required: true,
+                value: time,
+                onchange: function(ev) {time=ev.target.value;},
+                options: [{
+                    text: _('Last available'),
+                    value: 'last',
+                },{
+                    text: _('A given date'),
+                    value: 'on',
+                },{
+                    text: _('Yearly'),
+                    value: 'yearly',
+                },{
+                    text: _('Monthly'),
+                    value: 'monthly',
+                },{
+                    text: _('Weekly'),
+                    value: 'weekly',
+                }],
             }),
             m("", "Demanant "+uri()),
             m(Button, {
