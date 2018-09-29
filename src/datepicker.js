@@ -81,6 +81,7 @@ DatePicker.Example.view = function(vn){
 			m(DatePicker, {
 				id: 'fromdate',
 				label: _('From'),
+				help: _('First day that will be included'),
 				value: DatePicker.Example.fromdate,
 				future: moment().add(20,'years'),
 				onchange: function(newvalue) {
@@ -94,6 +95,7 @@ DatePicker.Example.view = function(vn){
 			m(DatePicker, {
 				id: 'todate',
 				label: _('To'),
+				help: _('Last day that will be included'),
 				value: DatePicker.Example.todate,
 				past: DatePicker.Example.fromdate,
 				future: moment().add(20,'years'),
