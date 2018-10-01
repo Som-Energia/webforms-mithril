@@ -42,7 +42,20 @@ Card.view = function(vn) {
 				{onclick: vn.attrs.onprimary},
 				vn.children
 			) : vn.children),
-		(vn.attrs.buttons||vn.attrs.icons) && m('.mdc-card__actions', [
+		vn.attrs.fullbleed &&
+			m('mdc-card__actions.mdc-card__actions--full-bleed',
+				vn.attrs.buttons && vn.attrs.buttons.map(function(button) {
+					return m('button'
+						+'.mdc-button'
+						+'.mdc-card__action'
+						+'.mdc-card__action--button'
+						, button, button.text);
+				})
+			),
+		!vn.attrs.fullbleed && (vn.attrs.buttons||vn.attrs.icons) &&
+		m('.mdc-card__actions'
+			+(vn.attrs.fullbleed?'.mdc-card__actions--full-bleed':'')
+			, [
 			m('.mdc-card__action-buttons', [
 				vn.attrs.buttons && vn.attrs.buttons.map(function(button) {
 					return m('button'
@@ -50,7 +63,6 @@ Card.view = function(vn) {
 						+'.mdc-card__action'
 						+'.mdc-card__action--button'
 						, button, button.text);
-			
 				})
 			]),
 			m('.mdc-card__action-icons', [
@@ -70,11 +82,10 @@ Card.view = function(vn) {
 	]);
 };
 Card.oncreate = function(vn) {
-	
 };
 
 /**
-@namespace Media
+@namespace Card.Media
 @memberof! module:mdc/card.Card
 @description Card media is an image covered portion of the Card content
 which may contain itself content.
@@ -132,6 +143,21 @@ Card.Example.view = function(vn) {
 						m('.mdc-typography--headline5', 'Titulo'),
 					]))
 				),
+				m(Card, {
+					fullbleed: true,
+					buttons: [{
+						text: 'Action 1',
+						onclick: function(ev) { alert('Action 1'); },
+					}],
+				}, m(Card.Media, {
+					image: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(50,155,0,0.5) 100%)'
+						+',url("https://www.somenergia.coop/wp-content/uploads/2016/12/cuca.png")',
+					wide: true,
+					}, m('.mdc-theme--secondary', [
+						m('.mdc-typography--overline', 'Overline'),
+						m('.mdc-typography--headline5', 'Titulo'),
+					]))
+				),
 				m('p'),
 				m(Card, {
 						onprimary: function() {alert('Primary Action');},
@@ -162,7 +188,7 @@ Card.Example.view = function(vn) {
 					micon: 'more_vert',
 					title: 'More options',
 				}],
-			}, 
+			},
 				// If you want the titles to outstand outside the media
 				m('.mdc-typography--overline', 'Overline'),
 				m('.mdc-typography--headline5', 'Titulo'),
