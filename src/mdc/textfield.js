@@ -93,7 +93,7 @@ var TextField = {
 					iconaction && {tabindex:0, role: 'button', onclick:
 						function(ev) {
 							iconaction(ev);
-							window.event.cancelBubble = true;
+							ev.cancelBubble = true;
 						}})
 				:[]),
 				(outlined? []: m('.mdc-line-ripple')),
