@@ -57,12 +57,10 @@ function doRequest() {
         withCredentials: true,
     });
     promise.then(function(response){
-        console.log("Resultat:",response)
         sending=false;
         result=response;
     });
     promise.catch(function(error){
-        console.log("Error:",error)
         sending=false;
         apierror=error;
     });
