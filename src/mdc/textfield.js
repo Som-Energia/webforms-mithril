@@ -36,6 +36,7 @@ var TextField = {
 		const disabled = pop(attrs, 'disabled');
 		const help = pop(attrs, 'help');
 		const faicon = pop(attrs, 'faicon');
+		const iconaction = pop(attrs, 'iconaction');
 		const leadingfaicon = pop(attrs, 'leadingfaicon');
 		const inputfilter = pop(attrs, 'inputfilter');
 		const help_id = vn.attrs.id+'_help';
@@ -83,15 +84,22 @@ var TextField = {
 				m('input.mdc-text-field__input', nativeattrs),
 				fullwidth||outlined&&false?'':m('label'
 					+'.mdc-floating-label'
+
 					,
 					{'for': vn.attrs.id}, [
 					vn.attrs.label,
 				]),
+				(faicon ? m('i.mdc-text-field__icon.fa.fa-'+faicon,
+					iconaction && {tabindex:0, role: 'button', onclick:
+						function(ev) {
+							iconaction(ev);
+							window.event.cancelBubble = true;
+						}})
+				:[]),
 				(outlined? []: m('.mdc-line-ripple')),
 				(outlined? m('.mdc-notched-outline',
 					m('svg', m('path.mdc-notched-outline__path'))):[]),
 				(outlined? m('.mdc-notched-outline__idle'):''),
-				(faicon ? m('i.mdc-text-field__icon.fa.fa-'+faicon):[]),
 			]),
 			m('.mdc-text-field-helper-text'+
 				'.mdc-text-field-helper-text--persistent'+
