@@ -37,13 +37,17 @@ DatePicker.view = function(vn){
 		help: vn.attrs.help,
 		boxed: vn.attrs.boxed,
 		outlined: vn.attrs.outlined,
-		value: vn.state.value.format('DD/MM/YYYY'),
+		value: vn.state.value===undefined?' - - / - - / - - - - ':vn.state.value.format('DD/MM/YYYY'),
 		leadingfaicon: 'calendar',
+		faicon: vn.state.value !== undefined && !vn.attrs.required && 'times-circle',
+		iconaction: vn.attrs.required || function() {
+			vn.state.value=undefined;
+		},
 	});
 };
 
 DatePicker.oninit = function(vn){
-	vn.state.value = moment(vn.attrs.value);
+	vn.state.value = vn.attrs.value;
 };
 
 DatePicker.oncreate = function(vn){
@@ -54,9 +58,10 @@ DatePicker.oncreate = function(vn){
         past: vn.attrs.past,
 		trigger: field,
 		autoClose: vn.attrs.autoclose,
+		orientation: vn.portrait?'PORTRAIT':'LANDSCAPE',
     });
 	field.addEventListener('onOk', function() {
-		console.log("onOk", vn.state.dialog);
+		
 		vn.state.value=vn.state.dialog.time;
 		console.log('time',vn.state.value.format('DD/MM/YYYY'));
 		vn.attrs.onchange && vn.attrs.onchange(vn.state.value);
@@ -71,8 +76,8 @@ DatePicker.oncreate = function(vn){
 
 
 DatePicker.Example = {};
-DatePicker.Example.fromdate = moment();
-DatePicker.Example.todate = moment();
+DatePicker.Example.fromdate = undefined;
+DatePicker.Example.todate = undefined;
 DatePicker.Example.view = function(vn){
 	var Layout = require('./mdc/layout');
     return m(Layout.Row,
@@ -97,7 +102,6 @@ DatePicker.Example.view = function(vn){
 				label: _('To'),
 				help: _('Last day that will be included'),
 				value: DatePicker.Example.todate,
-				past: DatePicker.Example.fromdate,
 				future: moment().add(20,'years'),
 				onchange: function(newvalue) {
 					console.log("changin to ", newvalue);
