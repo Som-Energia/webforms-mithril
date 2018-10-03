@@ -22,25 +22,27 @@ var metric = 'members';
 var fromdate = undefined;
 var todate = undefined;
 var ondate = undefined;
-
+var time = 'on';
 var geolevel = '';
-var time = 'last';
 
 function uri() {
+    var result = 'http://0.0.0.0:5001/v0.2/'+metric;
+	result += geolevel?'/by/'+geolevel:'';
+
     var geolevelPart = geolevel?"/by/"+geolevel:"";
 	var timePart = '';
 	var fromPart = '';
 	var toPart = '';
 	var onPart = '';
-	if (time!=='last' && time!=='on') {
-		timePart = '/'+time;
-		fromPart = fromdate && '/from/'+fromdate.format('YYYY-MM-DD') || '';
-		toPart   = todate   && '/to/'  +  todate.format('YYYY-MM-DD') || '';
-	}
 	if (time==='on') {
-		onPart   = ondate   && '/on/'  +  ondate.format('YYYY-MM-DD') || '';
+		result+= ondate && '/on/'+ondate.format('YYYY-MM-DD') || '';
 	}
-    return 'http://0.0.0.0:5001/v0.2/'+metric+geolevelPart+timePart+onPart+fromPart+toPart;
+	else {
+		result+= '/'+time;
+		result+= fromdate && '/from/'+fromdate.format('YYYY-MM-DD') || '';
+		result+= todate   && '/to/'  +  todate.format('YYYY-MM-DD') || '';
+	}
+    return result;
 }
 
 function doRequest() {
@@ -86,7 +88,7 @@ var OpenData = {
             m(Select, {
                 id: 'geolevel',
                 label: _('Geographical level'),
-                help: _('Maximum level of detail'),
+                help: _('Dig down to a geographical level of detail'),
                 value: geolevel,
                 onchange: function(ev) {geolevel=ev.target.value;},
                 options: [{
@@ -111,9 +113,6 @@ var OpenData = {
                 value: time,
                 onchange: function(ev) {time=ev.target.value;},
                 options: [{
-                    text: _('Last available'),
-                    value: 'last',
-                },{
                     text: _('A given date'),
                     value: 'on',
                 },{
@@ -129,8 +128,10 @@ var OpenData = {
             }),
 			time==='on' && m(DatePicker, {
 				id: 'ondate',
-				label: _('To'),
-				help: _('Date at which look for'),
+				label: _('On'),
+				help: _(
+					'Date at which look for. '+
+					'Default: last available.'),
 				value: ondate,
 				onchange: function(newvalue) {
 					ondate=newvalue;
@@ -139,10 +140,12 @@ var OpenData = {
 				autoclose: true,
 			}),
 
-			time !== 'on' && time !== 'last' && m(DatePicker, {
+			time !== 'on' && m(DatePicker, {
 				id: 'fromdate',
 				label: _('From'),
-				help: _('First day that will be included'),
+				help: _(
+					'First day that will be included. '+
+					'Default: oldest available.'),
 				value: fromdate,
 				onchange: function(newvalue) {
 					fromdate=newvalue;
@@ -151,10 +154,12 @@ var OpenData = {
 				autoclose: true,
 			}),
 
-			time !== 'on' && time !== 'last' && m(DatePicker, {
+			time !== 'on' && m(DatePicker, {
 				id: 'todate',
 				label: _('To'),
-				help: _('Last day that will be included'),
+				help: _(
+					'Last day that will be included. '+
+					'Default: last available'),
 				value: todate,
 				onchange: function(newvalue) {
 					todate=newvalue;
