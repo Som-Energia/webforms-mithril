@@ -69,7 +69,14 @@ function doRequest() {
 
 var OpenData = {
     view: function(vn) {
-        return m('.form.mdc-typography', [
+		var Layout = require('./mdc/layout');
+        return m('.form.mdc-typography', m(Layout,[
+			m('h1', 'Som Energia - Open Data API - UI'),
+			m('', _(
+				'Warning: Numbers are not fully real. '+
+				'Members are located at its current home regardless it was somewhere else in the past. '+
+				'Old members are not counted when they were active at the time they were. '
+				)),
             m(Select, {
                 id: 'metric',
                 label: _('Metric'),
@@ -182,7 +189,7 @@ var OpenData = {
 			),
             result && m('pre', jsyaml.dump(result)),
             apierror && m('pre.red', "Error: ", apierror.message),
-        ]);
+        ]));
     },
 };
 
