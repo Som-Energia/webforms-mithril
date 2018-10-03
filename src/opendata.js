@@ -12,8 +12,8 @@ var DatePicker = require('./datepicker');
 require('font-awesome/css/font-awesome.css');
 require('@material/typography/dist/mdc.typography.css').default;
 
-
-var uriBase = 'https://opendata.somenergia.coop/';
+var uribase = 'http://0.0.0.0:5001/v0.2';
+var uribase = 'https://opendata.somenergia.coop/v0.2';
 
 var sending = false;
 var result = undefined;
@@ -26,7 +26,7 @@ var todate = undefined;
 var ondate = undefined;
 
 function uri() {
-    var result = 'http://0.0.0.0:5001/v0.2/'+metric;
+    var result = uribase+'/'+metric;
 	result += geolevel?'/by/'+geolevel:'';
 
     var geolevelPart = geolevel?"/by/"+geolevel:"";
