@@ -113,7 +113,7 @@ var OpenData = {
                 value: time,
                 onchange: function(ev) {time=ev.target.value;},
                 options: [{
-                    text: _('A given date'),
+                    text: _('Single date'),
                     value: 'on',
                 },{
                     text: _('Yearly'),
