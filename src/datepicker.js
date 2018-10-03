@@ -42,6 +42,7 @@ DatePicker.view = function(vn){
 		faicon: vn.state.value !== undefined && !vn.attrs.required && 'times-circle',
 		iconaction: vn.attrs.required || function() {
 			vn.state.value=undefined;
+			vn.attrs.onchange && vn.attrs.onchange(vn.state.value);
 		},
 	});
 };
