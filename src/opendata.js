@@ -19,11 +19,11 @@ var sending = false;
 var result = undefined;
 var apierror = undefined;
 var metric = 'members';
+var time = 'on';
+var geolevel = '';
 var fromdate = undefined;
 var todate = undefined;
 var ondate = undefined;
-var time = 'on';
-var geolevel = '';
 
 function uri() {
     var result = 'http://0.0.0.0:5001/v0.2/'+metric;
