@@ -1,11 +1,13 @@
 'use strict';
 var m = require('mithril');
+var moment = require('moment');
 var _ = require('./translate');
 var css = require('./style.styl');
 var Layout = require('./mdc/layout');
 var Button = require('./mdc/button');
 var Select = require('./mdc/select');
 var jsyaml = require('js-yaml');
+var DatePicker = require('./datepicker');
 
 require('font-awesome/css/font-awesome.css');
 require('@material/typography/dist/mdc.typography.css').default;
@@ -17,14 +19,28 @@ var sending = false;
 var result = undefined;
 var apierror = undefined;
 var metric = 'members';
+var fromdate = undefined;
+var todate = undefined;
+var ondate = undefined;
 
 var geolevel = '';
 var time = 'last';
 
 function uri() {
     var geolevelPart = geolevel?"/by/"+geolevel:"";
-    var timePart = time==="last"?"":"/"+time;
-    return 'http://0.0.0.0:5001/v0.2/'+metric+geolevelPart+timePart;
+	var timePart = '';
+	var fromPart = '';
+	var toPart = '';
+	var onPart = '';
+	if (time!=='last' && time!=='on') {
+		timePart = '/'+time;
+		fromPart = fromdate && '/from/'+fromdate.format('YYYY-MM-DD') || '';
+		toPart   = todate   && '/to/'  +  todate.format('YYYY-MM-DD') || '';
+	}
+	if (time==='on') {
+		onPart   = ondate   && '/on/'  +  ondate.format('YYYY-MM-DD') || '';
+	}
+    return 'http://0.0.0.0:5001/v0.2/'+metric+geolevelPart+timePart+onPart+fromPart+toPart;
 }
 
 function doRequest() {
@@ -111,15 +127,54 @@ var OpenData = {
                     value: 'weekly',
                 }],
             }),
-            m("", "Demanant "+uri()),
-            m(Button, {
-                raised: true,
-                disabled: sending,
-                faicon: sending?"spinner.fa-spin":"paper-plane",
-                onclick: function() {
-                    doRequest();
-                },
-            }, "Envia"),
+			time==='on' && m(DatePicker, {
+				id: 'ondate',
+				label: _('To'),
+				help: _('Date at which look for'),
+				value: ondate,
+				onchange: function(newvalue) {
+					ondate=newvalue;
+				},
+				boxed: true,
+				autoclose: true,
+			}),
+
+			time !== 'on' && time !== 'last' && m(DatePicker, {
+				id: 'fromdate',
+				label: _('From'),
+				help: _('First day that will be included'),
+				value: fromdate,
+				onchange: function(newvalue) {
+					fromdate=newvalue;
+				},
+				boxed: true,
+				autoclose: true,
+			}),
+
+			time !== 'on' && time !== 'last' && m(DatePicker, {
+				id: 'todate',
+				label: _('To'),
+				help: _('Last day that will be included'),
+				value: todate,
+				onchange: function(newvalue) {
+					todate=newvalue;
+				},
+				boxed: true,
+				autoclose: true,
+			}),
+
+            m('',
+				m(Button, {
+					raised: true,
+					disabled: sending,
+					faicon: sending?"spinner.fa-spin":"paper-plane",
+					onclick: function() {
+						doRequest();
+					},
+				}, _('Send')),
+				m.trust('&nbsp;'),
+				_('Query: %{uri}', {uri: uri()}),
+			),
             result && m('pre', jsyaml.dump(result)),
             apierror && m('pre.red', "Error: ", apierror.message),
         ]);
