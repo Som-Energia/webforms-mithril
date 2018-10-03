@@ -39,6 +39,7 @@ DatePicker.view = function(vn){
 		outlined: vn.attrs.outlined,
 		value: vn.state.value===undefined?' - - / - - / - - - - ':vn.state.value.format('DD/MM/YYYY'),
 		leadingfaicon: 'calendar',
+		required: vn.attrs.required,
 		faicon: vn.state.value !== undefined && !vn.attrs.required && 'times-circle',
 		iconaction: vn.attrs.required || function() {
 			vn.state.value=undefined;
