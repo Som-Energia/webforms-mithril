@@ -69,10 +69,10 @@ LinearProgress.Example.oninit = function(vn) {
 	function tick() {
 		vn.state.value1++;
 		vn.state.value1%=51;
-		setTimeout(tick, 3000);
+		setTimeout(tick, 5000);
 		m.redraw();
 	}
-	tick();
+	setTimeout(tick, 5000);
 };
 LinearProgress.Example.view = function(vn) {
 	var Layout = require('./layout');
