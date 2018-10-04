@@ -33,6 +33,8 @@ body, html {
 	--mdc-theme-primary: #280;
 	--mdc-theme-on-primary: white;
 	--mdc-theme-text-primary-on-background: #280;
+	--mdc-theme-error: #fadddd;
+	--mdc-theme-on-error: #000;
 }
 // Fixes focused floating label color not taking custom theme's colors
 .mdc-select:not(.mdc-select--disabled) .mdc-select__native-control:focus ~ .mdc-floating-label,
@@ -105,6 +107,27 @@ body, html {
     margin: 5px;
     vertical-align: bottom;
     transition: width 1s, opacity 1s;
+}
+
+.disclaimer {
+	position: relative;
+	border-radius: 4pt;
+	padding: 12pt;
+	background-color: var(--mdc-theme-error);
+    color: var(--mdc-theme-on-error);
+	margin: 12pt 0pt;
+}
+
+.seedocs {
+	position: fixed;
+	top:0;
+	right:0;
+	margin: 12pt;
+	background: white;
+}
+
+h1, h2 {
+	color: var(--mdc-theme-primary);
 }
 
 .orange {

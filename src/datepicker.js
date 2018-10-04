@@ -63,9 +63,7 @@ DatePicker.oncreate = function(vn){
 		orientation: vn.portrait?'PORTRAIT':'LANDSCAPE',
     });
 	field.addEventListener('onOk', function() {
-		
 		vn.state.value=vn.state.dialog.time;
-		console.log('time',vn.state.value.format('DD/MM/YYYY'));
 		vn.attrs.onchange && vn.attrs.onchange(vn.state.value);
 		m.redraw();
 	});
@@ -82,8 +80,8 @@ DatePicker.Example.fromdate = undefined;
 DatePicker.Example.todate = undefined;
 DatePicker.Example.view = function(vn){
 	var Layout = require('./mdc/layout');
-    return m(Layout.Row,
-		m(Layout.Cell, {span:12}, m('h3', 'DatePicker')),
+    return m(Layout, m(Layout.Row,
+		m(Layout.Cell, {span:12}, m('h2', 'DatePicker')),
 		m(Layout.Cell, {span:6},
 			m(DatePicker, {
 				id: 'fromdate',
@@ -119,7 +117,7 @@ DatePicker.Example.view = function(vn){
 			model: DatePicker.Example,
 			shortcut: 'ctrl+shift+d',
 		}),
-	);
+	));
 };
 
 module.exports=DatePicker;
