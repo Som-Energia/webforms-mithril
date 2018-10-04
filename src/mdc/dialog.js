@@ -17,36 +17,39 @@ of information or decision that has to be taken.
 Material Design guidelines recommend whenever is possible to use other components like
 Banners and Snack Bars which are non blocking and less disturbing to the user.
 
+Actions are activated
+
 ![](../docs/shots/mdc-dialog.png)
 
-@property {vnode} header  Content of the header
-@property {bool} scrollable  Enables the scroll on the dialog content
-@property {bool} backdrop  If true darkens the background, and cancels clicking outside
-@property {object} model An empty object to be filled with the public API methods.
-@property {function} model.open()  Opens the dialog
-@property {function} onaccept   Called when the dialog is accepted
-@property {function} oncancel   Called when the dialog is cancelled
-@property {Object[]} buttons  Array of objects representing the dialog buttons.
-@property {string} buttons.text Button text
-@property {bool} buttons.action mark the button as special action (secondary style)
-@property {bool} buttons.cancel mark the button as cancel button (closes and rejects)
-@property {bool} buttons.accept mark the button as accept button (closes accepting)
-@property {bool} buttons.* any other attribute will be passed to the underlying button, notably `onclick`
-@property {vnode[]} _children_  Main content of the dialog
+@property {vnode} header - Content of the header
+@property {bool} backdrop - If true darkens the background, and cancels clicking outside
+@property {object} model - An empty object to be filled with the public API methods.
+@property {function} model.open() -  Opens the dialog
+@property {function} model.close(action) - Closes the dialog with the given action
+@property {function} onX - Function to be called, after closing the dialog because of action X
+@property {function} onaction - Function to be called, after closing the dialog because of an action without a onX handler
+@property {function} onbeforeX - Function to be called, before closing the dialog because of action X
+@property {function} onbeforeaction - Function to be called, before closing the dialog because of an action without an onbeforeX handler
+@property {Object[]} buttons - Array of objects representing the dialog buttons.
+@property {string} buttons.text - Button text
+@property {string} buttons.action - Action to activate on close
+@property {string} buttons.default - Define the button as the one to click when return is pressed
+@property {bool} buttons.* - any other attribute will be passed to the underlying button, notably `onclick`
+@property {vnode[]} _children_ - Main content of the dialog
 
 @example
 const Dialog = require('./mdc/dialog');
 var mydialog = {};
 ...
 m(Dialog, {
-    oncancel: function() { }, // Whatever to do on cancel
-    onaccept: function() { }, // Whatever to do on accept
+    onclose: function() { }, // Whatever to do on close action
+    onaccept: function() { }, // Whatever to do on accept action
     model: mydialog, // inject object
     header: _("Warning"),
     buttons: [
         { text: _("Help"), onclick: showhelp }, // Custom action
-        { text: _("No"), cancel: true }, // Default cancel action
-        { text: _("Yes"), accept: true }, // Default accept action
+        { text: _("No"), action: 'close' }, // Default cancel action
+        { text: _("Yes"), action: 'accept' }, // Default accept action
     ],
 }, m('',_('We are really doing it. Proceed?'))),
 
@@ -60,16 +63,23 @@ var Dialog = {};
 Dialog.oninit = function(vn) {
 	vn.state.model = vn.attrs.model || {};
 	vn.state.model.open = function() {
-		vn.state.widget.show();
+		vn.state.widget.open();
+	};
+	vn.state.model.close = function(action) {
+		vn.state.widget.close(action);
 	};
 };
 Dialog.oncreate = function(vn) {
-	vn.state.widget = MDCDialog.attachTo(vn.dom);
-	vn.state.widget.listen('MDCDialog:accept', function() {
-		vn.attrs.onaccept && vn.attrs.onaccept();
+	vn.state.widget = new MDCDialog(vn.dom);
+	vn.state.widget.listen('MDCDialog:closed', function(ev) {
+		var action = vn.attrs['on'+ev.detail.action];
+		action ? action(ev) :
+			vn.attrs.onaction && vn.atts.onaction(ev);
 	});
-	vn.state.widget.listen('MDCDialog:cancel', function() {
-		vn.attrs.oncancel && vn.attrs.oncancel();
+	vn.state.widget.listen('MDCDialog:closing', function(ev) {
+		var action = vn.attrs['onbefore'+ev.detail.action];
+		action ? action(ev) :
+			vn.attrs.onaction && vn.atts.onbeforeaction(ev);
 	});
 };
 Dialog.onremove = function(vn) {
@@ -77,44 +87,45 @@ Dialog.onremove = function(vn) {
 };
 Dialog.view = function(vn) {
     var id = vn.attrs.id;
-    return m('aside.mdc-dialog[role=alertdialog]', {
+    return m('div.mdc-dialog[role=alertdialog]', {
         id: id,
+        'aria-modal': 'true',
         'aria-labelledby': id+'-label',
         'aria-describedby': id+'-description',
         },[
-        m('.mdc-dialog__surface', [
-            m('header.mdc-dialog__header',
-                m('h2.mdc-dialog__header__title', {
-                    id: id+'-label',
-                }, vn.attrs.header)
-            ),
-            m('section.mdc-dialog__body'+
-				(vn.attrs.scrollable?'.mdc-dialog__body--scrollable':'')+
-				'', {
-                id: id+'-description'
-            },[
-                vn.children
-            ]),
-            m('footer.mdc-dialog__footer',
-                vn.attrs.buttons.map(function (button) {
-                    return m('button[type="button"]'+
-                        '.mdc-button'+
-                        '.mdc-dialog__footer__button'+
-                        (button.cancel?'.mdc-dialog__footer__button--cancel':'')+
-                        (button.accept?'.mdc-dialog__footer__button--accept':'')+
-                        (button.action?'.mdc-dialog__action':'')+
-                        '', button, button.text);
-                })
-            ), 
+        m('.mdc-dialog__container', [
+			m('.mdc-dialog__surface', [
+				m('h2.mdc-dialog__title', {
+					id: id+'-label',
+				}, vn.attrs.header),
+				m('.mdc-dialog__content', {
+					id: id+'-description'
+				},[
+					vn.children
+				]),
+				vn.attrs.buttons &&
+				m('footer.mdc-dialog__actions',
+					vn.attrs.buttons.map(function (button) {
+						var attrs = Object.assign({},button,{
+							'data-mdc-dialog-action': button.action,
+							});
+						return m('button[type="button"]'+
+							'.mdc-button'+
+							'.mdc-dialog__button'+
+							(attrs['default']?'.mdc-dialog__button--default':'')+
+							'', attrs, button.text);
+					})
+				),
+			]),
         ]),
-        (vn.attrs.backdrop?m('.mdc-dialog__backdrop'):''),
+        (vn.attrs.backdrop?m('.mdc-dialog__scrim'):''),
     ]);
 };
 
 Dialog.Example = {};
 Dialog.Example.dialog = {
 	backdrop: true,
-	scrollable: false,
+	outer: {},
 	inner: {},
 };
 Dialog.Example.view = function(vn) {
@@ -133,18 +144,9 @@ Dialog.Example.view = function(vn) {
 					self.dialog.backdrop = ev.target.checked;
 				},
 			})),
-			m(Layout.Cell, {span:3}, m(Checkbox, {
-				id: 'enable-scroll',
-				label: 'Scrollable',
-				checked: self.dialog.scrollable,
-				onchange: function(ev) {
-					self.dialog.scrollable = ev.target.checked;
-				},
-			})),
 			m(Layout.Cell, {span:3}, m(Button, {
 				onclick: function(ev) {
-					console.log(self);
-					self.dialog.open();
+					self.dialog.outer.open();
 				},
 			}, 'Show dialog')),
 		]),
@@ -154,32 +156,31 @@ Dialog.Example.view = function(vn) {
 		m(Dialog, {
 			id: 'dialog-example',
 			header: "Tittle of the example dialog",
-			model: self.dialog,
+			model: self.dialog.outer,
 			buttons: [{
-				text: 'Doit',
-				action: true,
+				text: 'Sub dialog',
 				onclick: function() {
 					self.dialog.inner.open();
 				},
 			},{
 				text: 'Reject',
-				cancel: true,
+				action: 'close',
 			},{
 				text: 'Accept',
-				accept: true,
+				action: 'accept',
+				'default': true,
 			}],
 			onaccept: function() {
-				self.dialog.exit = 'Accepted';
+				self.dialog.outerexit = 'Accepted';
 				m.redraw();
 			},
-			oncancel: function() {
-				self.dialog.exit = 'Rejected';
+			onclose: function() {
+				self.dialog.outerexit = 'Rejected';
 				m.redraw();
 			},
 			backdrop: self.dialog.backdrop,
-			scrollable: self.dialog.scrollable,
 		},[
-			m('', {style: { height: '30em' }}, "Content"),
+			m('', {style: { width: '100em', height: '200em' }}, "Content"),
 		]),
 		m(Dialog, {
 			id: 'innerdialog',
@@ -192,22 +193,28 @@ Dialog.Example.view = function(vn) {
 					console.log("Inner Modal action executed!");
 				},
 			},{
+				text: 'Third close',
+				action: 'reclose',
+			},{
 				text: 'Reject',
-				cancel: true,
+				action: 'close',
 			},{
 				text: 'Accept',
-				accept: true,
+				action: 'accept',
+				'default': true,
 			}],
-			onaccept: function() {
-				self.dialog.inner.exit = 'Accepted';
+			onbeforeaction: function(ev) {
+			},
+			onaccept: function(ev) {
+				ev.cancelBubble = true;
+				self.dialog.innerexit = 'Accepted';
 				m.redraw();
 			},
-			oncancel: function() {
-				self.dialog.inner.exit = 'Rejected';
+			onclose: function(ev) {
+				self.dialog.innerexit = 'Rejected';
 				m.redraw();
 			},
 			backdrop: false,
-			scrollable: false,
 		},[
 			"Inner Content"
 		])
