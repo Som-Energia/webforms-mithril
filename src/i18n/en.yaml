@@ -9,7 +9,9 @@ METRIC_HELP: Select the metric to query
 Members: Members
 Contracts: Contracts
 GEOLEVEL_LABEL: Geographical level [by]
-GEOLEVEL_HELP: Dig down to a geographical level of detail
+GEOLEVEL_HELP: |
+  Dig down to a geographical level of detail.
+  By default, just the global summary.
 Country: Country
 Region: Region
 State: State
@@ -49,6 +51,13 @@ Code: Code
 Name: Name
 Global: Global
 
+# Contract form
+
+VALIDATING_SESSION: Validating session...
+CONTRACTING_AS: "You are now contracting as: %{name}."
+NOT_YOU_LOGOUT: If you are not that person, please <a href="%{url}">logout</a>
+FILL_VAT: "Please fill in the VAT number for the new contract holder:"
+VAT: Value Added Tax ID
 
 
 STILL_VALIDATING_SESSION: ''
@@ -56,10 +65,4 @@ NO_NIF: ''
 
 
 
-
-VALIDATING_SESSION: Validating session...
-CONTRACTING_AS: "You are now contracting as: %{name}."
-NOT_YOU_LOGOUT: If you are not that person, please <a href="%{url}">logout</a>
-FILL_VAT: "Please fill in the VAT number for the new contract holder:"
-VAT: Value Added Tax ID
 

@@ -1,6 +1,6 @@
 # Open Data UI
 OPENDATAUI_TITLE: |
-  Som Energia - API de Datos Abiertos - Interfaz
+  Som Energia - API de Datos Abiertos - Interfaz de usuario
 ALPHA_DISCLAIMER: |
   Advertencia: Esto es una versión alfa.
   Los números calculados por la API aún no son exactamente los reales.
@@ -9,7 +9,9 @@ METRIC_HELP: Seleccione la métrica a consultar
 Members: Socias
 Contracts: Contratos
 GEOLEVEL_LABEL: Nivel geográfico [by]
-GEOLEVEL_HELP: Hasta qué nivel de detalle quieres profundizar
+GEOLEVEL_HELP: |
+  Hasta qué nivel de detalle quieres profundizar.
+  Por defecto, sólo la suma global.
 Country: País
 Region: Comunidad Autónoma
 State: Provincia
@@ -48,6 +50,10 @@ VIEWMODE_JSON: JSON
 Code: Código
 Name: Nombre
 Global: Global
+
+# Contract form
+
+# Widgets
 
 Choose a state: Escoja una provincia
 Choose a city: Escoja una ciudad

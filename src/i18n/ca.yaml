@@ -1,6 +1,6 @@
 # Open Data UI
 OPENDATAUI_TITLE: |
-  Som Energia - API de Dades Obertes - Interfície
+  Som Energia - API de Dades Obertes - Interfície d'usuari
 ALPHA_DISCLAIMER: |
   Advertència: això és una versió alfa.
   Les xifres calculades per l'API encara no són exactament les reals.
@@ -9,7 +9,9 @@ METRIC_HELP: Selecciona la mètrica a demanar
 Members: Socies
 Contracts: Contractes
 GEOLEVEL_LABEL: Nivell geogràfic [by]
-GEOLEVEL_HELP: Fins quin nivell de detall vols aprofundir
+GEOLEVEL_HELP: |
+  Fins quin nivell de detall vols aprofundir.
+  Per defecte, només la suma global.
 Country: País
 Region: Comunitat Autònoma
 State: Província
@@ -49,6 +51,15 @@ Code: Codi
 Name: Nom
 Global: Global
 
+# Contract form
+
+VALIDATING_SESSION: S'està validant la sessió
+CONTRACTING_AS: "Està contractant com a: %{name}."
+NOT_YOU_LOGOUT: Si no sou aquesta persona, si us plau,  <a href="%{url}">tanqueu la sessió</a>
+FILL_VAT: "Si us plau, ompli el número de identificació fiscal de la persona que serà titular del contracte"
+VAT: Número d'identificació fiscal
+
+# Widgets
 
 Field label: Etiqueta del camp
 Holder: Titular
@@ -63,10 +74,4 @@ ACCEPT_PRIVACY_POLICY:
     He llegit i accepto la <strong><a target="_blank" href="%{url}">política de privacitat</a></strong> de Som Energia',
 ACCEPT_PRIVACY_POLICY_URL:
     //www.somenergia.coop/ca/politica-de-privacitat-cookies-i-avis-legal/
-
-VALIDATING_SESSION: S'està validant la sessió
-CONTRACTING_AS: "Està contractant com a: %{name}."
-NOT_YOU_LOGOUT: Si no sou aquesta persona, si us plau,  <a href="%{url}">tanqueu la sessió</a>
-FILL_VAT: "Si us plau, ompli el número de identificació fiscal de la persona que serà titular del contracte"
-VAT: Número d'identificació fiscal
 
