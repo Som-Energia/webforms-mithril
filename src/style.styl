@@ -62,13 +62,12 @@ body, html {
 }
 
 // Fixes firefox focus ring
-@-moz-document url-prefix() {
-    .mdc-select, select, select:-moz-focusring, select::-moz-focus-inner {
-       color: transparent !important;
-       text-shadow: 0 0 0 #000 !important;
-       background-image: none !important;
-       border:0;
-    }
+// TODO: @-moz-document url-prefix() {
+.mdc-select, select, select:-moz-focusring, select::-moz-focus-inner {
+   color: transparent !important;
+   text-shadow: 0 0 0 #000 !important;
+   background-image: none !important;
+   border:0;
 }
 
 // Tab panels
