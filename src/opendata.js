@@ -6,8 +6,9 @@ var css = require('./style.styl');
 var Layout = require('./mdc/layout');
 var Button = require('./mdc/button');
 var Select = require('./mdc/select');
-var jsyaml = require('js-yaml');
+var TextField = require('./mdc/textfield');
 var DatePicker = require('./datepicker');
+var jsyaml = require('js-yaml');
 
 require('font-awesome/css/font-awesome.css');
 require('@material/typography/dist/mdc.typography.css').default;
@@ -25,6 +26,7 @@ var fromdate = undefined;
 var todate = undefined;
 var ondate = undefined;
 var viewmode= 'table';
+var filters=undefined;
 
 function uri() {
     var result = uribase+'/'+metric;
@@ -42,6 +44,9 @@ function uri() {
 		result+= '/'+time;
 		result+= fromdate && '/from/'+fromdate.format('YYYY-MM-DD') || '';
 		result+= todate   && '/to/'  +  todate.format('YYYY-MM-DD') || '';
+	}
+	if (filters) {
+		result+= '?'+filters;
 	}
     return result;
 }
@@ -72,7 +77,7 @@ var OpenData = {
         return m('.form.mdc-typography', m(Layout,[
 			m('h1', 'Som Energia - Open Data API - UI'),
 			m('', _(
-				'Warning: Numbers are not fully real. '+
+				'Warning: Numbers are not fully real yet. '+
 				'Members are located at its current home regardless it was somewhere else in the past. '+
 				'Old members are not counted when they were active at the time they were. '
 				)),
@@ -176,9 +181,28 @@ var OpenData = {
 					autoclose: true,
 				})),
 			]),
-
+			m(TextField, {
+				id: 'filters',
+				label: _('Filters'),
+				leadingfaicon: 'filter',
+				faicon: 'times-circle',
+				help: _('A comma separated sequence of level=value, '+
+					'where level is one of "country", "ccaa", "state", "city" '+
+					'and value is the INE code'),
+				value: filters,
+				iconaction: function() {
+					filters='';
+				},
+				oninput: function(ev) {
+					filters=ev.target.value;
+				},
+			}),
 			m('', {style: 'text-align: center'},
-				m('', m('tt', uri())),
+				m('', {style: {
+					padding: '12pt',
+					background: 'rgba(0,0,0,0.1)',
+					margin: '16pt 0pt',
+				}}, m('tt', uri())),
 				m(Button, {
 					raised: true,
 					disabled: sending,
@@ -222,34 +246,38 @@ var levels = ['countries', 'ccaas', 'states', 'cities']
 function resultTable(data) {
 	return m('table',
 		m('tr',
-			m('th', {colspan: levels.length+3}, _('Name')),
+			m('th', {colspan: levels.length+3},  _('Code')),
+			m('th', _('Name')),
 			data.dates.map(function(date, i) {
-				return m('th', moment(date).format('YYYY-MM-DD'));
-
+				return m('th', {
+					style: 'width: 12ex; text-align:right',
+					}, 
+					moment(date).format('YYYY-MM-DD'));
 			})
 		),
-		subresultTable(data,0)
+		subresultTable(data,0,0)
 	);
 }
 
 
-function subresultTable(subresult, level) {
+function subresultTable(subresult, level, code, i) {
 	if (subresult===undefined) return [];
 	var children = levels[level] && subresult[levels[level]];
 	var name = subresult.name || _('Global');
 	var indent = levels.length - level + 1;
 	return [
-		m('tr', [
+		m('tr', {style: {'background-color': (i&1?'#eee':'white'), }}, [
 			m('td', {colspan: level+1}),
-			m('td', children?m('span.fa.fa-icon.fa-plus'):''),
-			m('td', {colspan: indent}, name),
+			m('td', m('span.fa.fa-icon.fa-plus')),
+			m('td', {colspan: indent}, code),
+			m('td', name),
 			subresult.values.map(function(value, i) {
 				return m('td', {style: 'text-align: right'}, value);
 			}),
 		]),
 		children!==undefined &&
 		Object.keys(children).map(function(code, i) {
-			return subresultTable(children[code], level+1);
+			return subresultTable(children[code], level+1, code, i);
 		}),
 	];
 }
