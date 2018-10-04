@@ -186,12 +186,12 @@ var OpenData = {
 				id: 'filters',
 				label: _('Filters'),
 				leadingfaicon: 'filter',
-				faicon: 'times-circle',
+				faicon: filters && 'times-circle',
 				help: _('An ampersand (&) separated sequence of level=value, '+
 					'where level is one of "country", "ccaa", "state", "city" '+
 					'and value is the INE code'),
 				value: filters,
-				iconaction: function() {
+				iconaction: filters && function() {
 					filters='';
 				},
 				oninput: function(ev) {
