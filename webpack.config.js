@@ -47,6 +47,7 @@ var config = {
         new JsDocPlugin({
             conf: './.jsdoc.json'
 			}),
+		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 		// Analyzes generated sizes
 //		new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
 	],
