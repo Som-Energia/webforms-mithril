@@ -13,17 +13,17 @@ require('md-date-time-picker/dist/css/mdDateTimePicker.css');
 @namespace DatePicker
 @description A text field for dates and times.
 
-@property {string} id  (it won't work if you don't provide one)
-@property {string} label  Text to be shown as label of the input
-@property {string} help  Helper text to be shown in the bottom of the control
-@property {bool} disabled  Disables the input
-@property {bool} boxed  Activates the boxed style
-@property {bool} outlined  Activates the outlined style
-@property {string} value  The currently selected value
-@property {function} onchange  A callback to be called when the user changes the value
-@property {bool} autoclose True to close on click
-@property {moment} future Later date to be chosed in the future
-@property {moment} past Earlier date to be chosed in the past
+@property {string} id - (it won't work if you don't provide one)
+@property {string} label - Text to be shown as label of the input
+@property {string} help - Helper text to be shown in the bottom of the control
+@property {bool} disabled - Disables the input
+@property {bool} boxed - Activates the boxed style
+@property {bool} outlined - Activates the outlined style
+@property {string} value - The currently selected value
+@property {function} onchange  - A callback to be called when the user changes the value
+@property {bool} autoclose - True to close on click
+@property {moment} future - Later date to be chosed in the future, default: today
+@property {moment} past - Earlier date to be chosed in the past
 
 @todo property required: non required should allow to clear the date
 @todo property future/past: are set the first time and then ignored
