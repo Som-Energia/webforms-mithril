@@ -78,8 +78,9 @@ var OpenData = {
 			m('h1', 'Som Energia - Open Data API - UI'),
 			m('', _(
 				'Warning: Numbers are not fully real yet. '+
-				'Members are located at its current home regardless it was somewhere else in the past. '+
-				'Old members are not counted when they were active at the time they were. '
+				'People is considered to have lived at its current home for ever, even when this was not the case in the past. '+
+				'Former members are not counted as active at the time they were. '+
+				'Also the source data needs a clean up.'
 				)),
             m(Select, {
                 id: 'metric',
@@ -186,7 +187,7 @@ var OpenData = {
 				label: _('Filters'),
 				leadingfaicon: 'filter',
 				faicon: 'times-circle',
-				help: _('A comma separated sequence of level=value, '+
+				help: _('An ampersand (&) separated sequence of level=value, '+
 					'where level is one of "country", "ccaa", "state", "city" '+
 					'and value is the INE code'),
 				value: filters,
