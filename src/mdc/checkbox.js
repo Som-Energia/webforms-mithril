@@ -12,26 +12,32 @@ require('@material/form-field/dist/mdc.form-field.css');
 @description Material Design Checkbox wrapped as Mithril component
 @property {string} id - Required id in order to work properly
 @property {string} label - The label shown aside the checkbox
-@property {bool} checked - Whether is checked or not
+@property {bool|undefined} checked - Whether is checked or not
 @property {} * - Any extra attribute is passed to the native checkbox.
 	Notably `name`, `onchange`, `disabled`...
 */
 var Checkbox = {
 	oncreate: function(vn) {
 		var mdccheckbox = vn.dom.querySelector('.mdc-checkbox');
+		this.native = vn.dom.querySelector('.mdc-checkbox__native-control');
 		this.mdcinstance = new MDCCheckbox.MDCCheckbox(mdccheckbox);
 		const formField = new MDCFormField.MDCFormField(vn.dom);
 		formField.input = this.mdcinstance;
+		if (vn.attrs.checked === undefined) {
+			this.native.indeterminate = true;
+		}
 	},
 	onupdate: function(vn) {
 		if (vn.attrs.checked === undefined) {
-			this.mdcinstance.indeterminate = true;
+			this.native.indeterminate = true;
 		}
 	},
 	view: function(vn) {
 		const help_id = vn.attrs.id+'_help';
 		return m('.mdc-form-field', [
-			m('.mdc-checkbox', [
+			m('.mdc-checkbox' +
+				(vn.attrs.disabled?'.mdc-checkbox--disabled':'')+
+			'', [
 				m('input[type=checkbox]'+
 					'.mdc-checkbox__native-control'+
 					'', vn.attrs),
@@ -71,6 +77,7 @@ var Example = {
 						id: 'applesv',
 						label: _('I like apples'),
 						checked: self.model.apples,
+						disabled: true,
 						onchange: function(ev) {
 							vn.state.model.apples = ev.target.checked;
 						},
