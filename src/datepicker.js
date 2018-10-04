@@ -7,7 +7,7 @@ var moment = require('moment');
 var TextField = require('./mdc/textfield');
 var Inspector = require('./inspector');
 var MdDateTimePicker = require('md-date-time-picker/src/js/mdDateTimePicker').default;
-require('md-date-time-picker/dist/css/mdDateTimePicker.css');
+require('md-date-time-picker/dist/css/themes/light/light-green/mdDateTimePicker.css');
 
 /**
 @namespace DatePicker
