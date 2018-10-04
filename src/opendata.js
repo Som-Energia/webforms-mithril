@@ -75,15 +75,12 @@ var OpenData = {
     view: function(vn) {
 		var Layout = require('./mdc/layout');
         return m('.form.mdc-typography', m(Layout,[
-			m('h1', 'Som Energia - Open Data API - UI'),
-			m('.disclaimer', _(
-				'Disclaimer: This is an Alpha version. '+
-				'Numbers retrieved by the API are not fully reliable yet. '
-				)),
+			m('h1', _('OPENDATAUI_TITLE')),
+			m('.disclaimer', _('ALPHA_DISCLAIMER')),
             m(Select, {
                 id: 'metric',
-                label: _('Metric'),
-                help: _('Select the metric to query'),
+                label: _('METRIC_LABEL'),
+                help: _('METRIC_HELP'),
                 required: true,
                 value: metric,
                 onchange: function(ev) {metric=ev.target.value;},
@@ -97,8 +94,8 @@ var OpenData = {
             }),
             m(Select, {
                 id: 'geolevel',
-                label: _('Geographical level'),
-                help: _('Dig down to a geographical level of detail'),
+                label: _('GEOLEVEL_LABEL'),
+                help: _('GEOLEVEL_HELP'),
                 value: geolevel,
                 onchange: function(ev) {geolevel=ev.target.value;},
                 options: [{
@@ -117,8 +114,8 @@ var OpenData = {
             }),
             m(Select, {
                 id: 'time',
-                label: _('Time line'),
-                help: _('Time points when the metrics are measured'),
+                label: _('TIME_LABEL'),
+                help: _('TIME_DESCRIPTION'),
                 required: true,
                 value: time,
                 onchange: function(ev) {time=ev.target.value;},
@@ -137,13 +134,10 @@ var OpenData = {
                 }],
             }),
 			m(Layout.Row, [
-				time==='on' && m(Layout.Cell, {span:6, spantablet:8}, m(DatePicker, {
+				time==='on' && m(Layout.Cell, {span:12}, m(DatePicker, {
 					id: 'ondate',
-					label: _('On'),
-					required: true,
-					help: _(
-						'Date at which look for. '+
-						'Default: last available.'),
+					label: _('ON_LABEL'),
+					help: _('ON_DESCRIPTION'),
 					value: ondate,
 					onchange: function(newvalue) {
 						ondate=newvalue;
@@ -154,10 +148,8 @@ var OpenData = {
 
 				time !== 'on' && m(Layout.Cell, {span:6, spantablet:8}, m(DatePicker, {
 						id: 'fromdate',
-						label: _('From'),
-						help: _(
-							'First day that will be included. '+
-							'Default: oldest available.'),
+						label: _('FROM_LABEL'),
+						help: _('FROM_DESCRIPTION'),
 						value: fromdate,
 						onchange: function(newvalue) {
 							fromdate=newvalue;
@@ -168,10 +160,8 @@ var OpenData = {
 
 				time !== 'on' && m(Layout.Cell, {span:6, spantablet:8}, m(DatePicker, {
 					id: 'todate',
-					label: _('To'),
-					help: _(
-						'Last day that will be included. '+
-						'Default: last available'),
+					label: _('TO_LABEL'),
+					help: _('TO_DESCRIPTION'),
 					value: todate,
 					onchange: function(newvalue) {
 						todate=newvalue;
@@ -182,12 +172,10 @@ var OpenData = {
 			]),
 			m(TextField, {
 				id: 'filters',
-				label: _('Filters'),
+				label: _('FILTERS_LABEL'),
+				help: _('FILTERS_DESCRIPTION'),
 				leadingfaicon: 'filter',
 				faicon: filters && 'times-circle',
-				help: _('An ampersand (&) separated sequence of level=value, '+
-					'where level is one of "country", "ccaa", "state", "city" '+
-					'and value is the INE code'),
 				value: filters,
 				iconaction: filters && function() {
 					filters='';
@@ -215,19 +203,19 @@ var OpenData = {
 				m('h2', 'Result'),
 				m(Select, {
 					id: 'view',
-					label: _('View Mode'),
-					help: _('How do you want to view it'),
+					label: _('VIEWMODE_LABEL'),
+					help: _('VIEWMODE_DESCRIPTION'),
 					required: true,
 					value: viewmode,
 					onchange: function(ev) {viewmode=ev.target.value;},
 					options: [{
-						text: _('Table'),
+						text: _('VIEWMODE_TABLE'),
 						value: 'table',
 					},{
-						text: _('YAML (original)'),
+						text: _('VIEWMODE_YAML'),
 						value: 'yaml',
 					},{
-						text: _('JSON'),
+						text: _('VIEWMODE_JSON'),
 						value: 'json',
 					}],
 				}),

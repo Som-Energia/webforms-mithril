@@ -1,4 +1,55 @@
+# Open Data UI
+OPENDATAUI_TITLE: |
+  Som Energia - API de Dades Obertes - Interfície
+ALPHA_DISCLAIMER: |
+  Advertència: això és una versió alfa.
+  Les xifres calculades per l'API encara no són exactament les reals.
+METRIC_LABEL: Mètrica
+METRIC_HELP: Selecciona la mètrica a demanar
+Members: Socies
+Contracts: Contractes
+GEOLEVEL_LABEL: Nivell geogràfic [by]
+GEOLEVEL_HELP: Fins quin nivell de detall vols aprofundir
+Country: País
+Region: Comunitat Autònoma
+State: Província
 City: Municipi
+TIME_LABEL: Eix temporal
+TIME_DESCRIPTION: Punts temporals de la messura
+Single date: Data única
+Yearly: Anualment
+Monthly: Mensualment
+Weekly: Setmanalment
+ON_LABEL: A data [on]
+ON_DESCRIPTION: |
+  Data a consultar.
+  Per defecte, la darrera disponible.
+FROM_LABEL: Des de [from]
+FROM_DESCRIPTION: |
+  Primera data considerada.
+  Per defecte, la primera disponible.
+TO_LABEL: Fins a [to]
+TO_DESCRIPTION: |
+  Darrera data considerada.
+  Per defecte, la darrera disponible.
+FILTERS_LABEL: Filtres geogràfics
+FILTERS_DESCRIPTION: |
+  Una seqüència separada per signes '&' de nivell=codi
+  on "nivell" pot ser "country", "ccaa", "state" o "city";
+  i "codi" és el codi INE o ISO.
+Send: Envia
+API Documentation: Documentació de l'API
+Result: Resultats
+VIEWMODE_LABEL: Mode de visualització
+VIEWMODE_DESCRIPTION: Còm es visualtzen els resultats.
+VIEWMODE_TABLE: Taula
+VIEWMODE_YAML: YAML (original)
+VIEWMODE_JSON: JSON
+Code: Codi
+Name: Nom
+Global: Global
+
+
 Field label: Etiqueta del camp
 Holder: Titular
 Supply point: Punt de subministrament

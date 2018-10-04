@@ -1,5 +1,54 @@
+# Open Data UI
+OPENDATAUI_TITLE: |
+  Som Energia - API de Datos Abiertos - Interfaz
+ALPHA_DISCLAIMER: |
+  Advertencia: Esto es una versión alfa.
+  Los números calculados por la API aún no son exactamente los reales.
+METRIC_LABEL: Métrica
+METRIC_HELP: Seleccione la métrica a consultar
+Members: Socias
+Contracts: Contratos
+GEOLEVEL_LABEL: Nivel geográfico [by]
+GEOLEVEL_HELP: Hasta qué nivel de detalle quieres profundizar
+Country: País
+Region: Comunidad Autónoma
 State: Provincia
 City: Municipio
+TIME_LABEL: Eje temporal
+TIME_DESCRIPTION: Puntos temporales de la medida
+Single date: Fecha única
+Yearly: Anualmente
+Monthly: Mensualmente
+Weekly: Semanalmente
+ON_LABEL: A fecha [on]
+ON_DESCRIPTION: |
+  Fecha a consultar.
+  Por defecto, la última disponible.
+FROM_LABEL: Desde [from]
+FROM_DESCRIPTION: |
+  Primera fecha considerada.
+  Por defecto, la primera disponible.
+TO_LABEL: Fins a [to]
+TO_DESCRIPTION: |
+  Última fecha considerada.
+  Por defecto, la última disponible.
+FILTERS_LABEL: Filtros geográficos
+FILTERS_DESCRIPTION: |
+  Una secuencia separada por signos "&" de nivel=codigo
+  donde "nivel" puede ser "country", "ccaa", "state" o "city";
+  y "codigo" es el código INE o ISO.
+Send: Envía
+API Documentation: Documentación de la API
+Result: Resultados
+VIEWMODE_LABEL: Vista
+VIEWMODE_DESCRIPTION: Cómo se visualizan los resultados.
+VIEWMODE_TABLE: Tabla
+VIEWMODE_YAML: YAML (original)
+VIEWMODE_JSON: JSON
+Code: Código
+Name: Nombre
+Global: Global
+
 Choose a state: Escoja una provincia
 Choose a city: Escoja una ciudad
 Loading municipalities in %{statename}: Se están cargando los municipios de %{statename}...

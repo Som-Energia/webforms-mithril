@@ -1,3 +1,56 @@
+# Open Data UI
+OPENDATAUI_TITLE: |
+  Som Energia - Open Data API - UI
+ALPHA_DISCLAIMER: |
+  Disclaimer: This is an Alpha version.
+  Numbers retrieved by the API are not fully reliable yet.
+METRIC_LABEL: Metric
+METRIC_HELP: Select the metric to query
+Members: Members
+Contracts: Contracts
+GEOLEVEL_LABEL: Geographical level [by]
+GEOLEVEL_HELP: Dig down to a geographical level of detail
+Country: Country
+Region: Region
+State: State
+City: City
+TIME_LABEL: Time line
+TIME_DESCRIPTION: Time points when the metrics are measured
+Single date: Single date
+Yearly: Yearly
+Monthly: Monthly
+Weekly: Weekly
+ON_LABEL: On
+ON_DESCRIPTION: 
+  Date at which look for.
+  By default, the last one available.
+FROM_LABEL: From
+FROM_DESCRIPTION: |
+  First considered date.
+  By default, the first one available.
+TO_LABEL: To
+TO_DESCRIPTION: |
+  Last considered date.
+  By default, the last one available.
+FILTERS_LABEL: Geographical filters
+FILTERS_DESCRIPTION: |
+  An ampersand (&) separated sequence of level=value,
+  where level is one of "country", "ccaa", "state", "city"
+  and value is the INE or ISO code.
+Send: Send
+API Documentation: API Documentation
+Result: Result
+VIEWMODE_LABEL: View Mode
+VIEWMODE_DESCRIPTION: Controls how the results are displayed.
+VIEWMODE_TABLE: Table
+VIEWMODE_YAML: YAML (original)
+VIEWMODE_JSON: JSON
+Code: Code
+Name: Name
+Global: Global
+
+
+
 STILL_VALIDATING_SESSION: ''
 NO_NIF: ''
 
