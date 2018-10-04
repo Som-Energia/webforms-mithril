@@ -200,7 +200,7 @@ var OpenData = {
 				}, _('Send')),
 			),
 			result && [
-				m('h2', 'Result'),
+				m('h2', _('Result')),
 				m(Select, {
 					id: 'view',
 					label: _('VIEWMODE_LABEL'),
