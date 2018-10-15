@@ -34,8 +34,11 @@ IntroContract.oninit = function(vn) {
 	UserValidator.isSessionOpen().then(function (data) {
 		console.log('checked session open');
 		vn.state.state = welcomeExistingSession;
+		model.vatvalue = data.nif;
+		model.vatvalid = true;
+		model.vatexists = true;
 		model.name = data.name;
-		model.validatedNif = data.nif;
+		model.sessionActive = true; // TODO: maybe a session cookie?
 		m.redraw();
 	}, function (reason) {
 		console.log('no session')

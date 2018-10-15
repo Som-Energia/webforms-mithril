@@ -89,7 +89,7 @@ var PasswordPage = function() {
 	return {
 		id: 'password_page',
 		title: _('Identify'),
-		skipif: function() { return intro.vatexists!==true; },
+		skipif: function() { return intro.vatexists!==true || intro.sessionActive===true; },
 		next: function() {
 			return new Promise(function (resolve, reject) {
 				UserValidator.openSession(
@@ -98,7 +98,7 @@ var PasswordPage = function() {
 				).then(function(data) {
 					console.log('valid', data);
 					intro.name = data.name;
-					intro.validatedNif = data.nif;
+					intro.sessionActive = true; // TODO: maybe a session cookie?
 					resolve(true);
 				}).catch(function(reason) {
 					// TODO: Set the error
