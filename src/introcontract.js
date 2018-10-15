@@ -43,6 +43,7 @@ IntroContract.oninit = function(vn) {
 	});
 
 	vn.state.vateditor = {data: {}};
+
 	model.isphisical = function() {
 		if (vn.state.vateditor===undefined) return undefined;
 		if (vn.state.vateditor.value===undefined) return undefined;
@@ -97,13 +98,17 @@ IntroContract.view = function(vn) {
 					value=value.replace(/[^0-9A-Z]/g,'');
 					return value.slice(0,9);
 				},
-				onvalidated: function() {
-					//console.log('onvalidate', vn.state.vateditor);
-					//console.log('onvalidate data', vn.state.vateditor.data);
-					vn.state.model.vatexists = vn.state.vateditor.data.exists;
-					vn.state.model.vatvalue = vn.state.vateditor.value;
-					vn.state.model.vatvalid = vn.state.vateditor.isvalid;
-					console.log('onvalidate model', vn.state.model);
+				onvalidated: function(value, data) {
+					console.log('onvalidated', value, data);
+					if (value) {
+						vn.state.model.vatvalue = value;
+						vn.state.model.vatvalid = data.valid;
+						vn.state.model.vatexists = data.exists;
+					} else {
+						vn.state.model.vatvalue = undefined;
+						vn.state.model.vatvalid = false;
+						vn.state.model.vatexists = false;
+					}
 				}
 			})),
 		] :

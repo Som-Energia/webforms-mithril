@@ -53,17 +53,18 @@ var ValidatedField = {
 			function acceptValue(newValue) {
 				vnode.state.fieldData.isvalid = true;
 				vnode.state.fieldData.errormessage = undefined;
-				vnode.attrs.onvalidated && vnode.attrs.onvalidated(newValue);
+				var data = vnode.state.fieldData.data;
 				ev.target.setCustomValidity('');
+				vnode.attrs.onvalidated && vnode.attrs.onvalidated(newValue, data);
 			}
 			function waitValue(newValue) {
 				vnode.state.fieldData.value = newValue;
 				vnode.state.fieldData.isvalid = undefined; // status checking
 				vnode.state.fieldData.errormessage = undefined;
+				ev.target.setCustomValidity('');
 				vnode.attrs.onvalidated && vnode.attrs.onvalidated();
 			}
 			if (newValue === '') { newValue = undefined; }
-			waitValue(newValue);
 			if (newValue === undefined) {
 				if (vnode.attrs.required !== undefined) {
 					return fielderror(_('Required'));
@@ -79,6 +80,7 @@ var ValidatedField = {
 				return acceptValue(newValue||''); 
 			}
 			// Asynchronous validation (via API)
+			waitValue(newValue);
 			if (vnode.state._lastPromise!==undefined) {
 				vnode.state._lastPromise.abort();
 			}
@@ -90,19 +92,24 @@ var ValidatedField = {
 					return; // value changed while waiting, ignore
 				}
 				if (result.state === false) {
-					fielderror(vnode.attrs.defaulterror || _('Invalid value'));
+					// Validation Error
+					var defaultError = vnode.attrs.defaulterror || _('Invalid value');
+					if (result.data === undefined) {
+						return fielderror(defaultError);
+					}
+					vnode.state.fieldData.errorData = result.data;
+
+					if (result.data.invalid_fields === undefined) {
+						return fielderror(defaultError);
+					}
+					return fielderror(result.data.invalid_fields[0].error);
 				}
-				else {
-					fielderror(undefined);
-					acceptValue(newValue); 
-				}
-				console.debug(result);
+				// Validated
 				if (result.data !== undefined) {
 					vnode.state.fieldData.data = result.data;
-					if (result.data.invalid_fields !== undefined) {
-						fielderror(result.data.invalid_fields[0].error);
-					}
 				}
+				acceptValue(newValue, vnode.state.fieldData.data); 
+
 			}).catch(function(reason) {
 				fielderror(reason || _('Unknown Error'));
 			});
