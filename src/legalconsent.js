@@ -30,10 +30,12 @@ var LegalConsent = {
 				header: vn.attrs.title,
 				model: vn.state.dialog,
 				buttons: [{
-					text: 'Reject',
+					text: _('I_DECLINE'),
+					unelevated: true,
 					action: 'close',
 				},{
-					text: 'Accept',
+					raised: true,
+					text: _('I_ACCEPT'),
 					action: 'accept',
 					'default': true,
 				}],
@@ -47,7 +49,7 @@ var LegalConsent = {
 				},
 				backdrop: true,
 			},[
-				"Inner Content"
+				vn.children
 			]),
 		];
 	},
@@ -62,9 +64,26 @@ LegalConsent.Example = {
 			m(Layout.Cell, {span:3},
 				m(LegalConsent, {
 					id: 'myid',
-					label: _('Acepto les condicions'),
+					label: _('Accepto les condicions'),
 					title: _('Condicions Generals'),
-				}, 'Standard')
+				}, [
+					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
+					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
+					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
+					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
+					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
+					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
+					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
+					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
+					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
+					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
+					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
+					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
+					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
+					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
+					m('', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
+					m('', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
+				])
 			),
 		);
 	}

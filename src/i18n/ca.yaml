@@ -51,6 +51,10 @@ Code: Codi
 Name: Nom
 Global: Global
 
+# Legal Consent Widget
+I_DECLINE: Rebutjo
+I_ACCEPT: Accepto
+
 # Contract form
 
 VALIDATING_SESSION: S'està validant la sessió

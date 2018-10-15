@@ -109,8 +109,13 @@ Dialog.view = function(vn) {
 						var attrs = Object.assign({},button,{
 							'data-mdc-dialog-action': button.action,
 							});
+						// TODO: Use the Button component instead
 						return m('button[type="button"]'+
 							'.mdc-button'+
+							(button.raised?'.mdc-button--raised':'')+
+							(button.unelevated?'.mdc-button--unelevated':'')+
+							(button.outlined?'.mdc-button--outlined':'')+
+							(button.dense?'.mdc-button--dense':'')+
 							'.mdc-dialog__button'+
 							(attrs['default']?'.mdc-dialog__button--default':'')+
 							'', attrs, button.text);

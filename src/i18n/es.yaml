@@ -51,6 +51,10 @@ Code: Código
 Name: Nombre
 Global: Global
 
+# Legal Consent Widget
+I_DECLINE: Rechazo
+I_ACCEPT: Acepto
+
 # Contract form
 
 # Widgets
