@@ -23,6 +23,7 @@ var Slider = require('./mdc/slider');
 var TabBar = require('./mdc/tabbar');
 var PageSlider = require('./pageslider');
 var DatePicker = require('./datepicker');
+var LegalConsent = require('./legalconsent');
 
 require('font-awesome/css/font-awesome.css');
 require('@material/typography/dist/mdc.typography.css').default;
@@ -34,24 +35,25 @@ var skip = function (c) { return []; }
 var Examples = {
 	view: function(vn) {
 		return m('.form.mdc-typography', [
-			m(DatePicker.Example),
-			m(Wizard.Example),
-			m(TabBar.Example),
-			m(PageSlider.Example),
-			m(Slider.Example),
-			m(LinearProgress.Example),
-			m(Dialog.Example),
-			m(Card.Example),
-			m(StateCityChooser.Example),
-			m(Chooser.Example),
-			m(Terms.Example),
-			m(Checkbox.Example),
-			m(Button.Example),
-			m(TextField.Example),
-			m(ValidatedField.Example),
-			m(Select.Example),
-			m(PersonEditor.Example),
-			m(FarePower.Example),
+			skip(DatePicker.Example),
+			skip(Wizard.Example),
+			skip(TabBar.Example),
+			skip(PageSlider.Example),
+			skip(Slider.Example),
+			skip(LinearProgress.Example),
+			skip(Dialog.Example),
+			skip(Card.Example),
+			skip(StateCityChooser.Example),
+			skip(Chooser.Example),
+			skip(Terms.Example),
+			skip(Checkbox.Example),
+			skip(Button.Example),
+			skip(TextField.Example),
+			skip(ValidatedField.Example),
+			skip(Select.Example),
+			skip(PersonEditor.Example),
+			skip(FarePower.Example),
+			m(LegalConsent.Example),
 		]);
 	},
 };
