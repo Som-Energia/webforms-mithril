@@ -75,7 +75,11 @@ var IntroPage = function() {
 			m(IntroContract, {
 				model: intro
 			}),
-		]
+		],
+		next: function() {
+			console.log("Vat exists on next:", intro);
+			return true;
+		},
 	};
 };
 
@@ -85,11 +89,11 @@ var PasswordPage = function() {
 	return {
 		id: 'password_page',
 		title: _('Identify'),
-		skipif: function() { return intro.vateditor.data.exists!==true; },
+		skipif: function() { return intro.vatexists!==true; },
 		next: function() {
 			return new Promise(function (resolve, reject) {
 				UserValidator.openSession(
-					intro.vateditor.value,
+					intro.vatvalue,
 					intro.password,
 				).then(function(data) {
 					console.log('valid', data);
@@ -129,7 +133,7 @@ var HolderPage = function() {
 		id: 'holder_page',
 		title: _('Holder'),
 		next: 'supply_page',
-		skipif: function() { return intro.vateditor.data.exists===true; },
+		skipif: function() { return intro.vatexists===true; },
 		validator: function() {
 			holder.validate && holder.validate();
 			return holder.error;

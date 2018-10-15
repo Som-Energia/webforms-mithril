@@ -38,14 +38,15 @@ IntroContract.oninit = function(vn) {
 		model.validatedNif = data.nif;
 		m.redraw();
 	}, function (reason) {
+		console.log('no session')
 		vn.state.state = askDni;
 	});
 
-	model.vateditor = {data: {}};
+	vn.state.vateditor = {data: {}};
 	model.isphisical = function() {
-		if (model.vateditor===undefined) return undefined;
-		if (model.vateditor.value===undefined) return undefined;
-		var firstchar = model.vateditor.value[0];
+		if (vn.state.vateditor===undefined) return undefined;
+		if (vn.state.vateditor.value===undefined) return undefined;
+		var firstchar = vn.state.vateditor.value[0];
 		return '0123456789KLMXYZ'.indexOf(firstchar) !== -1;
 	};
 	model.validationErrors = function() {
@@ -55,8 +56,8 @@ IntroContract.oninit = function(vn) {
 		if (vn.state.state === welcomeExistingSession) {
 			return undefined;
 		}
-		if (model.vateditor.isvalid !== true) {
-			return _('NO_NIF');
+		if (vn.state.vateditor.isvalid !== true) {
+			return _('NO_NAF');
 		}
 		return undefined;
 	};
@@ -71,7 +72,7 @@ IntroContract.view = function(vn) {
 		] : (
 		vn.state.state === welcomeExistingSession ?  [
 			m(Cell, {span:12}, [
-				m('', _('CONTRACTING_AS', vn.state.model)),
+				m('', _('CONTRACTING_AS', vn.state.model)), // TODO: bad!!
 				m('', m.trust(_('NOT_YOU_LOGOUT', {url:'TODO'}))),
 			]),
 		] : (
@@ -86,7 +87,7 @@ IntroContract.view = function(vn) {
 				boxed: true,
 				required: true,
 				maxlength: 9,
-				fieldData: vn.state.model.vateditor,
+				fieldData: vn.state.vateditor,
 				inputfilter: function(value) {
 					if (!value) return value;
 					value=value.toUpperCase();
@@ -94,7 +95,12 @@ IntroContract.view = function(vn) {
 					return value.slice(0,9);
 				},
 				onvalidated: function() {
-					console.log('onvalidate', vn.state.model.vateditor);
+					//console.log('onvalidate', vn.state.vateditor);
+					//console.log('onvalidate data', vn.state.vateditor.data);
+					vn.state.model.vatexists = vn.state.vateditor.data.exists;
+					vn.state.model.vatvalue = vn.state.vateditor.value;
+					vn.state.model.vatvalid = vn.state.vateditor.isvalid;
+					console.log('onvalidate model', vn.state.model);
 				}
 			})),
 		] :
