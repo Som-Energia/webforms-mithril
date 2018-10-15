@@ -76,7 +76,7 @@ IntroContract.view = function(vn) {
 		] : (
 		vn.state.state === welcomeExistingSession ?  [
 			m(Cell, {span:12}, [
-				m('', _('CONTRACTING_AS', vn.state.model)), // TODO: bad!!
+				m('', _('CONTRACTING_AS', vn.state.model)),
 				m('', m.trust(_('NOT_YOU_LOGOUT', {url:'TODO'}))),
 			]),
 		] : (
@@ -99,7 +99,6 @@ IntroContract.view = function(vn) {
 					return value.slice(0,9);
 				},
 				onvalidated: function(value, data) {
-					console.log('onvalidated', value, data);
 					if (value) {
 						vn.state.model.vatvalue = value;
 						vn.state.model.vatvalid = data.valid;
