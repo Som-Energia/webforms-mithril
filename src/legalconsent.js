@@ -67,22 +67,16 @@ LegalConsent.Example = {
 					label: _('Accepto les condicions'),
 					title: _('Condicions Generals'),
 				}, [
-					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
-					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
-					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
-					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
-					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
-					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
-					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
-					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
-					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
-					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
-					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
-					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
-					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
-					m('p', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
-					m('', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
-					m('', 'La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. '),
+					m('', _('La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. ')),
+				])
+			),
+			m(Layout.Cell, {span:3},
+				m(LegalConsent, {
+					id: 'weownyou',
+					label: _('Accepto lo que me digas'),
+					title: _('Pacto con el diablo'),
+				}, [
+					m('p', _('We own you, and you know it')),
 				])
 			),
 		);
