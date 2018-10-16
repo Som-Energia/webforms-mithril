@@ -55,7 +55,32 @@ Global: Global
 I_DECLINE: Rechazo
 I_ACCEPT: Acepto
 
+# Wizard
+Previous: Anterior
+Next: Siguiente
+
 # Contract form
+
+CONTRACT_FORM: Formulario de Contratación
+WELCOME: Bienvenida
+VALIDATING_SESSION: Se está validando la sesión...
+STILL_VALIDATING_SESSION: '' # Empty
+CONTRACTING_AS: Estás contratando a nombre de %{name}.
+NOT_YOU_LOGOUT: Si no eres esa persona, por favor, <a href="%{url}" target="_blank">cierra la sesión</a>
+FILL_VAT: Por favor, introduzca el NIF de la persona titular del nuevo contrato
+VAT_LABEL: Número de Identificación Fiscal (NIF)
+VAT_HELP: ¿Y si no dispongo de NIF?
+VAT_HELP_URL: TODO
+NO_NIF: No has introducido un NIF correcto
+
+IDENTIFY: Identificación
+FILL_PASSWORD: Por favor, indentifíquese usando la contraseña de la Oficina Virtual
+PASSWORD_LABEL: Contraseña
+PASSWORD_HELP: No recuerdo la contraseña
+PASSWORD_HELP_URL: TODO
+WRONG_PASSWORD: Contraseña incorrecta
+
+HOLDER_PERSONAL_DATA: Datos personales de la persona titular
 
 # Widgets
 

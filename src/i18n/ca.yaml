@@ -55,13 +55,32 @@ Global: Global
 I_DECLINE: Rebutjo
 I_ACCEPT: Accepto
 
+# Wizard
+Previous: Anterior
+Next: Següent
+
 # Contract form
 
+CONTRACT_FORM: Formulari de Contractació
+WELCOME: Benvinguda
 VALIDATING_SESSION: S'està validant la sessió
-CONTRACTING_AS: "Està contractant com a: %{name}."
-NOT_YOU_LOGOUT: Si no sou aquesta persona, si us plau,  <a href="%{url}">tanqueu la sessió</a>
-FILL_VAT: "Si us plau, ompli el número de identificació fiscal de la persona que serà titular del contracte"
-VAT: Número d'identificació fiscal
+STILL_VALIDATING_SESSION: '' # Empty
+CONTRACTING_AS: Està contractant a nom de %{name}.
+NOT_YOU_LOGOUT: Si no sou aquesta persona, si us plau,  <a href="%{url}" target="_blank">tanqueu la sessió</a>
+FILL_VAT: Si us plau, ompli el NIF de la persona que serà titular del contracte
+VAT_LABEL: Número d'identificació fiscal (NIF)
+VAT_HELP: I si no disposo d'un NIF?
+VAT_HELP_URL: TODO
+NO_NIF: No has introduit un NIF correcte
+
+IDENTIFY: Identificació
+FILL_PASSWORD: Si us plau, identifiqueu-vos fent servir la contrasenya de l'oficina virtual
+PASSWORD_LABEL: Contrasenya
+PASSWORD_HELP: No recordo la contrasenya
+PASSWORD_HELP_URL: TODO
+WRONG_PASSWORD: La contrasenya és incorrecta
+
+HOLDER_PERSONAL_DATA: Dades personals de la persona titular
 
 # Widgets
 
@@ -69,8 +88,6 @@ Field label: Etiqueta del camp
 Holder: Titular
 Supply point: Punt de subministrament
 Confirmation: Confirmació
-Next: Següent
-Previous: Anterior
 Submit: Enviar
 CONTRACT_INTRO:
     Per contractar la llum amb Som Energia... bla bla

@@ -55,17 +55,34 @@ Global: Global
 I_DECLINE: I decline
 I_ACCEPT: I accept
 
+# Wizard
+Previous: Previous
+Next: Next
+
 # Contract form
 
+CONTRACT_FORM: Contract Form
+WELCOME: Welcome
 VALIDATING_SESSION: Validating session...
-CONTRACTING_AS: "You are now contracting as: %{name}."
-NOT_YOU_LOGOUT: If you are not that person, please <a href="%{url}">logout</a>
-FILL_VAT: "Please fill in the VAT number for the new contract holder:"
-VAT: Value Added Tax ID
+STILL_VALIDATING_SESSION: '' # Empty
+CONTRACTING_AS: You are now contracting as %{name}.
+NOT_YOU_LOGOUT: If you are not that person, please <a href="%{url}" target="_blank">logout</a>
+FILL_VAT: Please fill in the VAT number for the new contract holder
+VAT_LABEL: Value Added Tax ID
+VAT_HELP: What if I don't have a Spanish VAT number?
+VAT_HELP_URL: TODO
+NO_NIF: Missing a valid VAT number
 
+IDENTIFY: Identification
+FILL_PASSWORD: Please, identify yourself using your Virtual Office password
+PASSWORD_LABEL: Password
+PASSWORD_HELP: I don't remember my password
+PASSWORD_HELP_URL: TODO
+WRONG_PASSWORD: Wrong password
 
-STILL_VALIDATING_SESSION: ''
-NO_NIF: ''
+HOLDER_PERSONAL_DATA: Holder personal data
+
+# Widgets
 
 
 
