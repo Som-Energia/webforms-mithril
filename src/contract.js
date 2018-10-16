@@ -3,6 +3,7 @@ var m = require('mithril');
 var _ = require('./translate');
 var css = require('./style.styl');
 var Wizard = require('./wizard');
+var CheckBox = require('./mdc/checkbox');
 var Layout = require('./mdc/layout');
 var Row = Layout.Row;
 var Cell = Layout.Cell;
@@ -30,7 +31,9 @@ Mousetrap.bindGlobal('ctrl+shift+y', function() {
 
 var Contract = {
 	intro: {},
-	cups: {},
+	cups: {
+		cupsverified: false,
+	},
 	holder: {},
 	payment: {},
 	terms: {},
@@ -198,8 +201,12 @@ var CupsPage = function() {
 					onvalidated: function(value, data) {
 						if (value) {
 							model.cupsvalue = value;
+							model.cupsaddress = data.address;
+							model.cupsstatus = data.status;
 						} else {
 							model.cupsvalue = undefined;
+							model.cupsaddress = undefined;
+							model.cupsstatus = 'invalid';
 						}
 					},
 				})),
@@ -214,6 +221,15 @@ var CupsPage = function() {
 					maxlength: 24,
 					value: (state.field.data && state.field.isvalid)?
 						state.field.data.address:'',
+				})),
+				model.cupsaddress &&
+				m(Cell, {span:12}, m(CheckBox, {
+					id: 'cups_verify',
+					label: _('CUPS_VERIFY_LABEL'),
+					checked: model.cupsverified,
+					onchange: function(ev){
+						model.cupsverified = ev.target.checked;
+					}
 				})),
 			]),
 		],
