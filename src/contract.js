@@ -30,7 +30,7 @@ Mousetrap.bindGlobal('ctrl+shift+y', function() {
 
 var Contract = {
 	intro: {},
-	cups: { field: {}},
+	cups: {},
 	holder: {},
 	payment: {},
 	terms: {},
@@ -94,7 +94,7 @@ var PasswordPage = function() {
 		id: 'password_page',
 		title: _('IDENTIFY'),
 		skipif: function() { return model.vatexists!==true || model.sessionActive===true; },
-		validator: function() { 
+		validator: function() {
 			if (model.wrongpassword===true)
 				return _('WRONG_PASSWORD');
 			if (!model.password)
@@ -158,15 +158,20 @@ var HolderPage = function() {
 	};
 };
 
+var CupsContract ={};
+
+CupsContract.field = {};
 
 var CupsPage = function() {
 	var model = Contract.cups;
+	var state = CupsContract;
+
 	return {
 		id: 'cups_page',
 		title: _('Identify the supply point'),
 		next: 'supply_page',
 		validator: function() {
-			if (!model.field.isvalid) {
+			if (!state.field.isvalid) {
 				return _('INVALID_SUPPLY_POINT_CUPS');
 			}
 			return undefined;
@@ -181,13 +186,18 @@ var CupsPage = function() {
 					boxed: true,
 					required: true,
 					maxlength: 24,
-					fieldData: model.field,
+					fieldData: state.field,
 					inputfilter: function(value) {
 						return value.toUpperCase();
 					},
-					onvalidated: function(state) {
-						console.log('CUPS validated', state);
-					}
+
+					onvalidated: function(value, data) {
+						if (value) {
+							model.cupsvalue = value;
+						} else {
+							model.cupsvalue = undefined;
+						}
+					},
 				})),
 				m(Cell, {span:6}, m(TextField, {
 					id: 'cupsaddress',
@@ -198,7 +208,8 @@ var CupsPage = function() {
 					tabindex: -1,
 					required: true,
 					maxlength: 24,
-					value: (model.field.data && model.field.isvalid || '') && model.field.data.address,
+					value: (state.field.data && state.field.isvalid)?
+						state.field.data.address:'',
 				})),
 			]),
 		],
