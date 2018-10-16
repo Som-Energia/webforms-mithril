@@ -53,7 +53,8 @@ PageSlider.onupdate = function(vn) {
 };
 
 PageSlider.view = function(vn) {
-	return m('.pageslider', vn.attrs.showall || {style: {height: vn.state.height+'px'}},
+	return m('.pageslider',
+		vn.attrs.showall ?'':{style: {height: vn.state.height+'px'}},
 		vn.children.map(function(child,index) {
 			return m('.pageslider-page'
 				+(vn.attrs.showall?'.showall':'')
