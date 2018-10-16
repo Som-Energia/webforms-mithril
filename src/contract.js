@@ -76,10 +76,6 @@ var IntroPage = function() {
 				model: intro
 			}),
 		],
-		next: function() {
-			console.log("Vat exists on next:", intro);
-			return true;
-		},
 	};
 };
 
