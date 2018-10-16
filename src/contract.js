@@ -45,7 +45,7 @@ Form.view = function(vn) {
 			model: Contract,
 		}),
 		m('.main', [
-			m('h1', _('Contract Form')),
+			m('h1', _('CONTRACT_FORM')),
 			m(Wizard, {
 				showall: showall,
 				pages:[
@@ -67,7 +67,7 @@ var IntroPage = function() {
 	var intro = Contract.intro;
 	return {
 		id: 'intro_page',
-		title: _('Welcome'),
+		title: _('WELCOME'),
 		validator: function() {
 			return intro.validationErrors && intro.validationErrors();
 		},
@@ -127,7 +127,7 @@ var HolderPage = function() {
 	var holder = Contract.holder;
 	return {
 		id: 'holder_page',
-		title: _('Holder'),
+		title: _('HOLDER_PERSONAL_DATA'),
 		next: 'supply_page',
 		skipif: function() { return intro.vatexists===true; },
 		validator: function() {
