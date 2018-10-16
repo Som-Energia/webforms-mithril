@@ -78,44 +78,59 @@ var IntroPage = function() {
 		],
 	};
 };
-
-
+/*
+Tests:
+- No entra si hay sesion abierta
+- No entra si el nif no existe
+- Next se activa solo cuando hay algo escrito
+- Si borras la contraseña se vuelve a desactivar
+- Si pones una contraseña y le das a siguiente el boton se queda pensando
+- Si la contraseña era mala aparece un mensaje de error y botón desactivo
+- Despues de contraseña mala, se queda inactivo hasta que editas algo
+*/
 var PasswordPage = function() {
-	var intro = Contract.intro;
+	var model = Contract.intro;
 	return {
 		id: 'password_page',
-		title: _('Identify'),
-		skipif: function() { return intro.vatexists!==true || intro.sessionActive===true; },
+		title: _('IDENTIFY'),
+		skipif: function() { return model.vatexists!==true || model.sessionActive===true; },
+		validator: function() { 
+			if (model.wrongpassword===true)
+				return _('WRONG_PASSWORD');
+			if (!model.password)
+				return '';
+		},
 		next: function() {
 			return new Promise(function (resolve, reject) {
 				UserValidator.openSession(
-					intro.vatvalue,
-					intro.password,
+					model.vatvalue,
+					model.password,
 				).then(function(data) {
 					console.log('valid', data);
-					intro.name = data.name;
-					intro.sessionActive = true; // TODO: maybe a session cookie?
+					model.name = data.name;
+					model.sessionActive = true; // TODO: maybe a session cookie?
 					resolve(true);
 				}).catch(function(reason) {
-					// TODO: Set the error
 					console.log('invalid', reason);
+					model.wrongpassword = true;
 					reject(reason);
 				});
 			});
 		},
 		content: [ m(Row, [
-			m(Cell, {span:6},
-				m('', _('Please, identify yourself using your Virtual Office password'))),
-			m(Cell, {span:6},
-				m('a', { href: 'TODO', },
-				_('[I don\'t remember my password]'))),
-			m(Cell, {span:6}, m(TextField, {
-				label: _('Password'),
+			m(Cell, {span:12}, m('', _('FILL_PASSWORD'))),
+			m(Cell, {span:12}, m(TextField, {
+				label: _('PASSWORD_LABEL'),
 				leadingfaicon: 'key',
 				type: 'password',
 				boxed: true,
+				help: m('a', {
+					href: _('PASSWORD_HELP_URL'),
+					target: '_blank'
+					}, _('PASSWORD_HELP')),
 				oninput: function(ev) {
-					intro.password = ev.target.value;
+					model.password = ev.target.value;
+					model.wrongpassword = false;
 				},
 			})),
 		])],
