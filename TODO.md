@@ -1,5 +1,14 @@
 # Pending Tasks
 
+## Cosas que vamos dejando al lado por focus
+
+- [x] Error de password invalido con efecto en el campo
+- [ ] Page slider, al cambiar de pagina, scroll al inicio (si la pagina de la que sales es larga, no ves nada)
+- [ ] Page slider, deshabilitar focus en las otras paginas
+- [ ] Page slider, al saltar poner el focus en el primer elemento
+- [ ] Wizard: que el return sea 'siguiente' (ahora se queda en el boton de la pagina anterior)
+- [ ] HELP URL: I don't have an Spanish VAT
+- [ ] HELP URL: I don't remember my password
 
 ## Current focus
 
