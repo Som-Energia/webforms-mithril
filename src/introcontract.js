@@ -84,13 +84,15 @@ IntroContract.view = function(vn) {
 			]),
 		] : (
 		vn.state.state === askDni ? [
-			m(Cell, {span:12}, 
-				_('FILL_VAT')
-			),
+			m(Cell, {span:12}, _('FILL_VAT')),
 			m(Cell, {span:6}, m(ValidatedField, {
 				id: 'vat',
 				checkurl: '/check/vat/exists/',
-				label: _('VAT'),
+				label: _('VAT_LABEL'),
+				help: m('a', {
+					href: _('VAT_HELP_URL'),
+					target: '_blank'
+					}, _('VAT_HELP')),
 				boxed: true,
 				required: true,
 				maxlength: 9,
