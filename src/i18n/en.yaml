@@ -80,6 +80,13 @@ PASSWORD_HELP: I don't remember my password
 PASSWORD_HELP_URL: TODO
 WRONG_PASSWORD: Wrong password
 
+CUPS_TITLE: Identify the supply point
+FILL_CUPS: Please fill in the CUPS code of the supply point
+CUPS_LABEL: CUPS
+CUPS_HELP: Where can I find the CUPS code?
+CUPS_HELP_URL: TODO
+CUPS_VERIFY_LABEL: I confirm that the shown address is the one I want to contract
+
 HOLDER_PERSONAL_DATA: Holder personal data
 
 # Widgets

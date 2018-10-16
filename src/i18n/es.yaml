@@ -80,6 +80,13 @@ PASSWORD_HELP: No recuerdo la contraseña
 PASSWORD_HELP_URL: TODO
 WRONG_PASSWORD: Contraseña incorrecta
 
+CUPS_TITLE: Identifica el punto de suministro
+FILL_CUPS: Por favor, introduzca el código CUPS que identifica su instalación
+CUPS_LABEL: CUPS
+CUPS_VERIFY_LABEL: Confirmo que la dirección mostrada es la que corresponde al CUPS que quiero contratar
+CUPS_HELP: ¿Cómo averiguar el código CUPS?
+CUPS_HELP_URL: TODO
+
 HOLDER_PERSONAL_DATA: Datos personales de la persona titular
 
 # Widgets

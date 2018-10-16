@@ -168,7 +168,7 @@ var CupsPage = function() {
 
 	return {
 		id: 'cups_page',
-		title: _('Identify the supply point'),
+		title: _('CUPS_TITLE'),
 		next: 'supply_page',
 		validator: function() {
 			if (!state.field.isvalid) {
@@ -178,11 +178,15 @@ var CupsPage = function() {
 		},
 		content: [
 			m(Row, [
+				m(Cell, {span:12}, _('FILL_CUPS')),
 				m(Cell, {span:6}, m(ValidatedField, {
 					id: 'cups',
 					checkurl: '/check/cups/status/',
-					label: _('Supply point identifier (CUPS)'),
-					help: _('"ES" followed by 16 numbers and two check letters'),
+					label: _('CUPS_LABEL'),
+					help: m('a', {
+						href: _('CUPS_HELP_URL'),
+						target: '_blank'
+						}, _('CUPS_HELP')),
 					boxed: true,
 					required: true,
 					maxlength: 24,
