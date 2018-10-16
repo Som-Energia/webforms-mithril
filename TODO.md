@@ -9,6 +9,9 @@
 - [ ] Wizard: que el return sea 'siguiente' (ahora se queda en el boton de la pagina anterior)
 - [ ] HELP URL: I don't have an Spanish VAT
 - [ ] HELP URL: I don't remember my password
+- [ ] password, si falla focus en el password
+- [ ] VAT: evitar los check cuando sea corto
+- [ ] VAT: el limite de 9 caracteres es correcto?
 
 ## Current focus
 

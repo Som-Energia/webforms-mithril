@@ -19,7 +19,7 @@ require('mousetrap-global-bind');
 require('font-awesome/css/font-awesome.css');
 require('@material/typography/dist/mdc.typography.css').default;
 var Inspector = require('./inspector');
-var showall = false;
+var showall = true;
 
 Mousetrap.bindGlobal('ctrl+shift+y', function() {
 	showall = !showall;
@@ -51,8 +51,8 @@ Form.view = function(vn) {
 				pages:[
 					IntroPage(),
 					PasswordPage(),
-					HolderPage(),
 					CupsPage(),
+					HolderPage(),
 					SupplyPage(),
 					TermsPage(),
 					PaymentPage(),
