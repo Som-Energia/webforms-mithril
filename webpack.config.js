@@ -16,7 +16,7 @@ var config = {
 	output: {
 		path: path.resolve(__dirname, 'dist'),
 		filename: 'bundle-[name]-[chunkhash].js',
-		chunkFilename: 'chunk-[id]-[chunkhash].js',
+		chunkFilename: 'chunk-[name]-[chunkhash].js',
 	},
 	devServer: {
 		contentBase: path.resolve(__dirname, 'dist'),
@@ -42,7 +42,7 @@ var config = {
 		// Split css included as js into a separate file again
 		new MiniCssExtractPlugin({
 			filename: "bundle-[name]-[contenthash].css",
-			chunkFilename: "chunk-[id]-[contenthash].css",
+			chunkFilename: "chunk-[name]-[contenthash].css",
 			}),
         new JsDocPlugin({
             conf: './.jsdoc.json'
