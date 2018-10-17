@@ -81,14 +81,12 @@ PASSWORD_HELP_URL: TODO
 WRONG_PASSWORD: La contrasenya és incorrecta
 
 CUPS_TITLE: Identifica el punt de subministrament
-FILL_CUPS: |
-  El codi CUPS (Codi Universal de Punt de Subministrament)
-  és un codi que comença amb "ES" i segueix amb 16 o més números i lletres
-  que identifica la vostra instal·lació.
-  Normalment el podeu trobar a la vostra darrera factura
-  o a la documentació de legal·lització de la instal·lació.
+FILL_CUPS: Si us plau, introdueix el codi CUPS que identifica el punt de subministrament
 CUPS_LABEL: CUPS
+CUPS_HELP: On puc esbrinar el codi CUPS
+CUPS_HELP_URL: TODO
 CUPS_VERIFY_LABEL: Confirmo que la dirección mostrada es la que corresponde al CUPS que quiero contratar
+INVALID_SUPPLY_POINT_CUPS: CUPS invàlid
 
 HOLDER_PERSONAL_DATA: Dades personals de la persona titular
 

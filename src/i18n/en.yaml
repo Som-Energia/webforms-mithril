@@ -86,6 +86,7 @@ CUPS_LABEL: CUPS
 CUPS_HELP: Where can I find the CUPS code?
 CUPS_HELP_URL: TODO
 CUPS_VERIFY_LABEL: I confirm that the shown address is the one I want to contract
+INVALID_SUPPLY_POINT_CUPS: Invalid CUPS
 
 HOLDER_PERSONAL_DATA: Holder personal data
 
