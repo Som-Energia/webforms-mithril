@@ -87,7 +87,7 @@ CUPS_VERIFY_LABEL: Confirmo que la dirección mostrada es la que corresponde al 
 CUPS_HELP: ¿Cómo averiguar el código CUPS?
 CUPS_HELP_URL: TODO
 INVALID_SUPPLY_POINT_CUPS: CUPS inválido
-
+CUPS_IN_PROCESS: Este CUPS está actualmente en un proceso
 HOLDER_PERSONAL_DATA: Datos personales de la persona titular
 
 # Widgets
