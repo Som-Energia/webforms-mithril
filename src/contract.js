@@ -174,7 +174,7 @@ var CupsPage = function() {
 		title: _('CUPS_TITLE'),
 		next: 'supply_page',
 		validator: function() {
-			if (model.cupsstatus === 'invalid') {
+			if (model.cupsstatus === 'invalid' && state.field.isvalid === false) {
 				return _('INVALID_SUPPLY_POINT_CUPS');
 			}
 			if (model.cupsstatus === 'busy'){
