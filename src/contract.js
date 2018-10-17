@@ -174,8 +174,11 @@ var CupsPage = function() {
 		title: _('CUPS_TITLE'),
 		next: 'supply_page',
 		validator: function() {
-			if (!state.field.isvalid) {
+			if (model.cupsstatus === 'invalid') {
 				return _('INVALID_SUPPLY_POINT_CUPS');
+			}
+			if (model.cupsstatus === 'busy'){
+				return _('CUPS_IN_PROCESS');
 			}
 			return undefined;
 		},
@@ -222,7 +225,7 @@ var CupsPage = function() {
 					value: (state.field.data && state.field.isvalid)?
 						state.field.data.address:'',
 				})),
-				model.cupsaddress &&
+				model.cupsaddress && model.cupsstatus === 'active' &&
 				m(Cell, {span:12}, m(CheckBox, {
 					id: 'cups_verify',
 					label: _('CUPS_VERIFY_LABEL'),
