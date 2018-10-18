@@ -88,6 +88,7 @@ CUPS_HELP_URL: TODO
 CUPS_VERIFY_LABEL: Confirmo que la dirección mostrada es la que corresponde al CUPS que quiero contratar
 INVALID_SUPPLY_POINT_CUPS: CUPS invàlid
 CUPS_IN_PROCESS: Aquest CUPS actualment està en un proces
+MARK_ADDRESS_CONFIRMATION_BOX: Verifica que l'adreça associada a aquest CUPS es correcta
 
 HOLDER_PERSONAL_DATA: Dades personals de la persona titular
 

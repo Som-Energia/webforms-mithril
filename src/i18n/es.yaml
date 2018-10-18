@@ -88,6 +88,7 @@ CUPS_HELP: ¿Cómo averiguar el código CUPS?
 CUPS_HELP_URL: TODO
 INVALID_SUPPLY_POINT_CUPS: CUPS inválido
 CUPS_IN_PROCESS: Este CUPS está actualmente en un proceso
+MARK_ADDRESS_CONFIRMATION_BOX: Verifica que la dirección asociada a este CUPS es la correcta
 
 HOLDER_PERSONAL_DATA: Datos personales de la persona titular
 

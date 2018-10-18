@@ -180,6 +180,9 @@ var CupsPage = function() {
 			if (model.cupsstatus === 'busy'){
 				return _('CUPS_IN_PROCESS');
 			}
+            if (model.cupsaddress !== undefined && model.cupsverified === false && model.cupsstatus === 'active' && model.cupsstatus !== 'busy'){
+				return _('MARK_ADDRESS_CONFIRMATION_BOX');
+			}
 			return undefined;
 		},
 		content: [
