@@ -180,7 +180,7 @@ var CupsPage = function() {
 			if (model.cupsstatus === 'busy'){
 				return _('CUPS_IN_PROCESS');
 			}
-            if (model.cupsaddress !== undefined && model.cupsverified === false && model.cupsstatus === 'active' && model.cupsstatus !== 'busy'){
+            if (model.cupsaddress !== undefined && model.cupsverified === false && (model.cupsstatus === 'active' || model.cupsstatus === 'inactive') && model.cupsstatus !== 'busy'){
 				return _('MARK_ADDRESS_CONFIRMATION_BOX');
 			}
 			return undefined;
@@ -226,9 +226,9 @@ var CupsPage = function() {
 					required: true,
 					maxlength: 24,
 					value: (state.field.data && state.field.isvalid)?
-						state.field.data.address:'',
+					          state.field.data.address:'',
 				})),
-				model.cupsaddress && model.cupsstatus === 'active' &&
+				model.cupsaddress && (model.cupsstatus === 'active' || model.cupsstatus === 'inactive') &&
 				m(Cell, {span:12}, m(CheckBox, {
 					id: 'cups_verify',
 					label: _('CUPS_VERIFY_LABEL'),
