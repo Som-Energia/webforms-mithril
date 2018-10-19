@@ -10,8 +10,8 @@ var TextField = {
 		this.mdcinstance = new MDCTextField.MDCTextField(mdcinput);
 		var errormessage = vn.attrs.errormessage || vn.state.errormessage || '';
 		vn.state.mdcinstance.valid = !errormessage;
-		var nativeInput = vn.dom.querySelector('.mdc-text-field__input');
-		nativeInput.setCustomValidity(errormessage);
+		vn.state.native = vn.dom.querySelector('.mdc-text-field__input');
+		vn.state.native.setCustomValidity(errormessage);
 	},
 
 	onupdate: function(vn) {
@@ -20,8 +20,8 @@ var TextField = {
 		if (vn.state.mdcinstance.valid !== !errormessage) {
 			vn.state.mdcinstance.valid = !errormessage;
 		}
-		var nativeInput = vn.dom.querySelector('.mdc-text-field__input');
-		nativeInput.setCustomValidity(errormessage);
+		vn.state.native = vn.dom.querySelector('.mdc-text-field__input');
+		vn.state.native.setCustomValidity(errormessage);
 	},
 
 	view: function (vn) {
@@ -82,9 +82,10 @@ var TextField = {
 			},[
 				(leadingfaicon ? m('i.mdc-text-field__icon.fa.fa-'+leadingfaicon):''),
 				m('input.mdc-text-field__input', nativeattrs),
-				fullwidth||outlined&&false?'':m('label'
+				fullwidth?'':m('label'
 					+'.mdc-floating-label'
-
+					+((vn.attrs.value || document.activeElement===vn.state.native)?
+						'.mdc-floating-label--float-above':'')
 					,
 					{'for': vn.attrs.id}, [
 					vn.attrs.label,
@@ -116,6 +117,7 @@ var TextField = {
 
 TextField.Example = {};
 TextField.Example.view = function(vn) {
+	var Button = require('./button');
 	const Layout = require('./layout');
 	return m(Layout, m('h2', 'TextFields'),
 		m(Layout.Row, [
@@ -242,6 +244,15 @@ TextField.Example.view = function(vn) {
 				label: _('With helper text'),
 				help: _('This is a helper text'),
 			},
+			{
+				id: 'programatic',
+				label: _('Programatic content'),
+				help: _('Remove the value programmatically'),
+				value: TextField.Example.text,
+				oninput: function(ev) {
+					TextField.Example.text=ev.target.value;
+				},
+			}
 		].map(function(v) {
 			var attrs = Object.assign({}, v);
 			if (type) {
@@ -251,6 +262,12 @@ TextField.Example.view = function(vn) {
 			}
 			return m(Layout.Cell, {span:4}, m(TextField, attrs));
 		}),
+		m(Layout.Cell, {span:4},
+			m(Button, {
+				onclick: function() {
+					TextField.Example.text=TextField.Example.text?'':_('Added content');
+				}
+			}, _('Switch'))),
 		);
 	}),
 	);
