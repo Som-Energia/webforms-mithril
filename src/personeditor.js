@@ -15,18 +15,26 @@ var Mousetrap = require('mousetrap');
 require('mousetrap-global-bind');
 
 
+function isphisical (vat) {
+	if (vat === undefined) return undefined;
+	var firstchar = vat[0];
+	return '0123456789KLMXYZ'.indexOf(firstchar) !== -1;
+}
+
 var PersonEditor = {};
 
 PersonEditor.oninit = function(vn) {
 	vn.state.person = vn.attrs.model || {};
 	var person = vn.state.person;
-	person.privacypolicyaccepted=false;
+
+	person.privacypolicyaccepted = false;
+
 	person.isphisical = function() {
-		if (this.vat===undefined) return undefined;
-		if (this.vat.value===undefined) return undefined;
-		var firstchar = this.vat.value[0];
+		if (vn.attrs.vat === undefined) return undefined;
+		var firstchar = vn.attrs.vat[0];
 		return '0123456789KLMXYZ'.indexOf(firstchar) !== -1;
 	};
+
 	person.validate = function() {
 		var self = this;
 		function error(message) {
@@ -35,10 +43,7 @@ PersonEditor.oninit = function(vn) {
 			}
 			return false;
 		}
-		if (!this.vat.isvalid) {
-			return error('NO_NIF');
-		}
-		this.usertype = this.isphisical()?'person':'company';
+		this.usertype = isphisical(vn.attrs.vat) ? 'person' : 'company';
 
 		// TODO: Obsolete
 		if (this.usertype === undefined) {
@@ -47,13 +52,13 @@ PersonEditor.oninit = function(vn) {
 		if (!this.name) {
 			return error('NO_NAME');
 		}
-		if (this.usertype === 'person') {
+		if (isphisical(vn.attrs.vat)) {
 			if (!this.surname) {
 				return error('NO_SURNAME');
 			}
 		}
 		// TODO:  This is not implemented yet
-		if (this.usertype === 'company') {
+		if (isphisical(vn.attrs.vat) === false) {
 			if (this.representantname === undefined) {
 				return error('NO_PROXY_NAME');
 			}
@@ -93,13 +98,10 @@ PersonEditor.oninit = function(vn) {
 		this.error = undefined;
 		return true;
 	};
-	person.vat = {data: {}};
 };
 PersonEditor.oncreate = function(vn) {
 	Mousetrap(vn.dom).bindGlobal('ctrl+shift+1', function() {
 		var person = vn.state.person
-		person.vat.value = '12345678z';
-		person.vat.isvalid = true;
 		person.name='Perico';
 		person.surname='Palotes';
 		person.address='Percebe 13';
@@ -113,8 +115,6 @@ PersonEditor.oncreate = function(vn) {
 	});
 	Mousetrap(vn.dom).bindGlobal('ctrl+shift+2', function() {
 		var person = vn.state.person
-		person.vat.value = '87654321x';
-		person.vat.isvalid = true;
 		person.name='Juana';
 		person.surname='Calamidad';
 		person.address='Calle Mayor';
@@ -130,21 +130,11 @@ PersonEditor.oncreate = function(vn) {
 };
 
 PersonEditor.statechanged = function(vn) {
-	
 };
 PersonEditor.view = function(vn) {
-	var id=vn.attrs.id;
-	var prefix=id?id+'_':'';
+	var id = vn.attrs.id;
+	var prefix = id ? id + '_' : '';
 	var person = vn.state.person;
-	var passwordRequired = (
-		person.vat.isvalid===true &&
-		person.vat.exists===true &&
-		true);
-		
-	var detailsRequired = (
-		person.vat.isvalid===true && 
-		person.vat.exists!==true &&
-		true);
 	return m('.personeditor', {
 		id: id,
 		validator: function() {
@@ -152,37 +142,7 @@ PersonEditor.view = function(vn) {
 			return person.error;
 		},
 	},[
-
-		m(Row, [
-			m(Cell, {span:4}, m(ValidatedField, {
-				id: 'vat',
-				checkurl: '/check/vat/',
-				label: _('NIF'),
-				boxed: true,
-				required: true,
-				maxlength: 9,
-				fieldData: person.vat,
-				inputfilter: function(value) {
-					if (!value) return value;
-					value=value.toUpperCase();
-					value=value.replace(/[^0-9A-Z]/g,'');
-					return value.slice(0,9);
-				},
-				onvalidated: function() {
-					person.vat.exists=true;
-				}
-			})),
-			m(Cell, {hidden: !passwordRequired, span:4}, m(TextField, {
-				label: _('Password'),
-				leadingfaicon: 'key',
-				type: 'password',
-				boxed: true,
-			})),
-			m(Cell, {hidden: !passwordRequired, span:4}, m(Button, {
-				unelevated: true,
-			},_('Login'))),
-		]),
-		detailsRequired || true? [
+		true? [ // TODO: Remove the condition
 			m(Row, [
 				m(Cell, {span:5}, m(TextField, {
 					id: prefix+'name',
@@ -194,7 +154,7 @@ PersonEditor.view = function(vn) {
 					required: true,
 					boxed: true,
 				})),
-				person.isphisical()?
+				isphisical(vn.attrs.vat)?
 					m(Cell, {span:7}, m(TextField, {
 						id: prefix+'surname',
 						label: _('Surname'),
@@ -294,7 +254,6 @@ PersonEditor.view = function(vn) {
 					},
 					required: true,
 					boxed: true,
-					
 				})),
 				m(Cell, {span:6}, m(TextField, {
 					id: prefix+'phone2',
@@ -310,7 +269,6 @@ PersonEditor.view = function(vn) {
 						return value;
 					},
 					boxed: true,
-					
 				})),
 			]),
 			m(LanguageChooser, {

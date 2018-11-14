@@ -143,11 +143,14 @@ var PasswordPage = function() {
 var HolderPage = function() {
 	var intro = Contract.intro;
 	var holder = Contract.holder;
+	holder.vat=intro.vatvalue;
+
 	return {
 		id: 'holder_page',
 		title: _('HOLDER_PERSONAL_DATA'),
-		next: 'supply_page',
-		skipif: function() { return intro.vatexists===true; },
+		skipif: function() {
+			return intro.vatexists === true;
+		},
 		validator: function() {
 			holder.validate && holder.validate();
 			return holder.error;
@@ -155,6 +158,7 @@ var HolderPage = function() {
 		content: [
 			m(PersonEditor, {
 				id: 'holder',
+				vat: intro.vatvalue,
 				model: holder,
 			}),
 		],
@@ -172,7 +176,6 @@ var CupsPage = function() {
 	return {
 		id: 'cups_page',
 		title: _('CUPS_TITLE'),
-		next: 'supply_page',
 		validator: function() {
 			if (model.cupsstatus === 'invalid' && state.field.isvalid === false) {
 				return _('INVALID_SUPPLY_POINT_CUPS');
@@ -180,7 +183,7 @@ var CupsPage = function() {
 			if (model.cupsstatus === 'busy'){
 				return _('CUPS_IN_PROCESS');
 			}
-            if (model.cupsaddress !== undefined && model.cupsverified === false && (model.cupsstatus === 'active' || model.cupsstatus === 'inactive') && model.cupsstatus !== 'busy'){
+			if (model.cupsaddress !== undefined && model.cupsverified === false && (model.cupsstatus === 'active' || model.cupsstatus === 'inactive') && model.cupsstatus !== 'busy'){
 				return _('MARK_ADDRESS_CONFIRMATION_BOX');
 			}
 			return undefined;
@@ -226,7 +229,7 @@ var CupsPage = function() {
 					required: true,
 					maxlength: 24,
 					value: (state.field.data && state.field.isvalid)?
-					          state.field.data.address:'',
+						state.field.data.address:'',
 				})),
 				model.cupsaddress && (model.cupsstatus === 'active' || model.cupsstatus === 'inactive') &&
 				m(Cell, {span:12}, m(CheckBox, {
