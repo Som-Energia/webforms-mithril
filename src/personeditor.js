@@ -143,8 +143,8 @@ PersonEditor.view = function(vn) {
 			return person.error;
 		},
 	},[
-		true? [ // TODO: Remove the condition
-			m(Row, [
+		m(Row, [
+			isphisical(vn.attrs.vat) ? [
 				m(Cell, {span:5}, m(TextField, {
 					id: prefix+'name',
 					label: _('Name'),
@@ -155,150 +155,181 @@ PersonEditor.view = function(vn) {
 					required: true,
 					boxed: true,
 				})),
-				isphisical(vn.attrs.vat)?
-					m(Cell, {span:7}, m(TextField, {
-						id: prefix+'surname',
-						label: _('Surname'),
-						value: person.surname,
-						oninput: function(ev) {
-							person.surname = ev.target.value;
-						},
-						required: true,
-						boxed: true,
-					}))
-				:'',
-			]),
-			m(Row, [
-				m(Cell, {span:8}, m(TextField, {
-					id: prefix+'address',
-					label: _('Street address'),
-					leadingfaicon: 'home',
-					value: person.address,
+				m(Cell, {span:7}, m(TextField, {
+					id: prefix+'surname',
+					label: _('Surname'),
+					value: person.surname,
 					oninput: function(ev) {
-						person.address = ev.target.value;
+						person.surname = ev.target.value;
 					},
 					required: true,
 					boxed: true,
-				})),
+				}))
+			]:[
 				m(Cell, {span:4}, m(TextField, {
-					id: prefix+'postalcode',
-					label: _('Postal code'),
-					value: person.postalcode,
-					maxlength: 5,
-					minlength: 5,
-					pattern: '[0-9]{5}',
+					id: prefix+'proxyname',
+					label: _('Proxy Name'),
+					value: person.proxyname,
 					oninput: function(ev) {
-						person.postalcode = ev.target.value;
-						person.postalcodeError = ev.target.validationMessage;
-					},
-					inputfilter: function(value) {
-						value = value.replace(/[^0-9]/,'');
-						value = value.slice(0,5);
-						return value;
-					},
-					help: m.trust('&nbsp;'),
-					required: true,
-					boxed: true,
-				})),
-			]),
-			m(StateCityChooser, {
-				onvaluechanged: function(chooser) {
-					person.state = chooser.states.find(function(v) {
-						return v.id==chooser.state;
-					});
-					person.city = chooser.cities.find(function(v) {
-						return v.id==chooser.city;
-					});
-				},
-			}),
-			m(Row, [
-				m(Cell, {span:6}, m(TextField, {
-					id: prefix+'email',
-					label: _('e-mail'),
-					type: 'email',
-					leadingfaicon: 'envelope',
-					value: person.email,
-					oninput: function(ev) {
-						person.email = ev.target.value;
-						person.emailError = ev.target.validationMessage;
-						// TODO var emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-					},
-					help: _('This address will identify you'),
-					boxed: true,
-				})),
-				m(Cell, {span:6}, m(TextField, {
-					id: prefix+'email2',
-					label: _('e-mail (repeat)'),
-					type: 'email',
-					leadingfaicon: 'envelope',
-					value: person.email2,
-					oninput: function(ev) {
-						person.email2 = ev.target.value;
-					},
-					help: _('Repeat the e-mail address to be sure'),
-					boxed: true,
-				})),
-			]),
-			m(Row, [
-				m(Cell, {span:6}, m(TextField, {
-					id: prefix+'phone1',
-					label: _('Phone'),
-					maxlength: 9,
-					leadingfaicon: 'phone',
-					value: person.phone1,
-					oninput: function(ev) {
-						person.phone1 = ev.target.value;
-					},
-					inputfilter: function(value) {
-						value = value.replace(/[^0-9]/g,'');
-						return value;
+						person.proxyname = ev.target.value;
 					},
 					required: true,
 					boxed: true,
 				})),
-				m(Cell, {span:6}, m(TextField, {
-					id: prefix+'phone2',
-					label: _('Additional phone (optional)'),
-					maxlength: 9,
-					leadingfaicon: 'phone',
-					value: person.phone2,
-					oninput: function(ev) {
-						person.phone2 = ev.target.value;
-					},
-					inputfilter: function(value) {
-						value = value.replace(/[^0-9]/g,'');
-						return value;
-					},
+				m(Cell, {span:4}, m(ValidatedField, {
+					id: prefix+'proxyvat',
+					checkurl: '/check/vat/exists/',
+					label: _('Proxy Nif'),
+					help: _('Nif de la persona representant'),
 					boxed: true,
-				})),
-			]),
-			m(LanguageChooser, {
-				id: prefix+'lang',
-				onvaluechanged: function(chooser) {
-					person.language = chooser.languages.find(function(v) {
-						return v.code==chooser.language;
-					});
+					required: true,
+					maxlength: 9,
+					fieldData: vn.state.proxyvateditor,
+					inputfilter: function(value) {
+						if (!value) return value;
+						value=value.toUpperCase();
+						value=value.replace(/[^0-9A-Z]/g,'');
+						return value.slice(0,9);
+					},
+					onvalidated: function(value, data) {
+						if (value) {
+							vn.state.model.proxyvatvalue = value;
+							vn.state.model.proxyvatvalid = data.valid;
+							// TODO: Ensure is physical
+						} else {
+							vn.state.model.proxyvatvalue = undefined;
+							vn.state.model.proxyvatvalid = false;
+						}
+					}
+				}))
+			],
+		]),
+		m(Row, [
+			m(Cell, {span:8}, m(TextField, {
+				id: prefix+'address',
+				label: _('Street address'),
+				leadingfaicon: 'home',
+				value: person.address,
+				oninput: function(ev) {
+					person.address = ev.target.value;
 				},
-				help: _('Choose the language we will address you'),
 				required: true,
-			}),
-			m(Row, [
-				m(Cell, {span:12}, m(LegalConsent, {
-					id: prefix+'privacypolicy',
-					title: _('PRIVACY_POLICY'),
-					label: m.trust(_('ACCEPT_PRIVACY_POLICY', {
-						url: _('ACCEPT_PRIVACY_POLICY_URL')})),
-					accepted: person.privacypolicyaccepted,
-					onchanged: function(value) {
-						person.privacypolicyaccepted = value;
-					},
-					required: true,
-				},[
-					_('PRIVACY_POLICY_CONTENT'),
-				])),
-			]),
-		]:'',
-
+				boxed: true,
+			})),
+			m(Cell, {span:4}, m(TextField, {
+				id: prefix+'postalcode',
+				label: _('Postal code'),
+				value: person.postalcode,
+				maxlength: 5,
+				minlength: 5,
+				pattern: '[0-9]{5}',
+				oninput: function(ev) {
+					person.postalcode = ev.target.value;
+					person.postalcodeError = ev.target.validationMessage;
+				},
+				inputfilter: function(value) {
+					value = value.replace(/[^0-9]/,'');
+					value = value.slice(0,5);
+					return value;
+				},
+				help: m.trust('&nbsp;'),
+				required: true,
+				boxed: true,
+			})),
+		]),
+		m(StateCityChooser, {
+			onvaluechanged: function(chooser) {
+				person.state = chooser.states.find(function(v) {
+					return v.id==chooser.state;
+				});
+				person.city = chooser.cities.find(function(v) {
+					return v.id==chooser.city;
+				});
+			},
+		}),
+		m(Row, [
+			m(Cell, {span:6}, m(TextField, {
+				id: prefix+'email',
+				label: _('e-mail'),
+				type: 'email',
+				leadingfaicon: 'envelope',
+				value: person.email,
+				oninput: function(ev) {
+					person.email = ev.target.value;
+					person.emailError = ev.target.validationMessage;
+					// TODO var emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				},
+				help: _('This address will identify you'),
+				boxed: true,
+			})),
+			m(Cell, {span:6}, m(TextField, {
+				id: prefix+'email2',
+				label: _('e-mail (repeat)'),
+				type: 'email',
+				leadingfaicon: 'envelope',
+				value: person.email2,
+				oninput: function(ev) {
+					person.email2 = ev.target.value;
+				},
+				help: _('Repeat the e-mail address to be sure'),
+				boxed: true,
+			})),
+		]),
+		m(Row, [
+			m(Cell, {span:6}, m(TextField, {
+				id: prefix+'phone1',
+				label: _('Phone'),
+				maxlength: 9,
+				leadingfaicon: 'phone',
+				value: person.phone1,
+				oninput: function(ev) {
+					person.phone1 = ev.target.value;
+				},
+				inputfilter: function(value) {
+					value = value.replace(/[^0-9]/g,'');
+					return value;
+				},
+				required: true,
+				boxed: true,
+			})),
+			m(Cell, {span:6}, m(TextField, {
+				id: prefix+'phone2',
+				label: _('Additional phone (optional)'),
+				maxlength: 9,
+				leadingfaicon: 'phone',
+				value: person.phone2,
+				oninput: function(ev) {
+					person.phone2 = ev.target.value;
+				},
+				inputfilter: function(value) {
+					value = value.replace(/[^0-9]/g,'');
+					return value;
+				},
+				boxed: true,
+			})),
+		]),
+		m(LanguageChooser, {
+			id: prefix+'lang',
+			onvaluechanged: function(chooser) {
+				person.language = chooser.languages.find(function(v) {
+					return v.code==chooser.language;
+				});
+			},
+			help: _('Choose the language we will address you'),
+			required: true,
+		}),
+		m(Row, [
+			m(Cell, {span:12}, m(Checkbox, {
+				id: prefix+'privacypolicy',
+				label: m.trust(_('ACCEPT_PRIVACY_POLICY', {
+					url: _('ACCEPT_PRIVACY_POLICY_URL')})),
+				checked: person.privacypolicyaccepted,
+				onchange: function(ev) {
+					person.privacypolicyaccepted = ev.target.checked;
+				},
+				required: true,
+			})),
+		]),
 	]);
 };
 
