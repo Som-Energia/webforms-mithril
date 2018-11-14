@@ -38,5 +38,17 @@ Available at `opendata.html`.
 This form is going to be eventually moved into its own repository as soon
 as we have a stable set of widgets to build them as a library.
 
+## Minor problems
 
+### Error loading images:
 
+If when you start the development server and the following error ocurrs:
+
+`Module not found: Error: Can't resolve '../images/ic_keyboard_arrow_left_black_24px.svg' in '/home/juan-pe/projects/webforms_project/webforms-mithril/node_modules/md-date-time-picker/dist/css/themes/light/light-green'`
+
+It's because the time-picker cannot find the images folder. To solve it:
+
+```bash
+$ cd node_modules/md-date-time-picker/dist/css/themes/light
+$ ln -s ../../../../../md-date-time-picker/src/images .
+```
