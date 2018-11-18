@@ -24,6 +24,7 @@ var TabBar = require('./mdc/tabbar');
 var PageSlider = require('./pageslider');
 var DatePicker = require('./datepicker');
 var LegalConsent = require('./legalconsent');
+var GapMinder = require('./gapminder');
 
 require('font-awesome/css/font-awesome.css');
 require('@material/typography/dist/mdc.typography.css').default;
@@ -35,6 +36,7 @@ var skip = function (c) { return []; }
 var Examples = {
 	view: function(vn) {
 		return m('.form.mdc-typography', [
+			m(GapMinder.Example),
 			skip(DatePicker.Example),
 			skip(Wizard.Example),
 			skip(TabBar.Example),
@@ -53,7 +55,7 @@ var Examples = {
 			skip(Select.Example),
 			skip(PersonEditor.Example),
 			skip(FarePower.Example),
-			m(LegalConsent.Example),
+			skip(LegalConsent.Example),
 		]);
 	},
 };
