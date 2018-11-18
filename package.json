@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/Som-Energia/webforms-mithril#readme",
   "dependencies": {
+    "d3": "^5.7.0",
     "font-awesome": "^4.7.0",
     "i18n4v": "^0.2.2",
     "json-loader": "^0.5.7",

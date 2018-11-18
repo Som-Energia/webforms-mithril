@@ -8,6 +8,7 @@ var Button = require('./mdc/button');
 var Select = require('./mdc/select');
 var TextField = require('./mdc/textfield');
 var DatePicker = require('./datepicker');
+var GapMinder = require('./gapminder');
 var jsyaml = require('js-yaml');
 
 require('font-awesome/css/font-awesome.css');
