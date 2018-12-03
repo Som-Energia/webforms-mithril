@@ -98,7 +98,9 @@ var TextField = {
 						}})
 				:[]),
 				(outlined? []: m('.mdc-line-ripple')),
-				(outlined? m('.mdc-notched-outline',
+				(outlined? m('.mdc-notched-outline'
+					+((vn.attrs.value || document.activeElement===vn.state.native)?
+						'.mdc-notched-outline--notched':''),
 					m('svg', m('path.mdc-notched-outline__path'))):[]),
 				(outlined? m('.mdc-notched-outline__idle'):''),
 			]),
