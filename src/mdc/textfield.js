@@ -25,9 +25,18 @@ var TextField = {
 	},
 
 	view: function (vn) {
+		function floats() {
+			if (vn.attrs.value) return true;
+			if (!vn.dom) return false;
+			if (!vn.dom.native) return false;
+			if (!vn.dom.native===document.activeElement) return true;
+			if (!vn.dom.native.value) return true;
+			return false;
+		}
 		var attrs = Object.assign({}, vn.attrs);
 		// Remove the custom attributes no to be applied to the native input
 		function pop(o,k) { var r=o[k]; if (r!==undefined) { delete o[k];} return r; }
+		const floating = floats();
 		const fullwidth = pop(attrs, 'fullwidth');
 		const boxed = pop(attrs, 'boxed');
 		const outlined = pop(attrs, 'outlined');
@@ -84,7 +93,7 @@ var TextField = {
 				m('input.mdc-text-field__input', nativeattrs),
 				fullwidth?'':m('label'
 					+'.mdc-floating-label'
-					+((vn.attrs.value || document.activeElement===vn.state.native)?
+					+(floating?
 						'.mdc-floating-label--float-above':'')
 					,
 					{'for': vn.attrs.id}, [
@@ -99,7 +108,7 @@ var TextField = {
 				:[]),
 				(outlined? []: m('.mdc-line-ripple')),
 				(outlined? m('.mdc-notched-outline'
-					+((vn.attrs.value || document.activeElement===vn.state.native)?
+					+(floating?
 						'.mdc-notched-outline--notched':''),
 					m('svg', m('path.mdc-notched-outline__path'))):[]),
 				(outlined? m('.mdc-notched-outline__idle'):''),
