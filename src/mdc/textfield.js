@@ -43,8 +43,8 @@ var TextField = {
 		const nativeattrs = Object.assign({
 			// defaults
 			type: 'text',
-			placeholder: fullwidth?_(vn.attrs.label):undefined,
-			'aria-label': fullwidth?_(vn.attrs.label):undefined,
+			placeholder: fullwidth?vn.attrs.label:undefined,
+			'aria-label': fullwidth?vn.attrs.label:undefined,
 			'aria-controls': help_id,
 			'aria-describedby': help_id,
 		}, attrs, {
