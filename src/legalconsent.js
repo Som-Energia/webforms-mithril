@@ -64,7 +64,7 @@ LegalConsent.Example.view = function(vn) {
 		m(Layout.Row, m(Layout.Cell, m('h2', 'LegalConsent'))),
 		m(Layout.Cell, {span:3},
 			m(LegalConsent, {
-				id: 'myid',
+				id: 'legalconsent_example_marx',
 				accepted: LegalConsent.Example.marxcontract,
 				onchanged: function(value){
 					LegalConsent.Example.marxcontract = value;
@@ -78,7 +78,7 @@ LegalConsent.Example.view = function(vn) {
 		),
 		m(Layout.Cell, {span:3},
 			m(LegalConsent, {
-				id: 'weownyou',
+				id: 'legalconsent_example_devil',
 				accepted: LegalConsent.Example.devilcontract,
 				onchanged: function(value){
 					LegalConsent.Example.devilcontract = value;
