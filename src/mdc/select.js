@@ -14,6 +14,10 @@ Input field that unfolds in a set of options you can choose.
 @property {string} id  (it won't work if you don't provide one)
 @property {string} label  Text to be shown as label of the input
 @property {string} help  Helper text to be shown in the bottom of the control
+@property {string} icon  Material icon identifier for a trailing icon (Not implemented yet by MDC4W)
+@property {string} leadingicon  Material icon identifier for a leading icon
+@property {function} iconaction  Turns de trailing icon into an action icon executing the function on click (Not implemented yet by MDC4W)
+@property {function} leadingiconaction  Turns de leading icon into an action icon executing the function on click
 @property {bool} required  Makes the field madatory
 @property {bool} disabled  Disables the input
 @property {bool} boxed  Activates the boxed style
@@ -29,19 +33,49 @@ Input field that unfolds in a set of options you can choose.
 */
 var Select = {
 	oncreate: function(vn) {
-		var mdcselect = vn.dom.querySelector('.mdc-select');
+		var mdcselect = this.native = vn.dom.querySelector('.mdc-select');
 		this.mdcinstance = new MDCSelect.MDCSelect(mdcselect);
 	},
 	view: function(vn) {
+		function floats() {
+			if (vn.attrs.value) return true;
+			if (!vn.dom) return false;
+			if (!vn.dom.native) return false;
+			if (!vn.dom.native===document.activeElement) return true;
+			if (!vn.dom.native.value) return true;
+			return false;
+		}
+		var attrs = Object.assign({}, vn.attrs);
+		function pop(o,k) { var r=o[k]; if (r!==undefined) { delete o[k];} return r; }
 		const options = vn.attrs.options || [];
+		const floating = floats()
+		const boxed = pop(attrs, 'boxed');
+		const outlined = pop(attrs, 'outlined');
+		const help = pop(attrs, 'help');
+		const icon = pop(attrs, 'icon');
+		const iconaction = pop(attrs, 'iconaction');
+		const leadingicon = pop(attrs, 'leadingicon');
+		const leadingiconaction = pop(attrs, 'leadingiconaction');
 		const help_id = vn.attrs.id+'_help';
 		return m('', [
 			m('.mdc-select'+
 				(vn.attrs.disabled?'.mdc-select--disabled':'')+
-				(vn.attrs.outlined?'.mdc-select--outlined':'')+
-				(vn.attrs.boxed?'.mdc-select--box':''), {
+				(outlined?'.mdc-select--outlined':'')+
+				(boxed?'.mdc-select--box':'')+
+				(leadingicon?'.mdc-select--with-leading-icon':'')+
+				(icon?'.mdc-select--with-trailing-icon':'')+
+				'', {
 				style: {width: '100%'},
 				},[
+				leadingicon &&
+					m('i.mdc-select__icon.material-icons',
+						leadingiconaction && {
+							tabindex: 0,
+							role: 'button',
+							onclick: leadingiconaction,
+						},
+						leadingicon),
+				m('i.mdc-select__dropdown-icon'),
 				m('select'+
 				'.mdc-select__native-control'+
 				'', {
@@ -56,8 +90,7 @@ var Select = {
 						vn.attrs.onchange && vn.attrs.onchange(ev);
 					},
 					oninvalid: function(ev) {
-						console.log("inner invalid");
-						vn.attrs.oninvalid(ev);
+						vn.attrs.oninvalid && vn.attrs.oninvalid(ev);
 					},
 				}, 
 					m('option', {
@@ -75,11 +108,23 @@ var Select = {
 						return m('option', Object.assign({},v), v.text);
 					})
 				),
-				m('label.mdc-floating-label', vn.attrs.label),
-				vn.attrs.outlined && m('.mdc-notched-outline',
+				m('label'
+					+'.mdc-floating-label'
+					+(floating?'.mdc-floating-label--float-above':''),
+					vn.attrs.label),
+				vn.attrs.icon &&
+					m('i.mdc-select__icon.material-icons',
+						vn.attrs.iconaction && {
+							tabindex: 0,
+							role: 'button',
+							onclick: vn.attrs.iconaction,
+						},
+						vn.attrs.icon),
+				(vn.attrs.outlined? []: m('.mdc-line-ripple')),
+				vn.attrs.outlined && m('.mdc-notched-outline'
+					+(floating?'.mdc-notched-outline--notched':''),
 					m('svg', m('path.mdc-notched-outline__path'))),
 				vn.attrs.outlined && m('.mdc-notched-outline__idle'),
-				vn.attrs.boxed && m('.mdc-line-ripple'),
 			]),
 			m('.mdc-text-field-helper-text'+
 				'.mdc-text-field-helper-text--persistent'+
@@ -123,10 +168,10 @@ var Example = {
 		return m(Layout, [
 			m(Layout.Row, m(Layout.Cell, {span:12},
 				m('h2', 'Selects'))),
-			m(Layout.Row,['','boxed','outlined'].map(function(style) {
+			m(Layout.Row,['boxed','outlined'].map(function(style) {
 			return m(Layout.Cell,{span:4},
 				m(Select, {
-					boxed: style=='boxed',
+					boxed: style!='outlined',
 					outlined: style=='outlined',
 					id: 'fan'+style,
 					label: _('Tastes'),
@@ -139,7 +184,39 @@ var Example = {
 					},
 					options: options,
 				}));
-			})),
+			}),
+			m(Layout.Cell,{span:4},
+				m(Select, {
+					//outlined: true,
+					id: 'iconselect',
+					label: _('Tastes'),
+					help: _('Select what you like more'),
+					required: false,
+					leadingicon: 'restaurant',
+					value: self.Person.tastes,
+					onchange: function(ev) {
+						vn.state.Person.tastes = ev.target.value;
+					},
+					options: options,
+				})),
+			m(Layout.Cell,{span:4},
+				m(Select, {
+					outlined: true,
+					id: 'selectoutlinedisabled',
+					label: _('Tastes'),
+					help: _('Select what you like more'),
+					required: false,
+					leadingicon: 'restaurant',
+					leadingiconaction: function () {
+						console.log("Action");
+					},
+					value: self.Person.tastes,
+					onchange: function(ev) {
+						vn.state.Person.tastes = ev.target.value;
+					},
+					options: options,
+				}))
+			),
 			m(Layout.Row, m(Layout.Cell, {span:12},
 				_('You are fan of '), self.Person.tastes )),
 		]);
