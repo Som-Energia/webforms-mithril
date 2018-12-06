@@ -12,6 +12,10 @@
 - [ ] password, si falla focus en el password
 - [ ] VAT: evitar los check cuando sea corto
 - [ ] VAT: el limite de 9 caracteres es correcto?
+- [x] TextField: programatic set/unset, moves the label
+- [x] TextField: programatic set/unset, updates outline
+- [x] TextField: En algunos casos el cambio de foco mueve el label (dependia de value attribute no del value)
+
 
 ## Current focus
 
@@ -33,7 +37,7 @@
 
 ## Componentes
 
-- [ ] Introduccion de fecha
+- [x] Introduccion de fecha
 - [ ] Selector CNAE
 - [ ] Setting language by default
 - [ ] Setting language by programming
