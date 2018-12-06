@@ -54,6 +54,7 @@ var config = {
 	module: {
 		rules: [
 			{ test: /\.yaml$/,   use: ["json-loader", "yaml-loader" ]},
+			{ test: /\.tsv$/,   use: ["dsv-loader" ]},
 			{ test: /\.css$/,    use: [ MiniCssExtractPlugin.loader, "css-loader"]},
 			{ test: /\.scss$/,   use: [ MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]},
 			{ test: /\.less$/,   use: [ MiniCssExtractPlugin.loader, "css-loader", "less-loader"]},
