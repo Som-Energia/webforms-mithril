@@ -93,7 +93,7 @@ GapMinder.oninit = function(vn) {
 	self.api.setYLog = function() { self.setYLog && self.setYLog(); };
 	self.api.setX = function(metric) { self.setXMetric(metric); };
 	self.api.setY = function(metric) { self.setYMetric(metric); };
-	self.api.setR = function(metric) { self.parameters.r = metric; };
+	self.api.setR = function(metric) { self.setRMetric(metric); };
 	self.parameters = {
 		x: 'contracts',
 		y: 'members',
@@ -309,6 +309,10 @@ GapMinder.oncreate = function(vn) {
 		self.yLabel.text(metrics[metric]);
 		resetYAxis(self.yScale);
 	};
+	self.setRMetric = function(metric) {
+		self.parameters.r = metric;
+		displayDate(self.currentDate);
+	};
 	self.setYLinear = function() {
 		resetYAxis(yScaleLinear);
 	};
@@ -351,7 +355,8 @@ GapMinder.oncreate = function(vn) {
 	}
 	// Positions the dots based on data.
 	function position(dot) {
-		dot .attr("cx", function(d) { return self.xScale(x(d)); })
+		dot
+			.attr("cx", function(d) { return self.xScale(x(d)); })
 			.attr("cy", function(d) { return self.yScale(y(d)); })
 			.attr("r", function(d) { return radiusScale(radius(d)); })
 			;
