@@ -193,12 +193,12 @@ PersonEditor.view = function(vn) {
 					},
 					onvalidated: function(value, data) {
 						if (value) {
-							vn.state.model.proxyvatvalue = value;
-							vn.state.model.proxyvatvalid = data.valid;
+							vn.state.person.proxyvatvalue = value;
+							vn.state.person.proxyvatvalid = data.valid;
 							// TODO: Ensure is physical
 						} else {
-							vn.state.model.proxyvatvalue = undefined;
-							vn.state.model.proxyvatvalid = false;
+							vn.state.person.proxyvatvalue = undefined;
+							vn.state.person.proxyvatvalid = false;
 						}
 					}
 				}))
