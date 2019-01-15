@@ -14,6 +14,7 @@ var Terms = require('./terms');
 var TextField = require('./mdc/textfield');
 var ValidatedField = require('./validatedfield');
 var UserValidator = require('./uservalidator');
+var DatePicker = require('./datepicker');
 
 var Mousetrap = require('mousetrap');
 require('mousetrap-global-bind');
@@ -35,6 +36,7 @@ var Contract = {
 		cupsverified: false,
 	},
 	holder: {},
+	switch: {},
 	payment: {},
 	terms: {},
 };
@@ -56,6 +58,7 @@ Form.view = function(vn) {
 					PasswordPage(),
 					CupsPage(),
 					HolderPage(),
+					SwitchPage(),
 					SupplyPage(),
 					TermsPage(),
 					PaymentPage(),
@@ -81,6 +84,7 @@ var IntroPage = function() {
 		],
 	};
 };
+
 /*
 Tests:
 - No entra si hay sesion abierta
@@ -250,6 +254,38 @@ var CupsPage = function() {
 	};
 };
 
+var SwitchPage = function() {
+
+	return {
+		id: 'switch_page',
+		title: _('SWITCH_TITLE'),
+		skipif: function(){
+			return Contract.cups.cupsstatus !== 'active';
+		},
+		content: [
+			m(Row, [
+				m(Cell, {span:6}, m(TextField, {
+					id: 'switchmeasure',
+					label: _('SWITCHMEASURE_LABEL'),
+					help: _('SWITCHMEASURE_HELP'),
+					boxed: true,
+					disabled: false,
+					required: true,
+					type: 'numeric',
+					minvalue: 0,
+					value: Contract.switch.measure,
+				})),
+				m(Cell, {span:6}, m(DatePicker, {
+					id: 'switchdate',
+					label: _('SWITCHDATE_LABEL'),
+					help: _('SWITCHDATE_HELP'),
+				}))
+			])
+		]
+	};
+};
+
+
 var SupplyPage = function() {
 	return {
 		id: 'supply_page',
@@ -295,7 +331,6 @@ var ReviewPage = function() {
 		title: _('Review'),
 	};
 };
-
 
 
 window.onload = function() {
