@@ -61,8 +61,9 @@ Next: Next
 
 # Contract form
 
-CONTRACT_FORM: Contract Form
-WELCOME: Welcome
+#CONTRACT_FORM_TITLE: Contract Form
+CONTRACT_FORM_TITLE: Changing the contract holder
+WELCOME: Hello!
 VALIDATING_SESSION: Validating session...
 STILL_VALIDATING_SESSION: '' # Empty
 CONTRACTING_AS: You are now contracting as %{name}.

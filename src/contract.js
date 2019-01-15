@@ -48,7 +48,7 @@ Form.view = function(vn) {
 			model: Contract,
 		}),
 		m('.main', [
-			m('h1', _('CONTRACT_FORM')),
+			m('h1', _('CONTRACT_FORM_TITLE')),
 			m(Wizard, {
 				showall: showall,
 				pages:[

@@ -61,8 +61,9 @@ Next: Següent
 
 # Contract form
 
-CONTRACT_FORM: Formulari de Contractació
-WELCOME: Benvinguda
+#CONTRACT_FORM_TITLE: Formulari de Contractació
+CONTRACT_FORM_TITLE: Modificació de la persona titular
+WELCOME: Hola!
 VALIDATING_SESSION: S'està validant la sessió
 STILL_VALIDATING_SESSION: '' # Empty
 CONTRACTING_AS: Està contractant a nom de %{name}.
