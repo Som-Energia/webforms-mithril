@@ -228,9 +228,9 @@ var CupsPage = function() {
 						}
 					},
 				})),
-				m(Cell, {span:6}, m(TextField, {
+				m(Cell, {span:12}, m(TextField, {
 					id: 'cupsaddress',
-					label: _('Supply point address'),
+					label: _('SUPPLY_POINT_ADDRESS'),
 					help: _(''),
 					boxed: true,
 					disabled: true,

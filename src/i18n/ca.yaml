@@ -90,6 +90,7 @@ CUPS_VERIFY_LABEL: Confirmo que la dirección mostrada es la que corresponde al 
 INVALID_SUPPLY_POINT_CUPS: CUPS invàlid
 CUPS_IN_PROCESS: Aquest CUPS actualment està en un proces
 MARK_ADDRESS_CONFIRMATION_BOX: Verifica que l'adreça associada a aquest CUPS es correcta
+SUPPLY_POINT_ADDRESS: Adreça de subministrament
 
 HOLDER_PERSONAL_DATA: Dades personals de la persona titular
 
