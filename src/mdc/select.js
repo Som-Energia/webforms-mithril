@@ -15,7 +15,9 @@ Input field that unfolds in a set of options you can choose.
 @property {string} label  Text to be shown as label of the input
 @property {string} help  Helper text to be shown in the bottom of the control
 @property {string} icon  Material icon identifier for a trailing icon (Not implemented yet by MDC4W)
+@property {string} faicon  Font Awesome icon identifier for a trailing icon (Not implemented yet by MDC4W)
 @property {string} leadingicon  Material icon identifier for a leading icon
+@property {string} leadingfaicon  Font Awesome icon identifier for a leading icon
 @property {function} iconaction  Turns de trailing icon into an action icon executing the function on click (Not implemented yet by MDC4W)
 @property {function} leadingiconaction  Turns de leading icon into an action icon executing the function on click
 @property {bool} required  Makes the field madatory
@@ -54,8 +56,10 @@ var Select = {
 		const outlined = pop(attrs, 'outlined');
 		const help = pop(attrs, 'help');
 		const icon = pop(attrs, 'icon');
+		const faicon = pop(attrs, 'faicon');
 		const iconaction = pop(attrs, 'iconaction');
 		const leadingicon = pop(attrs, 'leadingicon');
+		const leadingfaicon = pop(attrs, 'leadingfaicon');
 		const leadingiconaction = pop(attrs, 'leadingiconaction');
 		const help_id = vn.attrs.id+'_help';
 		return m('', [
@@ -76,6 +80,13 @@ var Select = {
 							onclick: leadingiconaction,
 						},
 						leadingicon),
+				leadingfaicon &&
+					m('i.mdc-select__icon.fa.fa-'+leadingfaicon,
+						leadingiconaction && {
+							tabindex: 0,
+							role: 'button',
+							onclick: leadingiconaction,
+						}),
 				m('i.mdc-select__dropdown-icon'),
 				m('select'+
 				'.mdc-select__native-control'+
@@ -121,6 +132,13 @@ var Select = {
 							onclick: vn.attrs.iconaction,
 						},
 						vn.attrs.icon),
+				vn.attrs.faicon &&
+					m('i.mdc-select__icon.fa.fa-'+vn.attrs.faicon,
+						vn.attrs.iconaction && {
+							tabindex: 0,
+							role: 'button',
+							onclick: vn.attrs.iconaction,
+						}),
 				(vn.attrs.outlined? []: m('.mdc-line-ripple')),
 				(vn.attrs.outlined?
 					m('.mdc-notched-outline', [
@@ -218,8 +236,25 @@ var Example = {
 					label: _('Tastes'),
 					help: _('Select what you like more'),
 					required: false,
-					leadingicon: 'restaurant',
+					leadingfaicon: 'cutlery',
 					leadingiconaction: function () {
+						console.log("Action");
+					},
+					value: self.Person.tastes,
+					onchange: function(ev) {
+						vn.state.Person.tastes = ev.target.value;
+					},
+					options: options,
+				})),
+			m(Layout.Cell,{span:4},
+				m(Select, {
+					outlined: true,
+					id: 'trailingiconselect',
+					label: _('Tastes'),
+					help: _('Select what you like more'),
+					required: false,
+					faicon: 'cutlery',
+					iconaction: function () {
 						console.log("Action");
 					},
 					value: self.Person.tastes,
