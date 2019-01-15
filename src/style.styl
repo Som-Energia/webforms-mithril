@@ -41,6 +41,7 @@ body, html {
 	color: var(--mdc-theme-primary) !important;
 }
 // Fixes select's helper-text looking like text-field's
+.mdc-select:not(.mdc-select--disabled) .mdc-select__native-control ~ .mdc-floating-label,
 .mdc-select:not(.mdc-select--disabled) + .mdc-text-field-helper-text {
     color: rgba(0, 0, 0, 0.6);
 }
