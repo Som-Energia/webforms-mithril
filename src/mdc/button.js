@@ -19,7 +19,10 @@ severall attributes to control the look and feel.
 @property {bool} unelevated  Shows the button in unelevated style
 @property {bool} outlined  Shows the button in outlined style
 @property {bool} dense  Shows the inner letters in dense mode
-@property {bool} faicon  Name for a leading icon of the font-awesome collection
+@property {string} icon  Name for a leading icon of the Material Design collection
+@property {string} faicon  Name for a leading icon of the font-awesome collection
+@property {string} trailingicon  Name for a trailing icon of the Material Design collection
+@property {string} trailingfaicon  Name for a trailing icon of the font-awesome collection
 @property - Any other attribute is propagated to the button subelement.
   Interesting ones are `onclick`, `disabled`, `style`...
 @property {text/vnode} children Any component children are taken as the content of the button
@@ -35,8 +38,11 @@ var Button = {
 			(vn.attrs.outlined ? '.mdc-button--outlined' : '')+
 			(vn.attrs.dense ? '.mdc-button--dense' : '')+
 			'', attrs, [
+			(vn.attrs.icon ? m('i.mdc-button__icon.material-icons', vn.attrs.icon):''),
 			(vn.attrs.faicon ? m('i.mdc-button__icon.fa.fa-'+vn.attrs.faicon):''),
-			vn.children,
+			m('.mdc-button__label', vn.children),
+			(vn.attrs.trailingicon ? m('span.mdc-button__icon.material-icons', vn.attrs.trailingicon):''),
+			(vn.attrs.trailingfaicon ? m('i.mdc-button__icon.fa.fa-'+vn.attrs.trailingfaicon):''),
 		]);
 	},
 };
@@ -56,8 +62,11 @@ Button.Example = {
 			m(Layout.Cell, {span:3}, m(Button, {dense:true, raised:true}, 'Raised dense')),
 			m(Layout.Cell, {span:3}, m(Button, {dense:true, unelevated:true}, 'Unelevated dense')),
 			m(Layout.Cell, {span:3}, m(Button, {dense:true, outlined:true}, 'Outlined dense')),
-			m(Layout.Cell, {span:3}, m(Button, {raised:true, faicon: 'trash' }, 'Icon')),
+			m(Layout.Cell, {span:3}, m(Button, {raised:true, icon: 'favorite' }, 'MD Icon')),
+			m(Layout.Cell, {span:3}, m(Button, {raised:true, faicon: 'trash' }, 'FA Icon')),
 			m(Layout.Cell, {span:3}, m(Button, {raised:true, faicon: 'spinner.fa-spin' }, 'Spinning')),
+			m(Layout.Cell, {span:3}, m(Button, {raised:true, trailingicon: 'star' }, 'Trailing MD Icon')),
+			m(Layout.Cell, {span:3}, m(Button, {raised:true, trailingfaicon: 'star' }, 'Trailing FA Icon')),
 			m(Layout.Cell, {span:3}, m(Button, {style: 'color: red'},'Colored')),
 			m(Layout.Cell, {span:3}, m(Button, {disabled: true},'Disabled')),
 			m(Layout.Cell, {span:3}, m(Button, {onclick: function(ev) {console.log("Hola mundo");}},'Consoleme')),
