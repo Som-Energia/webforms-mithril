@@ -130,7 +130,7 @@ TabBar.Example.view = function(vn) {
 			tabs: [{
 				id: 'tabfavorites',
 				text: 'Favorites',
-				icon: 'favorite',
+				faicon: 'heart',
 			},{
 				id: 'tabunfavorites',
 				text: 'Unfavorites',
