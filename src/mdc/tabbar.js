@@ -31,6 +31,7 @@ Widget used to navigate within elements of the same hierarchy by means of tabs.
 @property {Object[]} tabs - Objects containing attributes for each tab
 @property {string} tabs.text - The text to be shown if any
 @property {string} tabs.icon - The material icon name to be shown if any
+@property {string} tabs.faicon - The font-awesome icon name to be shown if any
 @property {bool} tabs.disabled - Non interactive (default: false)
 */
 var TabBar = {};
@@ -66,6 +67,7 @@ TabBar.view = function(vn) {
 							disabled: tab.disabled,
 							text: vn.attrs.mode!=='icononly' && tab.text,
 							icon: vn.attrs.mode!=='textonly' && tab.icon,
+							faicon: vn.attrs.mode!=='textonly' && tab.faicon,
 							stacked: vn.attrs.mode==='stacked',
 							minwidth: vn.attrs.align !== 'expand',
 							active: vn.attrs.index===index,
@@ -91,6 +93,7 @@ Tab.view = function(vn) {
 	},vn.attrs),[
 		m('span.mdc-tab__content', [
 			vn.attrs.icon?m('span.mdc-tab__icon.material-icons', vn.attrs.icon):null,
+			vn.attrs.faicon?m('i.mdc-tab__icon.fa.fa-'+vn.attrs.faicon):null,
 			vn.attrs.text?m('span.mdc-tab__text-label', vn.attrs.text):null,
 		]),
 		m('span.mdc-tab-indicator'+
