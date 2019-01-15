@@ -26,6 +26,9 @@ Widget used to navigate within elements of the same hierarchy by means of tabs.
 @param index The tab index to show
 @property {string} [align=center] - How to align the tabs horizontally (center, start, end, expand)
 @property {string} [mode=icontext] - How to display icons and text (*icontext, textonly, icononly, stacked)
+@property {bool} fade - Current tab indicator fades instead of slide (default: false)
+@property {string} indicatoricon - The material icon to indicate the current tab, instead of the underline
+@property {string} indicatorfaicon - The font-awesome icon to indicate the current tab, instead of the underline
 @property {int} index - Current tab index
 @property {function} onactivated - Change handler ev.detail.index
 @property {Object[]} tabs - Objects containing attributes for each tab
@@ -71,6 +74,9 @@ TabBar.view = function(vn) {
 							stacked: vn.attrs.mode==='stacked',
 							minwidth: vn.attrs.align !== 'expand',
 							active: vn.attrs.index===index,
+							fade: vn.attrs.fade,
+							indicatoricon: vn.attrs.indicatoricon,
+							indicatorfaicon: vn.attrs.indicatorfaicon,
 						});
 					})
 				)
@@ -96,9 +102,16 @@ Tab.view = function(vn) {
 			vn.attrs.faicon?m('i.mdc-tab__icon.fa.fa-'+vn.attrs.faicon, {'aria-hidden':'true'}):null,
 			vn.attrs.text?m('span.mdc-tab__text-label', vn.attrs.text):null,
 		]),
-		m('span.mdc-tab-indicator'+
-			(vn.attrs.active? '.mdc-tab-indicator--active':''),
-			m('span.mdc-tab-indicator__content.mdc-tab-indicator__content--underline')
+		m('span.mdc-tab-indicator'
+			+(vn.attrs.fade? '.mdc-tab-indicator--fade':'')
+			+(vn.attrs.active? '.mdc-tab-indicator--active':'')
+			,
+			vn.attrs.indicatoricon?
+				m('span.mdc-tab-indicator__content.mdc-tab-indicator__content--icon.material-icons[aria-hidden="true"]',vn.attrs.indicatoricon)
+			:vn.attrs.indicatorfaicon?
+				m('span.mdc-tab-indicator__content.mdc-tab-indicator__content--icon.fa[aria-hidden="true"].fa-'+vn.attrs.indicatorfaicon)
+			:
+				m('span.mdc-tab-indicator__content.mdc-tab-indicator__content--underline')
 		),
 		m('span.mdc-tab__ripple'),
 	]);
@@ -111,6 +124,8 @@ TabBar.Example.model = {
 	align: 'center',
 	disableunfavorite: false,
 	active2: 0,
+	fade: false,
+	indicator: 'faicon'
 };
 TabBar.Example.view = function(vn) {
 	var model = vn.state.model;
@@ -127,6 +142,9 @@ TabBar.Example.view = function(vn) {
 			},
 			align: model.align,
 			mode: model.mode,
+			fade: model.fade,
+			indicatoricon: model.indicator==='mdicon'?'star':undefined,
+			indicatorfaicon: model.indicator==='faicon'?'heart':undefined,
 			tabs: [{
 				id: 'tabfavorites',
 				text: 'Favorites',
@@ -170,12 +188,28 @@ TabBar.Example.view = function(vn) {
 			m(Button, {onclick: function() { model.active=2; }},
 				'Activate 2'),
 		]),
+		m('', 'Indicator:', [
+			m(Button, {onclick: function() { model.indicator='underline'; }},
+				'Underline'),
+			m(Button, {onclick: function() { model.indicator='mdicon'; }},
+				'Material Icon'),
+			m(Button, {onclick: function() { model.indicator='faicon'; }},
+				'Font Awesome Icon'),
+		]),
 		m(Checkbox, {
 			id: 'tabbar-disable',
 			label: 'Disable unfavorite',
 			checked: model.disableunfavorite,
 			onchange: function(ev) {
 				model.disableunfavorite = ev.target.checked;
+			},
+		}),
+		m(Checkbox, {
+			id: 'tabbar-indicatorfade',
+			label: 'Fade indicator',
+			checked: model.fade,
+			onchange: function(ev) {
+				model.fade = ev.target.checked;
 			},
 		}),
 		m('pre', JSON.stringify(model, null, 2)),
