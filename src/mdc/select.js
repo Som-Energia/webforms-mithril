@@ -22,6 +22,7 @@ Input field that unfolds in a set of options you can choose.
 @property {bool} disabled  Disables the input
 @property {bool} boxed  Activates the boxed style
 @property {bool} outlined  Activates the outlined style
+@property {bool} nohelp  Does not allocate the space for the helper text when it is empty
 @property {string} value  The currently selected value
 @property {function} onchange  A callback to be called when the user changes the value
 @property {function} oninvalid  A callback to be called when the chosen value is invalid
@@ -126,6 +127,7 @@ var Select = {
 					m('svg', m('path.mdc-notched-outline__path'))),
 				vn.attrs.outlined && m('.mdc-notched-outline__idle'),
 			]),
+			vn.attrs.nohelp === true ? []:
 			m('.mdc-text-field-helper-text'+
 				'.mdc-text-field-helper-text--persistent'+
 				'.mdc-text-field-helper-text--validation-msg'+
