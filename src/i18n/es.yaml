@@ -93,6 +93,7 @@ MARK_ADDRESS_CONFIRMATION_BOX: Verifica que la dirección asociada a este CUPS e
 
 HOLDER_PERSONAL_DATA: Datos personales de la persona titular
 
+SWITCH_TITLE: Date and measure for the switch
 # Widgets
 
 Choose a state: Escoja una provincia

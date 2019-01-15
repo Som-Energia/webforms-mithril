@@ -93,6 +93,15 @@ MARK_ADDRESS_CONFIRMATION_BOX: Verifica que l'adreça associada a aquest CUPS es
 
 HOLDER_PERSONAL_DATA: Dades personals de la persona titular
 
+SWITCH_TITLE: Data i lectura del canvi
+FILL_SWITCH: Indica la primera data del nou contracte i la lectura d'inici
+SWITCHDATE_LABEL: Data
+SWITCHDATE_HELP: Primer dia del nou contracte
+SWITCHMEASURE_LABEL: Lectura (kWh)
+SWITCHMEASURE_HELP: Lectura al final del dia, sense decimals
+
+
+
 # Widgets
 
 Field label: Etiqueta del camp

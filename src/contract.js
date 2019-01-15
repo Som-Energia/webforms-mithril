@@ -264,22 +264,25 @@ var SwitchPage = function() {
 		},
 		content: [
 			m(Row, [
+				m(Cell, {span:12}, _('FILL_SWITCH')),
+				m(Cell, {span:6}, m(DatePicker, {
+					id: 'switchdate',
+					label: _('SWITCHDATE_LABEL'),
+					help: _('SWITCHDATE_HELP'),
+				})),
 				m(Cell, {span:6}, m(TextField, {
 					id: 'switchmeasure',
 					label: _('SWITCHMEASURE_LABEL'),
 					help: _('SWITCHMEASURE_HELP'),
 					boxed: true,
-					disabled: false,
-					required: true,
-					type: 'numeric',
+					inputfilter: /^\d*$/,
+					step: 1,
 					minvalue: 0,
 					value: Contract.switch.measure,
+					oninput: function(ev) {
+						Contract.switch.measure = ev.target.value;
+					},
 				})),
-				m(Cell, {span:6}, m(DatePicker, {
-					id: 'switchdate',
-					label: _('SWITCHDATE_LABEL'),
-					help: _('SWITCHDATE_HELP'),
-				}))
 			])
 		]
 	};
