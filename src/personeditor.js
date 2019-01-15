@@ -315,6 +315,7 @@ PersonEditor.view = function(vn) {
 					return v.code==chooser.language;
 				});
 			},
+			faicon: 'language',
 			help: _('Choose the language we will address you'),
 			required: true,
 		}),
