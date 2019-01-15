@@ -177,13 +177,18 @@ var CupsPage = function() {
 		id: 'cups_page',
 		title: _('CUPS_TITLE'),
 		validator: function() {
+			var confirmation_needed = model.cupsaddress !== undefined &&
+				model.cupsverified === false &&
+				(model.cupsstatus === 'active' || model.cupsstatus === 'inactive') &&
+				model.cupsstatus !== 'busy';
+
 			if (model.cupsstatus === 'invalid' && state.field.isvalid === false) {
 				return _('INVALID_SUPPLY_POINT_CUPS');
 			}
-			if (model.cupsstatus === 'busy'){
+			if (model.cupsstatus === 'busy') {
 				return _('CUPS_IN_PROCESS');
 			}
-			if (model.cupsaddress !== undefined && model.cupsverified === false && (model.cupsstatus === 'active' || model.cupsstatus === 'inactive') && model.cupsstatus !== 'busy'){
+			if (confirmation_needed) {
 				return _('MARK_ADDRESS_CONFIRMATION_BOX');
 			}
 			return undefined;
