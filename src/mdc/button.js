@@ -38,11 +38,11 @@ var Button = {
 			(vn.attrs.outlined ? '.mdc-button--outlined' : '')+
 			(vn.attrs.dense ? '.mdc-button--dense' : '')+
 			'', attrs, [
-			(vn.attrs.icon ? m('i.mdc-button__icon.material-icons', vn.attrs.icon):''),
-			(vn.attrs.faicon ? m('i.mdc-button__icon.fa.fa-'+vn.attrs.faicon):''),
+			(vn.attrs.icon ? m('i.mdc-button__icon.material-icons', {'aria-hidden':'true'}, vn.attrs.icon):''),
+			(vn.attrs.faicon ? m('i.mdc-button__icon.fa.fa-'+vn.attrs.faicon, {'aria-hidden':'true'}):''),
 			m('.mdc-button__label', vn.children),
-			(vn.attrs.trailingicon ? m('span.mdc-button__icon.material-icons', vn.attrs.trailingicon):''),
-			(vn.attrs.trailingfaicon ? m('i.mdc-button__icon.fa.fa-'+vn.attrs.trailingfaicon):''),
+			(vn.attrs.trailingicon ? m('span.mdc-button__icon.material-icons', {'aria-hidden':'true'}, vn.attrs.trailingicon):''),
+			(vn.attrs.trailingfaicon ? m('i.mdc-button__icon.fa.fa-'+vn.attrs.trailingfaicon, {'aria-hidden':'true'}):''),
 		]);
 	},
 };

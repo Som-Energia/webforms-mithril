@@ -92,8 +92,8 @@ Tab.view = function(vn) {
 		'aria-selected': vn.attrs.active,
 	},vn.attrs),[
 		m('span.mdc-tab__content', [
-			vn.attrs.icon?m('span.mdc-tab__icon.material-icons', vn.attrs.icon):null,
-			vn.attrs.faicon?m('i.mdc-tab__icon.fa.fa-'+vn.attrs.faicon):null,
+			vn.attrs.icon?m('span.mdc-tab__icon.material-icons', {'aria-hidden':'true'}, vn.attrs.icon):null,
+			vn.attrs.faicon?m('i.mdc-tab__icon.fa.fa-'+vn.attrs.faicon, {'aria-hidden':'true'}):null,
 			vn.attrs.text?m('span.mdc-tab__text-label', vn.attrs.text):null,
 		]),
 		m('span.mdc-tab-indicator'+
