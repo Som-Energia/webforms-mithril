@@ -335,6 +335,7 @@ var SwitchPage = function() {
 					help: _('SWITCHDATE_HELP'),
 					autoclose: true,
 					boxed: true,
+					required: true,
 					past: moment().add(-1,'years'),
 					future: moment().add(1,'years'),
 					value: Contract.switch.date,
@@ -348,7 +349,8 @@ var SwitchPage = function() {
 					label: _('SWITCHMEASURE_LABEL'),
 					help: _('SWITCHMEASURE_HELP'),
 					boxed: true,
-					//inputfilter: /^\d*$/,
+					inputfilter: /^\d*$/,
+					required: true,
 					value: Contract.switch.measure,
 					oninput: function(ev) {
 						Contract.switch.measure = ev.target.value;
