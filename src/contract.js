@@ -40,8 +40,8 @@ var Contract = {
 		cupsverified: false,
 	},
 	holder: {},
-	switch: {
-		switchdatesource: 'distributor',
+	closure: {
+		method: 'regular',
 	},
 	payment: {},
 	terms: {},
@@ -64,7 +64,7 @@ Form.view = function(vn) {
 					PasswordPage(),
 					CupsPage(),
 					HolderPage(),
-					SwitchPage(),
+					ClosurePage(),
 					SupplyPage(),
 					TermsPage(),
 					PaymentPage(),
@@ -293,46 +293,46 @@ MeasureValidator.validateMeasure = function(cups, date, measure) {
 };
 
 
-var SwitchPage = function() {
-	var hideInputs = Contract.switch.switchdatesource!=='user';
+var ClosurePage = function() {
+	var hideInputs = Contract.closure.method!=='given';
 	return {
-		id: 'switch_page',
+		id: 'closure_page',
 		title: _('CONTRACT_CLOSURE_TITLE'),
 		skipif: function(){
 			return Contract.cups.cupsstatus !== 'active';
 		},
 		validator: function() {
-			if (Contract.switch.validationError) {
-				return _(Contract.switch.validationError);
+			if (Contract.closure.validationError) {
+				return _(Contract.closure.validationError);
 			}
-			if (!Contract.switch.switchdatesource) {
+			if (!Contract.closure.method) {
 				return _('CHOOSE_CLOSURE_PROCEDURE');
 			}
-			if (Contract.switch.switchdatesource==='user') {
-				if (!Contract.switch.date) {
+			if (Contract.closure.method==='given') {
+				if (!Contract.closure.date) {
 					return _('NO_CLOSURE_DATE');
 				}
-				if (!Contract.switch.measure) {
+				if (!Contract.closure.measure) {
 					return _('NO_CLOSURE_MEASURE');
 				}
 			}
 			return undefined;
 		},
 		next: function() {
-			if (Contract.switch.switchdatesource==='distributor') {
+			if (Contract.closure.method==='regular') {
 				return true;
 			}
 			return new Promise(function (resolve, reject) {
 				MeasureValidator.validateMeasure(
 					Contract.cups.cupsvalue,
-					Contract.switch.date,
-					Contract.switch.measure
+					Contract.closure.date,
+					Contract.closure.measure
 				).then(function(data) {
 					console.log('valid', data);
 					resolve(true);
 				}).catch(function(reason) {
 					console.log('invalid', reason);
-					Contract.switch.validationError = reason.validationError;
+					Contract.closure.validationError = reason.validationError;
 					reject(reason);
 				});
 			});
@@ -341,54 +341,54 @@ var SwitchPage = function() {
 			m(Row, [
 				m(Cell, {span:12},
 					m(Chooser, {
-						id: 'switchdatesource',
+						id: 'method',
 						question: _("WHICH_CLOSURE_METHOD"),
 						required: true,
-						value: Contract.switch.switchdatesource,
+						value: Contract.closure.method,
 						onvaluechanged: function(newvalue){
-							Contract.switch.validationError = false;
-							Contract.switch.switchdatesource = newvalue;
+							Contract.closure.validationError = false;
+							Contract.closure.method = newvalue;
 						},
 						options: [{
-							value: 'distributor',
+							value: 'regular',
 							label: _("AT_REGULAR_INVOICING_LABEL"),
 							description: _("AT_REGULAR_INVOICING_DESCRIPTION"),
 						},{
-							value: 'user',
+							value: 'given',
 							label: _("AT_A_GIVEN_DATE_LABEL"),
 							description: _("AT_A_GIVEN_DATE_LABEL_DESCRIPTION"),
 						}],
 					})
 				),
 				m(Cell, {span:12, style: hideInputs&&'visibility:hidden'}, _('FILL_CLOSURE_FIELDS')),
-				m(Cell, {span:6, style: hideInputs&&'visibility:hidden'}, m(DatePicker, {
-					id: 'switchdate',
+				m(Cell, {span:2, spantablet:6, style: hideInputs&&'visibility:hidden'}, m(DatePicker, {
+					id: 'closuredate',
 					label: _('CLOSURE_DATE_LABEL'),
 					help: _('CLOSURE_DATE_HELP'),
 					autoclose: true,
 					boxed: true,
-					required: Contract.switch.switchdatesource,
-					disabled: !Contract.switch.switchdatesource,
+					required: Contract.closure.method,
+					disabled: !Contract.closure.method,
 					past: moment().add(-2,'months'),
 					future: moment(),
-					value: Contract.switch.date,
+					value: Contract.closure.date,
 					onchange: function(newvalue) {
-						Contract.switch.date = newvalue;
-						Contract.switch.validationError = false;
+						Contract.closure.date = newvalue;
+						Contract.closure.validationError = false;
 					},
 				})),
-				m(Cell, {span:6, style: hideInputs&&'visibility:hidden'}, m(TextField, {
-					id: 'switchmeasure',
+				m(Cell, {span:2, spantablet:6, style: hideInputs&&'visibility:hidden'}, m(TextField, {
+					id: 'closuremeasure',
 					label: _('CLOSURE_MEASURE_LABEL'),
 					help: _('CLOSURE_MEASURE_HELP'),
 					boxed: true,
-					required: Contract.switch.switchdatesource,
-					disabled: !Contract.switch.switchdatesource,
+					required: Contract.closure.method,
+					disabled: !Contract.closure.method,
 					inputfilter: /^\d*$/,
-					value: Contract.switch.measure,
+					value: Contract.closure.measure,
 					oninput: function(ev) {
-						Contract.switch.measure = ev.target.value;
-						Contract.switch.validationError = false;
+						Contract.closure.measure = ev.target.value;
+						Contract.closure.validationError = false;
 					},
 				})),
 			])
