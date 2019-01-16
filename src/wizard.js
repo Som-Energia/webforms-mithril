@@ -117,7 +117,7 @@ var Wizard = {
 						m(Cell,{span: 2, spanphone:2},
 							showNext && m(Button, {
 								raised:true,
-								faicon: self.intransition?'spinner.fa-spin': (page.nexticon||'chevron-right'),
+								trailingfaicon: self.intransition?'spinner.fa-spin': (page.nexticon||'chevron-right'),
 								tabindex: 0,
 								disabled: errors !== undefined || self.intransition,
 								onclick: function() { self.next(); },
