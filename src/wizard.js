@@ -102,8 +102,7 @@ var Wizard = {
 				return m(Layout, [
 					m(Cell, {span:12}, m('h2', page.title)),
 					page.content,
-					m(Row, {align: 'center'}, [
-						m(Cell,{span:8}, m('.red', errors)),
+					m(Row, {align: 'right', style: 'margin-top:23px' }, [
 						m(Cell,{span:2},
 							showPrev && m(Button, {
 								outlined: true,
