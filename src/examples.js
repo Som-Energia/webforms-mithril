@@ -36,7 +36,7 @@ var skip = function (c) { return []; }
 var Examples = {
 	view: function(vn) {
 		return m('.form.mdc-typography', [
-			m(GapMinder.Example),
+			skip(GapMinder.Example),
 			skip(DatePicker.Example),
 			skip(Wizard.Example),
 			skip(TabBar.Example),

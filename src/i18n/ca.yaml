@@ -1,4 +1,5 @@
 # Open Data UI
+
 OPENDATAUI_TITLE: |
   Som Energia - API de Dades Obertes - Interfície d'usuari
 ALPHA_DISCLAIMER: |
@@ -93,13 +94,18 @@ MARK_ADDRESS_CONFIRMATION_BOX: Verifica que l'adreça associada a aquest CUPS es
 SUPPLY_POINT_ADDRESS: Adreça de subministrament
 
 HOLDER_PERSONAL_DATA: Dades personals de la persona titular
-
 SWITCH_TITLE: Data i lectura del canvi
+CUSTOM_DATE_LABEL: Com es farà el canvi?
+ON_NORMAL_INVOICING_LABEL: A cicle de facturació
+ON_NORMAL_INVOICING_DESCRIPTION: El nou titular asumirà el consum des de la última factura emesa
+AT_A_GIVEN_DATE_LABEL: A data i lectura donada
+AT_A_GIVEN_DATE_LABEL_DESCRIPTION: Es farà una última factura al titular fins la data i lectura aportada
 FILL_SWITCH: Indica la primera data del nou contracte i la lectura d'inici
 SWITCHDATE_LABEL: Data
 SWITCHDATE_HELP: Primer dia del nou contracte
 SWITCHMEASURE_LABEL: Lectura (kWh)
 SWITCHMEASURE_HELP: Lectura al final del dia, sense decimals
+CHOOSE_LAST_INVOICE_PROCEDURE: No has escollit com es farà el canvi
 NO_SWITCH_DATE: No has indicat la data d'inici del nou contracte
 NO_SWITCH_MEASURE: No has indicat la lectura
 TODO_ERROR_1: ESTO HAY QUE CAMBIARLO

@@ -15,6 +15,7 @@ var TextField = require('./mdc/textfield');
 var ValidatedField = require('./validatedfield');
 var UserValidator = require('./uservalidator');
 var DatePicker = require('./datepicker');
+var Chooser = require('./chooser');
 var moment = require('moment');
 
 var Mousetrap = require('mousetrap');
@@ -39,7 +40,9 @@ var Contract = {
 		cupsverified: false,
 	},
 	holder: {},
-	switch: {},
+	switch: {
+		switchdatesource: 'distributor',
+	},
 	payment: {},
 	terms: {},
 };
@@ -291,7 +294,7 @@ MeasureValidator.validateMeasure = function(cups, date, measure) {
 
 
 var SwitchPage = function() {
-
+	var hideInputs = Contract.switch.switchdatesource!=='user';
 	return {
 		id: 'switch_page',
 		title: _('SWITCH_TITLE'),
@@ -302,15 +305,23 @@ var SwitchPage = function() {
 			if (Contract.switch.validationError) {
 				return _(Contract.switch.validationError);
 			}
-			if (!Contract.switch.date) {
-				return _('NO_SWITCH_DATE');
+			if (!Contract.switch.switchdatesource) {
+				return _('CHOOSE_LAST_INVOICE_PROCEDURE');
 			}
-			if (!Contract.switch.measure) {
-				return _('NO_SWITCH_MEASURE');
+			if (Contract.switch.switchdatesource==='user') {
+				if (!Contract.switch.date) {
+					return _('NO_SWITCH_DATE');
+				}
+				if (!Contract.switch.measure) {
+					return _('NO_SWITCH_MEASURE');
+				}
 			}
 			return undefined;
 		},
 		next: function() {
+			if (Contract.switch.switchdatesource==='distributor') {
+				return true;
+			}
 			return new Promise(function (resolve, reject) {
 				MeasureValidator.validateMeasure(
 					Contract.cups.cupsvalue,
@@ -328,29 +339,52 @@ var SwitchPage = function() {
 		},
 		content: [
 			m(Row, [
-				m(Cell, {span:12}, _('FILL_SWITCH')),
-				m(Cell, {span:6}, m(DatePicker, {
+				m(Cell, {span:12},
+					m(Chooser, {
+						id: 'switchdatesource',
+						question: _("CUSTOM_DATE_LABEL"),
+						required: true,
+						value: Contract.switch.switchdatesource,
+						onvaluechanged: function(newvalue){
+							Contract.switch.validationError = false;
+							Contract.switch.switchdatesource = newvalue;
+						},
+						options: [{
+							value: 'distributor',
+							label: _("ON_NORMAL_INVOICING_LABEL"),
+							description: _("ON_NORMAL_INVOICING_DESCRIPTION"),
+						},{
+							value: 'user',
+							label: _("AT_A_GIVEN_DATE_LABEL"),
+							description: _("AT_A_GIVEN_DATE_LABEL_DESCRIPTION"),
+						}],
+					})
+				),
+				m(Cell, {span:12, style: hideInputs&&'visibility:hidden'}, _('FILL_SWITCH')),
+				m(Cell, {span:6, style: hideInputs&&'visibility:hidden'}, m(DatePicker, {
 					id: 'switchdate',
 					label: _('SWITCHDATE_LABEL'),
 					help: _('SWITCHDATE_HELP'),
 					autoclose: true,
 					boxed: true,
-					required: true,
-					past: moment().add(-1,'years'),
-					future: moment().add(1,'years'),
+					required: Contract.switch.switchdatesource,
+					disabled: !Contract.switch.switchdatesource,
+					past: moment().add(-2,'months'),
+					future: moment(),
 					value: Contract.switch.date,
 					onchange: function(newvalue) {
 						Contract.switch.date = newvalue;
 						Contract.switch.validationError = false;
 					},
 				})),
-				m(Cell, {span:6}, m(TextField, {
+				m(Cell, {span:6, style: hideInputs&&'visibility:hidden'}, m(TextField, {
 					id: 'switchmeasure',
 					label: _('SWITCHMEASURE_LABEL'),
 					help: _('SWITCHMEASURE_HELP'),
 					boxed: true,
+					required: Contract.switch.switchdatesource,
+					disabled: !Contract.switch.switchdatesource,
 					inputfilter: /^\d*$/,
-					required: true,
 					value: Contract.switch.measure,
 					oninput: function(ev) {
 						Contract.switch.measure = ev.target.value;
