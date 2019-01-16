@@ -189,7 +189,7 @@ var CupsPage = function() {
 		title: _('CUPS_TITLE'),
 		validator: function() {
 			if (model.cupsaddress === undefined) { // empty
-				return true; // Forbid advancing, no message
+				return ""; // Forbid going on, no message
 			}
 			if (model.cupsstatus === 'invalid' && state.field.isvalid === false) {
 				return _('INVALID_SUPPLY_POINT_CUPS');
