@@ -100,7 +100,10 @@ SWITCHDATE_LABEL: Data
 SWITCHDATE_HELP: Primer dia del nou contracte
 SWITCHMEASURE_LABEL: Lectura (kWh)
 SWITCHMEASURE_HELP: Lectura al final del dia, sense decimals
-
+NO_SWITCH_DATE: No has indicat la data d'inici del nou contracte
+NO_SWITCH_MEASURE: No has indicat la lectura
+TODO_ERROR_1: ESTO HAY QUE CAMBIARLO
+TODO_ERROR_2: ESTO HAY QUE CAMBIARLO TAMBIEN
 
 
 # Widgets

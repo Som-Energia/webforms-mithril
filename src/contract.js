@@ -15,6 +15,7 @@ var TextField = require('./mdc/textfield');
 var ValidatedField = require('./validatedfield');
 var UserValidator = require('./uservalidator');
 var DatePicker = require('./datepicker');
+var moment = require('moment');
 
 var Mousetrap = require('mousetrap');
 require('mousetrap-global-bind');
@@ -29,6 +30,8 @@ Mousetrap.bindGlobal('ctrl+shift+y', function() {
 	console.log('showall', showall);
 	return false;
 });
+
+
 
 var Contract = {
 	intro: {},
@@ -254,6 +257,39 @@ var CupsPage = function() {
 	};
 };
 
+
+
+var MeasureValidator = {};
+MeasureValidator.validateMeasure = function(cups, date, measure) {
+	console.debug("Validating measure", this, cups, date, measure);
+	var self = this;
+	var promise = new Promise(function(accept, reject) {
+		setTimeout(function() {
+			if (date.day()===1) { // monday
+				promise.catch(function() {m.redraw()})
+				reject({
+					validationError: 'TODO_ERROR_1',
+				});
+				return;
+			}
+			if (measure==='1') {
+				promise.catch(function() {m.redraw()})
+				reject({
+					validationError: 'TODO_ERROR_2',
+				});
+				return;
+			}
+			console.log('simulated open session');
+			promise.then(function() {m.redraw()})
+			accept({
+				status: 'ok',
+			});
+		}, UserValidator._mockPreValidationTimeoutMs);
+	});
+	return promise;
+};
+
+
 var SwitchPage = function() {
 
 	return {
@@ -262,6 +298,34 @@ var SwitchPage = function() {
 		skipif: function(){
 			return Contract.cups.cupsstatus !== 'active';
 		},
+		validator: function() {
+			if (Contract.switch.validationError) {
+				return _(Contract.switch.validationError);
+			}
+			if (!Contract.switch.date) {
+				return _('NO_SWITCH_DATE');
+			}
+			if (!Contract.switch.measure) {
+				return _('NO_SWITCH_MEASURE');
+			}
+			return undefined;
+		},
+		next: function() {
+			return new Promise(function (resolve, reject) {
+				MeasureValidator.validateMeasure(
+					Contract.cups.cupsvalue,
+					Contract.switch.date,
+					Contract.switch.measure
+				).then(function(data) {
+					console.log('valid', data);
+					resolve(true);
+				}).catch(function(reason) {
+					console.log('invalid', reason);
+					Contract.switch.validationError = reason.validationError;
+					reject(reason);
+				});
+			});
+		},
 		content: [
 			m(Row, [
 				m(Cell, {span:12}, _('FILL_SWITCH')),
@@ -269,18 +333,26 @@ var SwitchPage = function() {
 					id: 'switchdate',
 					label: _('SWITCHDATE_LABEL'),
 					help: _('SWITCHDATE_HELP'),
+					autoclose: true,
+					boxed: true,
+					past: moment().add(-1,'years'),
+					future: moment().add(1,'years'),
+					value: Contract.switch.date,
+					onchange: function(newvalue) {
+						Contract.switch.date = newvalue;
+						Contract.switch.validationError = false;
+					},
 				})),
 				m(Cell, {span:6}, m(TextField, {
 					id: 'switchmeasure',
 					label: _('SWITCHMEASURE_LABEL'),
 					help: _('SWITCHMEASURE_HELP'),
 					boxed: true,
-					inputfilter: /^\d*$/,
-					step: 1,
-					minvalue: 0,
+					//inputfilter: /^\d*$/,
 					value: Contract.switch.measure,
 					oninput: function(ev) {
 						Contract.switch.measure = ev.target.value;
+						Contract.switch.validationError = false;
 					},
 				})),
 			])
