@@ -93,9 +93,12 @@ CUPS_IN_PROCESS: This CUPS is already in a process
 MARK_ADDRESS_CONFIRMATION_BOX: Check if your address matches your CUPS
 SUPPLY_POINT_ADDRESS: Supply point address de suministro
 
+# Holder personal data
 HOLDER_PERSONAL_DATA: Holder personal data
 
-SWITCH_TITLE: Date and measure for the switch
+# Contract closure
+CONTRACT_CLOSURE_TITLE: Closure date and measurement
+
 # Widgets
 
 

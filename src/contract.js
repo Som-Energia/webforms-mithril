@@ -297,7 +297,7 @@ var SwitchPage = function() {
 	var hideInputs = Contract.switch.switchdatesource!=='user';
 	return {
 		id: 'switch_page',
-		title: _('SWITCH_TITLE'),
+		title: _('CONTRACT_CLOSURE_TITLE'),
 		skipif: function(){
 			return Contract.cups.cupsstatus !== 'active';
 		},
@@ -306,14 +306,14 @@ var SwitchPage = function() {
 				return _(Contract.switch.validationError);
 			}
 			if (!Contract.switch.switchdatesource) {
-				return _('CHOOSE_LAST_INVOICE_PROCEDURE');
+				return _('CHOOSE_CLOSURE_PROCEDURE');
 			}
 			if (Contract.switch.switchdatesource==='user') {
 				if (!Contract.switch.date) {
-					return _('NO_SWITCH_DATE');
+					return _('NO_CLOSURE_DATE');
 				}
 				if (!Contract.switch.measure) {
-					return _('NO_SWITCH_MEASURE');
+					return _('NO_CLOSURE_MEASURE');
 				}
 			}
 			return undefined;
@@ -342,7 +342,7 @@ var SwitchPage = function() {
 				m(Cell, {span:12},
 					m(Chooser, {
 						id: 'switchdatesource',
-						question: _("CUSTOM_DATE_LABEL"),
+						question: _("WHICH_CLOSURE_METHOD"),
 						required: true,
 						value: Contract.switch.switchdatesource,
 						onvaluechanged: function(newvalue){
@@ -351,8 +351,8 @@ var SwitchPage = function() {
 						},
 						options: [{
 							value: 'distributor',
-							label: _("ON_NORMAL_INVOICING_LABEL"),
-							description: _("ON_NORMAL_INVOICING_DESCRIPTION"),
+							label: _("AT_REGULAR_INVOICING_LABEL"),
+							description: _("AT_REGULAR_INVOICING_DESCRIPTION"),
 						},{
 							value: 'user',
 							label: _("AT_A_GIVEN_DATE_LABEL"),
@@ -360,11 +360,11 @@ var SwitchPage = function() {
 						}],
 					})
 				),
-				m(Cell, {span:12, style: hideInputs&&'visibility:hidden'}, _('FILL_SWITCH')),
+				m(Cell, {span:12, style: hideInputs&&'visibility:hidden'}, _('FILL_CLOSURE_FIELDS')),
 				m(Cell, {span:6, style: hideInputs&&'visibility:hidden'}, m(DatePicker, {
 					id: 'switchdate',
-					label: _('SWITCHDATE_LABEL'),
-					help: _('SWITCHDATE_HELP'),
+					label: _('CLOSURE_DATE_LABEL'),
+					help: _('CLOSURE_DATE_HELP'),
 					autoclose: true,
 					boxed: true,
 					required: Contract.switch.switchdatesource,
@@ -379,8 +379,8 @@ var SwitchPage = function() {
 				})),
 				m(Cell, {span:6, style: hideInputs&&'visibility:hidden'}, m(TextField, {
 					id: 'switchmeasure',
-					label: _('SWITCHMEASURE_LABEL'),
-					help: _('SWITCHMEASURE_HELP'),
+					label: _('CLOSURE_MEASURE_LABEL'),
+					help: _('CLOSURE_MEASURE_HELP'),
 					boxed: true,
 					required: Contract.switch.switchdatesource,
 					disabled: !Contract.switch.switchdatesource,
