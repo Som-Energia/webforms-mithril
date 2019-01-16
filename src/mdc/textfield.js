@@ -4,6 +4,40 @@ var _ = require('../translate');
 var MDCTextField = require('@material/textfield');
 require('@material/textfield/dist/mdc.textfield.css');
 
+
+function applyInputFilter(input, inputfilter, event) {
+	var filtered = inputfilter instanceof Function?
+		inputfilter(input.value) :
+		(RegExp(inputfilter).test(input.value) && input.value);
+
+	console.log("applyInputFilter", input.value, filtered, inputfilter);
+	if (filtered!==false) {
+		console.log("saving",input.value);
+		input.value = filtered;
+		input.oldValue = filtered;
+		input.oldSelectionStart = input.selectionStart;
+		input.oldSelectionEnd = input.selectionEnd;
+	} else if (input.hasOwnProperty("oldValue")) {
+		console.log("recovering",input.oldvalue);
+		input.value = input.oldValue;
+		input.setSelectionRange(input.oldSelectionStart, input.oldSelectionEnd);
+	}
+}
+
+function setInputFilter(textbox, inputfilter) {
+	[
+		//"input", // Let the widget handle that
+		"keydown", "keyup",
+		"mousedown", "mouseup", "select",
+		"contextmenu", "drop"
+	].forEach(function(event) {
+		textbox.addEventListener(event, function() {
+			applyInputFilter(this, inputfilter);
+		});
+	});
+}
+
+
 var TextField = {
 	oncreate: function(vn) {
 		var mdcinput = vn.dom.querySelector('.mdc-text-field');
@@ -12,6 +46,11 @@ var TextField = {
 		vn.state.mdcinstance.valid = !errormessage;
 		vn.state.native = vn.dom.querySelector('.mdc-text-field__input');
 		vn.state.native.setCustomValidity(errormessage);
+
+		var inputfilter = vn.attrs.inputfilter;
+		if (inputfilter) {
+			setInputFilter(vn.state.native, inputfilter);
+		}
 	},
 
 	onupdate: function(vn) {
@@ -59,17 +98,9 @@ var TextField = {
 		}, attrs, {
 			// redefined
 			oninput: function(ev) {
+				console.log('TextField oninput', ev.target.value);
 				var value = ev.target.value;
-				if (inputfilter) {
-					var selectionStart = ev.target.selectionStart;
-					ev.target.value = inputfilter instanceof Function ?
-						inputfilter(value, selectionStart):
-						ev.target.value = RegExp(inputfilter).exec(value)[0];
-					if (selectionStart<value.length) {
-						ev.target.selectionStart=selectionStart;
-						ev.target.selectionEnd=selectionStart;
-					}
-				}
+				applyInputFilter(ev.target, inputfilter);
 				ev.target.setCustomValidity('');
 				if (attrs.oninput) attrs.oninput(ev);
 				vn.state.errormessage = ev.target.validationMessage;

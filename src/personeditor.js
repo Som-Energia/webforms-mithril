@@ -187,9 +187,8 @@ PersonEditor.view = function(vn) {
 					fieldData: vn.state.proxyvateditor,
 					inputfilter: function(value) {
 						if (!value) return value;
-						value=value.toUpperCase();
-						value=value.replace(/[^0-9A-Z]/g,'');
-						return value.slice(0,9);
+						if (!/^[0-9A-Za-z]{0,9}$/.test(value)) return false;
+						return value.toUpperCase();
 					},
 					onvalidated: function(value, data) {
 						if (value) {
@@ -227,11 +226,14 @@ PersonEditor.view = function(vn) {
 					person.postalcode = ev.target.value;
 					person.postalcodeError = ev.target.validationMessage;
 				},
+				inputfilter: /^[0-9]{0,5}$/,
+				/*
 				inputfilter: function(value) {
 					value = value.replace(/[^0-9]/,'');
 					value = value.slice(0,5);
 					return value;
 				},
+				*/
 				help: m.trust('&nbsp;'),
 				required: true,
 				boxed: true,
