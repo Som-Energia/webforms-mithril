@@ -92,6 +92,8 @@ INVALID_SUPPLY_POINT_CUPS: Invalid CUPS
 CUPS_IN_PROCESS: This CUPS is already in a process
 MARK_ADDRESS_CONFIRMATION_BOX: Check if your address matches your CUPS
 SUPPLY_POINT_ADDRESS: Supply point address de suministro
+CUPS_SHOULD_BE_ACTIVE: CUPS does not have an active contract with Som Energia
+CUPS_STATE_UNEXPECTED: Unknown CUPS state (internal error)
 
 # Holder personal data
 HOLDER_PERSONAL_DATA: Holder personal data

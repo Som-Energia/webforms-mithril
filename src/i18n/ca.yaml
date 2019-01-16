@@ -92,8 +92,8 @@ INVALID_SUPPLY_POINT_CUPS: CUPS invàlid
 CUPS_IN_PROCESS: Aquest CUPS actualment està en un proces
 MARK_ADDRESS_CONFIRMATION_BOX: Verifica que l'adreça associada a aquest CUPS és correcta
 SUPPLY_POINT_ADDRESS: Adreça de subministrament
-CUPS_SHOULD_BE_ACTIVE: El CUPS ha d'estar actiu amb Som Energia per fer un canvi només de titular
-CUPS_STATE_INEXPECTED: CUPS en estat desconegut
+CUPS_SHOULD_BE_ACTIVE: El CUPS no te cap contracte actiu a Som Energia
+CUPS_STATE_UNEXPECTED: No s'ha pogut identificar l'estat del CUPS (error intern)
 
 # Holder personal data
 HOLDER_PERSONAL_DATA: Dades personals de la persona titular

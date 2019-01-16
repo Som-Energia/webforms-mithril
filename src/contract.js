@@ -199,7 +199,7 @@ var CupsPage = function() {
 			}
 			if (model.cupsstatus !== 'active' && model.cupsstatus !== 'inactive') {
 				// Should never get here
-				return _('CUPS_STATE_INEXPECTED');
+				return _('CUPS_STATE_UNEXPECTED')+" "+model.cupsstatus;
 			}
 			// TODO: Should be removed as soon as we implement more than holder changes
 			if (model.cupsstatus !== 'active') {
