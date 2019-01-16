@@ -182,23 +182,30 @@ CupsContract.field = {};
 var CupsPage = function() {
 	var model = Contract.cups;
 	var state = CupsContract;
+	var showVerificationCheck = model.cupsaddress && (model.cupsstatus === 'active' || model.cupsstatus === 'inactive');
 
 	return {
 		id: 'cups_page',
 		title: _('CUPS_TITLE'),
 		validator: function() {
-			var confirmation_needed = model.cupsaddress !== undefined &&
-				model.cupsverified === false &&
-				(model.cupsstatus === 'active' || model.cupsstatus === 'inactive') &&
-				model.cupsstatus !== 'busy';
-
+			if (model.cupsaddress === undefined) { // empty
+				return true; // Forbid advancing, no message
+			}
 			if (model.cupsstatus === 'invalid' && state.field.isvalid === false) {
 				return _('INVALID_SUPPLY_POINT_CUPS');
 			}
 			if (model.cupsstatus === 'busy') {
 				return _('CUPS_IN_PROCESS');
 			}
-			if (confirmation_needed) {
+			if (model.cupsstatus !== 'active' && model.cupsstatus !== 'inactive') {
+				// Should never get here
+				return _('CUPS_STATE_INEXPECTED');
+			}
+			// TODO: Should be removed as soon as we implement more than holder changes
+			if (model.cupsstatus !== 'active') {
+				return _('CUPS_SHOULD_BE_ACTIVE');
+			}
+			if (model.cupsverified === false) {
 				return _('MARK_ADDRESS_CONFIRMATION_BOX');
 			}
 			return undefined;
@@ -219,6 +226,7 @@ var CupsPage = function() {
 					maxlength: 24,
 					fieldData: state.field,
 					inputfilter: function(value) {
+						model.cupsverified = false; //cups edited
 						return value.toUpperCase();
 					},
 
@@ -246,8 +254,7 @@ var CupsPage = function() {
 					value: (state.field.data && state.field.isvalid)?
 						state.field.data.address:'',
 				})),
-				model.cupsaddress && (model.cupsstatus === 'active' || model.cupsstatus === 'inactive') &&
-				m(Cell, {span:12}, m(CheckBox, {
+				m(Cell, {span:12, style: showVerificationCheck||'visibility:hidden'}, m(CheckBox, {
 					id: 'cups_verify',
 					label: _('CUPS_VERIFY_LABEL'),
 					checked: model.cupsverified,
@@ -306,7 +313,7 @@ var ClosurePage = function() {
 				return _(Contract.closure.validationError);
 			}
 			if (!Contract.closure.method) {
-				return _('CHOOSE_CLOSURE_PROCEDURE');
+				return _('NO_CLOSURE_PROCEDURE');
 			}
 			if (Contract.closure.method==='given') {
 				if (!Contract.closure.date) {

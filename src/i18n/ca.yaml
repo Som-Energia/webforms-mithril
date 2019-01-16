@@ -90,8 +90,10 @@ CUPS_HELP_URL: TODO
 CUPS_VERIFY_LABEL: Confirmo que l'adreça mostrada és la que correspon al CUPS que vull contractar
 INVALID_SUPPLY_POINT_CUPS: CUPS invàlid
 CUPS_IN_PROCESS: Aquest CUPS actualment està en un proces
-MARK_ADDRESS_CONFIRMATION_BOX: Verifica que l'adreça associada a aquest CUPS es correcta
+MARK_ADDRESS_CONFIRMATION_BOX: Verifica que l'adreça associada a aquest CUPS és correcta
 SUPPLY_POINT_ADDRESS: Adreça de subministrament
+CUPS_SHOULD_BE_ACTIVE: El CUPS ha d'estar actiu amb Som Energia per fer un canvi només de titular
+CUPS_STATE_INEXPECTED: CUPS en estat desconegut
 
 # Holder personal data
 HOLDER_PERSONAL_DATA: Dades personals de la persona titular
@@ -108,7 +110,7 @@ CLOSURE_DATE_LABEL: Data
 CLOSURE_DATE_HELP: Últim dia del contracte vigent
 CLOSURE_MEASURE_LABEL: Lectura (kWh)
 CLOSURE_MEASURE_HELP: Lectura al final del dia, sense decimals
-CHOOSE_CLOSURE_PROCEDURE: Escull el procediment de facturació durant el canvi
+NO_CLOSURE_PROCEDURE: Escull el procediment de facturació durant el canvi
 NO_CLOSURE_DATE: No has indicat la data d'inici del nou contracte
 NO_CLOSURE_MEASURE: No has indicat la lectura
 TODO_ERROR_1: ESTO HAY QUE CAMBIARLO
