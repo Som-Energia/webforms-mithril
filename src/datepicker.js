@@ -35,6 +35,7 @@ DatePicker.view = function(vn){
     return m(TextField, {
 		label: vn.attrs.label,
 		help: vn.attrs.help,
+		disabled: vn.attrs.disabled,
 		boxed: vn.attrs.boxed,
 		outlined: vn.attrs.outlined,
 		value: vn.state.value===undefined?' - - / - - / - - - - ':vn.state.value.format('DD/MM/YYYY'),
@@ -50,9 +51,21 @@ DatePicker.view = function(vn){
 
 DatePicker.oninit = function(vn){
 	vn.state.value = vn.attrs.value;
+	vn.state.toggle = function () {
+		console.log("clicking", vn.state.disabled);
+		if (!vn.state.disabled) {
+			vn.state.dialog.toggle();
+		}
+	};
+	vn.state.updateValue = function() {
+		vn.state.value=vn.state.dialog.time;
+		vn.attrs.onchange && vn.attrs.onchange(vn.state.value);
+		m.redraw();
+	};
 };
 
 DatePicker.oncreate = function(vn){
+	vn.state.disabled = vn.attrs.disabled;
 	var field = vn.dom;
 	vn.state.dialog = new MdDateTimePicker({
         type: 'date',
@@ -62,16 +75,12 @@ DatePicker.oncreate = function(vn){
 		autoClose: vn.attrs.autoclose,
 		orientation: vn.portrait?'PORTRAIT':'LANDSCAPE',
     });
-	field.addEventListener('onOk', function() {
-		vn.state.value=vn.state.dialog.time;
-		vn.attrs.onchange && vn.attrs.onchange(vn.state.value);
-		m.redraw();
-	});
-	field.addEventListener('click', function () {
-		if (!vn.attrs.disabled) {
-			vn.state.dialog.toggle();
-		}
-	});
+	field.addEventListener('onOk', vn.state.updateValue);
+	field.addEventListener('click', vn.state.toggle);
+};
+DatePicker.onupdate = function(vn){
+	vn.state.dialog.trigger = vn.dom;
+	vn.state.disabled = vn.attrs.disabled;
 };
 
 
