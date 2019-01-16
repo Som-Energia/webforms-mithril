@@ -103,7 +103,7 @@ var Wizard = {
 					m(Cell, {span:12}, m('h2', page.title)),
 					page.content,
 					m(Row, {align: 'right', style: 'margin-top:23px' }, [
-						m(Cell,{span:2},
+						m(Cell,{span: 2, spanphone:2},
 							showPrev && m(Button, {
 								outlined: true,
 								faicon: 'chevron-left',
@@ -113,7 +113,8 @@ var Wizard = {
 								style: {width:'100%'},
 							},  _("Previous")),
 						),
-						m(Cell,{span: 2},
+						m(Cell,{spandesktop: 8, span:4, order: 1, style: 'text-align: right'}, m('.red', errors)),
+						m(Cell,{span: 2, spanphone:2},
 							showNext && m(Button, {
 								raised:true,
 								faicon: self.intransition?'spinner.fa-spin': (page.nexticon||'chevron-right'),
