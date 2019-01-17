@@ -64,9 +64,9 @@ Form.view = function(vn) {
 					CupsPage(),
 					HolderPage(),
 					ClosurePage(),
-					SupplyPage(),
-					TermsPage(),
-					PaymentPage(),
+					//TermsPage(),
+					VoluntaryCentPage(),
+ 					PaymentPage(),
 					ReviewPage(),
 				],
 			}),
@@ -362,7 +362,7 @@ var ClosurePage = function() {
 						},{
 							value: 'given',
 							label: _("AT_A_GIVEN_DATE_LABEL"),
-							description: _("AT_A_GIVEN_DATE_LABEL_DESCRIPTION"),
+							description: _("AT_A_GIVEN_DATE_DESCRIPTION"),
 						}],
 					})
 				),
@@ -403,14 +403,6 @@ var ClosurePage = function() {
 };
 
 
-var SupplyPage = function() {
-	return {
-		id: 'supply_page',
-		title: _('Supply'),
-		next: 'terms_page',
-	};
-};
-
 var TermsPage = function() {
 	return {
 		id: 'terms_page',
@@ -423,6 +415,44 @@ var TermsPage = function() {
 		},
 		content: [
 			m(Terms, {model: Contract.terms}),
+		],
+	};
+};
+
+var VoluntaryCentPage = function() {
+	return {
+		id: 'voluntary_cent_page',
+		title: _('VOLUNTARY_CENT_TITLE'),
+		validator: function() {
+			Contract.terms.validate &&
+				Contract.terms.validate();
+			return Contract.terms.error;
+		},
+		content: [
+			m(Row, [
+				m(Cell, {span:12}, _("VOLUNTARY_CENT_PRESENTATION")),
+				m(Cell, {span:12},
+					m(Chooser, {
+						id: 'voluntary_cent',
+						question: _("VOLUNTARY_CENT_QUESTION"),
+						required: true,
+						value: Contract.closure.method,
+						onvaluechanged: function(newvalue){
+							Contract.closure.validationError = false;
+							Contract.closure.method = newvalue;
+						},
+						options: [{
+							value: 'yes',
+							label: _("VOLUNTARY_CENT_YES_LABEL"),
+							description: _("VOLUNTARY_CENT_YES_DESCRIPTION"),
+						},{
+							value: 'no',
+							label: _("VOLUNTARY_CENT_NO_LABEL"),
+							description: _("VOLUNTARY_CENT_NO_DESCRIPTION"),
+						}],
+					})
+				),
+			])
 		],
 	};
 };

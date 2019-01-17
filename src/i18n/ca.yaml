@@ -104,7 +104,7 @@ WHICH_CLOSURE_METHOD: Com es farà el canvi?
 AT_REGULAR_INVOICING_LABEL: A cicle de facturació
 AT_REGULAR_INVOICING_DESCRIPTION: El nou titular asumirà el consum des de la última factura emesa
 AT_A_GIVEN_DATE_LABEL: A data i lectura donada
-AT_A_GIVEN_DATE_LABEL_DESCRIPTION: Es farà una última factura al titular fins la data i lectura aportada
+AT_A_GIVEN_DATE_DESCRIPTION: Es farà una última factura al titular fins la data i lectura aportada
 FILL_CLOSURE_FIELDS: Indica la darrera data que es facturará al contracte antic
 CLOSURE_DATE_LABEL: Data
 CLOSURE_DATE_HELP: Últim dia del contracte vigent
@@ -116,6 +116,24 @@ NO_CLOSURE_MEASURE: No has indicat la lectura
 TODO_ERROR_1: ESTO HAY QUE CAMBIARLO
 TODO_ERROR_2: ESTO HAY QUE CAMBIARLO TAMBIEN
 
+# VoluntaryCentPage
+
+VOLUNTARY_CENT_TITLE: Donatiu voluntari
+VOLUNTARY_CENT_PRESENTATION: |
+  Som una Cooperativa sense ànim de lucre amb l'objectiu ferm de canviar el model energètic.
+  Els socis i sòcies que ho desitgin poden realitzar un donatiu voluntari de 0,01€/kWh
+  destinat a recolzar i facilitar l'acció social i voluntària
+  dels més de 50 Grups Locals repartits pel territori.
+VOLUNTARY_CENT_QUESTION: Vols participar amb la teva energia a fer-ho possible?
+VOLUNTARY_CENT_YES_LABEL: Sí, vull fer un donatiu voluntari de 0,01€/kWh, 
+VOLUNTARY_CENT_YES_DESCRIPTION: |
+  Per un consum mitjà d'una família (aproximadament 300kWh/mes)
+  això representa un increment de 3€ mensuals.
+
+VOLUNTARY_CENT_NO_LABEL: No
+VOLUNTARY_CENT_NO_DESCRIPTION: |
+  Sempre que ho vulguis podràs activar o desactivar aquest donatiu a l'instant
+  des de l'Oficinal Virtual.
 
 # Widgets
 
