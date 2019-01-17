@@ -33,7 +33,6 @@ Mousetrap.bindGlobal('ctrl+shift+y', function() {
 });
 
 
-
 var Contract = {
 	intro: {},
 	cups: {
@@ -377,7 +376,7 @@ var ClosurePage = function() {
 					required: Contract.closure.method,
 					disabled: !Contract.closure.method,
 					past: moment().add(-2,'months'),
-					future: moment(),
+					future: moment().add(+15, 'days'),
 					value: Contract.closure.date,
 					onchange: function(newvalue) {
 						Contract.closure.date = newvalue;
