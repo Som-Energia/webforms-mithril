@@ -424,9 +424,9 @@ var VoluntaryCentPage = function() {
 		id: 'voluntary_cent_page',
 		title: _('VOLUNTARY_CENT_TITLE'),
 		validator: function() {
-			Contract.terms.validate &&
-				Contract.terms.validate();
-			return Contract.terms.error;
+			if (Contract.voluntary_cent === undefined)
+				return  _("NO_VOLUNTARY_DONATION_CHOICE_TAKEN");
+			return undefined;
 		},
 		content: [
 			m(Row, [
@@ -436,10 +436,9 @@ var VoluntaryCentPage = function() {
 						id: 'voluntary_cent',
 						question: _("VOLUNTARY_CENT_QUESTION"),
 						required: true,
-						value: Contract.closure.method,
+						value: Contract.voluntary_cent,
 						onvaluechanged: function(newvalue){
-							Contract.closure.validationError = false;
-							Contract.closure.method = newvalue;
+							Contract.voluntary_cent = newvalue;
 						},
 						options: [{
 							value: 'yes',
