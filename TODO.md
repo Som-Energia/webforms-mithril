@@ -1,5 +1,20 @@
 # Pending Tasks
 
+- [ ] Check whether closure measuer is needed or not
+   - [ ] Extend to suport different measures for different periods
+   - [ ] Validate measures (frontend - backend)
+   - [ ] Measure validation messages
+- [ ] ClosurePage: fix layout
+- [ ] Datepicker: make dialog modal
+- [ ] PersonalData: new field for firm name
+- [ ] PersonalData: Proxy fields layout
+- [ ] PersonalData: Checkbox privacy policy -> LegalConsent widget
+- [ ] Select: Delayed progamatic fill in when options depend on an API call
+- [ ] Wizard: Rethink tab navigation
+- [ ] Wizard: Default action 'next' when enter key pressed
+
+
+# Old ones, to review 2019-01-17
 ## Cosas que vamos dejando al lado por focus
 
 - [x] Error de password invalido con efecto en el campo
