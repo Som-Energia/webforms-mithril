@@ -461,8 +461,10 @@ var PaymentPage = function() {
 		id: 'payment_page',
 		title: _('PAYMENT_TITLE'),
 		validator: function() {
-			Contract.payment.validate && Contract.payment.validate();
-			return Contract.payment.error;
+			if (!Contract.payment.validate)
+				return undefined;
+
+			return Contract.payment.validate();
 		},
 		content: [
 			m(PaymentEditor, {model: Contract.payment}),

@@ -14,27 +14,18 @@ PaymentEditor.oninit = function(vn) {
     this.model=vn.attrs.model;
     this.model.iban = {};
     this.model.sepaaccepted = false;
-    this.model.error = undefined;
     var self = this.model;
 
     this.model.validate = function() {
-        function error(message) {
-            if (self.error !== message) {
-                self.error = message;
-            }
-            return false;
-        }
 
-        self.error = undefined;
         if (self.iban.isvalid !== true) {
-            return error('INVALID_PAYER_IBAN');
+            return _('INVALID_PAYER_IBAN');
         }
         if (self.sepaaccepted !== true) {
-            return error('UNCONFIRMED_ACCOUNT_OWNER');
+            return _('UNCONFIRMED_ACCOUNT_OWNER');
         }
-        return true;
+        return undefined;
     };
-
 };
 
 PaymentEditor.view = function(vn){
@@ -72,8 +63,6 @@ PaymentEditor.view = function(vn){
         }),
     ]);
 };
-
-
 
 const Example = {};
 
