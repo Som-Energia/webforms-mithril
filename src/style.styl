@@ -144,3 +144,23 @@ h1, h2 {
     color: green !important;
 }
 
+.fieldgroup
+	border: solid 2px var(--mdc-theme-primary)
+	border-radius: 4pt
+	padding-bottom: 2ex
+	.fieldgroup_title
+		text-transform: uppercase
+		color: white
+		margin-top: 0
+		background-color: var(--mdc-theme-primary)
+		padding: 1ex
+	.field
+		padding: 0 1em
+		.fieldname
+			font-weight: bold
+			color: var(--mdc-theme-secondary)
+			margin-right: 1ex
+		.fieldname:after
+			content: ":"
+		.fieldvalue
+			text-decoration: underline

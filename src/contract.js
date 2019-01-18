@@ -25,13 +25,19 @@ require('@material/typography/dist/mdc.typography.css').default;
 var Inspector = require('./inspector');
 var showall = true;
 
+// TODO: Duplicated function
+function isphisical (vat) {
+	if (vat === undefined) return undefined;
+	var firstchar = vat[0];
+	return '0123456789KLMXYZ'.indexOf(firstchar) !== -1;
+}
+
 Mousetrap.bindGlobal('ctrl+shift+y', function() {
 	showall = !showall;
 	m.redraw();
 	console.log('showall', showall);
 	return false;
 });
-
 
 var Contract = {
 	intro: {},
@@ -45,6 +51,15 @@ var Contract = {
 	payment: {},
 	terms: {},
 };
+
+Mousetrap.bindGlobal('ctrl+shift+1', function() {
+	var newData = require('./data/data1.yaml');
+	Object.keys(Contract).map(function(k) {
+		Object.assign(Contract[k], newData[k]);
+	});
+	m.redraw();
+	return false;
+});
 
 
 var Form = {};
@@ -470,12 +485,47 @@ var PaymentPage = function() {
 			m(PaymentEditor, {model: Contract.payment}),
 		],
 	};
-};
+}; 
 
 var ReviewPage = function() {
+	function group(name, fields) {
+		return m(Cell, {
+			className: 'fieldgroup',
+			span: 6,
+		}, m('h4.fieldgroup_title',name), fields);
+	}
+	function field(name, value) {
+		return m('.field', [
+			m('b.fieldname', name),
+			m('span.fieldvalue', value),
+		]);
+	}
+	console.log(Contract.holder);
 	return {
 		id: 'review_page',
-		title: _('Review'),
+		title: _('REVIEW_TITLE'),
+		content: [
+			m(Row, [
+				m(Cell, {span:12}, _("REVIEW_DATA_AND_CONFIRM")),
+				group(_("HOLDER"), [
+					field(_("NIF"), Contract.intro.vatvalue),
+					isphisical(Contract.intro.vatvalue) &&
+						field(_("NAME"), Contract.holder.name+" "+Contract.holder.surname),
+					!isphisical(Contract.intro.vatvalue) &&
+						field(_("LEGAL_NAME"), Contract.holder.name),
+					!isphisical(Contract.intro.vatvalue) &&
+						field(_("PROXY_NAME"), Contract.holder.proxyname)
+				]),
+				group(_('SUPPLY'), [
+					field(_("CUPS"), Contract.cups.cupsvalue),
+					field(_("CUPSADDRESS"), Contract.cups.cupsaddress),
+					!isphisical(Contract.intro.vatvalue) &&
+						field(_("LEGAL_NAME"), Contract.holder.name),
+					!isphisical(Contract.intro.vatvalue) &&
+						field(_("PROXY_NAME"), Contract.holder.proxyname)
+				]),
+			]),
+		]
 	};
 };
 

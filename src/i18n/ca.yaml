@@ -141,8 +141,12 @@ IBAN_HELP: "Un com aquest: ES77 1234 1234 1612 3456 7890" # TODO: cambiar texto
 IBAN_ACCEPT_DIRECT_DEBIT: Com a titular del compte bancari, accepto la domiciliació dels rebuts
 IBAN_ERROR: Invalid IBAN
 
-# Widgets
+# ReviewPage
+REVIEW_TITLE: Revisa i confirma el contracte
+LEGALNAME: Raó social
+SUPPLY: Punt de subministrament
 
+# Widgets
 Field label: Etiqueta del camp
 Holder: Titular
 Supply point: Punt de subministrament
