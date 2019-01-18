@@ -459,8 +459,7 @@ var VoluntaryCentPage = function() {
 var PaymentPage = function() {
 	return {
 		id: 'payment_page',
-		title: _('Payment'),
-		next: 'review_page',
+		title: _('PAYMENT_TITLE'),
 		validator: function() {
 			Contract.payment.validate && Contract.payment.validate();
 			return Contract.payment.error;

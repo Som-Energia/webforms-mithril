@@ -26,34 +26,12 @@ PaymentEditor.oninit = function(vn) {
         }
 
         self.error = undefined;
-        // Recover self code if we add other payers than holder
-        /*
-        if ($scope.form.choosepayer === cfg.PAYER_TYPE_OTHER) {
-            if ($scope.payer.isReady === undefined) {
-                return false; // Just initializing
-            }
-            if ($scope.payer.isReady()!==true) {
-                return error($scope.payer.error);
-            }
-        }
-        if ($scope.form.choosepayer !== cfg.PAYER_TYPE_TITULAR) {
-            if ($scope.form.payerAcceptsGeneralConditions !== true) {
-                return error('UNACCEPTED_GENERAL_CONDITIONS_NON_OWNER_PAYER');
-            }
-        }
-        */
         if (self.iban.isvalid !== true) {
             return error('INVALID_PAYER_IBAN');
         }
         if (self.sepaaccepted !== true) {
             return error('UNCONFIRMED_ACCOUNT_OWNER');
         }
-		// TODO: activate when we add the voluntarydonation widget
-		/*
-        if (self.voluntarydonation === undefined) {
-            return error('NO_VOLUNTARY_DONATION_CHOICE_TAKEN');
-        }
-		*/
         return true;
     };
 
@@ -63,9 +41,9 @@ PaymentEditor.view = function(vn){
     return m('.paymenteditor', [
         m(ValidatedField, {
             id: 'iban',
-            label: _('IBAN (compte bancari)'),
-            help: _('Un com aquest: ES77 1234 1234 1612 3456 7890'),
-            defaulterror: _('Invalid IBAN'),
+            label: _('IBAN_LABEL'),
+            help: _('IBAN_HELP'),
+            defaulterror: _('IBAN_ERROR'),
             required: true,
             maxlength: 29,
             inputfilter: function(value) {
@@ -74,7 +52,7 @@ PaymentEditor.view = function(vn){
                 value=value.toUpperCase();
                 value=value.split(' ').join('');
                 value=value.match(/.{1,4}/g).join(' ');
-                return value
+                return value;
             },
             checkurl: '/check/iban/',
             fieldData: this.model.iban,
@@ -85,7 +63,7 @@ PaymentEditor.view = function(vn){
         }),
         m(Checkbox, {
             id: 'sepaaccepted',
-            label: _('CONFIRMO_TITULAR_COMPTE_ACCEPTA_DOMICILIACIO'),
+            label: _('IBAN_ACCEPT_DIRECT_DEBIT'),
             checked: vn.state.model.sepaaccepted,
             onchange: function(ev) {
                 vn.state.model.sepaaccepted = ev.target.checked;

@@ -117,7 +117,6 @@ TODO_ERROR_1: ESTO HAY QUE CAMBIARLO
 TODO_ERROR_2: ESTO HAY QUE CAMBIARLO TAMBIEN
 
 # VoluntaryCentPage
-
 VOLUNTARY_CENT_TITLE: Donatiu voluntari
 VOLUNTARY_CENT_PRESENTATION: |
   Som una Cooperativa sense ànim de lucre amb l'objectiu ferm de canviar el model energètic.
@@ -134,6 +133,13 @@ VOLUNTARY_CENT_NO_LABEL: No
 VOLUNTARY_CENT_NO_DESCRIPTION: |
   Sempre que ho vulguis podràs activar o desactivar aquest donatiu a l'instant
   des de l'Oficinal Virtual.
+
+# PaymentPage
+PAYMENT_TITLE: Dades de pagament
+IBAN_LABEL: IBAN (compte bancari)
+IBAN_HELP: "Un com aquest: ES77 1234 1234 1612 3456 7890" # TODO: cambiar texto
+IBAN_ACCEPT_DIRECT_DEBIT: Com a titular del compte bancari, accepto la domiciliació dels rebuts
+IBAN_ERROR: Invalid IBAN
 
 # Widgets
 
