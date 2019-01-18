@@ -504,6 +504,7 @@ var ReviewPage = function() {
 	return {
 		id: 'review_page',
 		title: _('REVIEW_TITLE'),
+		nexticon: 'send',
 		content: [
 			m(Row, [
 				m(Cell, {span:12}, _("REVIEW_DATA_AND_CONFIRM")),

@@ -1,0 +1,58 @@
+{
+  "intro": {
+    "vatvalue": "58291270R",
+    "vatvalid": true,
+    "vatexists": false
+  },
+  "cups": {
+    "cupsverified": true,
+    "cupsvalue": "ES0031101322018013GN0F",
+    "cupsaddress": "Pedro López 13 BJO-E",
+    "cupsstatus": "active"
+  },
+  "holder": {
+    "vat": "87222628G",
+    "privacypolicyaccepted": true,
+    "usertype": "company",
+    "name": "asbv",
+    "surname": "asdb",
+    "address": "asds",
+    "postalcode": "12341",
+    "postalcodeError": "",
+    "state": {
+      "id": 1,
+      "name": "Araba"
+    },
+    "city": {
+      "id": 7097,
+      "name": "Alegría-Dulantzi"
+    },
+    "email": "a@a.com",
+    "emailError": "",
+    "email2": "a@a.com",
+    "phone1": "122357567",
+    "phone2": "234542423",
+    "language": {
+      "code": "ca_ES",
+      "name": "Català"
+    }
+  },
+  "closure": {
+    "method": "given",
+    "validationError": false,
+    "date": "2019-01-18T15:14:04.605Z",
+    "measure": "12"
+  },
+  "payment": {
+    "iban": {
+      "value": "ES77 1234 1234 1612 3456 7890",
+      "isvalid": true,
+      "data": {
+        "iban": "ES7712341234161234567890"
+      }
+    },
+    "sepaaccepted": true
+  },
+  "terms": {},
+  "voluntary_cent": "yes"
+}
