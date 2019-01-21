@@ -17,6 +17,8 @@ var UserValidator = require('./uservalidator');
 var DatePicker = require('./datepicker');
 var Chooser = require('./chooser');
 var moment = require('moment');
+var jsyaml = require('js-yaml');
+var cuca = require('./img/cuca-somenergia.svg');
 
 var Mousetrap = require('mousetrap');
 require('mousetrap-global-bind');
@@ -114,6 +116,8 @@ Form.view = function(vn) {
 					VoluntaryCentPage(),
  					PaymentPage(),
 					ReviewPage(),
+					FailurePage(),
+					SuccessPage(),
 				],
 			}),
 		]),
@@ -555,10 +559,58 @@ var ReviewPage = function() {
 						field(_("PROXY_NAME"), Contract.holder.proxyname)
 				]),
 			]),
-		]
+		],
+		next: function() {
+			return new Promise(function (resolve, reject) {
+				SomMockupApi.postContract(Contract)
+					.then(function(data) {
+						// TODO: Save data into state
+						Contract.contract_number = data.data.contract_number;
+						resolve('success_page');
+					}).catch(function(reason) {
+						console.log('invalid', reason);
+						postError = reason.error_id;
+						postErrorData = reason.data;
+						// TODO: Save reason into state
+						resolve('failure_page');
+					});
+			});
+		},
 	};
 };
 
+
+var FailurePage = function() {
+	console.log("error data", postErrorData);
+	var translatedError = _(postError, postErrorData);
+	var unexpectedError = translatedError === postError;
+	return {
+		id: 'failure_page',
+		title: _('FAILURE_TITLE'),
+		next: false,
+		content: [
+			m('', _('FAILURE_TEXT')),
+			unexpectedError && m('.error', _("UNEXPECTED_POSTERROR", {code:postError})),
+			unexpectedError && postErrorData && m('pre.error', jsyaml.dump(postErrorData)),
+			!unexpectedError && m('.error', translatedError),
+		],
+	};
+};
+var SuccessPage = function() {
+	return {
+		id: 'success_page',
+		title: _('SUCCESS_TITLE'),
+		prev: false,
+		next: false,
+		content: [
+			m('', m.trust(_('SUCCESS_TEXT', {
+				contract_number: Contract.contract_number,
+				urlov: _('OV_URL'),
+			}))),
+			m('img', {src: cuca}),
+		],
+	};
+};
 
 window.onload = function() {
 	var element = document.getElementById("mithril-target");
