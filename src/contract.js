@@ -283,8 +283,8 @@ var CupsPage = function() {
 
 
 
-var MeasureValidator = {};
-MeasureValidator.validateMeasure = function(cups, date, measure) {
+var SomMockupApi = {};
+SomMockupApi.validateMeasure = function(cups, date, measure) {
 	console.debug("Validating measure", this, cups, date, measure);
 	var self = this;
 	var promise = new Promise(function(accept, reject) {
@@ -344,7 +344,7 @@ var ClosurePage = function() {
 				return true;
 			}
 			return new Promise(function (resolve, reject) {
-				MeasureValidator.validateMeasure(
+				SomMockupApi.validateMeasure(
 					Contract.cups.cupsvalue,
 					Contract.closure.date,
 					Contract.closure.measure

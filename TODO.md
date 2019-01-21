@@ -1,9 +1,10 @@
 # Pending Tasks
 
-- [ ] Check whether closure measuer is needed or not
+- [ ] Ask comer: Check whether closure measuer is needed or not
    - [ ] Extend to suport different measures for different periods
    - [ ] Validate measures (frontend - backend)
    - [ ] Measure validation messages
+- [ ] Ask Legal: privacy concerns on showing CUPS Address
 - [ ] ClosurePage: fix layout
 - [ ] Datepicker: make dialog modal
 - [ ] PersonalData: new field for firm name
@@ -12,7 +13,7 @@
 - [ ] Select: Delayed progamatic fill in when options depend on an API call
 - [ ] Wizard: Rethink tab navigation
 - [ ] Wizard: Default action 'next' when enter key pressed
-
+- [ ] TextField: translate 'required'
 
 # Old ones, to review 2019-01-17
 ## Cosas que vamos dejando al lado por focus
