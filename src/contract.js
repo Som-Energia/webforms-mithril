@@ -39,6 +39,37 @@ Mousetrap.bindGlobal('ctrl+shift+y', function() {
 	return false;
 });
 
+var SomMockupApi = {};
+SomMockupApi.validateMeasure = function(cups, date, measure) {
+	console.debug("Validating measure", this, cups, date, measure);
+	var self = this;
+	var promise = new Promise(function(accept, reject) {
+		setTimeout(function() {
+			if (date.day()===1) { // monday
+				promise.catch(function() {m.redraw()})
+				reject({
+					validationError: 'TODO_ERROR_1',
+				});
+				return;
+			}
+			if (measure==='1') {
+				promise.catch(function() {m.redraw()})
+				reject({
+					validationError: 'TODO_ERROR_2',
+				});
+				return;
+			}
+			console.log('simulated open session');
+			promise.then(function() {m.redraw()})
+			accept({
+				status: 'ok',
+			});
+		}, UserValidator._mockPreValidationTimeoutMs);
+	});
+	return promise;
+};
+
+
 var Contract = {
 	intro: {},
 	cups: {
@@ -281,39 +312,6 @@ var CupsPage = function() {
 	};
 };
 
-
-
-var SomMockupApi = {};
-SomMockupApi.validateMeasure = function(cups, date, measure) {
-	console.debug("Validating measure", this, cups, date, measure);
-	var self = this;
-	var promise = new Promise(function(accept, reject) {
-		setTimeout(function() {
-			if (date.day()===1) { // monday
-				promise.catch(function() {m.redraw()})
-				reject({
-					validationError: 'TODO_ERROR_1',
-				});
-				return;
-			}
-			if (measure==='1') {
-				promise.catch(function() {m.redraw()})
-				reject({
-					validationError: 'TODO_ERROR_2',
-				});
-				return;
-			}
-			console.log('simulated open session');
-			promise.then(function() {m.redraw()})
-			accept({
-				status: 'ok',
-			});
-		}, UserValidator._mockPreValidationTimeoutMs);
-	});
-	return promise;
-};
-
-
 var ClosurePage = function() {
 	var hideInputs = Contract.closure.method!=='given';
 	return {
@@ -485,7 +483,38 @@ var PaymentPage = function() {
 			m(PaymentEditor, {model: Contract.payment}),
 		],
 	};
-}; 
+};
+var postError = undefined;
+var postErrorData = undefined;
+
+SomMockupApi.postContract = function(contract) {
+	var self = this;
+	var promise = new Promise(function(accept, reject) {
+		setTimeout(function() {
+			if (contract.voluntary_cent !== 'yes') {
+				promise.catch(function() {m.redraw()})
+				reject({
+					failed: true,
+					error_id: 'POSTERROR_GRASPER',
+					data: {
+						name: contract.holder.name,
+					},
+				});
+				return;
+			}
+			console.log('simulated post');
+			promise.then(function() {m.redraw()})
+			accept({
+				data: {
+					contract_number: 666,
+				}
+			});
+		}, UserValidator._mockPreValidationTimeoutMs);
+	});
+
+	return promise;
+};
+
 
 var ReviewPage = function() {
 	function group(name, fields) {
