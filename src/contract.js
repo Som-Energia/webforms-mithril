@@ -25,7 +25,8 @@ require('mousetrap-global-bind');
 require('font-awesome/css/font-awesome.css');
 require('@material/typography/dist/mdc.typography.css').default;
 var Inspector = require('./inspector');
-var showall = true;
+
+var showall = process.env.NODE_ENV === 'development';
 
 // TODO: Duplicated function
 function isphisical (vat) {
@@ -132,6 +133,7 @@ var IntroPage = function() {
 		validator: function() {
 			return intro.validationErrors && intro.validationErrors();
 		},
+		prev: false,
 		content: [
 			m(IntroContract, {
 				model: intro
