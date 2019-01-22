@@ -3,6 +3,15 @@ var m = require('mithril');
 var _ = require('./translate');
 var Checkbox = require('./mdc/checkbox');
 var Dialog = require('./mdc/dialog');
+var GeneralConditions = {
+	LANGKEY: require('./generalconditions-ca.html'), // default
+	//en: require('./generalconditions-en.html'),
+	es: require('./generalconditions-ca.html'),
+	//es: require('./generalconditions-es.html'),
+	//gl: require('./generalconditions-gl.html'),
+	//eu: require('./generalconditions-eu.html'),
+};
+
 /** @module */
 
 /**
@@ -15,7 +24,7 @@ var LegalConsent = {
 		vn.state.dialog = {};
 	},
 	view: function(vn) {
-		return [ 
+		return [
 			m(Checkbox, {
 				id: vn.attrs.id,
 				label: vn.attrs.label,
@@ -58,6 +67,8 @@ var LegalConsent = {
 LegalConsent.Example = {};
 LegalConsent.Example.marxcontract = false;
 LegalConsent.Example.devilcontract = true;
+LegalConsent.Example.contractiframe = false;
+LegalConsent.Example.contractfile = false;
 LegalConsent.Example.view = function(vn) {
 	var Layout = require('./mdc/layout');
 	return m(Layout,
@@ -74,7 +85,7 @@ LegalConsent.Example.view = function(vn) {
 			}, [
 				m('', _('La parte contratante de la primera parte, será considerada como la parte contratante de la primera parte. ')),
 			])
- 
+
 		),
 		m(Layout.Cell, {span:3},
 			m(LegalConsent, {
@@ -87,6 +98,37 @@ LegalConsent.Example.view = function(vn) {
 				title: _('Pacto con el diablo'),
 			}, [
 				m('p', _('We own you, and you know it')),
+			])
+		),
+		m(Layout.Cell, {span:3},
+			m(LegalConsent, {
+				id: 'legalconsent_example_marx_iframe',
+				accepted: LegalConsent.Example.contractiframe,
+				onchanged: function(value){
+					LegalConsent.Example.contractiframe = value;
+				},
+				label: _('Accepto les condicions (iframe)'),
+				title: _('Condicions Generals'),
+			}, [
+				m('iframe', {
+					width: 500,
+					height: "100%",
+					src: 'https://www.somenergia.coop/condicions_generals.htm',
+				}),
+			])
+		),
+		m(Layout.Cell, {span:3},
+			m(LegalConsent, {
+				id: 'legalconsent_example_marx_file',
+				accepted: LegalConsent.Example.contractfile,
+				onchanged: function(value){
+					LegalConsent.Example.contractfile = value;
+				},
+				label: _('Accepto les condicions'),
+				title: _('Condicions Generals'),
+			}, [
+			_('LANGKEY'),
+			m.trust(GeneralConditions[_('LANGKEY')])
 			])
 		),
 	);
