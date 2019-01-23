@@ -12,6 +12,7 @@ var ValidatedField = require('./validatedfield');
 var StateCityChooser = require('./statecity');
 var LanguageChooser = require('./languagechooser');
 var LegalConsent = require('./legalconsent');
+var LegalTexts = require('./legaltexts');
 var Mousetrap = require('mousetrap');
 require('mousetrap-global-bind');
 
@@ -297,16 +298,19 @@ PersonEditor.view = function(vn) {
 			required: true,
 		}),
 		m(Row, [
-			m(Cell, {span:12}, m(Checkbox, {
-				id: prefix+'privacypolicy',
+			m(Cell, {span:12}, m(LegalConsent, {
+				id: prefix+'acceptprivacypolicy',
+				accepted: person.privacypolicyaccepted,
+				onchanged: function(value) {
+					person.privacypolicyaccepted = value;
+				},
 				label: m.trust(_('ACCEPT_PRIVACY_POLICY', {
 					url: _('ACCEPT_PRIVACY_POLICY_URL')})),
-				checked: person.privacypolicyaccepted,
-				onchange: function(ev) {
-					person.privacypolicyaccepted = ev.target.checked;
-				},
+				title: _('PRIVACY_POLICY_TITLE'),
 				required: true,
-			})),
+			},
+				m.trust(LegalTexts.get('privacypolicy', _('LANGKEY')))
+			)),
 		]),
 	]);
 };

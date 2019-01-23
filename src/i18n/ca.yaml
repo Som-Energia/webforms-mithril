@@ -1,3 +1,5 @@
+LANGKEY: ca
+
 # Open Data UI
 
 OPENDATAUI_TITLE: |
@@ -225,6 +227,7 @@ Confirmation: Confirmació
 Submit: Enviar
 CONTRACT_INTRO:
     Per contractar la llum amb Som Energia... bla bla
+PRIVACY_POLICY_TITLE: Política de Protecció de Dades
 ACCEPT_PRIVACY_POLICY:
     He llegit i accepto la <strong><a target="_blank" href="%{url}">política de privacitat</a></strong> de Som Energia',
 ACCEPT_PRIVACY_POLICY_URL:

@@ -4,9 +4,9 @@ var _ = require('./translate');
 var Checkbox = require('./mdc/checkbox');
 var Dialog = require('./mdc/dialog');
 var GeneralConditions = {
-	LANGKEY: require('./generalconditions-ca.html'), // default
+	LANGKEY: require('./data/generalterms-ca.html'), // default
 	//en: require('./generalconditions-en.html'),
-	es: require('./generalconditions-ca.html'),
+	es: require('./data/generalterms-ca.html'),
 	//es: require('./generalconditions-es.html'),
 	//gl: require('./generalconditions-gl.html'),
 	//eu: require('./generalconditions-eu.html'),
