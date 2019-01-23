@@ -1,28 +1,51 @@
 # Pending Tasks
 
-- [ ] Ask comer: Check whether closure measuer is needed or not
-   - [ ] Extend to suport different measures for different periods
-   - [ ] Validate measures (frontend - backend)
-   - [ ] Measure validation messages
+- [x] Ask comer: Check whether closure measure is needed or not
+- [x] PersonalData: Checkbox privacy policy -> LegalConsent widget
+
+- [ ] Skip closure page
+- [ ] PersonalData: Move translations from angular 
+- [ ] Validations: Move translations from angular 
+- [ ] Review untranslated texts
+- [ ] Static tools for compiling translations (i18n4v?)
 - [ ] Ask Legal: privacy concerns on showing CUPS Address
-- [ ] ClosurePage: fix layout
-- [ ] Datepicker: make dialog modal
 - [ ] PersonalData: new field for firm name
 - [ ] PersonalData: Proxy fields layout
-- [ ] PersonalData: Checkbox privacy policy -> LegalConsent widget
-- [ ] Select: Delayed progamatic fill in when options depend on an API call
+- [ ] PaymentPage: Checkbox sepa -> LegalConsent widget
+- [ ] SummaryPage: Checkbox terms -> LegalConsent widget
+- [ ] SummaryPage: All information
+- [ ] SuccessPage: Mejorar textos
+- [ ] SuccessPage: Improve format (card?)
+- [ ] FailurePage: Improve format (card?)
+- [ ] FailurePage: Backlinks
+- [ ] Select: Delayed programatic fill in when options depend on an API call
 - [ ] Wizard: Rethink tab navigation
+- [ ] Wizard: Disable hidden pages
 - [ ] Wizard: Default action 'next' when enter key pressed
 - [ ] TextField: translate 'required'
+- [ ] Wizard: Option to fix size content with scroll
+- [ ] PageSlider: whenever we change page, scroll it up
+- [ ] PageSlider: On jump, focus the first element
+- [ ] Dialog: Option to not jumping to the first control
+    - [ ] Dialog: Hack, hidden control on the top
+
+# Not for now?
+
+- [ ] LegalConsent: Split dialog and checkbox to avoid overlaps of later html
+- [ ] ValidatedField: Do not validate until a regexp applies
+- [ ] Take form language from query or token
+- [ ] Set language field to form language by default
+
+# Discarded
+
+- [ ] Datepicker: make dialog modal
+- [ ] Closurepage: fix layout
 
 # Old ones, to review 2019-01-17
+
 ## Cosas que vamos dejando al lado por focus
 
 - [x] Error de password invalido con efecto en el campo
-- [ ] Page slider, al cambiar de pagina, scroll al inicio (si la pagina de la que sales es larga, no ves nada)
-- [ ] Page slider, deshabilitar focus en las otras paginas
-- [ ] Page slider, al saltar poner el focus en el primer elemento
-- [ ] Wizard: que el return sea 'siguiente' (ahora se queda en el boton de la pagina anterior)
 - [ ] HELP URL: I don't have an Spanish VAT
 - [ ] HELP URL: I don't remember my password
 - [ ] password, si falla focus en el password
@@ -55,14 +78,15 @@
 
 - [x] Introduccion de fecha
 - [ ] Selector CNAE
-- [ ] Setting language by default
-- [ ] Setting language by programming
-- [ ] Setting country by default
-- [ ] Setting country by programming
-- [ ] Setting state by default
-- [ ] Setting state by programming
-- [ ] Setting validated by default
-- [ ] Setting validated by programming
+- [ ] Select: Setting language by default
+- [ ] Select: Setting language by programming
+- [ ] Select: Setting country by default
+- [ ] Select: Setting country by programming
+- [ ] Select: Setting state by default
+- [ ] Select: Setting state by programming
+- [ ] ValidatedFiel: Setting validated by default
+- [ ] ValidatedFiel: Setting validated by programming
+
 - [ ] Fer servir jsdoc-external-example per separar els exmples i que surtin a la documentacio
 
 
@@ -106,12 +130,9 @@
 ## Dades Contractant
 
 
-- [ ] Añadir campos de representante legal en caso de legal entity
+- [x] Añadir campos de representante legal en caso de legal entity
     - Validació Nif del representant: ha de ser de p. física
-- [ ] Eliminar NIF i password en dades contractant
-- [ ] Take form language from query or token
-- [ ] Set language field to form language by default
-- [ ] Translate texts
+- [x] Eliminar NIF i password en dades contractant
 
 ## Condicions
 
