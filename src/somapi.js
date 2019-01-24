@@ -2,9 +2,9 @@
 var m = require('mithril');
 var _ = require('./translate');
 
-var apibase = 'https://sf5.somenergia.coop'
-var apibase = 'https://testing.somenergia.coop'
-var apibase = 'http://localhost:5001'
+console.log(process.env.APIBASE);
+
+var apibase = process.env.APIBASE;
 
 const ONLINE = 'ONLINE';
 const OFFLINE = 'OFFLINE';

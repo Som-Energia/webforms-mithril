@@ -82,15 +82,20 @@ var config = {
 
 module.exports = (env, argv) => {
 
-  if (argv.mode === 'development') {
-    config.devtool = 'source-map';
-  }
+	api_urls = {
+		production: 'https://sf5.somenergia.coop',
+		testing: 'https://testing.somenergia.coop',
+		development: 'http://localhost:5001',
+	};
 
-  if (argv.mode === 'production') {
-  }
+	var environment = !env ? argv.mode : env.NODE_ENV;
 
-  return config;
+	config.plugins.push(new webpack.EnvironmentPlugin({
+		NODE_ENV: environment,
+		APIBASE: api_urls[environment],
+	}));
+
+	return config;
 };
-
 
 // vim: noet ts=4 sw=4

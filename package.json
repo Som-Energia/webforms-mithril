@@ -4,7 +4,8 @@
   "description": "Web front end for Som Energia forms",
   "main": "index.js",
   "scripts": {
-    "deploy": "webpack --mode production --color --progress -p",
+    "deploy-prod": "webpack --env.NODE_ENV --mode production --color --progress --optimize-minimize",
+		"deploy-test": "webpack --env.NODE_ENV=testing --color --progress --optimize-minimize",
     "build": "webpack --mode development --color --progress",
     "server": "webpack-dev-server --mode development --open --watch -d",
     "getlegal": "./downloadlegal.sh",
