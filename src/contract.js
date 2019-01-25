@@ -49,21 +49,21 @@ SomMockupApi.validateMeasure = function(cups, date, measure) {
 	var promise = new Promise(function(accept, reject) {
 		setTimeout(function() {
 			if (date.day()===1) { // monday
-				promise.catch(function() {m.redraw()})
+				promise.catch(function() {m.redraw()});
 				reject({
 					validationError: 'TODO_ERROR_1',
 				});
 				return;
 			}
 			if (measure==='1') {
-				promise.catch(function() {m.redraw()})
+				promise.catch(function() {m.redraw()});
 				reject({
 					validationError: 'TODO_ERROR_2',
 				});
 				return;
 			}
 			console.log('simulated open session');
-			promise.then(function() {m.redraw()})
+			promise.then(function() {m.redraw()});
 			accept({
 				status: 'ok',
 			});
