@@ -48,86 +48,57 @@ PersonEditor.oninit = function(vn) {
 
 		// TODO: Obsolete
 		if (this.usertype === undefined) {
-			return error('NO_PERSON_TYPE');
+			return error(_('NO_PERSON_TYPE'));
 		}
 		if (!this.name) {
-			return error('NO_NAME');
+			return error(_('NO_NAME'));
 		}
 		if (isphisical(vn.attrs.vat)) {
 			if (!this.surname) {
-				return error('NO_SURNAME');
+				return error(_('NO_SURNAME'));
 			}
 		}
 		// TODO:  This is not implemented yet
-		if (isphisical(vn.attrs.vat) === false) {
-			if (this.representantname === undefined) {
-				return error('NO_PROXY_NAME');
+		if (this.usertype === 'company') {
+			if (this.proxyname === undefined) {
+				return error(_('NO_PROXY_NAME'));
 			}
-			if (this.representantdni === undefined ||
-				this.dniRepresentantIsInvalid !== false) {
-				return error('NO_PROXY_NIF');
+			if (this.proxyvatvalue === undefined ||
+				this.proxyvatvalid !== true) {
+				return error(_('NO_PROXY_NIF'));
 			}
 		}
 		if (!this.address) {
-			return error('NO_ADDRESS');
+			return error(_('NO_ADDRESS'));
 		}
 		if (!this.postalcode || this.postalcodeError) {
-			return error('NO_POSTALCODE');
+			return error(_('NO_POSTALCODE'));
 		}
 		if (this.state === undefined) {
-			return error('NO_STATE');
+			return error(_('NO_STATE'));
 		}
 		if (this.city === undefined) {
-			return error('NO_CITY');
+			return error(_('NO_CITY'));
 		}
 
 		if (!this.email || this.emailError) {
-			return error('NO_EMAIL');
+			return error(_('NO_EMAIL'));
 		}
 		if (!this.email2 || this.email !== this.email2) {
-			return error('NO_REPEATED_EMAIL');
+			return error(_('NO_REPEATED_EMAIL'));
 		}
 		if (!this.phone1) {
-			return error('NO_PHONE');
+			return error(_('NO_PHONE'));
 		}
 		if (this.language === undefined) {
-			return error('NO_LANGUAGE');
+			return error(_('NO_LANGUAGE'));
 		}
 		if (this.privacypolicyaccepted !== true) {
-			return error('UNACCEPTED_PRIVACY_POLICY');
+			return error(_('UNACCEPTED_PRIVACY_POLICY'));
 		}
 		this.error = undefined;
 		return true;
 	};
-};
-PersonEditor.oncreate = function(vn) {
-	Mousetrap(vn.dom).bindGlobal('ctrl+shift+1', function() {
-		var person = vn.state.person
-		person.name='Perico';
-		person.surname='Palotes';
-		person.address='Percebe 13';
-		person.postalcode='12345';
-		person.phone1='123456789';
-		person.phone2='987654321';
-		person.email ='a@a';
-		person.email2='a@a';
-		m.redraw();
-		return false;
-	});
-	Mousetrap(vn.dom).bindGlobal('ctrl+shift+2', function() {
-		var person = vn.state.person
-		person.name='Juana';
-		person.surname='Calamidad';
-		person.address='Calle Mayor';
-		person.postalcode='54321';
-		person.phone1='123456789';
-		person.phone2='987654321';
-		person.email ='b@b';
-		person.email2='b@a';
-		person.privacypolicyaccepted=false;
-		m.redraw();
-		return false;
-	});
 };
 
 PersonEditor.statechanged = function(vn) {
@@ -144,31 +115,33 @@ PersonEditor.view = function(vn) {
 		},
 	},[
 		m(Row, [
+			m(Cell, {span:5}, m(TextField, {
+				id: prefix+'name',
+				label: isphisical(vn.attrs.vat) ? _('HOLDER_NAME') : _('BUSINESS_NAME'),
+				help: isphisical(vn.attrs.vat) ? _('HOLDER_NAME_HELP') : _('BUSINESS_NAME_HELP'),
+				value: person.name,
+				oninput: function(ev) {
+					person.name = ev.target.value;
+				},
+				required: true,
+				boxed: true,
+			})),
 			isphisical(vn.attrs.vat) ? [
-				m(Cell, {span:5}, m(TextField, {
-					id: prefix+'name',
-					label: _('Name'),
-					value: person.name,
-					oninput: function(ev) {
-						person.name = ev.target.value;
-					},
-					required: true,
-					boxed: true,
-				})),
 				m(Cell, {span:7}, m(TextField, {
 					id: prefix+'surname',
-					label: _('Surname'),
+					label: _('HOLDER_SURNAME'),
+					help: _('HOLDER_SURNAME_HELP'),
 					value: person.surname,
 					oninput: function(ev) {
 						person.surname = ev.target.value;
 					},
 					required: true,
 					boxed: true,
-				}))
-			]:[
+				})) ] : [
 				m(Cell, {span:4}, m(TextField, {
 					id: prefix+'proxyname',
-					label: _('Proxy Name'),
+					label: _('PROXY_NAME'),
+					help: _('PROXY_NAME_HELP'),
 					value: person.proxyname,
 					oninput: function(ev) {
 						person.proxyname = ev.target.value;
@@ -176,11 +149,11 @@ PersonEditor.view = function(vn) {
 					required: true,
 					boxed: true,
 				})),
-				m(Cell, {span:4}, m(ValidatedField, {
+				m(Cell, {span:3}, m(ValidatedField, {
 					id: prefix+'proxyvat',
 					checkurl: '/check/vat/exists/',
-					label: _('Proxy Nif'),
-					help: _('Nif de la persona representant'),
+					label: _('PROXY_NIF'),
+					help: _('PROXY_NIF_HELP'),
 					boxed: true,
 					required: true,
 					maxlength: 9,
@@ -200,13 +173,13 @@ PersonEditor.view = function(vn) {
 							vn.state.person.proxyvatvalid = false;
 						}
 					}
-				}))
-			],
+				}))]
 		]),
 		m(Row, [
 			m(Cell, {span:8}, m(TextField, {
 				id: prefix+'address',
-				label: _('Street address'),
+				label: _('HOLDER_ADDRESS'),
+				help: _('HOLDER_ADDRESS_HELP'),
 				leadingfaicon: 'home',
 				value: person.address,
 				oninput: function(ev) {
@@ -217,7 +190,8 @@ PersonEditor.view = function(vn) {
 			})),
 			m(Cell, {span:4}, m(TextField, {
 				id: prefix+'postalcode',
-				label: _('Postal code'),
+				label: _('HOLDER_POSTALCODE'),
+				help: _('HOLDER_POSTALCODE_HELP'),
 				value: person.postalcode,
 				maxlength: 5,
 				minlength: 5,
@@ -234,7 +208,6 @@ PersonEditor.view = function(vn) {
 					return value;
 				},
 				*/
-				help: m.trust('&nbsp;'),
 				required: true,
 				boxed: true,
 			})),
@@ -252,7 +225,8 @@ PersonEditor.view = function(vn) {
 		m(Row, [
 			m(Cell, {span:6}, m(TextField, {
 				id: prefix+'email',
-				label: _('e-mail'),
+				label: _('HOLDER_EMAIL'),
+				help: _('HOLDER_EMAIL_HELP'),
 				type: 'email',
 				leadingfaicon: 'envelope',
 				value: person.email,
@@ -261,26 +235,26 @@ PersonEditor.view = function(vn) {
 					person.emailError = ev.target.validationMessage;
 					// TODO var emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 				},
-				help: _('This address will identify you'),
 				boxed: true,
 			})),
 			m(Cell, {span:6}, m(TextField, {
 				id: prefix+'email2',
-				label: _('e-mail (repeat)'),
+				label: _('HOLDER_EMAIL_2'),
+				help: _('HOLDER_EMAIL_2_HELP'),
 				type: 'email',
 				leadingfaicon: 'envelope',
 				value: person.email2,
 				oninput: function(ev) {
 					person.email2 = ev.target.value;
 				},
-				help: _('Repeat the e-mail address to be sure'),
 				boxed: true,
 			})),
 		]),
 		m(Row, [
 			m(Cell, {span:6}, m(TextField, {
 				id: prefix+'phone1',
-				label: _('Phone'),
+				label: _('HOLDER_PHONE'),
+				help: _('HOLDER_PHONE_HELP'),
 				maxlength: 9,
 				leadingfaicon: 'phone',
 				value: person.phone1,
@@ -296,7 +270,8 @@ PersonEditor.view = function(vn) {
 			})),
 			m(Cell, {span:6}, m(TextField, {
 				id: prefix+'phone2',
-				label: _('Additional phone (optional)'),
+				label: _('HOLDER_PHONE_2'),
+				help: _('HOLDER_PHONE_2_HELP'),
 				maxlength: 9,
 				leadingfaicon: 'phone',
 				value: person.phone2,
@@ -318,7 +293,7 @@ PersonEditor.view = function(vn) {
 				});
 			},
 			faicon: 'language',
-			help: _('Choose the language we will address you'),
+			help: _('HOLDER_LANGUAGE_HELP'),
 			required: true,
 		}),
 		m(Row, [
@@ -334,6 +309,36 @@ PersonEditor.view = function(vn) {
 			})),
 		]),
 	]);
+};
+
+PersonEditor.oncreate = function(vn) {
+	Mousetrap(vn.dom).bindGlobal('ctrl+shift+1', function() {
+		var person = vn.state.person;
+		person.name='Perico';
+		person.surname='Palotes';
+		person.address='Percebe 13';
+		person.postalcode='12345';
+		person.phone1='123456789';
+		person.phone2='987654321';
+		person.email ='a@a';
+		person.email2='a@a';
+		m.redraw();
+		return false;
+	});
+	Mousetrap(vn.dom).bindGlobal('ctrl+shift+2', function() {
+		var person = vn.state.person;
+		person.name='Juana';
+		person.surname='Calamidad';
+		person.address='Calle Mayor';
+		person.postalcode='54321';
+		person.phone1='123456789';
+		person.phone2='987654321';
+		person.email ='b@b';
+		person.email2='b@a';
+		person.privacypolicyaccepted=false;
+		m.redraw();
+		return false;
+	});
 };
 
 const Example = {};

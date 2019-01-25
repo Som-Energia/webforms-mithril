@@ -33,7 +33,7 @@ var LanguageChooser = {
 		return m(Row, [
 			m(Cell, {span:12},
 				m(Select, Object.assign({},{
-					label: _('Language'),
+					label: _('LANGUAGE'),
 					boxed: true,
                     },vn.attrs,{
 					options: this.languages.map(function(v) {
@@ -43,8 +43,8 @@ var LanguageChooser = {
 						};
 					}),
 					help: this.error?this.error:(
-                        this.languages?vn.attrs.help||_('Choose a language'):
-                        _('Loading...')
+                        this.languages ? vn.attrs.help|| _('LANGUAGE'):
+                        _('LOADING_HELP')
                         ),
 					value: self.language,
 					onchange: function (ev) {

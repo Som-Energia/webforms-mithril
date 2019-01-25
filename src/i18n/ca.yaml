@@ -49,7 +49,7 @@ VIEWMODE_TABLE: Taula
 VIEWMODE_YAML: YAML (original)
 VIEWMODE_JSON: JSON
 Code: Codi
-Name: Nom
+NAME: Nom
 Global: Global
 
 # Legal Consent Widget
@@ -69,11 +69,11 @@ VALIDATING_SESSION: S'està validant la sessió
 STILL_VALIDATING_SESSION: '' # Empty
 CONTRACTING_AS: Està contractant a nom de %{name}.
 NOT_YOU_LOGOUT: Si no sou aquesta persona, si us plau,  <a href="%{url}" target="_blank">tanqueu la sessió</a>
+FILL_NIF: No has introduit un NIF correcte
 FILL_VAT: Si us plau, ompli el NIF de la persona que serà titular del contracte
 VAT_LABEL: Número d'identificació fiscal (NIF)
 VAT_HELP: I si no disposo d'un NIF?
 VAT_HELP_URL: TODO
-NO_NIF: No has introduit un NIF correcte
 
 IDENTIFY: Identificació
 FILL_PASSWORD: Si us plau, identifiqueu-vos fent servir la contrasenya de l'oficina virtual
@@ -88,15 +88,61 @@ CUPS_LABEL: CUPS
 CUPS_HELP: On puc esbrinar el codi CUPS
 CUPS_HELP_URL: TODO
 CUPS_VERIFY_LABEL: Confirmo que l'adreça mostrada és la que correspon al CUPS que vull contractar
-INVALID_SUPPLY_POINT_CUPS: CUPS invàlid
+INVALID_SUPPLY_POINT_CUPS: No has especificat un <b>identificador CUPS</b> vàlid pel punt de subministrament
 CUPS_IN_PROCESS: Aquest CUPS actualment està en un proces
 MARK_ADDRESS_CONFIRMATION_BOX: Verifica que l'adreça associada a aquest CUPS és correcta
 SUPPLY_POINT_ADDRESS: Adreça de subministrament
 CUPS_SHOULD_BE_ACTIVE: El CUPS no te cap contracte actiu a Som Energia
 CUPS_STATE_UNEXPECTED: No s'ha pogut identificar l'estat del CUPS (error intern)
+# Generic fields
+STATE: Província
+STATE_HELP: TODO
+CITY: Municipi
+CITY_HELP: TODO
+LOADING_HELP: Carregant opcions...
+LANGUAGE: Idioma
+LANGUAGE_HELP: TODO
 
 # Holder personal data
 HOLDER_PERSONAL_DATA: Dades personals de la persona titular
+HOLDER_NAME: Nom
+HOLDER_NAME_HELP: Nom de la persona titular 
+HOLDER_SURNAME: Cognoms
+HOLDER_SURNAME_HELP: Cognoms de la persona titular
+BUSINESS_NAME: Raó social
+BUSINESS_NAME_HELP: Raó social
+PROXY_NAME: Nom del representant legal
+PROXY_NAME_HELP: Nom del representant legal
+PROXY_NIF: Nif del representant legal
+PROXY_NIF_HELP: Nif del representant legal
+HOLDER_ADDRESS: Adreça 
+HOLDER_ADDRESS_HELP: TODO
+HOLDER_POSTALCODE: Codi postal  
+HOLDER_POSTALCODE_HELP: TODO
+HOLDER_EMAIL: email
+HOLDER_EMAIL_HELP: TODO
+HOLDER_EMAIL_2: email (Repeteix email)
+HOLDER_EMAIL_2_HELP: Repeteix email
+HOLDER_PHONE: Telèfon
+HOLDER_PHONE_HELP: TODO
+HOLDER_PHONE_2: Telèfon alternatiu
+HOLDER_PHONE_2_HELP: TODO
+## Holder personal data errors
+NO_NAME: No has especificat el nom
+NO_SURNAME: No has especificat els cognoms
+NO_NIF: No has especificat el NIF
+NO_PROXY_NAME: No has especificat el nom de la persona representant
+NO_PROXY_NIF: No has especificat el NIF de la persona representant
+NO_ADDRESS: No has especificat l'adreça
+NO_POSTALCODE: No has especificat un codi postal correcte
+NO_STATE: No has especificat la província
+NO_CITY: No has especificat el municipi
+NO_EMAIL: No has especificat un correu electrònic correcte
+NO_REPEATED_EMAIL: No has repetit el correu electrònic correctament
+NO_PHONE: No has especificat un telèfon correcte
+NO_LANGUAGE: No has especificat l'idioma
+UNACCEPTED_PRIVACY_POLICY: Has d'acceptar la política de privacitat
+
 
 # Contract closure
 CONTRACT_CLOSURE_TITLE: Data i lectura de tancament

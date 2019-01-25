@@ -61,7 +61,7 @@ IntroContract.oninit = function(vn) {
 			return undefined;
 		}
 		if (vn.state.vateditor.isvalid === false) {
-			return _('NO_NIF');
+			return _('FILL_NIF');
 		}
 		if (vn.state.vateditor.isvalid === undefined) {
 			return "";

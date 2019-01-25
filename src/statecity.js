@@ -60,9 +60,9 @@ var StateCityChooser = {
 							text: v.name,
 						};
 					}),
-					label: _('State'),
+					label: _('STATE'),
 					boxed: true,
-					help: this.stateError?this.stateError:(this.states?_('Choose a state'):_('Loading...')),
+					help: this.stateError ? this.stateError : (this.states ? _('STATE_HELP') : _('LOADING_HELP')),
 					required: true,
 					value: self.state,
 					onchange: function (ev) {
@@ -80,9 +80,9 @@ var StateCityChooser = {
 							text: v.name,
 						};
 					}),
-					label: _('City'),
+					label: _('CITY'),
 					boxed: true,
-					help: this.cityError?this.cityError:(this.cities?_('Choose a city'):_('Loading...')),
+					help: this.cityError ? this.cityError : (this.cities ? _('CITY_HELP') : _('LOADING_HELP')),
 					required: true,
 					value: self.city || '',
 					onchange: function (ev) {
