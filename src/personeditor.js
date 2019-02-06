@@ -30,55 +30,51 @@ PersonEditor.oninit = function(vn) {
 		var self = this;
 		var isphisical = vn.state.isphisical;
 
-		function error(message) {
-			return message;
-		}
-
 		if (!this.name) {
-			return error(_('NO_NAME'));
+			return _('NO_NAME');
 		}
 		if (isphisical) {
 			if (!this.surname) {
-				return error(_('NO_SURNAME'));
+				return _('NO_SURNAME');
 			}
 		}
 		// TODO:  This is not implemented yet
 		else {
 			if (!this.proxyname) {
-				return error(_('NO_PROXY_NAME'));
+				return _('NO_PROXY_NAME');
 			}
 			if (this.proxyvatvalue === undefined ||
 				this.proxyvatvalid !== true) {
-				return error(_('NO_PROXY_NIF'));
+				return _('NO_PROXY_NIF');
 			}
 		}
 		if (!this.address) {
-			return error(_('NO_ADDRESS'));
+			return _('NO_ADDRESS');
 		}
 		if (!this.postalcode || this.postalcodeError) {
-			return error(_('NO_POSTALCODE'));
+			return _('NO_POSTALCODE');
 		}
 		if (this.state === undefined) {
-			return error(_('NO_STATE'));
+			return _('NO_STATE');
 		}
 		if (this.city === undefined) {
-			return error(_('NO_CITY'));
+			return _('NO_CITY');
 		}
 
 		if (!this.email || this.emailError) {
-			return error(_('NO_EMAIL'));
+			return _('NO_EMAIL');
 		}
 		if (!this.email2 || this.email !== this.email2) {
-			return error(_('NO_REPEATED_EMAIL'));
+			return _('NO_REPEATED_EMAIL');
 		}
 		if (!this.phone1) {
-			return error(_('NO_PHONE'));
+			return _('NO_PHONE');
 		}
 		if (this.language === undefined) {
-			return error(_('NO_LANGUAGE'));
+			return _('NO_LANGUAGE');
 		}
 		if (this.privacypolicyaccepted !== true) {
-			return error(_('UNACCEPTED_PRIVACY_POLICY'));
+			return _('UNACCEPTED_PRIVACY_POLICY');
 		}
 	};
 };
