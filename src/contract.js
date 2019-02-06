@@ -499,11 +499,13 @@ var SuccessPage = function() {
 		prev: false,
 		next: false,
 		content: [
-			m('', m.trust(_('SUCCESS_TEXT', {
-				contract_number: Contract.contract_number,
-				urlov: _('OV_URL'),
-			}))),
-			m('img', {src: cuca}),
+			m('.success_page', [
+				m.trust(_('SUCCESS_TEXT', {
+					contract_number: Contract.contract_number,
+					urlov: _('OV_URL'),
+				})),
+				m('img', {src: cuca})
+			 ]),
 		],
 	};
 };
