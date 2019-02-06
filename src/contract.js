@@ -431,19 +431,30 @@ var ReviewPage = function() {
 				group(_("HOLDER"), [
 					field(_("NIF"), Contract.intro.vatvalue),
 					isphisical(Contract.intro.vatvalue) &&
-						field(_("NAME"), Contract.holder.name+" "+Contract.holder.surname),
+						field(_("NAME"), Contract.holder.name+" "+Contract.holder.surname1+" "+Contract.holder.surname2),
 					!isphisical(Contract.intro.vatvalue) &&
 						field(_("LEGAL_NAME"), Contract.holder.name),
 					!isphisical(Contract.intro.vatvalue) &&
-						field(_("PROXY_NAME"), Contract.holder.proxyname)
+						field(_("PROXY"), Contract.holder.proxyname+
+							  " ("+Contract.holder.proxyvat+")"),
+					field(_("ADDRESS"), Contract.holder.address),
+					field(_("CITY"),
+						  (Contract.holder.city && Contract.holder.city.name)+
+						  " ("+Contract.holder.postalcode+") "+
+						  (Contract.holder.state && Contract.holder.state.name)),
+				]),
+				group(_('CONTACT'), [
+					field(_("PHONE"), Contract.holder.phone1 + (Contract.holder.phone2 ? (" / " + Contract.holder.phone2) : "")),
+					field(_("EMAIL"), Contract.holder.email),
+					field(_("LANGUAGE"), Contract.holder.language && Contract.holder.language.name),
 				]),
 				group(_('SUPPLY'), [
 					field(_("CUPS"), Contract.cups.cupsvalue),
-					field(_("CUPSADDRESS"), Contract.cups.cupsaddress),
-					!isphisical(Contract.intro.vatvalue) &&
-						field(_("LEGAL_NAME"), Contract.holder.name),
-					!isphisical(Contract.intro.vatvalue) &&
-						field(_("PROXY_NAME"), Contract.holder.proxyname)
+					field(_("ADDRESS"), Contract.cups.cupsaddress),
+				]),
+				group(_('SUMMARY_GROUP_PAYMENT'), [
+					field(_("IBAN"), Contract.payment.iban),
+					field(_("VOLUNTARY_CENT"), Contract.voluntary_cent ? _("YES"):_("NO")),
 				]),
 			]),
 		],

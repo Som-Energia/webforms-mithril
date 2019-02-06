@@ -174,9 +174,16 @@ IBAN_ERROR: Invalid IBAN
 
 # ReviewPage
 REVIEW_TITLE: Revisa i confirma el contracte
-LEGALNAME: Raó social
+REVIEW_DATA_AND_CONFIRM: |
+  Ja queda poc!, verifica les dades i prem el botó enviar
+LEGAL_NAME: Raó social
 SUPPLY: Punt de subministrament
-
+ADDRESS: Adreça
+PHONE: Telèfon
+EMAIL: Correu-e
+PROXY: Representant legal
+SUMMARY_GROUP_PAYMENT: Dades de pagament
+VOLUNTARY_CENT: Donatiu voluntari
 
 # FailurePage
 FAILURE_TITLE: Error creant el contracte
