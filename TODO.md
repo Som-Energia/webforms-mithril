@@ -3,14 +3,16 @@
 - [x] Ask comer: Check whether closure measure is needed or not
 - [x] PersonalData: Checkbox privacy policy -> LegalConsent widget
 
-- [ ] Skip closure page
+- [x] Skip closure page
 - [ ] PersonalData: Move translations from angular 
 - [ ] Validations: Move translations from angular 
 - [ ] Review untranslated texts
 - [ ] Static tools for compiling translations (i18n4v?)
 - [x] Ask Legal: privacy concerns on showing CUPS Address
-- [ ] PersonalData: new field for firm name
-- [ ] PersonalData: Proxy fields layout
+- [x] PersonalData: new field for firm name
+- [x] PersonalData: Proxy fields layout
+- [x] PersonalData: Split surname 
+- [ ] Ask Legal: legal consent for SEPA
 - [ ] PaymentPage: Checkbox sepa -> LegalConsent widget
 - [ ] SummaryPage: Checkbox terms -> LegalConsent widget
 - [ ] SummaryPage: All information
@@ -35,6 +37,7 @@
 - [ ] ValidatedField: Do not validate until a regexp applies
 - [ ] Take form language from query or token
 - [ ] Set language field to form language by default
+- [ ] email validation in old browsers
 
 # Discarded
 
