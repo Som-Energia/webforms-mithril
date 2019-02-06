@@ -196,8 +196,6 @@ var PasswordPage = function() {
 var HolderPage = function() {
 	var intro = Contract.intro;
 	var holder = Contract.holder;
-	holder.vat=intro.vatvalue;
-
 	return {
 		id: 'holder_page',
 		title: _('HOLDER_PERSONAL_DATA'),
