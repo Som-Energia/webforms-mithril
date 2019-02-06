@@ -17,50 +17,35 @@ var Mousetrap = require('mousetrap');
 require('mousetrap-global-bind');
 
 
-function isphisical (vat) {
-	if (vat === undefined) return undefined;
-	var firstchar = vat[0];
-	return '0123456789KLMXYZ'.indexOf(firstchar) !== -1;
-}
-
 var PersonEditor = {};
 
 PersonEditor.oninit = function(vn) {
+
 	vn.state.person = vn.attrs.model || {};
 	var person = vn.state.person;
 
 	person.privacypolicyaccepted = false;
 
-	person.isphisical = function() {
-		if (vn.attrs.vat === undefined) return undefined;
-		var firstchar = vn.attrs.vat[0];
-		return '0123456789KLMXYZ'.indexOf(firstchar) !== -1;
-	};
-
-	person.validate = function() {
+	person.validate = function(isphisical) {
 		var self = this;
+
 		function error(message) {
 			if (self.error !== message) {
 				self.error = message;
 			}
 			return false;
 		}
-		this.usertype = isphisical(vn.attrs.vat) ? 'person' : 'company';
 
-		// TODO: Obsolete
-		if (this.usertype === undefined) {
-			return error(_('NO_PERSON_TYPE'));
-		}
 		if (!this.name) {
 			return error(_('NO_NAME'));
 		}
-		if (isphisical(vn.attrs.vat)) {
+		if (isphisical) {
 			if (!this.surname) {
 				return error(_('NO_SURNAME'));
 			}
 		}
 		// TODO:  This is not implemented yet
-		if (this.usertype === 'company') {
+		else {
 			if (this.proxyname === undefined) {
 				return error(_('NO_PROXY_NAME'));
 			}
@@ -111,15 +96,15 @@ PersonEditor.view = function(vn) {
 	return m('.personeditor', {
 		id: id,
 		validator: function() {
-			person.validate();
+			person.validate(vn.attrs.isphisical);
 			return person.error;
 		},
-	},[
+	}, [
 		m(Row, [
 			m(Cell, {span:5}, m(TextField, {
 				id: prefix+'name',
-				label: isphisical(vn.attrs.vat) ? _('HOLDER_NAME') : _('BUSINESS_NAME'),
-				help: isphisical(vn.attrs.vat) ? _('HOLDER_NAME_HELP') : _('BUSINESS_NAME_HELP'),
+				label: vn.attrs.isphisical ? _('HOLDER_NAME') : _('BUSINESS_NAME'),
+				help: vn.attrs.isphisical ? _('HOLDER_NAME_HELP') : _('BUSINESS_NAME_HELP'),
 				value: person.name,
 				oninput: function(ev) {
 					person.name = ev.target.value;
@@ -127,7 +112,7 @@ PersonEditor.view = function(vn) {
 				required: true,
 				boxed: true,
 			})),
-			isphisical(vn.attrs.vat) ? [
+			vn.attrs.isphisical ? [
 				m(Cell, {span:7}, m(TextField, {
 					id: prefix+'surname',
 					label: _('HOLDER_SURNAME'),

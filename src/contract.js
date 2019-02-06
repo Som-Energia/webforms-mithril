@@ -209,13 +209,13 @@ var HolderPage = function() {
 			return intro.vatexists === true;
 		},
 		validator: function() {
-			holder.validate && holder.validate();
+			holder.validate && holder.validate(isphisical(intro.vatvalue));
 			return holder.error;
 		},
 		content: [
 			m(PersonEditor, {
 				id: 'holder',
-				vat: intro.vatvalue,
+				isphisical: isphisical(intro.vatvalue),
 				model: holder,
 			}),
 		],
