@@ -14,11 +14,12 @@ PaymentEditor.oninit = function(vn) {
     this.model=vn.attrs.model;
     this.model.iban = {};
     this.model.sepaaccepted = false;
+    vn.state.ibaneditor = {};
     var self = this.model;
 
     this.model.validate = function() {
 
-        if (self.iban.isvalid !== true) {
+        if (vn.state.ibaneditor.isvalid !== true) {
             return _('INVALID_PAYER_IBAN');
         }
         if (self.sepaaccepted !== true) {
@@ -46,10 +47,12 @@ PaymentEditor.view = function(vn){
                 return value;
             },
             checkurl: '/check/iban/',
-            fieldData: this.model.iban,
+            fieldData: vn.state.ibaneditor,
             boxed: true,
 			onvalidated: function() {
+				console.log('payment editor, onvalidated: ', vn.state);
 				vn.state.model.validate();
+				vn.state.model.iban = vn.state.ibaneditor.value;
 			},
         }),
         m(Checkbox, {
