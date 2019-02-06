@@ -27,18 +27,15 @@ PersonEditor.oninit = function(vn) {
 	person.privacypolicyaccepted = false;
 
 	person.validate = function() {
-		var self = this;
-		var isphisical = vn.state.isphisical;
 
 		if (!this.name) {
 			return _('NO_NAME');
 		}
-		if (isphisical) {
-			if (!this.surname) {
+
+		if (vn.state.isphisical) {
 				return _('NO_SURNAME');
 			}
 		}
-		// TODO:  This is not implemented yet
 		else {
 			if (!this.proxyname) {
 				return _('NO_PROXY_NAME');
@@ -79,8 +76,6 @@ PersonEditor.oninit = function(vn) {
 	};
 };
 
-PersonEditor.statechanged = function(vn) {
-};
 
 PersonEditor.view = function(vn) {
 	var id = vn.attrs.id;
