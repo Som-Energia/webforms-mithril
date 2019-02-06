@@ -187,13 +187,6 @@ PersonEditor.view = function(vn) {
 					person.postalcodeError = ev.target.validationMessage;
 				},
 				inputfilter: /^[0-9]{0,5}$/,
-				/*
-				inputfilter: function(value) {
-					value = value.replace(/[^0-9]/,'');
-					value = value.slice(0,5);
-					return value;
-				},
-				*/
 				required: true,
 				boxed: true,
 			})),
