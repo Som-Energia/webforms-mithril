@@ -33,7 +33,8 @@ PersonEditor.oninit = function(vn) {
 		}
 
 		if (vn.state.isphisical) {
-				return _('NO_SURNAME');
+			if (!this.surname1) {
+				return _('NO_SURNAME1');
 			}
 		}
 		else {
@@ -89,7 +90,7 @@ PersonEditor.view = function(vn) {
 		},
 	}, [
 		m(Row, [
-			m(Cell, {span:5}, m(TextField, {
+			m(Cell, {span:4}, m(TextField, {
 				id: prefix+'name',
 				label: vn.attrs.isphisical ? _('HOLDER_NAME') : _('BUSINESS_NAME'),
 				help: vn.attrs.isphisical ? _('HOLDER_NAME_HELP') : _('BUSINESS_NAME_HELP'),
@@ -101,17 +102,28 @@ PersonEditor.view = function(vn) {
 				boxed: true,
 			})),
 			vn.attrs.isphisical ? [
-				m(Cell, {span:7}, m(TextField, {
-					id: prefix+'surname',
-					label: _('HOLDER_SURNAME'),
-					help: _('HOLDER_SURNAME_HELP'),
-					value: person.surname,
+				m(Cell, {span:4}, m(TextField, {
+					id: prefix+'surname1',
+					label: _('HOLDER_SURNAME1'),
+					help: _('HOLDER_SURNAME1_HELP'),
+					value: person.surname1,
 					oninput: function(ev) {
-						person.surname = ev.target.value;
+						person.surname1 = ev.target.value;
 					},
 					required: true,
 					boxed: true,
-				})) ] : [
+				})),
+				m(Cell, {span:4}, m(TextField, {
+					id: prefix+'surname2',
+					label: _('HOLDER_SURNAME2'),
+					help: _('HOLDER_SURNAME2_HELP'),
+					value: person.surname2,
+					oninput: function(ev) {
+						person.surname2 = ev.target.value;
+					},
+					required: false,
+					boxed: true,
+				}))	] : [
 				m(Cell, {span:4}, m(TextField, {
 					id: prefix+'proxyname',
 					label: _('PROXY_NAME'),
@@ -123,7 +135,7 @@ PersonEditor.view = function(vn) {
 					required: true,
 					boxed: true,
 				})),
-				m(Cell, {span:3}, m(ValidatedField, {
+				m(Cell, {span:4}, m(ValidatedField, {
 					id: prefix+'proxyvat',
 					checkurl: '/check/vat/exists/',
 					label: _('PROXY_NIF'),
