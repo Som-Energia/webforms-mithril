@@ -31,10 +31,7 @@ PersonEditor.oninit = function(vn) {
 		var isphisical = vn.state.isphisical;
 
 		function error(message) {
-			if (self.error !== message) {
-				self.error = message;
-			}
-			return false;
+			return message;
 		}
 
 		if (!this.name) {
@@ -47,7 +44,7 @@ PersonEditor.oninit = function(vn) {
 		}
 		// TODO:  This is not implemented yet
 		else {
-			if (this.proxyname === undefined) {
+			if (!this.proxyname) {
 				return error(_('NO_PROXY_NAME'));
 			}
 			if (this.proxyvatvalue === undefined ||
@@ -83,13 +80,12 @@ PersonEditor.oninit = function(vn) {
 		if (this.privacypolicyaccepted !== true) {
 			return error(_('UNACCEPTED_PRIVACY_POLICY'));
 		}
-		this.error = undefined;
-		return true;
 	};
 };
 
 PersonEditor.statechanged = function(vn) {
 };
+
 PersonEditor.view = function(vn) {
 	var id = vn.attrs.id;
 	var prefix = id ? id + '_' : '';
@@ -98,8 +94,7 @@ PersonEditor.view = function(vn) {
 	return m('.personeditor', {
 		id: id,
 		validator: function() {
-			person.validate(vn.attrs.isphisical);
-			return person.error;
+			return person.validate();
 		},
 	}, [
 		m(Row, [

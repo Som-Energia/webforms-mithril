@@ -203,8 +203,7 @@ var HolderPage = function() {
 			return intro.vatexists === true;
 		},
 		validator: function() {
-			holder.validate && holder.validate();
-			return holder.error;
+			return holder.validate && holder.validate();
 		},
 		content: [
 			m(PersonEditor, {
