@@ -26,8 +26,9 @@ PersonEditor.oninit = function(vn) {
 
 	person.privacypolicyaccepted = false;
 
-	person.validate = function(isphisical) {
+	person.validate = function() {
 		var self = this;
+		var isphisical = vn.state.isphisical;
 
 		function error(message) {
 			if (self.error !== message) {
@@ -92,6 +93,7 @@ PersonEditor.statechanged = function(vn) {
 PersonEditor.view = function(vn) {
 	var id = vn.attrs.id;
 	var prefix = id ? id + '_' : '';
+	vn.state.isphisical = vn.attrs.isphisical;
 	var person = vn.state.person;
 	return m('.personeditor', {
 		id: id,

@@ -203,7 +203,7 @@ var HolderPage = function() {
 			return intro.vatexists === true;
 		},
 		validator: function() {
-			holder.validate && holder.validate(isphisical(intro.vatvalue));
+			holder.validate && holder.validate();
 			return holder.error;
 		},
 		content: [
