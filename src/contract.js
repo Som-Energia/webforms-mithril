@@ -455,7 +455,7 @@ var ReviewPage = function() {
 				]),
 				group(_('SUMMARY_GROUP_PAYMENT'), [
 					field(_("IBAN"), Contract.payment.iban),
-					field(_("VOLUNTARY_CENT"), Contract.voluntary_cent ? _("YES"):_("NO")),
+					field(_("VOLUNTARY_CENT"), Contract.voluntary_cent === 'yes' ? _("YES"):_("NO")),
 				]),
 			]),
 		],
