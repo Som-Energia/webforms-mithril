@@ -44,7 +44,6 @@ Mousetrap.bindGlobal('ctrl+shift+y', function() {
 
 var SomMockupApi = {};
 SomMockupApi.validateMeasure = function(cups, date, measure) {
-	console.debug("Validating measure", this, cups, date, measure);
 	var self = this;
 	var promise = new Promise(function(accept, reject) {
 		setTimeout(function() {
@@ -62,7 +61,6 @@ SomMockupApi.validateMeasure = function(cups, date, measure) {
 				});
 				return;
 			}
-			console.log('simulated open session');
 			promise.then(function() {m.redraw()});
 			accept({
 				status: 'ok',
@@ -170,12 +168,10 @@ var PasswordPage = function() {
 					model.vatvalue,
 					model.password,
 				).then(function(data) {
-					console.log('valid', data);
 					model.name = data.name;
 					model.sessionActive = true; // TODO: maybe a session cookie?
 					resolve(true);
 				}).catch(function(reason) {
-					console.log('invalid', reason);
 					model.wrongpassword = true;
 					reject(reason);
 				});
@@ -353,10 +349,8 @@ var ClosurePage = function() {
 					Contract.closure.date,
 					Contract.closure.measure
 				).then(function(data) {
-					console.log('valid', data);
 					resolve(true);
 				}).catch(function(reason) {
-					console.log('invalid', reason);
 					Contract.closure.validationError = reason.validationError;
 					reject(reason);
 				});
@@ -535,7 +529,6 @@ var ReviewPage = function() {
 			m('span.fieldvalue', value),
 		]);
 	}
-	console.log(Contract.holder);
 	return {
 		id: 'review_page',
 		title: _('REVIEW_TITLE'),
@@ -570,7 +563,6 @@ var ReviewPage = function() {
 						Contract.contract_number = data.data.contract_number;
 						resolve('success_page');
 					}).catch(function(reason) {
-						console.log('invalid', reason);
 						postError = reason.error_id;
 						postErrorData = reason.data;
 						// TODO: Save reason into state
@@ -583,7 +575,6 @@ var ReviewPage = function() {
 
 
 var FailurePage = function() {
-	console.log("error data", postErrorData);
 	var translatedError = _(postError, postErrorData);
 	var unexpectedError = translatedError === postError;
 	return {
