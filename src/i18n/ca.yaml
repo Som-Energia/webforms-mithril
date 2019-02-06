@@ -109,12 +109,14 @@ LANGUAGE_HELP: TODO
 HOLDER_PERSONAL_DATA: Dades personals de la persona titular
 HOLDER_NAME: Nom
 HOLDER_NAME_HELP: Nom de la persona titular 
-HOLDER_SURNAME: Cognoms
-HOLDER_SURNAME_HELP: Cognoms de la persona titular
+HOLDER_SURNAME1: Primer cognom
+HOLDER_SURNAME1_HELP: Primer cognom de la persona titular
+HOLDER_SURNAME2: Segon cognom
+HOLDER_SURNAME2_HELP: Segon cognom de la persona titular
 BUSINESS_NAME: Raó social
 BUSINESS_NAME_HELP: Raó social
 PROXY_NAME: Nom del representant legal
-PROXY_NAME_HELP: Nom del representant legal
+PROXY_NAME_HELP: Nom i cognoms del representant legal
 PROXY_NIF: Nif del representant legal
 PROXY_NIF_HELP: Nif del representant legal
 HOLDER_ADDRESS: Adreça 
@@ -131,7 +133,7 @@ HOLDER_PHONE_2: Telèfon alternatiu
 HOLDER_PHONE_2_HELP: TODO
 ## Holder personal data errors
 NO_NAME: No has especificat el nom
-NO_SURNAME: No has especificat els cognoms
+NO_SURNAME1: No has especificat el primer cognom
 NO_NIF: No has especificat el NIF
 NO_PROXY_NAME: No has especificat el nom de la persona representant
 NO_PROXY_NIF: No has especificat el NIF de la persona representant
