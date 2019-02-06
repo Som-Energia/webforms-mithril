@@ -8,7 +8,7 @@
 - [ ] Validations: Move translations from angular 
 - [ ] Review untranslated texts
 - [ ] Static tools for compiling translations (i18n4v?)
-- [ ] Ask Legal: privacy concerns on showing CUPS Address
+- [x] Ask Legal: privacy concerns on showing CUPS Address
 - [ ] PersonalData: new field for firm name
 - [ ] PersonalData: Proxy fields layout
 - [ ] PaymentPage: Checkbox sepa -> LegalConsent widget
