@@ -11,14 +11,12 @@
     "cupsstatus": "active"
   },
   "holder": {
-    "vat": "87222628G",
     "privacypolicyaccepted": true,
-    "usertype": "company",
-    "name": "asbv",
-    "surname": "asdb",
-    "address": "asds",
-    "postalcode": "12341",
-    "postalcodeError": "",
+    "name": "Perico",
+    "surname1": "Palote",
+    "surname2": "Romero",
+    "address": "Percebe 13",
+    "postalcode": "17003",
     "state": {
       "id": 1,
       "name": "Araba"
@@ -27,11 +25,10 @@
       "id": 7097,
       "name": "Alegría-Dulantzi"
     },
-    "email": "a@a.com",
-    "emailError": "",
-    "email2": "a@a.com",
-    "phone1": "122357567",
-    "phone2": "234542423",
+    "email": "perico@gmail.com",
+    "email2": "perico@gmail.com",
+    "phone1": "672555212",
+    "phone2": "555555555",
     "language": {
       "code": "ca_ES",
       "name": "Català"
@@ -47,6 +44,5 @@
     },
     "sepaaccepted": true
   },
-  "terms": {},
   "voluntary_cent": "yes"
 }
