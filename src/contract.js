@@ -77,9 +77,6 @@ var Contract = {
 		cupsverified: false,
 	},
 	holder: {},
-	closure: {
-		method: 'regular',
-	},
 	payment: {},
 	terms: {},
 };
@@ -110,7 +107,6 @@ Form.view = function(vn) {
 					PasswordPage(),
 					CupsPage(),
 					HolderPage(),
-					ClosurePage(),
 					//TermsPage(),
 					VoluntaryCentPage(),
  					PaymentPage(),
@@ -311,107 +307,6 @@ var CupsPage = function() {
 				})),
 			]),
 		],
-	};
-};
-
-var ClosurePage = function() {
-	var hideInputs = Contract.closure.method!=='given';
-	return {
-		id: 'closure_page',
-		title: _('CONTRACT_CLOSURE_TITLE'),
-		skipif: function(){
-			return Contract.cups.cupsstatus !== 'active';
-		},
-		validator: function() {
-			if (Contract.closure.validationError) {
-				return _(Contract.closure.validationError);
-			}
-			if (!Contract.closure.method) {
-				return _('NO_CLOSURE_PROCEDURE');
-			}
-			if (Contract.closure.method==='given') {
-				if (!Contract.closure.date) {
-					return _('NO_CLOSURE_DATE');
-				}
-				if (!Contract.closure.measure) {
-					return _('NO_CLOSURE_MEASURE');
-				}
-			}
-			return undefined;
-		},
-		next: function() {
-			if (Contract.closure.method==='regular') {
-				return true;
-			}
-			return new Promise(function (resolve, reject) {
-				SomMockupApi.validateMeasure(
-					Contract.cups.cupsvalue,
-					Contract.closure.date,
-					Contract.closure.measure
-				).then(function(data) {
-					resolve(true);
-				}).catch(function(reason) {
-					Contract.closure.validationError = reason.validationError;
-					reject(reason);
-				});
-			});
-		},
-		content: [
-			m(Row, [
-				m(Cell, {span:12},
-					m(Chooser, {
-						id: 'method',
-						question: _("WHICH_CLOSURE_METHOD"),
-						required: true,
-						value: Contract.closure.method,
-						onvaluechanged: function(newvalue){
-							Contract.closure.validationError = false;
-							Contract.closure.method = newvalue;
-						},
-						options: [{
-							value: 'regular',
-							label: _("AT_REGULAR_INVOICING_LABEL"),
-							description: _("AT_REGULAR_INVOICING_DESCRIPTION"),
-						},{
-							value: 'given',
-							label: _("AT_A_GIVEN_DATE_LABEL"),
-							description: _("AT_A_GIVEN_DATE_DESCRIPTION"),
-						}],
-					})
-				),
-				m(Cell, {span:12, style: hideInputs&&'visibility:hidden'}, _('FILL_CLOSURE_FIELDS')),
-				m(Cell, {span:2, spantablet:6, style: hideInputs&&'visibility:hidden'}, m(DatePicker, {
-					id: 'closuredate',
-					label: _('CLOSURE_DATE_LABEL'),
-					help: _('CLOSURE_DATE_HELP'),
-					autoclose: true,
-					boxed: true,
-					required: Contract.closure.method,
-					disabled: !Contract.closure.method,
-					past: moment().add(-2,'months'),
-					future: moment().add(+15, 'days'),
-					value: Contract.closure.date,
-					onchange: function(newvalue) {
-						Contract.closure.date = newvalue;
-						Contract.closure.validationError = false;
-					},
-				})),
-				m(Cell, {span:2, spantablet:6, style: hideInputs&&'visibility:hidden'}, m(TextField, {
-					id: 'closuremeasure',
-					label: _('CLOSURE_MEASURE_LABEL'),
-					help: _('CLOSURE_MEASURE_HELP'),
-					boxed: true,
-					required: Contract.closure.method,
-					disabled: !Contract.closure.method,
-					inputfilter: /^\d*$/,
-					value: Contract.closure.measure,
-					oninput: function(ev) {
-						Contract.closure.measure = ev.target.value;
-						Contract.closure.validationError = false;
-					},
-				})),
-			])
-		]
 	};
 };
 

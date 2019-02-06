@@ -37,12 +37,6 @@
       "name": "Català"
     }
   },
-  "closure": {
-    "method": "given",
-    "validationError": false,
-    "date": "2019-01-18T15:14:04.605Z",
-    "measure": "12"
-  },
   "payment": {
     "iban": {
       "value": "ES77 1234 1234 1612 3456 7890",

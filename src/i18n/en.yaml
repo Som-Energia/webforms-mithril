@@ -100,9 +100,6 @@ CUPS_STATE_UNEXPECTED: Unknown CUPS state (internal error)
 # Holder personal data
 HOLDER_PERSONAL_DATA: Holder personal data
 
-# Contract closure
-CONTRACT_CLOSURE_TITLE: Closure date and measurement
-
 # Widgets
 
 

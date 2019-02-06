@@ -100,9 +100,6 @@ CUPS_STATE_UNEXPECTED: No se pudo identificar el estado del CUPS (error interno)
 # Holder personal data
 HOLDER_PERSONAL_DATA: Datos personales de la persona titular
 
-# Contract closure
-CONTRACT_CLOSURE_TITLE: Fecha y lectura de cierre
-
 # Widgets
 
 Choose a state: Escoja una provincia
