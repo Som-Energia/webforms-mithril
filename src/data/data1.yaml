@@ -35,13 +35,7 @@
     }
   },
   "payment": {
-    "iban": {
-      "value": "ES77 1234 1234 1612 3456 7890",
-      "isvalid": true,
-      "data": {
-        "iban": "ES7712341234161234567890"
-      }
-    },
+    "iban": "ES77 1234 1234 1612 3456 7890",
     "sepaaccepted": true
   },
   "voluntary_cent": "yes"
