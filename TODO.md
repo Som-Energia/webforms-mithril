@@ -4,18 +4,20 @@
 - [x] PersonalData: Checkbox privacy policy -> LegalConsent widget
 
 - [x] Skip closure page
-- [ ] PersonalData: Move translations from angular 
-- [ ] Validations: Move translations from angular 
+- [ ] PersonalData: Move translations from angular
+- [ ] Validations: Move translations from angular
 - [ ] Review untranslated texts
 - [ ] Static tools for compiling translations (i18n4v?)
 - [x] Ask Legal: privacy concerns on showing CUPS Address
 - [x] PersonalData: new field for firm name
 - [x] PersonalData: Proxy fields layout
-- [x] PersonalData: Split surname 
+- [x] PersonalData: Split surname
 - [ ] Ask Legal: legal consent for SEPA
 - [ ] PaymentPage: Checkbox sepa -> LegalConsent widget
 - [ ] SummaryPage: Checkbox terms -> LegalConsent widget
 - [ ] SummaryPage: All information
+- [ ] SummaryPage: Explain the kind of action (C1, M1...)
+- [ ] SummaryPage: On holder changes, explain power and fare are kept
 - [ ] SuccessPage: Mejorar textos
 - [ ] SuccessPage: Improve format (card?)
 - [ ] FailurePage: Improve format (card?)
