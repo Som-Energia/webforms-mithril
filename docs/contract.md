@@ -82,24 +82,22 @@
 
 1. **BecomeMemberPage**:
 	- **skipif:** `isMember`
+	- "La contratación en SE requiere estar vinculada a una socia de la cooperativa."
 	- Casos:
 		1. `inviteToken`: Si le ha invitado alguien:
-			- "La contratación en SE requiere ser socia de la cooperativa."
 			- "En tu caso **no es necesario** por que te ha invitado $MEMBERNAME pero te damos la opción de serlo si marcas la opción.
 			- "Ser socio comporta una aportacion única de 100€ que se retorna al dejar de serlo."
 			- "[ ] Acepto ser persona socia de la cooperativa y el pago de la participación."
 
 		1. `!inviteToken && !activeCups`: Si no es invitado y no es un cambio interno de titular:
-			- "Para poder contratar, ha de ser socio o haber recibido una invitación de uno".
-			- "En cambios de titular, Som Energia dará de baja el contrato si en un año no está vinculado a un socio, o incluso antes en caso de incumplimiento contratual."
-			- "Opcionalmente, puedes convertirte ya en socio:"
+			- "Puedes hacerte socia con este mismo formulario marcando la siguiente opción:"
 			- "[ ] Acepto convertirme persona socia de la cooperativa **mediante el pago de la aportación de 100€**."
 			- Validate: Tiene que aceptar por narices
 
 		1. `!inviteToken && activeCups`: Si no es invitado pero es un cambio interno de titular:
-
-			- "La contratación en SE ha de estar vinculada a una socia de la cooperativa."
-			- "Despues de un año, se te dará la opción de entrar en la cooperativa o pasar a la comercializadora del monopolio de tu zona."
+		
+			- "En cambios de titular, Som Energia dará de baja el contrato si en un año no está vinculado a un socio, o incluso antes en caso de incumplimiento contratual."
+			- "Opcionalmente, puedes convertirte ya en socio:"
 			- "[ ] Me quiero hacer socio ya sin esperar a un año, y acepto el pago de la participación."
 
 
