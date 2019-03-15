@@ -103,6 +103,7 @@ Form.view = function(vn) {
 			m('h1', _('CONTRACT_FORM_TITLE')),
 			m(Wizard, {
 				showall: showall,
+				focusonjump: true,
 				pages:[
 					IntroPage(),
 					PasswordPage(),

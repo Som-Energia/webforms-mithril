@@ -31,6 +31,7 @@ PageSlider.oninit = function(vn) {
 	vn.state.current = vn.attrs.current || 0;
 	vn.state.model = vn.attrs.model || {};
 	vn.state.height = vn.attrs.height;
+	vn.state.focusonjump = vn.attrs.focusonjump || false;
 };
 
 function updateHeight(vn, mode) {
@@ -44,12 +45,39 @@ function updateHeight(vn, mode) {
 	}
 }
 
+function disableFocus (vn) {
+	console.log('disable!');
+	const inputFilter = 'a[href], button, textarea, input, select';
+	Array.from(vn.dom.querySelectorAll(inputFilter))
+		.map( function(elem){
+			elem.setAttribute('tabindex','-1');
+		});
+	
+	Array.from(vn.dom.querySelector('.pageslider-page.active').querySelectorAll(inputFilter))
+		.map( function(elem){
+			elem.removeAttribute('tabindex');
+		});
+}
+
+function firstFocusable(){
+	var focusable = document.querySelector('.pageslider-page.active')
+		.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+	if(focusable) focusable[0].focus();
+}
 
 PageSlider.oncreate = function(vn) {
 	updateHeight(vn, 'create');
+	disableFocus(vn);
 };
+
 PageSlider.onupdate = function(vn) {
-	updateHeight(vn, 'update');
+	if(vn.state.current !== vn.attrs.current){
+		vn.state.current = vn.attrs.current;
+		updateHeight(vn, 'update');
+		disableFocus(vn);
+		if(vn.state.focusonjump)
+			firstFocusable();
+	}
 };
 
 PageSlider.view = function(vn) {
