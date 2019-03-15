@@ -164,6 +164,8 @@ VOLUNTARY_CENT_NO_LABEL: No
 VOLUNTARY_CENT_NO_DESCRIPTION: |
   Sempre que ho vulguis podràs activar o desactivar aquest donatiu a l'instant
   des de l'Oficinal Virtual.
+NO_VOLUNTARY_DONATION_CHOICE_TAKEN: Cal dir si vols o no fer el donatiu voluntari
+
 
 # PaymentPage
 PAYMENT_TITLE: Dades de pagament
@@ -171,11 +173,20 @@ IBAN_LABEL: IBAN (compte bancari)
 IBAN_HELP: "Un com aquest: ES77 1234 1234 1612 3456 7890" # TODO: cambiar texto
 IBAN_ACCEPT_DIRECT_DEBIT: Com a titular del compte bancari, accepto la domiciliació dels rebuts
 IBAN_ERROR: Invalid IBAN
+INVALID_PAYER_IBAN:
+ No has especificat correctament l'IBAN del compte on domiciliar
 
 # ReviewPage
 REVIEW_TITLE: Revisa i confirma el contracte
 REVIEW_DATA_AND_CONFIRM: |
   Ja queda poc!, verifica les dades i prem el botó "Enviar"
+SUMMARY_GROUP_PROCESS: Tipus de tràmit
+PROCESS_TYPE: Tipus de tràmit
+PROCESS_TYPE_HOLDER_CHANGE: Canvi de titular
+RELATED_MEMBER: Socia vinculada
+RELATED_MEMBER_PENDING: Queda pendent de fer-se socia
+HOLDER: Titular
+CONTACT: Informació de Contacte
 LEGAL_NAME: Raó social
 SUPPLY: Punt de subministrament
 ADDRESS: Adreça
@@ -183,7 +194,15 @@ PHONE: Telèfon
 EMAIL: Correu-e
 PROXY: Representant legal
 SUMMARY_GROUP_PAYMENT: Dades de pagament
+SUMMARY_GROUP_TECHNICAL: Dades tècniques
+FARE: Tarifa
+FARE_SAME: Es matindrà la tarifa actual
+POWER: Potència
+POWER_SAME: Es mantindrà la potència actual
+FARE_POWER_CHANGE_NOTE: Un cop aquest tramit hagi finalitzat, podràs canviar-ho a través de l'Oficina Virtual de Som Energia
 VOLUNTARY_CENT: Donatiu voluntari
+ACCEPT_TERMS: He llegit i accepto les condicions de Som Energia
+UNACCEPTED_TERMS: Has d'acceptar les condicions
 SEND: Enviar
 
 # FailurePage
@@ -216,11 +235,12 @@ Holder: Titular
 Supply point: Punt de subministrament
 Confirmation: Confirmació
 Submit: Enviar
+Required: Camp obligatori
 CONTRACT_INTRO:
     Per contractar la llum amb Som Energia... bla bla
 PRIVACY_POLICY_TITLE: Política de Protecció de Dades
 ACCEPT_PRIVACY_POLICY:
-    He llegit i accepto la <strong><a target="_blank" href="%{url}">política de privacitat</a></strong> de Som Energia',
+    He llegit i accepto la <strong><a target="_blank" href="%{url}">política de privacitat</a></strong> de Som Energia
 ACCEPT_PRIVACY_POLICY_URL:
     //www.somenergia.coop/ca/politica-de-privacitat-cookies-i-avis-legal/
 
