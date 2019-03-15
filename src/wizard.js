@@ -76,6 +76,8 @@ var Wizard = {
 			return vn.state.currentPage;
 		};
 
+		vn.state.focusonjump = vn.attrs.focusonjump === true;
+
 		this.pages = vn.attrs.pages;
 		this.pages.map(function(page) {
 			vn.state.currentPage = vn.state.currentPage || page.id;
@@ -94,11 +96,13 @@ var Wizard = {
 			m(Pager, {
 				current: currentIndex,
 				showall: vn.attrs.showall,
+				focusonjump: vn.state.focusonjump,
 			}, vn.attrs.pages.map(function(page) {
 				var active = self.currentPage === page.id;
 				var errors = page.validator && page.validator();
 				var showNext = page.next !== false;
 				var showPrev = page.prev !== false;
+
 				return m(Layout, [
 					m(Cell, {span:12}, m('h2', page.title)),
 					page.content,
@@ -122,6 +126,7 @@ var Wizard = {
 								disabled: errors !== undefined || self.intransition,
 								onclick: function() { self.next(); },
 								style: {width:'100%'},
+								class: 'mdc-button--next'
 								},
 								page.nextlabel||_("Next")
 							)
@@ -173,7 +178,8 @@ var Wizard = {
 	},
 	next: function() {
 		function isPromise(thing) {
-			return thing.then !== undefined;
+			//return thing.then !== undefined;
+			return thing !== undefined && typeof thing.then === 'function';
 		}
 		var self = this;
 		var currentPage = self.page(self.currentPage);
