@@ -17,6 +17,11 @@ var LanguageChooser = {
 		self.updateLanguages();
 	},
 
+	onupdate: function(vn) {
+		var self = this;
+		self.language = vn.attrs.value;
+	},
+
     updateLanguages: function() {
 		var self = this;
 		requestSom('/data/idiomes').then(function(data) {

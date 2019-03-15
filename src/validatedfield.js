@@ -119,7 +119,7 @@ var ValidatedField = {
 			}, vnode.attrs, {
 			// overrrides
 			oninput: validateInput,
-			value: vnode.state.value,
+			value: vnode.state.fieldData.value,
 			faicon: statusIcon,
 			errormessage: vnode.state.errormessage,
 			help: statusMessage || vnode.attrs.help,

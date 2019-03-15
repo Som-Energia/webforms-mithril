@@ -70,6 +70,14 @@ IntroContract.oninit = function(vn) {
 	};
 };
 
+IntroContract.onupdate = function(vn){
+	if (vn.state.model.vatvalue) {
+		vn.state.vateditor.value = vn.state.model.vatvalue;
+		if(vn.state.model.vatvalid) vn.state.vateditor.isvalid = vn.state.model.vatvalid;
+		if(vn.state.model.vatexists) vn.state.vateditor.isvalid = vn.state.model.vatvalid;
+	}
+}
+
 IntroContract.view = function(vn) {
 	return m(Row, [
 		vn.state.state === checkingSession ? [

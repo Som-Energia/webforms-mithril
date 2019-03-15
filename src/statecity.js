@@ -23,6 +23,19 @@ var StateCityChooser = {
 		self.updateStates();
 	},
 
+	onupdate: function(vn) {
+		//TODO: I think we need to work with vn.state instead of "this".
+		var self = this;
+		self.state = vn.attrs.statevalue;
+		var citychanged = self.city !== vn.attrs.cityvalue;
+		self.city = vn.attrs.cityvalue;
+
+		if(self.state !== undefined){
+			if(self.city !== undefined && citychanged)			
+				self.updateCities(self.state);
+		}	
+	},
+
 	updateStates: function(countryid) {
 		var self = this;
 		requestSom('/data/provincies').then(function(data) {
@@ -36,11 +49,11 @@ var StateCityChooser = {
 	updateCities: function(stateid) {
 		var self = this;
 		self.cities = [];
-		self.city = undefined;
+		self.city = self.city;
 		var statename = self.states.find(function(v) {return v.id==stateid;}).name;
 		self.cityError = _('Loading municipalities in %{statename}',{statename:statename});
 		requestSom('/data/municipis/'+stateid).then(function(data) {
-			self.city = undefined;
+			self.city = self.city;
 			self.cityError = undefined;
 			self.cities = data.data.municipis;
 		}).catch(function(reason) {
@@ -67,6 +80,7 @@ var StateCityChooser = {
 					value: self.state,
 					onchange: function (ev) {
 						self.state = ev.target.value;
+						self.city = undefined;
 						self.updateCities(self.state);
 						vn.attrs.onvaluechanged && vn.attrs.onvaluechanged(self)
 					},

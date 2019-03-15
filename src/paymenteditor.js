@@ -12,7 +12,7 @@ var PaymentEditor = {};
 PaymentEditor.oninit = function(vn) {
 
     this.model=vn.attrs.model;
-    this.model.iban = {};
+    this.model.iban = undefined;
     this.model.sepaaccepted = false;
     vn.state.ibaneditor = {};
     var self = this.model;
@@ -27,6 +27,13 @@ PaymentEditor.oninit = function(vn) {
         }
         return undefined;
     };
+};
+
+PaymentEditor.onupdate = function(vn) {
+    if(vn.attrs.model.iban !== undefined){
+        vn.state.ibaneditor.value = vn.attrs.model.iban;
+        vn.state.ibaneditor.isvalid = true;
+    }
 };
 
 PaymentEditor.view = function(vn){

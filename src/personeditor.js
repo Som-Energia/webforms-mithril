@@ -192,6 +192,8 @@ PersonEditor.view = function(vn) {
 			})),
 		]),
 		m(StateCityChooser, {
+			statevalue: (person.state !== undefined) ? person.state.id : undefined,
+			cityvalue: (person.city !== undefined) ? person.city.id : undefined,
 			onvaluechanged: function(chooser) {
 				person.state = chooser.states.find(function(v) {
 					return v.id==chooser.state;
@@ -271,6 +273,7 @@ PersonEditor.view = function(vn) {
 					return v.code==chooser.language;
 				});
 			},
+			value: (person.language !== undefined) ? person.language.code : false,
 			faicon: 'language',
 			help: _('HOLDER_LANGUAGE_HELP'),
 			required: true,
