@@ -11,6 +11,8 @@ var PersonEditor = require('./personeditor');
 var PaymentEditor = require('./paymenteditor');
 var IntroContract = require('./introcontract');
 var Terms = require('./terms');
+var LegalConsent = require('./legalconsent');
+var LegalTexts = require('./legaltexts');
 var TextField = require('./mdc/textfield');
 var ValidatedField = require('./validatedfield');
 var UserValidator = require('./uservalidator');
@@ -89,7 +91,6 @@ Mousetrap.bindGlobal('ctrl+shift+1', function() {
 	m.redraw();
 	return false;
 });
-
 
 var Form = {};
 Form.view = function(vn) {
@@ -220,8 +221,20 @@ var CupsContract ={};
 CupsContract.field = {};
 
 var CupsPage = function() {
+
 	var model = Contract.cups;
 	var state = CupsContract;
+
+	if (model.cupsvalue){
+		state.field.value = model.cupsvalue;
+		if(model.cupsstatus === 'active') state.field.isvalid = true;
+
+		state.field.data = {};
+		state.field.data.cups = model.cupsvalue;
+		if (model.cupsstatus) state.field.data.status = model.cupsvalue;
+		if (model.cupsaddress) state.field.data.address = model.cupsaddress;
+	}
+
 	var showVerificationCheck = model.cupsaddress && (model.cupsstatus === 'active' || model.cupsstatus === 'inactive');
 
 	return {
@@ -306,7 +319,6 @@ var CupsPage = function() {
 		],
 	};
 };
-
 
 var TermsPage = function() {
 	return {
@@ -407,7 +419,6 @@ SomMockupApi.postContract = function(contract) {
 	return promise;
 };
 
-
 var ReviewPage = function() {
 	function group(name, fields) {
 		return m(Cell, {
@@ -426,9 +437,23 @@ var ReviewPage = function() {
 		title: _('REVIEW_TITLE'),
 		nexticon: 'send',
 		nextlabel: _("SEND"),
+		validator: function() {
+			if (Contract.terms.termsaccepted !== true) {
+				return _('UNACCEPTED_TERMS');
+			}
+			return undefined;
+		},
 		content: [
 			m(Row, [
 				m(Cell, {span:12}, _("REVIEW_DATA_AND_CONFIRM")),
+				group(_('SUMMARY_GROUP_PROCESS'), [
+					field(_("PROCESS_TYPE"), _("PROCESS_TYPE_HOLDER_CHANGE")),
+					field(_("RELATED_MEMBER"), _("RELATED_MEMBER_PENDING")),
+				]),
+				group(_('SUPPLY'), [
+					field(_("CUPS"), Contract.cups.cupsvalue),
+					field(_("ADDRESS"), Contract.cups.cupsaddress),
+				]),
 				group(_("HOLDER"), [
 					field(_("NIF"), Contract.intro.vatvalue),
 					isphisical(Contract.intro.vatvalue) &&
@@ -449,15 +474,38 @@ var ReviewPage = function() {
 					field(_("EMAIL"), Contract.holder.email),
 					field(_("LANGUAGE"), Contract.holder.language && Contract.holder.language.name),
 				]),
-				group(_('SUPPLY'), [
-					field(_("CUPS"), Contract.cups.cupsvalue),
-					field(_("ADDRESS"), Contract.cups.cupsaddress),
+				group(_('SUMMARY_GROUP_TECHNICAL'), [
+					field(_("FARE"), _("FARE_SAME")),
+					field(_("POWER"), _("POWER_SAME")),
+					m('p.field .mdc-text-field-helper-text'+
+						'.mdc-text-field-helper-text--persistent'+						
+						'', {
+						'aria-hidden': true,
+						},
+						_('FARE_POWER_CHANGE_NOTE')
+					),
 				]),
 				group(_('SUMMARY_GROUP_PAYMENT'), [
 					field(_("IBAN"), Contract.payment.iban),
 					field(_("VOLUNTARY_CENT"), Contract.voluntary_cent === 'yes' ? _("YES"):_("NO")),
 				]),
 			]),
+			m(Row, [
+				m(Cell, {span:12}, m(LegalConsent, {
+					id: 'accept-terms',
+					accepted: typeof Contract.terms.termsaccepted === 'undefined' ? false : Contract.terms.termsaccepted,
+					onchanged: function(value) {
+						Contract.terms.termsaccepted = value;
+					},
+					label: m.trust(_('ACCEPT_TERMS', {
+						url: _('ACCEPT_TERMS_URL')
+					})),
+					title: _('TERMS_TITLE'),
+					required: true,
+				},
+					m.trust(LegalTexts.get('generalterms', _('LANGKEY')))
+				)),
+			]),			
 		],
 		next: function() {
 			return new Promise(function (resolve, reject) {
@@ -477,7 +525,6 @@ var ReviewPage = function() {
 	};
 };
 
-
 var FailurePage = function() {
 	var translatedError = _(postError, postErrorData);
 	var unexpectedError = translatedError === postError;
@@ -493,6 +540,7 @@ var FailurePage = function() {
 		],
 	};
 };
+
 var SuccessPage = function() {
 	return {
 		id: 'success_page',
