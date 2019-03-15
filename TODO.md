@@ -14,24 +14,26 @@
 - [x] PersonalData: Split surname
 - [ ] Ask Legal: legal consent for SEPA
 - [ ] PaymentPage: Checkbox sepa -> LegalConsent widget
-- [ ] SummaryPage: Checkbox terms -> LegalConsent widget
-- [ ] SummaryPage: All information
-- [ ] SummaryPage: Explain the kind of action (C1, M1...)
-- [ ] SummaryPage: On holder changes, explain power and fare are kept
+- [x] SummaryPage: Checkbox terms -> LegalConsent widget
+- [x] SummaryPage: All information
+- [x] SummaryPage: Explain the kind of action (C1, M1...) (Just holder change)
+- [ ] SummaryPage: Change the kind of action for other cases (C1, M1...)
+- [x] SummaryPage: On holder changes, explain power and fare are kept
 - [ ] SuccessPage: Mejorar textos
 - [ ] SuccessPage: Improve format (card?)
 - [ ] FailurePage: Improve format (card?)
 - [ ] FailurePage: Backlinks
-- [ ] Select: Delayed programatic fill in when options depend on an API call
+- [x] Select: Delayed programatic fill in when options depend on an API call
 - [ ] Wizard: Rethink tab navigation
-- [ ] Wizard: Disable hidden pages
+- [x] Wizard: Disable hidden pages
+- [ ] Wizard: Keep tabindex on disabling hidden pages
 - [ ] Wizard: Default action 'next' when enter key pressed
-- [ ] TextField: translate 'required'
+- [x] TextField: translate 'required'
 - [ ] Wizard: Option to fix size content with scroll
 - [ ] PageSlider: whenever we change page, scroll it up
-- [ ] PageSlider: On jump, focus the first element
+- [x] PageSlider: On jump, focus the first element
 - [ ] Dialog: Option to not jumping to the first control
-    - [ ] Dialog: Hack, hidden control on the top
+    - [x] Dialog: Hack, hidden control on the top
 
 # Not for now?
 
