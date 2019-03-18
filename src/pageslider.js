@@ -46,7 +46,6 @@ function updateHeight(vn, mode) {
 }
 
 function disableFocus (vn) {
-	console.log('disable!');
 	const inputFilter = 'a[href], button, textarea, input, select';
 	Array.from(vn.dom.querySelectorAll(inputFilter))
 		.map( function(elem){
@@ -61,8 +60,13 @@ function disableFocus (vn) {
 
 function firstFocusable(){
 	var focusable = document.querySelector('.pageslider-page.active')
-		.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-	if(focusable) focusable[0].focus();
+		.querySelectorAll('button, [href], input, select, textarea');
+	if(focusable){
+		// During the transition the inputs are disable
+		setTimeout(function() {
+			focusable[0].focus();			
+		}, 800);
+	} 
 }
 
 PageSlider.oncreate = function(vn) {
@@ -74,9 +78,8 @@ PageSlider.onupdate = function(vn) {
 	if(vn.state.current !== vn.attrs.current){
 		vn.state.current = vn.attrs.current;
 		updateHeight(vn, 'update');
+		if(vn.state.focusonjump) firstFocusable();
 		disableFocus(vn);
-		if(vn.state.focusonjump)
-			firstFocusable();
 	}
 };
 
