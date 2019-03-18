@@ -7,6 +7,7 @@ var CheckBox = require('./mdc/checkbox');
 var Layout = require('./mdc/layout');
 var Row = Layout.Row;
 var Cell = Layout.Cell;
+var Card = require('./mdc/card');
 var PersonEditor = require('./personeditor');
 var PaymentEditor = require('./paymenteditor');
 var IntroContract = require('./introcontract');
@@ -81,12 +82,19 @@ var Contract = {
 	holder: {},
 	payment: {},
 	terms: {},
+	voluntary_cent: false,
 };
 
 Mousetrap.bindGlobal('ctrl+shift+1', function() {
 	var newData = require('./data/data1.yaml');
+	console.log(newData);
 	Object.keys(Contract).map(function(k) {
-		Object.assign(Contract[k], newData[k]);
+		if(typeof Contract[k] === 'object'){
+			Object.assign(Contract[k], newData[k]);
+		}else{
+			Contract[k] = newData[k];
+		}
+		
 	});
 	m.redraw();
 	return false;
@@ -531,13 +539,18 @@ var FailurePage = function() {
 	var unexpectedError = translatedError === postError;
 	return {
 		id: 'failure_page',
-		title: _('FAILURE_TITLE'),
+		title: '',
 		next: false,
 		content: [
-			m('', _('FAILURE_TEXT')),
-			unexpectedError && m('.error', _("UNEXPECTED_POSTERROR", {code:postError})),
-			unexpectedError && postErrorData && m('pre.error', jsyaml.dump(postErrorData)),
-			!unexpectedError && m('.error', translatedError),
+			m('.error_page', [
+				m(Card, [
+					m('h2', _('FAILURE_TITLE')),
+					m('', _('FAILURE_TEXT')),
+					unexpectedError && m('.error', _("UNEXPECTED_POSTERROR", {code:postError})),
+					unexpectedError && postErrorData && m('pre.error', jsyaml.dump(postErrorData)),
+					!unexpectedError && m('.error', translatedError),	
+				]),
+			]),
 		],
 	};
 };
@@ -545,16 +558,19 @@ var FailurePage = function() {
 var SuccessPage = function() {
 	return {
 		id: 'success_page',
-		title: _('SUCCESS_TITLE'),
+		title: '',
 		prev: false,
 		next: false,
 		content: [
-			m('.success_page', [
-				m.trust(_('SUCCESS_TEXT', {
-					contract_number: Contract.contract_number,
-					urlov: _('OV_URL'),
-				})),
-				m('img', {src: cuca})
+			m('.success_page', [				
+				m(Card,[
+					m('h2', _('SUCCESS_TITLE')),
+					m.trust(_('SUCCESS_TEXT', {
+						contract_number: Contract.contract_number,
+						urlov: _('OV_URL'),
+					})),
+					m('img', {src: cuca})
+				])
 			 ]),
 		],
 	};
