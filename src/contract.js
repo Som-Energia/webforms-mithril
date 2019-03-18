@@ -112,6 +112,7 @@ Form.view = function(vn) {
 			m(Wizard, {
 				showall: showall,
 				focusonjump: true,
+				nextonenter: true,
 				pages:[
 					IntroPage(),
 					PasswordPage(),

@@ -56,9 +56,6 @@ Default: `function() {}`
 */
 
 var Wizard = {
-	onupdate: function(vn) {
-		this.pages = vn.attrs.pages;
-	},
 	oninit: function(vn) {
 		var self = this;
 		self.model = vn.attrs.model || {};
@@ -77,6 +74,7 @@ var Wizard = {
 		};
 
 		vn.state.focusonjump = vn.attrs.focusonjump === true;
+		vn.state.nextonenter = vn.attrs.nextonenter === true;
 
 		this.pages = vn.attrs.pages;
 		this.pages.map(function(page) {
@@ -84,6 +82,21 @@ var Wizard = {
 		});
 		this.intransition = false;
 		this.history = [];
+	},
+	nextOnEnter: function(vn){
+		if(vn.state.nextonenter){
+			Mousetrap.bindGlobal('enter', function() {
+				let button = vn.dom.querySelector('.pageslider-page.active .mdc-button--next');
+				button.click();
+			});
+		}
+	},	
+	oncreate: function(vn){
+		this.nextOnEnter(vn);
+	},
+	onupdate: function(vn) {
+		this.pages = vn.attrs.pages;
+		this.nextOnEnter(vn);		
 	},
 	view: function(vn) {
 		var self = this;
@@ -111,7 +124,6 @@ var Wizard = {
 							showPrev && m(Button, {
 								outlined: true,
 								faicon: 'chevron-left',
-								tabindex: 0,
 								disabled: !self.history.length || self.intransition,
 								onclick: function() { self.prev(); },
 								style: {width:'100%'},
@@ -122,7 +134,6 @@ var Wizard = {
 							showNext && m(Button, {
 								raised:true,
 								trailingfaicon: self.intransition?'spinner.fa-spin': (page.nexticon||'chevron-right'),
-								tabindex: 0,
 								disabled: errors !== undefined || self.intransition,
 								onclick: function() { self.next(); },
 								style: {width:'100%'},
