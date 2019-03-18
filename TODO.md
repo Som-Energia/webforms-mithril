@@ -13,21 +13,22 @@
 - [x] PersonalData: Proxy fields layout
 - [x] PersonalData: Split surname
 - [ ] Ask Legal: legal consent for SEPA
-- [ ] PaymentPage: Checkbox sepa -> LegalConsent widget
+- [x] PaymentPage: Checkbox sepa -> LegalConsent widget
 - [x] SummaryPage: Checkbox terms -> LegalConsent widget
 - [x] SummaryPage: All information
 - [x] SummaryPage: Explain the kind of action (C1, M1...) (Just holder change)
 - [ ] SummaryPage: Change the kind of action for other cases (C1, M1...)
 - [x] SummaryPage: On holder changes, explain power and fare are kept
 - [ ] SuccessPage: Mejorar textos
-- [ ] SuccessPage: Improve format (card?)
-- [ ] FailurePage: Improve format (card?)
+- [x] SuccessPage: Improve format (card?)
+- [x] FailurePage: Improve format (card?)
+- [ ] FailurePage: Mejorar textos
 - [ ] FailurePage: Backlinks
 - [x] Select: Delayed programatic fill in when options depend on an API call
 - [ ] Wizard: Rethink tab navigation
 - [x] Wizard: Disable hidden pages
 - [ ] Wizard: Keep tabindex on disabling hidden pages
-- [ ] Wizard: Default action 'next' when enter key pressed
+- [x] Wizard: Default action 'next' when enter key pressed
 - [x] TextField: translate 'required'
 - [ ] Wizard: Option to fix size content with scroll
 - [ ] PageSlider: whenever we change page, scroll it up
