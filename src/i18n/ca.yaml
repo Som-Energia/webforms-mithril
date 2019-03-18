@@ -206,12 +206,12 @@ UNACCEPTED_TERMS: Has d'acceptar les condicions
 SEND: Enviar
 
 # FailurePage
-FAILURE_TITLE: Error creant el contracte
+FAILURE_TITLE: Ups!
 FAILURE_TEXT: Ho sentim no ha esta possible realitzar el contracte
 UNEXPECTED_POSTERROR: S'ha produit un error inesperat amb codi %{code}
 
 # SuccessPage
-SUCCESS_TITLE: Felicitats
+SUCCESS_TITLE: Enhorabona
 SUCCESS_TEXT: |
   <p>
   El teu contracte està en tràmit. Tindrà el número de contracte: %{contract_number}.
