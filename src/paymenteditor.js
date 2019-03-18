@@ -6,6 +6,8 @@ var Row = Layout.Row;
 var Cell = Layout.Cell;
 var ValidatedField = require('./validatedfield');
 var Checkbox = require('./mdc/checkbox');
+var LegalConsent = require('./legalconsent');
+var LegalTexts = require('./legaltexts');
 
 var PaymentEditor = {};
 
@@ -62,15 +64,21 @@ PaymentEditor.view = function(vn){
 				vn.state.model.iban = vn.state.ibaneditor.value;
 			},
         }),
-        m(Checkbox, {
+        m(LegalConsent, {
             id: 'sepaaccepted',
-            label: _('IBAN_ACCEPT_DIRECT_DEBIT'),
-            checked: vn.state.model.sepaaccepted,
-            onchange: function(ev) {
-                vn.state.model.sepaaccepted = ev.target.checked;
+            accepted: vn.state.model.sepaaccepted,
+            onchanged: function(value) {
+                vn.state.model.sepaaccepted = value;
                 vn.state.model.validate();
             },
-        }),
+            label: m.trust(_('IBAN_ACCEPT_DIRECT_DEBIT', {
+                url: _('IBAN_ACCEPT_DIRECT_DEBIT_URL')
+            })),
+            title: _('TERMS_TITLE'),
+            required: true,
+        },
+            m.trust(LegalTexts.get('generalterms', _('LANGKEY')))
+        ),        
     ]);
 };
 
