@@ -38,8 +38,10 @@
     "iban": "ES77 1234 1234 1612 3456 7890",
     "sepaaccepted": true
   },
-  "terms": {
-    "termsaccepted": true
+  "partner": {
+    "is_partner": false,
+    "partner_token" : false,
+    "partner_join": "yes",
   },
   "voluntary_cent": "yes"
 }

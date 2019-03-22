@@ -92,7 +92,7 @@ IntroContract.view = function(vn) {
 			]),
 		] : (
 		vn.state.state === askDni ? [
-			m(Cell, {span:12}, _('FILL_VAT')),
+			m(Cell, {span:12}, m.trust(_('FILL_VAT'))),
 			m(Cell, {span:6}, m(ValidatedField, {
 				id: 'vat',
 				checkurl: '/check/vat/exists/',

@@ -12,6 +12,7 @@ var PersonEditor = require('./personeditor');
 var PaymentEditor = require('./paymenteditor');
 var IntroContract = require('./introcontract');
 var Terms = require('./terms');
+var Partner = require('./partner');
 var LegalConsent = require('./legalconsent');
 var LegalTexts = require('./legaltexts');
 var TextField = require('./mdc/textfield');
@@ -41,7 +42,6 @@ function isphisical (vat) {
 Mousetrap.bindGlobal('ctrl+shift+y', function() {
 	showall = !showall;
 	m.redraw();
-	console.log('showall', showall);
 	return false;
 });
 
@@ -82,7 +82,11 @@ var Contract = {
 	holder: {},
 	payment: {},
 	terms: {},
+	partner: {
+		partner_join: false,
+	},
 	voluntary_cent: false,
+	
 };
 
 Mousetrap.bindGlobal('ctrl+shift+1', function() {
@@ -119,6 +123,7 @@ Form.view = function(vn) {
 					CupsPage(),
 					HolderPage(),
 					//TermsPage(),
+					PartnerPage(),
 					VoluntaryCentPage(),
  					PaymentPage(),
 					ReviewPage(),
@@ -175,6 +180,7 @@ var PasswordPage = function() {
 					model.vatvalue,
 					model.password,
 				).then(function(data) {
+					console.log(data);
 					model.name = data.name;
 					model.sessionActive = true; // TODO: maybe a session cookie?
 					resolve(true);
@@ -317,14 +323,22 @@ var CupsPage = function() {
 					value: (state.field.data && state.field.isvalid)?
 						state.field.data.address:'',
 				})),
-				m(Cell, {span:12, style: showVerificationCheck||'visibility:hidden'}, m(CheckBox, {
+				m(Cell, {span:12, style: showVerificationCheck||'visibility:hidden'},[ m(CheckBox, {
 					id: 'cups_verify',
 					label: _('CUPS_VERIFY_LABEL'),
 					checked: model.cupsverified,
 					onchange: function(ev){
 						model.cupsverified = ev.target.checked;
 					}
-				})),
+				}),
+					m('p.field .mdc-text-field-helper-text'+
+						'.mdc-text-field-helper-text--persistent'+						
+						'', {
+						'aria-hidden': true,
+						},
+						m.trust(_('CUPS_NO_VERIFY_HELP'))
+					)	
+				]),
 			]),
 		],
 	};
@@ -346,6 +360,25 @@ var TermsPage = function() {
 	};
 };
 
+var PartnerPage = function() {
+	return {
+		id: 'partner_join_page',
+		title: _('PARTNER_JOIN_TITLE'),
+		skipif: function() {
+			return (Contract.partner.is_partner !== undefined && Contract.partner.is_partner !== false)
+				|| (Contract.partner.partner_token !== undefined && Contract.partner.partner_token !== false);
+		},
+		validator: function(){
+			Contract.partner.validate &&
+				Contract.partner.validate();
+			return Contract.partner.error;
+		},
+		content: [
+			m(Partner, {model: Contract.partner}),
+		]
+	}
+};
+
 var VoluntaryCentPage = function() {
 	return {
 		id: 'voluntary_cent_page',
@@ -353,6 +386,8 @@ var VoluntaryCentPage = function() {
 		validator: function() {
 			if (Contract.voluntary_cent === undefined)
 				return  _("NO_VOLUNTARY_DONATION_CHOICE_TAKEN");
+				if (Contract.voluntary_cent === false)
+					return false;
 			return undefined;
 		},
 		content: [
@@ -364,8 +399,8 @@ var VoluntaryCentPage = function() {
 						question: _("VOLUNTARY_CENT_QUESTION"),
 						required: true,
 						value: Contract.voluntary_cent,
-						onvaluechanged: function(newvalue){
-							Contract.voluntary_cent = newvalue;
+						onvaluechanged: function(new_value){
+							Contract.voluntary_cent = new_value;
 						},
 						options: [{
 							value: 'yes',

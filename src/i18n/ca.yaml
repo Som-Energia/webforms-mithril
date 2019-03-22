@@ -72,7 +72,7 @@ STILL_VALIDATING_SESSION: '' # Empty
 CONTRACTING_AS: Està contractant a nom de %{name}.
 NOT_YOU_LOGOUT: Si no sou aquesta persona, si us plau,  <a href="%{url}" target="_blank">tanqueu la sessió</a>
 FILL_NIF: No has introduit un NIF correcte
-FILL_VAT: Si us plau, ompli el NIF de la persona que serà titular del contracte
+FILL_VAT: "<p><b>Aquest és el formulari que et permet realitzar un canvi de titularitat d’un contracte actiu amb Som Energia.</b></p><p>A continuació, has d’indicar el NIF de la persona o entitat jurídica que serà titular del contracte:</p>"
 VAT_LABEL: Número d'identificació fiscal (NIF)
 VAT_HELP: I si no disposo d'un NIF?
 VAT_HELP_URL: TODO
@@ -85,11 +85,12 @@ PASSWORD_HELP_URL: TODO
 WRONG_PASSWORD: La contrasenya és incorrecta
 
 CUPS_TITLE: Identifica el punt de subministrament
-FILL_CUPS: Si us plau, introdueix el codi CUPS que identifica el punt de subministrament
+FILL_CUPS: "Indica el codi CUPS (Codi Universal de Punt de Subministrament):"
 CUPS_LABEL: CUPS
-CUPS_HELP: On puc esbrinar el codi CUPS
+CUPS_HELP: On puc trobar el CUPS?
 CUPS_HELP_URL: TODO
-CUPS_VERIFY_LABEL: Confirmo que l'adreça mostrada és la que correspon al CUPS que vull contractar
+CUPS_VERIFY_LABEL: Confirmo que l'adreça és la que correspon al CUPS que vull contractar
+CUPS_NO_VERIFY_HELP: Si l'adreça no s'hi correspon, ens pots contactar a l'adreça <a href="mailto:comercialitzacio@somenergia.coop">comercialitzacio@somenergia.coop</a>.
 INVALID_SUPPLY_POINT_CUPS: No has especificat un <b>identificador CUPS</b> vàlid pel punt de subministrament
 CUPS_IN_PROCESS: Aquest CUPS actualment està en un proces
 MARK_ADDRESS_CONFIRMATION_BOX: Verifica que l'adreça associada a aquest CUPS és correcta
@@ -98,12 +99,12 @@ CUPS_SHOULD_BE_ACTIVE: El CUPS no te cap contracte actiu a Som Energia
 CUPS_STATE_UNEXPECTED: No s'ha pogut identificar l'estat del CUPS (error intern)
 # Generic fields
 STATE: Província
-STATE_HELP: TODO
+STATE_HELP: Província
 CITY: Municipi
-CITY_HELP: TODO
+CITY_HELP: Municipi
 LOADING_HELP: Carregant opcions...
 LANGUAGE: Idioma
-LANGUAGE_HELP: TODO
+LANGUAGE_HELP: Idioma
 
 # Holder personal data
 HOLDER_PERSONAL_DATA: Dades personals de la persona titular
@@ -120,17 +121,18 @@ PROXY_NAME_HELP: Nom i cognoms del representant legal
 PROXY_NIF: Nif del representant legal
 PROXY_NIF_HELP: Nif del representant legal
 HOLDER_ADDRESS: Adreça 
-HOLDER_ADDRESS_HELP: TODO
+HOLDER_ADDRESS_HELP: Adreça de la persona titular
 HOLDER_POSTALCODE: Codi postal  
-HOLDER_POSTALCODE_HELP: TODO
-HOLDER_EMAIL: email
-HOLDER_EMAIL_HELP: TODO
-HOLDER_EMAIL_2: email (Repeteix email)
+HOLDER_POSTALCODE_HELP: Codi postal de la persona titular
+HOLDER_EMAIL: Email
+HOLDER_EMAIL_HELP: Email de la persona titular
+HOLDER_EMAIL_2: Email (Repeteix email)
 HOLDER_EMAIL_2_HELP: Repeteix email
 HOLDER_PHONE: Telèfon
-HOLDER_PHONE_HELP: TODO
+HOLDER_PHONE_HELP: Telèfon de la persona titular
 HOLDER_PHONE_2: Telèfon alternatiu
-HOLDER_PHONE_2_HELP: TODO
+HOLDER_PHONE_2_HELP: Telèfon alternatiu
+HOLDER_LANGUAGE_HELP: Idioma preferit per la comunicació amb Som Energia
 ## Holder personal data errors
 NO_NAME: No has especificat el nom
 NO_SURNAME1: No has especificat el primer cognom
@@ -147,6 +149,17 @@ NO_PHONE: No has especificat un telèfon correcte
 NO_LANGUAGE: No has especificat l'idioma
 UNACCEPTED_PRIVACY_POLICY: Has d'acceptar la política de privacitat
 
+# Partner
+PARTNER_JOIN_TITLE: Fer-se Soci 
+PARTNER_JOIN_PRESENTATION: Pot ser sòcia de la cooperativa qualsevol persona particular, cooperativa, empresa, associació, fundació, comunitat de veïns i veïnes, ajuntament…  Per ser-ho has de fer una aportació única al capital social de <b>100 €</b>, que <b>es retornen</b> en el cas que qualsevol dia vulguis donar-te de baixa.
+PARTNER_JOIN_QUESTION: Vols fer-te persona sòcia de la cooperativa?
+PARTNER_JOIN_YES_LABEL:  Sí, vull ser persona sòcia de la cooperativa
+PARTNER_JOIN_YES_DESCRIPTION: ''
+PARTNER_JOIN_NO_LABEL: No, encara no me'n vull fer sòcia
+PARTNER_JOIN_NO_DESCRIPTION: ''
+PARTNER_JOIN_NOTE: Tingues en compte que per poder ser titular d’un contracte amb la cooperativa cal que siguis soci o sòcia de la mateixa. Si encara no t’hi has decidit, et donem el temps necessari perquè puguis valorar fer aquest pas més endavant.
+PARTNER_JOIN_UNSELECTED: Cal dir si vols o no fer-te sòcia
+
 # VoluntaryCentPage
 VOLUNTARY_CENT_TITLE: Donatiu voluntari
 VOLUNTARY_CENT_PRESENTATION: |
@@ -155,7 +168,7 @@ VOLUNTARY_CENT_PRESENTATION: |
   destinat a recolzar i facilitar l'acció social i voluntària
   dels més de 50 Grups Locals repartits pel territori.
 VOLUNTARY_CENT_QUESTION: Vols participar amb la teva energia a fer-ho possible?
-VOLUNTARY_CENT_YES_LABEL: Sí, vull fer un donatiu voluntari de 0,01€/kWh, 
+VOLUNTARY_CENT_YES_LABEL: Sí, vull fer un donatiu voluntari de 0,01€/kWh
 VOLUNTARY_CENT_YES_DESCRIPTION: |
   Per un consum mitjà d'una família (aproximadament 300kWh/mes)
   això representa un increment de 3€ mensuals.
