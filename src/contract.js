@@ -7,12 +7,12 @@ var CheckBox = require('./mdc/checkbox');
 var Layout = require('./mdc/layout');
 var Row = Layout.Row;
 var Cell = Layout.Cell;
-var Card = require('./mdc/card');
+var TopAppBar = require('./mdc/topappbar');
 var PersonEditor = require('./personeditor');
 var PaymentEditor = require('./paymenteditor');
 var IntroContract = require('./introcontract');
 var Terms = require('./terms');
-var Partner = require('./partner');
+var Member = require('./member');
 var LegalConsent = require('./legalconsent');
 var LegalTexts = require('./legaltexts');
 var TextField = require('./mdc/textfield');
@@ -82,8 +82,8 @@ var Contract = {
 	holder: {},
 	payment: {},
 	terms: {},
-	partner: {
-		partner_join: false,
+	member: {
+		become_member: false,
 	},
 	voluntary_cent: false,
 	
@@ -112,18 +112,22 @@ Form.view = function(vn) {
 			model: Contract,
 		}),
 		m('.main', [
-			m('h1', _('CONTRACT_FORM_TITLE')),
+			m(TopAppBar, {
+				title: _('CONTRACT_FORM_TITLE'),
+				fixed: false
+			}),
 			m(Wizard, {
 				showall: showall,
 				focusonjump: true,
 				nextonenter: true,
+				className: 'mdc-top-app-bar--fixed-adjust',
 				pages:[
 					IntroPage(),
 					PasswordPage(),
 					CupsPage(),
 					HolderPage(),
 					//TermsPage(),
-					PartnerPage(),
+					MemberPage(),
 					VoluntaryCentPage(),
  					PaymentPage(),
 					ReviewPage(),
@@ -180,7 +184,6 @@ var PasswordPage = function() {
 					model.vatvalue,
 					model.password,
 				).then(function(data) {
-					console.log(data);
 					model.name = data.name;
 					model.sessionActive = true; // TODO: maybe a session cookie?
 					resolve(true);
@@ -311,34 +314,44 @@ var CupsPage = function() {
 						}
 					},
 				})),
-				m(Cell, {span:12}, m(TextField, {
-					id: 'cupsaddress',
-					label: _('SUPPLY_POINT_ADDRESS'),
-					help: _(''),
-					boxed: true,
-					disabled: true,
-					tabindex: -1,
-					required: true,
-					maxlength: 24,
-					value: (state.field.data && state.field.isvalid)?
-						state.field.data.address:'',
-				})),
-				m(Cell, {span:12, style: showVerificationCheck||'visibility:hidden'},[ m(CheckBox, {
-					id: 'cups_verify',
-					label: _('CUPS_VERIFY_LABEL'),
-					checked: model.cupsverified,
-					onchange: function(ev){
-						model.cupsverified = ev.target.checked;
-					}
-				}),
-					m('p.field .mdc-text-field-helper-text'+
-						'.mdc-text-field-helper-text--persistent'+						
-						'', {
-						'aria-hidden': true,
-						},
-						m.trust(_('CUPS_NO_VERIFY_HELP'))
-					)	
+				m(Cell, {span:12}, [
+					m(TextField, {
+						id: 'cupsaddress',
+						label: _('SUPPLY_POINT_ADDRESS'),
+						help: (state.field.data && state.field.isvalid)?
+							m.trust(_('CUPS_PARTIAL_ADDRESS_NOTICE')):'',
+						boxed: true,
+						disabled: true,
+						tabindex: -1,
+						required: true,
+						maxlength: 24,
+						value: (state.field.data && state.field.isvalid)?
+							state.field.data.address:'',
+					})	
 				]),
+				m(Cell, {span:12, style: showVerificationCheck||'visibility:hidden'},
+					[
+						m(CheckBox, {
+							id: 'cups_verify',
+							label: _('CUPS_VERIFY_LABEL'),
+							checked: model.cupsverified,
+							onchange: function(ev){
+								model.cupsverified = ev.target.checked;
+							}
+						}),
+					]
+				),
+				m(Cell, {span:12, style: showVerificationCheck||'visibility:hidden'},
+					[
+						m('p.field .mdc-text-field-helper-text'+
+							'.mdc-text-field-helper-text--persistent'+						
+							'', {
+							'aria-hidden': true,
+							},
+							m.trust(_('CUPS_NO_VERIFY_HELP'))
+						)	
+					]
+				)	
 			]),
 		],
 	};
@@ -360,21 +373,21 @@ var TermsPage = function() {
 	};
 };
 
-var PartnerPage = function() {
+var MemberPage = function() {
 	return {
-		id: 'partner_join_page',
-		title: _('PARTNER_JOIN_TITLE'),
+		id: 'become_member_page',
+		title: _('BECOME_MEMBER_TITLE'),
 		skipif: function() {
-			return (Contract.partner.is_partner !== undefined && Contract.partner.is_partner !== false)
-				|| (Contract.partner.partner_token !== undefined && Contract.partner.partner_token !== false);
+			return (Contract.member.is_member !== undefined && Contract.member.is_member !== false)
+				|| (Contract.member.invite_token !== undefined && Contract.member.invite_token !== false);
 		},
 		validator: function(){
-			Contract.partner.validate &&
-				Contract.partner.validate();
-			return Contract.partner.error;
+			Contract.member.validate &&
+				Contract.member.validate();
+			return Contract.member.error;
 		},
 		content: [
-			m(Partner, {model: Contract.partner}),
+			m(Member, {model: Contract.member}),
 		]
 	}
 };
@@ -467,8 +480,9 @@ SomMockupApi.postContract = function(contract) {
 var ReviewPage = function() {
 	function group(name, fields) {
 		return m(Cell, {
-			className: 'fieldgroup',
-			span: 6,
+			className: 'fieldgroup ',
+			spandesktop: 6,
+			spantablet: 4,
 		}, m('h4.fieldgroup_title',name), fields);
 	}
 	function field(name, value) {
@@ -489,8 +503,8 @@ var ReviewPage = function() {
 			return undefined;
 		},
 		content: [
-			m(Row, [
-				m(Cell, {span:12}, _("REVIEW_DATA_AND_CONFIRM")),
+			m(Row, {className: 'review'}, [
+				m(Cell, {span:12}, m("a",{href: '#'}), _("REVIEW_DATA_AND_CONFIRM")),
 				group(_('SUMMARY_GROUP_PROCESS'), [
 					field(_("PROCESS_TYPE"), _("PROCESS_TYPE_HOLDER_CHANGE")),
 					field(_("RELATED_MEMBER"), _("RELATED_MEMBER_PENDING")),
@@ -536,7 +550,7 @@ var ReviewPage = function() {
 				]),
 			]),
 			m(Row, [
-				m(Cell, {span:12}, m(LegalConsent, {
+				m(Cell, {span:12, className:'legalconsent'}, m(LegalConsent, {
 					id: 'accept-terms',
 					accepted: typeof Contract.terms.termsaccepted === 'undefined' ? false : Contract.terms.termsaccepted,
 					onchanged: function(value) {
@@ -578,16 +592,18 @@ var FailurePage = function() {
 		title: '',
 		next: false,
 		content: [
-			m('.error_page', [
-				m(Card, [
+			m(Row, { className: 'error_page' }, [
+				m(Cell, { spandesktop:2, spantablet:1 }),
+				m(Cell, { spandesktop:8, spantablet:6, className: 'fieldgroup', align: 'center' }, [
 					m('h2', _('FAILURE_TITLE')),
-					m('', _('FAILURE_TEXT')),
+					m.trust(_('FAILURE_TEXT')),
 					unexpectedError && m('.error', _("UNEXPECTED_POSTERROR", {code:postError})),
 					unexpectedError && postErrorData && m('pre.error', jsyaml.dump(postErrorData)),
 					!unexpectedError && m('.error', translatedError),	
 				]),
-			]),
-		],
+				m(Cell, { spandesktop:2, spantablet:1 })
+			])
+		]
 	};
 };
 
@@ -598,19 +614,22 @@ var SuccessPage = function() {
 		prev: false,
 		next: false,
 		content: [
-			m('.success_page', [				
-				m(Card,[
+			m(Row, { className: 'success_page' }, [
+				m(Cell, { spandesktop:2, spantablet:1 }),
+				m(Cell, { spandesktop:8, spantablet:6, className: 'fieldgroup', align: 'center' }, [
 					m('h2', _('SUCCESS_TITLE')),
 					m.trust(_('SUCCESS_TEXT', {
 						contract_number: Contract.contract_number,
 						urlov: _('OV_URL'),
 					})),
-					m('img', {src: cuca})
-				])
-			 ]),
-		],
+					m('img.cuca', {src: cuca})
+				]),
+				m(Cell, { spandesktop:2, spantablet:1 })
+			])
+		]
 	};
-};
+};			
+
 
 window.onload = function() {
 	var element = document.getElementById("mithril-target");

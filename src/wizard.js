@@ -101,7 +101,7 @@ var Wizard = {
 	view: function(vn) {
 		var self = this;
 		var currentIndex = self.pageIndex(self.currentPage);
-		return m('.wizard', [
+		return m('.wizard', { class: vn.attrs.className }, [
 			m(LinearProgress, {
 				max: vn.attrs.pages.length-1,
 				value: currentIndex,

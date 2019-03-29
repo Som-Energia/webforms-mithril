@@ -1,3 +1,4 @@
+
 body, html {
 	background: white;
 	color: black;
@@ -11,7 +12,9 @@ body, html {
 #mithril-target {
 	height: 100%;
 	margin: 0 auto;
+	line-height: 1.3;
 }
+
 .loading {
 	margin-left: auto;
 	margin-right: auto;
@@ -21,18 +24,25 @@ body, html {
 	top: 30%;
 	bottom: 0;
 }
+
 .hidden {
 	display: none;
 }
 
 // Theming
-* {
+:root {
 	--mdc-theme-primary: #8bc34a;
-	--mdc-theme-secondary: #a62;
 	--mdc-theme-secondary: #ee6420;
 	--mdc-theme-error: #dd4433;
 	--mdc-theme-on-error: #ffa;
 }
+
+.main a, .main a:visited {
+	color: var(--mdc-theme-primary);
+	text-decoration: none;
+	font-weight: bold;
+}
+
 // Fixes focused floating label color not taking custom theme's colors
 .mdc-select:not(.mdc-select--disabled) .mdc-select__native-control:focus ~ .mdc-floating-label,
 .mdc-text-field--focused:not(.mdc-text-field--disabled) label.mdc-floating-label,
@@ -40,21 +50,30 @@ body, html {
 {
 	color: var(--mdc-theme-primary) !important;
 }
+
 // Fixes select's helper-text looking like text-field's
 .mdc-select:not(.mdc-select--disabled) .mdc-select__native-control ~ .mdc-floating-label,
 .mdc-select:not(.mdc-select--disabled) + .mdc-text-field-helper-text {
     color: rgba(0, 0, 0, 0.6);
 }
+
 .mdc-select + .mdc-text-field-helper-text {
     margin-right: 12px;
     margin-left: 12px;
 }
+
 .mdc-select + .mdc-text-field-helper-text {
     margin-bottom: 8px;
 }
 
 .mdc-text-field + .mdc-text-field-helper-text {
     margin-bottom: 8px;
+}
+
+.main .mdc-top-app-bar {
+  /* @alternate */
+  background-color: white;
+  color: var(--mdc-theme-primary);
 }
 
 // Fixes select's 'required' marker looking like for text-field's
@@ -96,12 +115,14 @@ body, html {
     width: 20em;
     opacity: .7;
 }
+
 .inspector pre {
     position: absolute;
     bottom: 4ex;
     padding: 1ex;
     background-color: #fafaff;
 }
+
 .inspector {
     z-index: 1000;
     background-color: #fafaaa;
@@ -134,54 +155,83 @@ body, html {
 	background: white;
 }
 
-h1, h2 {
-	color: var(--mdc-theme-primary);
-}
+h1, h2
+	color: var(--mdc-theme-primary)
+
+.wizard
+	h2
+		margin-top: 0
+	.chooser
+		padding: 16px 0
+	.legalconsent
+		padding-top: 16px 	
 
 .orange {
-    color: #aa4 !important;
-}
-.red {
-    color: red !important;
-}
-.green {
-    color: green !important;
+    color: var(--mdc-theme-secondary);
 }
 
+.red {
+    color: var(--mdc-theme-error) !important;
+}	
+
+.green {
+    color: var(--mdc-theme-primary) !important;
+}
+
+.chooser__option
+	.mdc-form-field
+		 font-size: 1rem
+
+.choser__option__description
+	font-size: 0.875rem
+	padding: 5px 10px 3px
+
 .fieldgroup
-	border: solid 2px var(--mdc-theme-primary)
 	border-radius: 4pt
 	padding-bottom: 2ex
 	.fieldgroup_title
-		text-transform: uppercase
-		color: white
 		margin-top: 0
-		background-color: var(--mdc-theme-primary)
-		padding: 1ex
+		margin-bottom: 18px
+		padding: 0.75em 1em 0
 	.field
-		padding: 0 1em
+		padding: 0 1em 0.3em
 		.fieldname
-			font-weight: bold
-			color: var(--mdc-theme-secondary)
-			margin-right: 1ex
+			font-weight: 600
+			color: var(--mdc-theme-primary)
+			margin-right: 12px
 		.fieldname:after
-			content: ":"
+			/* content: ":" */
 		.fieldvalue
-			color: grey
+			/* color: grey */
+
+.fieldgroup
+	padding: 8px 8px 18px
+	/* border-top: solid 3px var(--mdc-theme-primary) */
+	border: 3pt solid rgba(204,221,204,0.667)
+    background: rgba(204,221,204,0.133)
+	.fieldgroup_title
+		margin-bottom: 12px
+
+.review
+	.fieldgroup
+		background: rgba(204,221,204,0.133)
 
 .success_page
 .error_page
 	text-align: center
-	width: 100ex
-	max-width: 80%
-	margin-left: auto
-	margin-right: auto
 	margin-top: 32px
+	.cuca
+		width: 40%
+		margin: 8%
 
 .success_page
 .error_page
-	.mdc-card
-		padding: 16px 32px 32px 32px
+	h2
+		margin-top: 36px
+	.fieldgroup
+		padding: 20px
+		min-height: 380px
+		background: rgba(204,221,204,0.133)		
 
 .error
 	font-weight: bold

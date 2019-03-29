@@ -9,11 +9,11 @@ var Chooser = require('./chooser');
 /** @module */
 
 /**
-@namespace Partner
+@namespace Member
 
 */
 
-var Partner = {
+var Member = {
 	oninit: function(vn) {
         vn.state.model = vn.attrs.model || {};
 
@@ -25,10 +25,10 @@ var Partner = {
                 vn.state.model.error = message;
                 return message;
             }
-            if(vn.state.model.partner_join === undefined ){
-                return error(_('PARTNER_JOIN_UNSELECTED'));
+            if(vn.state.model.become_member === undefined ){
+                return error(_('BECOME_MEMBER_UNSELECTED'));
             }
-            if(vn.state.model.partner_join === false){
+            if(vn.state.model.become_member === false){
                 return error(false);
             }                
             return vn.state.model.error;
@@ -36,31 +36,31 @@ var Partner = {
     },
 	view: function(vn) {
 		return	m(Row, [
-            m(Cell, {span:12}, m.trust(_('PARTNER_JOIN_PRESENTATION'))),
+            m(Cell, {span:12}, m.trust(_('BECOME_MEMBER_PRESENTATION'))),
             m(Cell, {span:12},
                 m(Chooser, {
-                    id: 'partner_join',
-                    question: _('PARTNER_JOIN_QUESTION'),
+                    id: 'become_member',
+                    question: _('BECOME_MEMBER_QUESTION'),
                     required: true,
-                    value: vn.state.model.partner_join,
+                    value: vn.state.model.become_member,
                     onvaluechanged: function(newvalue){
-                        vn.state.model.partner_join = newvalue;
+                        vn.state.model.become_member = newvalue;
                     },
                     options: [{
                         value: 'yes',
-                        label: _('PARTNER_JOIN_YES_LABEL'),
-                        description: _('PARTNER_JOIN_YES_DESCRIPTION'),
+                        label: _('BECOME_MEMBER_YES_LABEL'),
+                        description: m.trust(_('BECOME_MEMBER_YES_DESCRIPTION')),
                     },{
                         value: 'no',
-                        label: _('PARTNER_JOIN_NO_LABEL'),
-                        description: _('PARTNER_JOIN_NO_DESCRIPTION'),
+                        label: _('BECOME_MEMBER_NO_LABEL'),
+                        description: m.trust(_('BECOME_MEMBER_NO_DESCRIPTION')),
                     }],
                 })
             ),
-            m(Cell, {span:12}, m.trust(_('PARTNER_JOIN_NOTE'))),
+            m(Cell, {span:12}, m.trust(_('BECOME_MEMBER_NOTE'))),
         ]);
     }
 }    
 
-module.exports=Partner
+module.exports=Member
 // vim: noet ts=4 sw=4

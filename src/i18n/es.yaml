@@ -71,11 +71,11 @@ VALIDATING_SESSION: Se está validando la sesión...
 STILL_VALIDATING_SESSION: '' # Empty
 CONTRACTING_AS: Estás contratando a nombre de %{name}.
 NOT_YOU_LOGOUT: Si no eres esa persona, por favor, <a href="%{url}" target="_blank">cierra la sesión</a>
+FILL_NIF: No has introducido un NIF correcto
 FILL_VAT: Por favor, introduzca el NIF de la persona titular del nuevo contrato
 VAT_LABEL: Número de Identificación Fiscal (NIF)
 VAT_HELP: ¿Y si no dispongo de NIF?
 VAT_HELP_URL: TODO
-NO_NIF: No has introducido un NIF correcto
 
 IDENTIFY: Identificación
 FILL_PASSWORD: Por favor, indentifíquese usando la contraseña de la Oficina Virtual
@@ -85,28 +85,177 @@ PASSWORD_HELP_URL: TODO
 WRONG_PASSWORD: Contraseña incorrecta
 
 CUPS_TITLE: Identifica el punto de suministro
-FILL_CUPS: Por favor, introduzca el código CUPS que identifica su instalación
+FILL_CUPS: "Indica el código CUPS (Código Universal de Punto de Suministro):"
 CUPS_LABEL: CUPS
-CUPS_HELP: ¿Cómo averiguar el código CUPS?
+CUPS_HELP: ¿Dónde puedo encontrar el código CUPS?
 CUPS_HELP_URL: TODO
-CUPS_VERIFY_LABEL: Confirmo que la dirección mostrada es la que corresponde al CUPS que quiero contratar
+CUPS_VERIFY_LABEL: Confirmo que la dirección se corresponde con el CUPS que quiero contratar
+CUPS_NO_VERIFY_HELP: Si la dirección no corresponde puedes contactar con nosotros en <a href="mailto:comercializacion@somenergia.coop">comercializacion@somenergia.coop</a>.
 INVALID_SUPPLY_POINT_CUPS: CUPS inválido
 CUPS_IN_PROCESS: Este CUPS está actualmente en un proceso
 MARK_ADDRESS_CONFIRMATION_BOX: Verifica que la dirección asociada a este CUPS es la correcta
 SUPPLY_POINT_ADDRESS: Dirección de suministro
 CUPS_SHOULD_BE_ACTIVE: El CUPS no tiene un contrato activo con Som Energia
 CUPS_STATE_UNEXPECTED: No se pudo identificar el estado del CUPS (error interno)
+CUPS_PARTIAL_ADDRESS_NOTICE: Por motivos de seguridad, no mostramos la dirección completa. Podrá consultar la dirección completa en la Oficina Virtual.
+
+# Generic fields
+STATE: Provincia
+STATE_HELP: Provincia
+CITY: Municipio
+CITY_HELP: Municipio
+LOADING_HELP: Cargando opciones...
+LANGUAGE: Idioma
+LANGUAGE_HELP: Idioma
 
 # Holder personal data
 HOLDER_PERSONAL_DATA: Datos personales de la persona titular
+HOLDER_NAME: Nombre
+HOLDER_NAME_HELP: Nombre de la persona titular 
+HOLDER_SURNAME1: Primer apellido
+HOLDER_SURNAME1_HELP: Primer apellido de la persona titular
+HOLDER_SURNAME2: Segundo apellido
+HOLDER_SURNAME2_HELP: Segundo apellido de la persona titular
+BUSINESS_NAME: Razón social
+BUSINESS_NAME_HELP: Razón social
+PROXY_NAME: Nombre del representante legal
+PROXY_NAME_HELP: Nombre y apellidos del representante legal
+PROXY_NIF: Nif del representante legal
+PROXY_NIF_HELP: Nif del representante legal
+HOLDER_ADDRESS: Dirección 
+HOLDER_ADDRESS_HELP: Dirección de la persona titular
+HOLDER_POSTALCODE: Código postal  
+HOLDER_POSTALCODE_HELP: Código postal de la persona titular
+HOLDER_EMAIL: Email
+HOLDER_EMAIL_HELP: Email de la persona titular
+HOLDER_EMAIL_2: Email (Repite email)
+HOLDER_EMAIL_2_HELP: Repite email
+HOLDER_PHONE: Teléfono
+HOLDER_PHONE_HELP: Teléfono de la persona titular
+HOLDER_PHONE_2: Teléfono alternativo
+HOLDER_PHONE_2_HELP: Teléfono alternativo
+HOLDER_LANGUAGE_HELP: Idioma para la comunicación con Som Energia
+
+## Holder personal data errors
+NO_NAME: No has especificado el nombre
+NO_SURNAME1: No has especificado el primer apellido
+NO_NIF: No has especificado el NIF
+NO_PROXY_NAME: No has especificado el nombre de la persona representante
+NO_PROXY_NIF: No has especificado el NIF de la persona representante
+NO_ADDRESS: No has especificado la dirección
+NO_POSTALCODE: No has especificado un código postal correcto
+NO_STATE: No has especificado la provincia
+NO_CITY: No has especificado el municipio
+NO_EMAIL: No has especificado un correo electrónico correcto
+NO_REPEATED_EMAIL: No has repetido el correo electrónico correctamente
+NO_PHONE: No has especificado un teléfono correcto
+NO_LANGUAGE: No has especificado el idioma
+UNACCEPTED_PRIVACY_POLICY: Tienes que aceptar la política de privacidad
+
+# Member
+BECOME_MEMBER_TITLE: Hacerse Socio 
+BECOME_MEMBER_PRESENTATION: Puede serlo cualquier particular, cooperativa, empresa, asociación, fundación, comunidad de vecinos y vecinas, ayuntamiento... Para serlo debes llevar a cabo una aportación única al capital social de <b>100€</b>, que <b>se devuelven</b> en caso de que te des de baja.
+BECOME_MEMBER_QUESTION: Quieres ser persona sòcia de la cooperativa?
+BECOME_MEMBER_YES_LABEL: Sí, quiero ser persona socia de la cooperativa
+BECOME_MEMBER_YES_DESCRIPTION: ''
+BECOME_MEMBER_NO_LABEL: No, todavía no quiero serlo
+BECOME_MEMBER_NO_DESCRIPTION: ''
+BECOME_MEMBER_NOTE: Ten en cuenta que para poder ser titular de un contrato con la cooperativa es necesario que seas persona socia de la misma. Si todavía no te has decidido, te damos el tiempo necesario para que puedas valorar hacer este paso más adelante.
+BECOME_MEMBER_UNSELECTED: Es necesario indicar si quieres o no hacerte socia
+
+# VoluntaryCentPage
+VOLUNTARY_CENT_TITLE: Donatiu voluntari
+VOLUNTARY_CENT_PRESENTATION: |
+  Som una Cooperativa sense ànim de lucre amb l'objectiu ferm de canviar el model energètic.
+  Els socis i sòcies que ho desitgin poden realitzar un donatiu voluntari de 0,01€/kWh
+  destinat a recolzar i facilitar l'acció social i voluntària
+  dels més de 50 Grups Locals repartits pel territori.
+VOLUNTARY_CENT_QUESTION: Vols participar amb la teva energia a fer-ho possible?
+VOLUNTARY_CENT_YES_LABEL: Sí, vull fer un donatiu voluntari de 0,01€/kWh
+VOLUNTARY_CENT_YES_DESCRIPTION: |
+  Per un consum mitjà d'una família (aproximadament 300kWh/mes)
+  això representa un increment de 3€ mensuals.
+
+VOLUNTARY_CENT_NO_LABEL: No
+VOLUNTARY_CENT_NO_DESCRIPTION: |
+  Sempre que ho vulguis podràs activar o desactivar aquest donatiu a l'instant
+  des de l'Oficinal Virtual.
+NO_VOLUNTARY_DONATION_CHOICE_TAKEN: Cal dir si vols o no fer el donatiu voluntari
+
+# PaymentPage
+PAYMENT_TITLE: Datos de pago
+IBAN_LABEL: IBAN (cuenta bancaria)
+IBAN_HELP: "Ejemplo: ES77 1234 1234 1612 3456 7890" # TODO: cambiar texto
+IBAN_ACCEPT_DIRECT_DEBIT: Como titular de la cuenta bancaria, acepto la domiciliación de los recibos
+IBAN_ERROR: IBAN incorrecto
+INVALID_PAYER_IBAN:
+ No has especificado correctamente el IBAN de la cuenta donde domiciliar
+
+# ReviewPage
+REVIEW_TITLE: Revisa y confirma el contrato
+REVIEW_DATA_AND_CONFIRM: |
+  ¡Ya casi hemos terminado! Revisa los datos introducidos y pulsa el botón de enviar.
+SUMMARY_GROUP_PROCESS: Tipo de trámite
+PROCESS_TYPE: Tipo de trámite
+PROCESS_TYPE_HOLDER_CHANGE: Cambio de titular
+RELATED_MEMBER: Socia vinculada
+RELATED_MEMBER_PENDING: Pendiente de hacerse socia
+HOLDER: Titular
+CONTACT: Información de contacto
+LEGAL_NAME: Razón social
+SUPPLY: Punto de suministro
+ADDRESS: Dirección
+PHONE: Teléfono
+EMAIL: Correo electrónico
+PROXY: Representante legal
+SUMMARY_GROUP_PAYMENT: Datos de pago
+SUMMARY_GROUP_TECHNICAL: Datos técnicos
+FARE: Tarifa
+FARE_SAME: Se mantendrá la tarifa actual
+POWER: Potencia
+POWER_SAME: Se mantendrá la potencia actual
+FARE_POWER_CHANGE_NOTE: Una vez este trámite haya finalizado, podrás cambiarla mediante la Oficina Virtual de Som Energia
+VOLUNTARY_CENT: Donativo voluntario
+ACCEPT_TERMS: He leído y acepto las condiciones de Som Energia
+UNACCEPTED_TERMS: Tienes que aceptar las condiciones
+SEND: Enviar
+YES: Sí
+NO: No
+
+# FailurePage
+FAILURE_TITLE: Ups!
+FAILURE_TEXT: Lo sentimos, no ha sido posible realizar el contrato
+UNEXPECTED_POSTERROR: Se ha producido un error inesperado con código %{code}
+
+# SuccessPage
+SUCCESS_TITLE: Enhorabuena
+SUCCESS_TEXT: |
+  <p>
+  Tu contrato está en trámite. Tendrá el número de contrato: %{contract_number}.
+  </p>
+  <p>
+  Consulta el estado de la tramitación en
+  la <a target="_blank" href="%{urlov}">Oficina Virtual</a></strong>
+  de Som Energia,
+  </p>
+
+OV_URL: https://oficinavirtual.somenergia.coop/es
+
+# Post messages
+POSTERROR_GRASPER: '%{name} eres un ...!'
 
 # Widgets
-
-Choose a state: Escoja una provincia
-Choose a city: Escoja una ciudad
-Loading municipalities in %{statename}: Se están cargando los municipios de %{statename}...
-NIF: Número de identificación fiscal
 Field label: Etiqueta del campo
 Holder: Titular
-Supply point: Punto de suministro
+Supply point: Punto de subministro
 Confirmation: Confirmación
+Submit: Enviar
+Required: Camp obligatorio
+CONTRACT_INTRO:
+    Para contractar la luz con Som Energia... bla bla
+PRIVACY_POLICY_TITLE: Política de Protección de Datos
+ACCEPT_PRIVACY_POLICY:
+    He leído y acepto la <strong><a target="_blank" href="%{url}">política de privacidad</a></strong> de Som Energia
+ACCEPT_PRIVACY_POLICY_URL:
+    //www.somenergia.coop/es/aviso-legal/
+TERMS_TITLE: Condiciones generales

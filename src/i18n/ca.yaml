@@ -78,7 +78,7 @@ VAT_HELP: I si no disposo d'un NIF?
 VAT_HELP_URL: TODO
 
 IDENTIFY: Identificació
-FILL_PASSWORD: Si us plau, identifiqueu-vos fent servir la contrasenya de l'oficina virtual
+FILL_PASSWORD: Si us plau, identifiqueu-vos fent servir la contrasenya de l'Oficina Virtual
 PASSWORD_LABEL: Contrasenya
 PASSWORD_HELP: No recordo la contrasenya
 PASSWORD_HELP_URL: TODO
@@ -97,6 +97,8 @@ MARK_ADDRESS_CONFIRMATION_BOX: Verifica que l'adreça associada a aquest CUPS é
 SUPPLY_POINT_ADDRESS: Adreça de subministrament
 CUPS_SHOULD_BE_ACTIVE: El CUPS no te cap contracte actiu a Som Energia
 CUPS_STATE_UNEXPECTED: No s'ha pogut identificar l'estat del CUPS (error intern)
+CUPS_PARTIAL_ADDRESS_NOTICE: Per motius de seguretat, no mostrem l'adreça completa. Podràs consultar l'adreça completa des de l'Oficina Virtual.
+
 # Generic fields
 STATE: Província
 STATE_HELP: Província
@@ -132,7 +134,8 @@ HOLDER_PHONE: Telèfon
 HOLDER_PHONE_HELP: Telèfon de la persona titular
 HOLDER_PHONE_2: Telèfon alternatiu
 HOLDER_PHONE_2_HELP: Telèfon alternatiu
-HOLDER_LANGUAGE_HELP: Idioma preferit per la comunicació amb Som Energia
+HOLDER_LANGUAGE_HELP: Idioma per la comunicació amb Som Energia
+
 ## Holder personal data errors
 NO_NAME: No has especificat el nom
 NO_SURNAME1: No has especificat el primer cognom
@@ -149,16 +152,16 @@ NO_PHONE: No has especificat un telèfon correcte
 NO_LANGUAGE: No has especificat l'idioma
 UNACCEPTED_PRIVACY_POLICY: Has d'acceptar la política de privacitat
 
-# Partner
-PARTNER_JOIN_TITLE: Fer-se Soci 
-PARTNER_JOIN_PRESENTATION: Pot ser sòcia de la cooperativa qualsevol persona particular, cooperativa, empresa, associació, fundació, comunitat de veïns i veïnes, ajuntament…  Per ser-ho has de fer una aportació única al capital social de <b>100 €</b>, que <b>es retornen</b> en el cas que qualsevol dia vulguis donar-te de baixa.
-PARTNER_JOIN_QUESTION: Vols fer-te persona sòcia de la cooperativa?
-PARTNER_JOIN_YES_LABEL:  Sí, vull ser persona sòcia de la cooperativa
-PARTNER_JOIN_YES_DESCRIPTION: ''
-PARTNER_JOIN_NO_LABEL: No, encara no me'n vull fer sòcia
-PARTNER_JOIN_NO_DESCRIPTION: ''
-PARTNER_JOIN_NOTE: Tingues en compte que per poder ser titular d’un contracte amb la cooperativa cal que siguis soci o sòcia de la mateixa. Si encara no t’hi has decidit, et donem el temps necessari perquè puguis valorar fer aquest pas més endavant.
-PARTNER_JOIN_UNSELECTED: Cal dir si vols o no fer-te sòcia
+# Member
+BECOME_MEMBER_TITLE: Fer-se Soci 
+BECOME_MEMBER_PRESENTATION: Tingues en compte que per poder ser titular d’un contracte amb la cooperativa cal que siguis soci o sòcia de la mateixa.
+BECOME_MEMBER_QUESTION: Vols fer-te persona sòcia de la cooperativa?
+BECOME_MEMBER_YES_LABEL:  Sí, vull ser persona sòcia de la cooperativa
+BECOME_MEMBER_YES_DESCRIPTION: Per ser-ho has de fer una aportació única al capital social de <b>100 €</b>, que <b>es retornen</b> en el cas que qualsevol dia vulguis donar-te de baixa.
+BECOME_MEMBER_NO_LABEL: No, encara no me'n vull fer sòcia
+BECOME_MEMBER_NO_DESCRIPTION: Si encara no t’hi has decidit, et donem el temps necessari perquè puguis valorar fer aquest pas més endavant.
+BECOME_MEMBER_NOTE: ''
+BECOME_MEMBER_UNSELECTED: Cal dir si vols o no fer-te sòcia
 
 # VoluntaryCentPage
 VOLUNTARY_CENT_TITLE: Donatiu voluntari
@@ -179,27 +182,26 @@ VOLUNTARY_CENT_NO_DESCRIPTION: |
   des de l'Oficinal Virtual.
 NO_VOLUNTARY_DONATION_CHOICE_TAKEN: Cal dir si vols o no fer el donatiu voluntari
 
-
 # PaymentPage
 PAYMENT_TITLE: Dades de pagament
 IBAN_LABEL: IBAN (compte bancari)
 IBAN_HELP: "Un com aquest: ES77 1234 1234 1612 3456 7890" # TODO: cambiar texto
 IBAN_ACCEPT_DIRECT_DEBIT: Com a titular del compte bancari, accepto la domiciliació dels rebuts
-IBAN_ERROR: Invalid IBAN
+IBAN_ERROR: IBAN incorrecte
 INVALID_PAYER_IBAN:
  No has especificat correctament l'IBAN del compte on domiciliar
 
 # ReviewPage
 REVIEW_TITLE: Revisa i confirma el contracte
 REVIEW_DATA_AND_CONFIRM: |
-  Ja queda poc!, verifica les dades i prem el botó "Enviar"
+  Ja quasi ho tenim! Revisa les dades introduïdes i prem el botó d’enviar.
 SUMMARY_GROUP_PROCESS: Tipus de tràmit
 PROCESS_TYPE: Tipus de tràmit
 PROCESS_TYPE_HOLDER_CHANGE: Canvi de titular
 RELATED_MEMBER: Socia vinculada
 RELATED_MEMBER_PENDING: Queda pendent de fer-se socia
 HOLDER: Titular
-CONTACT: Informació de Contacte
+CONTACT: Informació de contacte
 LEGAL_NAME: Raó social
 SUPPLY: Punt de subministrament
 ADDRESS: Adreça
@@ -217,30 +219,30 @@ VOLUNTARY_CENT: Donatiu voluntari
 ACCEPT_TERMS: He llegit i accepto les condicions de Som Energia
 UNACCEPTED_TERMS: Has d'acceptar les condicions
 SEND: Enviar
+YES: Sí
+NO: No
 
 # FailurePage
 FAILURE_TITLE: Ups!
-FAILURE_TEXT: Ho sentim no ha esta possible realitzar el contracte
+FAILURE_TEXT: <p><b>Ho sentim, no ha estat possible realitzar el contracte</b></p>
 UNEXPECTED_POSTERROR: S'ha produit un error inesperat amb codi %{code}
 
 # SuccessPage
 SUCCESS_TITLE: Enhorabona
 SUCCESS_TEXT: |
   <p>
-  El teu contracte està en tràmit. Tindrà el número de contracte: %{contract_number}.
+  <b>El teu contracte està en tràmit amb el número: %{contract_number}</b>
   </p>
   <p>
   Consulta l'estat de la tramitació a
   l'<a target="_blank" href="%{urlov}">Oficina Virtual</a></strong>
-  de Som Energia,
+  de Som Energia
   </p>
 
 OV_URL: https://oficinavirtual.somenergia.coop/ca
 
-
 # Post messages
 POSTERROR_GRASPER: '%{name} ets un rata!'
-
 
 # Widgets
 Field label: Etiqueta del camp
@@ -255,5 +257,6 @@ PRIVACY_POLICY_TITLE: Política de Protecció de Dades
 ACCEPT_PRIVACY_POLICY:
     He llegit i accepto la <strong><a target="_blank" href="%{url}">política de privacitat</a></strong> de Som Energia
 ACCEPT_PRIVACY_POLICY_URL:
-    //www.somenergia.coop/ca/politica-de-privacitat-cookies-i-avis-legal/
+    //www.somenergia.coop/ca/avis-legal/
+TERMS_TITLE: Condicions generals
 

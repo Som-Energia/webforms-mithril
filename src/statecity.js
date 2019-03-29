@@ -24,7 +24,6 @@ var StateCityChooser = {
 	},
 
 	onupdate: function(vn) {
-		//TODO: I think we need to work with vn.state instead of "this".
 		var self = this;
 		self.state = vn.attrs.statevalue;
 		var citychanged = self.city !== vn.attrs.cityvalue;
