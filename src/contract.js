@@ -3,6 +3,7 @@ var m = require('mithril');
 var _ = require('./translate');
 var css = require('./style.styl');
 var Wizard = require('./wizard');
+var Steps = require('./steps');
 var CheckBox = require('./mdc/checkbox');
 var Layout = require('./mdc/layout');
 var Row = Layout.Row;
@@ -27,6 +28,7 @@ var cuca = require('./img/cuca-somenergia.svg');
 var Mousetrap = require('mousetrap');
 require('mousetrap-global-bind');
 require('font-awesome/css/font-awesome.css');
+require('webpack-roboto/sass/roboto.scss');
 require('@material/typography/dist/mdc.typography.css').default;
 var Inspector = require('./inspector');
 
@@ -111,31 +113,33 @@ Form.view = function(vn) {
 			shortcut: 'ctrl+shift+d',
 			model: Contract,
 		}),
-		m('.main', [
-			m(TopAppBar, {
-				title: _('CONTRACT_FORM_TITLE'),
-				fixed: false
-			}),
-			m(Wizard, {
-				showall: showall,
-				focusonjump: true,
-				nextonenter: true,
-				className: 'mdc-top-app-bar--fixed-adjust',
-				pages:[
-					IntroPage(),
-					PasswordPage(),
-					CupsPage(),
-					HolderPage(),
-					//TermsPage(),
-					MemberPage(),
-					VoluntaryCentPage(),
- 					PaymentPage(),
-					ReviewPage(),
-					FailurePage(),
-					SuccessPage(),
-				],
-			}),
-		]),
+		m('.root', [
+			m('.main', [
+				m(TopAppBar, {
+					title: _('CONTRACT_FORM_TITLE'),
+					fixed: false
+				}),
+				m(Steps, {
+					showall: showall,
+					focusonjump: true,
+					nextonenter: true,
+					className: 'mdc-top-app-bar--fixed-adjust',
+					pages:[
+						IntroPage(),
+						PasswordPage(),
+						CupsPage(),
+						HolderPage(),
+						MemberPage(),
+						VoluntaryCentPage(),
+						SpecialCasesPage(),
+						PaymentPage(),
+						ReviewPage(),
+						FailurePage(),
+						SuccessPage(),
+					],
+				}),
+			]),
+		])
 	]);
 };
 
@@ -195,7 +199,7 @@ var PasswordPage = function() {
 		},
 		content: [ m(Row, [
 			m(Cell, {span:12}, m('', _('FILL_PASSWORD'))),
-			m(Cell, {span:12}, m(TextField, {
+			m(Cell, {span:6}, m(TextField, {
 				label: _('PASSWORD_LABEL'),
 				leadingfaicon: 'key',
 				type: 'password',
@@ -313,8 +317,10 @@ var CupsPage = function() {
 							model.cupsstatus = 'invalid';
 						}
 					},
-				})),
-				m(Cell, {span:12}, [
+				}))
+			]),
+			m(Row, [
+				m(Cell, {span:6}, [
 					m(TextField, {
 						id: 'cupsaddress',
 						label: _('SUPPLY_POINT_ADDRESS'),
@@ -584,6 +590,58 @@ var ReviewPage = function() {
 	};
 };
 
+var cases = [
+	{ id: 'special_case__reason_defuncio', name: '', label: _('SPECIAL_CASES_REASON_DEFUNCIO'), description: '', checked: false },
+	{ id: 'special_case__reason_fusio', name: '', label: _('SPECIAL_CASES_REASON_FUSIO'), description: '', checked: false },
+	{ id: 'special_case__reason_electrodep', name: '', label: _('SPECIAL_CASES_REASON_ELECTRODEP'), description: '', attachment: true, checked: false },
+];
+
+var SpecialCasesPage = function() {
+	return {
+		id: 'special_cases_page',
+		title: _('SPECIAL_CASES_TITLE'),
+		next: true,
+		content: [
+			m(Row, { className: 'special_cases_page' }, [
+				m(Cell, {
+						className: 'special_cases__question',
+						span: 12,
+					}, 
+					_('SPECIAL_CASES_QUESTION'),
+				),		
+				cases.map( function(elem) {
+					return m(Cell, {span:12}, [
+						m('.special_case__reason'
+						+ (elem.checked?'.special_case__reason--selected':''), [
+							m('label.special_case__lbl', [
+								m(CheckBox, {
+									id: elem.id,
+									label: elem.label,
+									checked: elem.checked,
+									onchange: function(ev) {
+										elem.checked = ev.target.checked;
+									}
+								}),
+								(elem.checked && elem.attachment === true ? 
+									m('.special_case__description', [
+										m(Cell, {span:12}, [
+											m('p','Adjunta el document que acredita aquest cas',[
+												m('i.fa.fa-asterisk.red'),
+											]),
+										]) 
+									]) 	
+									: false
+								)
+	
+							])
+						])	
+					])	
+				})			
+			])
+		]
+	}
+};
+
 var FailurePage = function() {
 	var translatedError = _(postError, postErrorData);
 	var unexpectedError = translatedError === postError;
@@ -594,7 +652,7 @@ var FailurePage = function() {
 		content: [
 			m(Row, { className: 'error_page' }, [
 				m(Cell, { spandesktop:2, spantablet:1 }),
-				m(Cell, { spandesktop:8, spantablet:6, className: 'fieldgroup', align: 'center' }, [
+				m(Cell, { spandesktop:8, spantablet:6, className: '', align: 'center' }, [
 					m('h2', _('FAILURE_TITLE')),
 					m.trust(_('FAILURE_TEXT')),
 					unexpectedError && m('.error', _("UNEXPECTED_POSTERROR", {code:postError})),
@@ -616,7 +674,7 @@ var SuccessPage = function() {
 		content: [
 			m(Row, { className: 'success_page' }, [
 				m(Cell, { spandesktop:2, spantablet:1 }),
-				m(Cell, { spandesktop:8, spantablet:6, className: 'fieldgroup', align: 'center' }, [
+				m(Cell, { spandesktop:8, spantablet:6, className: '', align: 'center' }, [
 					m('h2', _('SUCCESS_TITLE')),
 					m.trust(_('SUCCESS_TEXT', {
 						contract_number: Contract.contract_number,

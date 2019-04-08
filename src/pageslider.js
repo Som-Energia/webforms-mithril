@@ -36,16 +36,17 @@ PageSlider.oninit = function(vn) {
 
 function updateHeight(vn, mode) {
 
-	/*var newHeight = Math.max.apply(Math,
+	var newHeight = Math.max.apply(Math,
 		vn.children.map(function(child) {
 			console.log(child.dom.offsetHeight);
 			return child.dom.offsetHeight;
-		}));*/
+		}));
 
+	/*	
 	var newHeight = Math.max.apply(Math,
 		vn.children.map(function(child,index) {
 			return (vn.attrs.current===index?child.dom.clientHeight:0);
-		}));
+		}));*/
 
 	if (newHeight && newHeight !== vn.state.height) {
 		vn.state.height = newHeight;
@@ -93,7 +94,7 @@ PageSlider.onupdate = function(vn) {
 
 PageSlider.view = function(vn) {
 	return m('.pageslider',
-		vn.attrs.showall ?'':{style: {height: vn.state.height+'px', overflow:'hidden'}},
+		//vn.attrs.showall ?'':{style: {height: vn.state.height+'px'}},
 		vn.children.map(function(child,index) {
 			return m('.pageslider-page'
 				+(vn.attrs.showall?'.showall':'')

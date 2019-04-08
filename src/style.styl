@@ -1,18 +1,22 @@
-
 body, html {
-	background: white;
+	font-family: Roboto, sans-serif;
 	color: black;
 	position: absolute;
 	height: 100%;
 	width: 100%;
 	padding: 0;
 	margin: 0;
+	background: rgba(204,221,204,0.133);
 }
 
 #mithril-target {
 	height: 100%;
 	margin: 0 auto;
 	line-height: 1.3;
+}
+
+.mdc-dialog.mdc-dialog--open {
+    z-index: 50;
 }
 
 .loading {
@@ -31,8 +35,8 @@ body, html {
 
 // Theming
 :root {
-	--mdc-theme-primary: #8bc34a;
-	--mdc-theme-secondary: #ee6420;
+	--mdc-theme-primary: #aec122;
+	--mdc-theme-secondary: #aec122;
 	--mdc-theme-error: #dd4433;
 	--mdc-theme-on-error: #ffa;
 }
@@ -71,7 +75,6 @@ body, html {
 }
 
 .main .mdc-top-app-bar {
-  /* @alternate */
   background-color: white;
   color: var(--mdc-theme-primary);
 }
@@ -116,6 +119,15 @@ body, html {
     opacity: .7;
 }
 
+.steps .mdc-snackbar__surface {
+	/* background-color: var(--mdc-theme-error) */
+	background-color: var(--mdc-theme-primary)
+}
+
+.steps .mdc-snackbar__label {
+	font-weight: 600;
+}
+
 .inspector pre {
     position: absolute;
     bottom: 4ex;
@@ -155,16 +167,48 @@ body, html {
 	background: white;
 }
 
-h1, h2
+h1, h2 {
 	color: var(--mdc-theme-primary)
-
+}
+	
 .wizard
 	h2
 		margin-top: 0
 	.chooser
 		padding: 16px 0
 	.legalconsent
-		padding-top: 16px 	
+		padding-top: 16px
+
+.steps
+	.pageslider-page
+		box-shadow: 0px 1px 2px 0px rgba(60,64,67,0.3), 0px 2px 6px 2px rgba(60,64,67,0.15)
+		background: #fff
+		max-width: 800px
+		margin: 0 auto
+		margin-top: 32px
+		margin-bottom: 32px
+		border-radius: 4px
+		position: static		
+		padding: 10px 0
+	.controls
+		position: absolute
+		bottom: 32px
+		left: 0
+		right: 0
+		display: flex
+		justify-content: center
+		z-index: 10
+		padding: 0 32px
+	.fabs
+		display: flex
+		flex-grow: 1
+		max-width: 1025px
+	.spacer
+		flex-grow: 1
+	.mdc-fab
+		background-color: #c3c3c3;
+	.mdc-fab.mdc-button--next
+		background-color: var(--mdc-theme-primary)
 
 .orange {
     color: var(--mdc-theme-secondary);
@@ -178,39 +222,60 @@ h1, h2
     color: var(--mdc-theme-primary) !important;
 }
 
-.chooser__option
-	.mdc-form-field
-		 font-size: 1rem
-
-.choser__option__description
-	font-size: 0.875rem
-	padding: 5px 10px 3px
+.chooser
+	.chooser__option
+		border: 2pt solid rgba(204,221,204,0.667) !important
+		.mdc-form-field
+			font-size: 1rem
+	.choser__option__description
+		font-size: 0.875rem
+		padding: 5px 10px 3px
 
 .fieldgroup
 	border-radius: 4pt
 	padding-bottom: 2ex
+	padding: 8px 8px 18px
+	border: 2pt solid rgba(204,221,204,0.667)
+	background: rgba(204,221,204,0.133)
 	.fieldgroup_title
 		margin-top: 0
-		margin-bottom: 18px
-		padding: 0.75em 1em 0
+		margin-bottom: 12px
+		padding: 0.5em 0.5em 0
 	.field
-		padding: 0 1em 0.3em
+		padding: 0 0.5em 0.3em
 		.fieldname
 			font-weight: 600
 			color: var(--mdc-theme-primary)
 			margin-right: 12px
-		.fieldname:after
-			/* content: ":" */
-		.fieldvalue
-			/* color: grey */
 
-.fieldgroup
-	padding: 8px 8px 18px
-	/* border-top: solid 3px var(--mdc-theme-primary) */
-	border: 3pt solid rgba(204,221,204,0.667)
-    background: rgba(204,221,204,0.133)
-	.fieldgroup_title
-		margin-bottom: 12px
+.special_cases_page
+	.special_cases__question
+		font-size: 110%
+		font-weight: bold
+		color: #234
+		margin-bottom: 16px
+	.special_case__reason
+		cursor: pointer
+		border: 2pt solid rgba(204,221,204,0.333)
+		border-radius: 10px
+		padding: 10px
+		display: flex
+		align-items: stretch	
+		&:hover
+			border: 2pt solid #cdc
+		label
+			font-size: 1rem
+	.special_case__reason--selected
+		border: 2pt solid rgba(204,221,204,0.667);
+		background: rgba(204,221,204,0.133);
+	.special_case__lbl
+		width: 100%
+		padding: 10px
+	.special_case__description
+		font-size: 0.875rem
+		padding: 5px 10px 0
+		p
+			margin: 5px 0 0
 
 .review
 	.fieldgroup
@@ -218,23 +283,16 @@ h1, h2
 
 .success_page
 .error_page
-	text-align: center
-	margin-top: 32px
+	h2
+		margin-top: 36px
 	.cuca
 		width: 40%
 		margin: 8%
-
-.success_page
-.error_page
-	h2
-		margin-top: 36px
-	.fieldgroup
-		padding: 20px
-		min-height: 380px
-		background: rgba(204,221,204,0.133)		
+	text-align: center
+	margin-top: 32px
 
 .error
 	font-weight: bold
 	color: var(--mdc-theme-error);
-	padding: 2em;
+	padding: 2em
 

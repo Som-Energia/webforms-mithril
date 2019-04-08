@@ -35,6 +35,7 @@
 - [x] PageSlider: On jump, focus the first element
 - [ ] Dialog: Option to not jumping to the first control
     - [x] Dialog: Hack, hidden control on the top
+- [ ] SummaryPage: Member info    
 
 # Not for now?
 

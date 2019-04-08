@@ -1,5 +1,5 @@
 .pageslider {
-	overflow-x: hidden;
+	overflow: hidden;
 	//overflow-y: auto;
 	position: relative;
 	top: 0;
@@ -7,25 +7,41 @@
 	width: 100%;
 	transition-property: height;
 	transition-duration: 0.1s;
+
+    flex-direction: column;
+    flex-grow: 1;
 }
 .pageslider-page {
+	overflow-x: hidden;
+	overflow-y: auto;
 	position: absolute;
 	width: 100%;
 	top: 0;
 	bottom: 0;
 	transition: transform, opacity;
 	transition-duration: 0.5s;
+	display: none;
+	transform: translate(0, 0);
 }
+
 .pageslider-page.active {
-	opacity: 1;
+	display: block;
+	/* opacity: 1; */
 	transition-timing-function: ease-in-out, ease-in-out, step-end;
+	transform-origin: 0 50% 0;
+    animation-fill-mode: both;
 }
+
+.pageslider-page.showall {
+	display: block;
+}
+
 .pageslider-page.back {
-	opacity: 0;
+	/* opacity: 0; */
 	transform: translate(-100%,0);
 }
 .pageslider-page.next {
-	opacity: 0;
+	/* opacity: 0; */
 	transform: translate(100%,0);
 }
 

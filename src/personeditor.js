@@ -204,7 +204,7 @@ PersonEditor.view = function(vn) {
 			},
 		}),
 		m(Row, [
-			m(Cell, {span:6}, m(TextField, {
+			m(Cell, {spandesktop:6, spantablet:4}, m(TextField, {
 				id: prefix+'email',
 				label: _('HOLDER_EMAIL'),
 				help: _('HOLDER_EMAIL_HELP'),
@@ -218,7 +218,7 @@ PersonEditor.view = function(vn) {
 				},
 				boxed: true,
 			})),
-			m(Cell, {span:6}, m(TextField, {
+			m(Cell, {spandesktop:6, spantablet:4}, m(TextField, {
 				id: prefix+'email2',
 				label: _('HOLDER_EMAIL_2'),
 				help: _('HOLDER_EMAIL_2_HELP'),
@@ -232,7 +232,7 @@ PersonEditor.view = function(vn) {
 			})),
 		]),
 		m(Row, [
-			m(Cell, {span:6}, m(TextField, {
+			m(Cell, {spandesktop:6, spantablet:4}, m(TextField, {
 				id: prefix+'phone1',
 				label: _('HOLDER_PHONE'),
 				help: _('HOLDER_PHONE_HELP'),
@@ -249,7 +249,7 @@ PersonEditor.view = function(vn) {
 				required: true,
 				boxed: true,
 			})),
-			m(Cell, {span:6}, m(TextField, {
+			m(Cell, {spandesktop:6, spantablet:4}, m(TextField, {
 				id: prefix+'phone2',
 				label: _('HOLDER_PHONE_2'),
 				help: _('HOLDER_PHONE_2_HELP'),
@@ -279,7 +279,7 @@ PersonEditor.view = function(vn) {
 			required: true,
 		}),
 		m(Row, [
-			m(Cell, {span:12}, m(LegalConsent, {
+			m(Cell, {span:12, className:'legalconsent'}, m(LegalConsent, {
 				id: prefix+'acceptprivacypolicy',
 				accepted: person.privacypolicyaccepted,
 				onchanged: function(value) {
