@@ -57,14 +57,6 @@ function appendPool(target, metric, context, dates, parentCode, level) {
 		appendPool(target, metric, child.states, dates, code, 'states');
 	});
 }
-var pools = {};
-Object.keys(contracts.countries).map(function(countryCode) {
-	appendPool(pools, 'contracts', contracts.countries, contracts.dates, countryCode, 'ccaas');
-	appendPool(pools, 'members', members.countries, members.dates, countryCode, 'ccaas');
-});
-var pool = Object.keys(pools.ccaas).map(function (k) { return pools.ccaas[k]; });
-
-
 var metrics = {
 	contracts: _('Contratos'),
 	contracts_change: _('Nuevos contratos'), 
@@ -73,6 +65,24 @@ var metrics = {
 	members_change: _('Nuevas personas socias'),
 	members_per1M: _('Personas socias por millón de habitantes'),
 };
+
+var pools = {};
+Object.keys(contracts.countries).map(function(countryCode) {
+	appendPool(pools, 'contracts', contracts.countries, contracts.dates, countryCode, 'ccaas');
+	appendPool(pools, 'members', members.countries, members.dates, countryCode, 'ccaas');
+});
+var pool = Object.keys(pools.ccaas).map(function (k) { return pools.ccaas[k]; });
+
+var metricExtents = {};
+Object.keys(metrics).map(function(metric) {
+	var values = Object.keys(pools.ccaas).map(function(key) {
+		return d3.extent(pools.ccaas[key][metric] || []);
+	})
+	metricExtents[metric] = d3.extent(d3.merge(values));
+});
+console.log(metricExtents);
+
+
 var metricOptions = Object.keys(metrics).map(function(key) {
 	return {
 		value: key,
@@ -266,7 +276,8 @@ GapMinder.oncreate = function(vn) {
 		.attr("text-anchor", "start")
 		.attr("y", 0)
 		.attr("x", 24)
-		.text('0000-00');
+		.text('0000-00')
+		;
 
 	var dateBox = dateLabel.node().getBBox();
 	dateLabel.attr("y", dateBox.height-32);
@@ -393,12 +404,21 @@ GapMinder.oncreate = function(vn) {
 		currentInfo.style('display', 'none');
 	}
 	function showCurrentDot(data) {
+		const cursorSize = 20;
+		const infoWidth = 300; // TODO: Should be 20em as the css .currentInfo width
+		const infoHeight = 120; // TODO: Should be ...whatever it is
 		currentInfo.style('display', 'block');
 		var coordinates = d3.mouse(this);
-		// TODO: Consider boundary conditions
+		var x = coordinates[0]+20;
+		if (x+infoWidth>width) {
+			x = width - infoWidth;
+		}
+		var y = coordinates[1]+20;
+		if (y+infoHeight>height)
+			y = height - infoHeight;
 		currentInfo
-			.attr('x', coordinates[0]+20)
-			.attr('y', coordinates[1]+20)
+			.attr('x', x)
+			.attr('y', y)
 			;
 		// TODO: Bisect instead of interpolate
 		currentInfo.select('.currentInfoContent').html(
@@ -407,7 +427,7 @@ GapMinder.oncreate = function(vn) {
 			colorScale(data.code)+";'></span>"+
 			data.name+
 			"</div>"+
-			"<div><b>Month:</b> "+
+			"<div><b>"+_("Mes:")+"</b> "+
 			self.currentDate.toISOString().slice(0,7)+
 			"</div>"+
 			"<div><b>"+metrics[self.parameters.x]+":</b> "+
