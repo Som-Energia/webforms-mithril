@@ -107,7 +107,6 @@ var Steps = {
 
 		var errors = self.pages[currentIndex].validator && self.pages[currentIndex].validator();
 
-		console.log(errors);
 		if(errors){
 			if(vn.state.snackbar.open !== undefined)
 				vn.state.snackbar.open();
@@ -119,7 +118,7 @@ var Steps = {
 		var showNext = self.pages[currentIndex].next !== false;
 		var showPrev = self.pages[currentIndex].prev !== false;
 
-		return m('.wizard.steps', { class: vn.attrs.className }, [
+		return m('.wizard.steps' + (vn.attrs.showall?'.showall':''), { class: vn.attrs.className }, [
 			m(LinearProgress, {
 				max: vn.attrs.pages.length-1,
 				value: currentIndex,
@@ -137,27 +136,22 @@ var Steps = {
 					page.content,
 				]);
 			})),
-			m('.controls', [
-				m('.fabs', [
-					m(Fab, {
-						icon: 'navigate_before',
-						disabled: !self.history.length || self.intransition,
-						onclick: function() { self.prev(); },
-						class: (showPrev ? '':' mdc-fab--exited')
-					}),
-					m('.spacer'),
-					m(Fab, {
-						raised:true,
-						trailingicon: self.intransition?'spinner.fa-spin': (self.pages[currentIndex].nexticon||'navigate_next'),
-						disabled: errors !== undefined || self.intransition,
-						onclick: function() { self.next(); },
-						class: 'mdc-button--next' + (showNext ? '':' mdc-fab--exited')
-						},
-						//self.pages[currentIndex].nextlabel||_("Next")
-					)
-				])	
-			]),
-			m(Snackbar, { model: vn.state.snackbar } ,errors)
+			m(Fab, {
+				icon: 'navigate_before',
+				disabled: !self.history.length || self.intransition,
+				onclick: function() { self.prev(); },
+				class: 'mdc-fab__before ' + (showPrev ? '':' mdc-fab--exited')
+			}),
+			m(Fab, {
+				raised:true,
+				trailingicon: self.intransition?'spinner.fa-spin': (self.pages[currentIndex].nexticon||'navigate_next'),
+				disabled: errors !== undefined || self.intransition,
+				onclick: function() { self.next(); },
+				class: 'mdc-button--next mdc-fab__next ' + (showNext ? '':' mdc-fab--exited')
+				},
+				//self.pages[currentIndex].nextlabel||_("Next")
+			),
+			m(Snackbar, { model: vn.state.snackbar, dismiss: true } ,errors)
 		]);
 	},
 	page: function(pageid) {
