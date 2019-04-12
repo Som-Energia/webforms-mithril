@@ -2,6 +2,7 @@
 var m = require('mithril');
 var MDCSnackbar = require('@material/snackbar').MDCSnackbar;
 require('@material/snackbar/dist/mdc.snackbar.css');
+require('@material/icon-button/dist/mdc.icon-button.css');
 
 /** @module */
 
@@ -16,6 +17,7 @@ A Mithril component wrapping a Material Design Floating Action Button.
 @property {bool} stacked   Shows the snackbar in stacked style
 @property {bool} leading  Shows the snackbar in leading style
 @property {string} action  Text for action item
+@property {bool} dismiss
 @property - Any other attribute is propagated to the button subelement.
   Interesting ones are `onclick`, `disabled`, `style`...
 @property {text/vnode} children Any component children are taken as the content of the label
@@ -49,8 +51,9 @@ var Snackbar = {
 			'', attrs, [
 				m('.mdc-snackbar__surface', [	
 					m('.mdc-snackbar__label', {'role':'status', 'aria-live':'polite'}, vn.children),
-					(vn.attrs.action ? m('.mdc-snackbar__actions', [
-						m(vn.attrs.action)
+					( vn.attrs.action || vn.attrs.dismiss ? m('.mdc-snackbar__actions', [
+						(vn.attrs.action ? m(vn.attrs.action) : ''),
+						(vn.attrs.dismiss ? m('button.mdc-icon-button.mdc-snackbar__dismiss.material-icons',{'title':'Dismiss'}, 'close') : '')
 					]):''),
 				]),	
 			]);

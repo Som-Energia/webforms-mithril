@@ -84,8 +84,10 @@ var TextField = {
 		const disabled = pop(attrs, 'disabled');
 		const help = pop(attrs, 'help');
 		const faicon = pop(attrs, 'faicon');
+		const trailingicon = pop(attrs, 'trailingicon');
 		const iconaction = pop(attrs, 'iconaction');
 		const leadingfaicon = pop(attrs, 'leadingfaicon');
+		const leadingicon = pop(attrs, 'leadingicon');
 		const inputfilter = pop(attrs, 'inputfilter');
 		const help_id = vn.attrs.id+'_help';
 		const nativeattrs = Object.assign({
@@ -113,16 +115,17 @@ var TextField = {
 				+(fullwidth?'.mdc-text-field--fullwidth':'')
 				+(boxed?'.mdc-text-field--box':'')
 				+(outlined?'.mdc-text-field--outlined':'')
-				+(faicon?'.mdc-text-field--with-trailing-icon':'')
-				+(leadingfaicon?'.mdc-text-field--with-leading-icon':'')
+				+(faicon||trailingicon?'.mdc-text-field--with-trailing-icon':'')
+				+(leadingfaicon||leadingicon?'.mdc-text-field--with-leading-icon':'')
 				+(dense?'.mdc-text-field--dense':'')
 				+(disabled?'.mdc-text-field--disabled':'')
 			,{
 				style: { width: '100%'},
 			},[
 				(leadingfaicon ? m('i.mdc-text-field__icon.fa.fa-'+leadingfaicon):''),
+				(leadingicon ? m('i.mdc-text-field__icon.material-icons',leadingicon):''),
 				m('input.mdc-text-field__input', nativeattrs),
-				fullwidth?'':m('label'
+				fullwidth || outlined?'':m('label'
 					+'.mdc-floating-label'
 					+(floating?
 						'.mdc-floating-label--float-above':'')
@@ -137,11 +140,23 @@ var TextField = {
 							ev.cancelBubble = true;
 						}})
 				:[]),
+				(trailingicon ? m('i.mdc-text-field__icon.material-icons',
+					iconaction && {tabindex:0, role: 'button', onclick:
+						function(ev) {
+							iconaction(ev);
+							ev.cancelBubble = true;
+						}},trailingicon)
+				:[]),
 				(outlined? []: m('.mdc-line-ripple')),
 				(outlined? m('.mdc-notched-outline'
 					+(floating?
 						'.mdc-notched-outline--notched':''),
-					m('svg', m('path.mdc-notched-outline__path'))):[]),
+					//m('svg', m('path.mdc-notched-outline__path'))):[]),
+					m('.mdc-notched-outline__leading'),
+					m('.mdc-notched-outline__notch',
+						m('label.mdc-floating-label' + (floating?' mdc-floating-label--float-above':''),{'for':vn.attrs.id}, [ vn.attrs.label ])),
+					m('.mdc-notched-outline__trailing'),
+				):[]),
 				(outlined? m('.mdc-notched-outline__idle'):''),
 			]),
 			vn.attrs.nohelp?[]:
@@ -279,8 +294,8 @@ TextField.Example.view = function(vn) {
 			{
 				id: 'bothicons',
 				label: _('With leading and trailing icon'),
-				leadingfaicon: 'phone.green',
-				faicon: 'exclamation.red',
+				leadingicon: 'phone',
+				trailingicon: 'warning',
 			},
 			{
 				id: 'helpfull',
