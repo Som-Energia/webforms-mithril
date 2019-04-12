@@ -58,6 +58,7 @@ PaymentEditor.view = function(vn){
             checkurl: '/check/iban/',
             fieldData: vn.state.ibaneditor,
             boxed: true,
+            outlined: true,
 			onvalidated: function() {
 				console.log('payment editor, onvalidated: ', vn.state);
 				vn.state.model.validate();

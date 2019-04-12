@@ -141,10 +141,11 @@ var Select = {
 						}),
 				(vn.attrs.outlined? []: m('.mdc-line-ripple')),
 				(vn.attrs.outlined?
-					m('.mdc-notched-outline', [
+					m('.mdc-notched-outline' +(floating?'.mdc-notched-outline--notched':''), [
 						m('.mdc-notched-outline__leading'),
 						m('.mdc-notched-outline__notch',
-							m('label.mdc-floating-label',
+							m('label.mdc-floating-label'
+								+(floating?'.mdc-floating-label--float-above':''),
 								vn.attrs.label)),
 						m('.mdc-notched-outline__trailing')
 					]):''),

@@ -74,7 +74,8 @@ var StateCityChooser = {
 					}),
 					label: _('STATE'),
 					boxed: true,
-					help: this.stateError ? this.stateError : (this.states ? _('STATE_HELP') : _('LOADING_HELP')),
+					outlined: vn.attrs.outlined,
+					help: this.stateError ? this.stateError : (this.states ? ''/*_('STATE_HELP')*/ : _('LOADING_HELP')),
 					required: true,
 					value: self.state,
 					onchange: function (ev) {
@@ -95,7 +96,8 @@ var StateCityChooser = {
 					}),
 					label: _('CITY'),
 					boxed: true,
-					help: this.cityError ? this.cityError : (this.cities ? _('CITY_HELP') : _('LOADING_HELP')),
+					outlined: vn.attrs.outlined,
+					help: this.cityError ? this.cityError : (this.cities ? ''/*_('CITY_HELP')*/ : _('LOADING_HELP')),
 					required: true,
 					value: self.city || '',
 					onchange: function (ev) {

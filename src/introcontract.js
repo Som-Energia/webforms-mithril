@@ -104,6 +104,7 @@ IntroContract.view = function(vn) {
 				boxed: true,
 				required: true,
 				maxlength: 9,
+				outlined: true,
 				fieldData: vn.state.vateditor,
 				inputfilter: function(value) {
 					if (!value) return value;

@@ -93,57 +93,62 @@ PersonEditor.view = function(vn) {
 			m(Cell, {span:4}, m(TextField, {
 				id: prefix+'name',
 				label: vn.attrs.isphisical ? _('HOLDER_NAME') : _('BUSINESS_NAME'),
-				help: vn.attrs.isphisical ? _('HOLDER_NAME_HELP') : _('BUSINESS_NAME_HELP'),
+				help: '', //help: vn.attrs.isphisical ? _('HOLDER_NAME_HELP') : _('BUSINESS_NAME_HELP'),
 				value: person.name,
 				oninput: function(ev) {
 					person.name = ev.target.value;
 				},
 				required: true,
 				boxed: true,
+				outlined: true,
 			})),
 			vn.attrs.isphisical ? [
 				m(Cell, {span:4}, m(TextField, {
 					id: prefix+'surname1',
 					label: _('HOLDER_SURNAME1'),
-					help: _('HOLDER_SURNAME1_HELP'),
+					help: '', //help: _('HOLDER_SURNAME1_HELP'),
 					value: person.surname1,
 					oninput: function(ev) {
 						person.surname1 = ev.target.value;
 					},
 					required: true,
 					boxed: true,
+					outlined: true,
 				})),
 				m(Cell, {span:4}, m(TextField, {
 					id: prefix+'surname2',
 					label: _('HOLDER_SURNAME2'),
-					help: _('HOLDER_SURNAME2_HELP'),
+					help: '', //help: _('HOLDER_SURNAME2_HELP'),
 					value: person.surname2,
 					oninput: function(ev) {
 						person.surname2 = ev.target.value;
 					},
 					required: false,
 					boxed: true,
+					outlined: true,
 				}))	] : [
 				m(Cell, {span:4}, m(TextField, {
 					id: prefix+'proxyname',
 					label: _('PROXY_NAME'),
-					help: _('PROXY_NAME_HELP'),
+					help: '', //help: _('PROXY_NAME_HELP'),
 					value: person.proxyname,
 					oninput: function(ev) {
 						person.proxyname = ev.target.value;
 					},
 					required: true,
 					boxed: true,
+					outlined: true,
 				})),
 				m(Cell, {span:4}, m(ValidatedField, {
 					id: prefix+'proxyvat',
 					checkurl: '/check/vat/exists/',
 					label: _('PROXY_NIF'),
-					help: _('PROXY_NIF_HELP'),
+					help: '', //help: _('PROXY_NIF_HELP'),
 					boxed: true,
 					required: true,
 					maxlength: 9,
 					fieldData: vn.state.proxyvateditor,
+					outlined: true,
 					inputfilter: function(value) {
 						if (!value) return value;
 						if (!/^[0-9A-Za-z]{0,9}$/.test(value)) return false;
@@ -158,26 +163,27 @@ PersonEditor.view = function(vn) {
 							vn.state.person.proxyvatvalue = undefined;
 							vn.state.person.proxyvatvalid = false;
 						}
-					}
+					}					
 				}))]
 		]),
 		m(Row, [
 			m(Cell, {span:8}, m(TextField, {
 				id: prefix+'address',
 				label: _('HOLDER_ADDRESS'),
-				help: _('HOLDER_ADDRESS_HELP'),
-				leadingfaicon: 'home',
+				help: '', //help: _('HOLDER_ADDRESS_HELP'),
+				leadingicon: 'home',
 				value: person.address,
 				oninput: function(ev) {
 					person.address = ev.target.value;
 				},
 				required: true,
 				boxed: true,
+				outlined: true,
 			})),
 			m(Cell, {span:4}, m(TextField, {
 				id: prefix+'postalcode',
 				label: _('HOLDER_POSTALCODE'),
-				help: _('HOLDER_POSTALCODE_HELP'),
+				help: '', //help: _('HOLDER_POSTALCODE_HELP'),
 				value: person.postalcode,
 				maxlength: 5,
 				minlength: 5,
@@ -189,11 +195,13 @@ PersonEditor.view = function(vn) {
 				inputfilter: /^[0-9]{0,5}$/,
 				required: true,
 				boxed: true,
+				outlined: true,
 			})),
 		]),
 		m(StateCityChooser, {
 			statevalue: (person.state !== undefined) ? person.state.id : undefined,
 			cityvalue: (person.city !== undefined) ? person.city.id : undefined,
+			outlined: true,
 			onvaluechanged: function(chooser) {
 				person.state = chooser.states.find(function(v) {
 					return v.id==chooser.state;
@@ -207,10 +215,11 @@ PersonEditor.view = function(vn) {
 			m(Cell, {spandesktop:6, spantablet:4}, m(TextField, {
 				id: prefix+'email',
 				label: _('HOLDER_EMAIL'),
-				help: _('HOLDER_EMAIL_HELP'),
+				help: '', //help: _('HOLDER_EMAIL_HELP'),
 				type: 'email',
-				leadingfaicon: 'envelope',
+				leadingicon: 'email',
 				value: person.email,
+				outlined: true,
 				oninput: function(ev) {
 					person.email = ev.target.value;
 					person.emailError = ev.target.validationMessage;
@@ -221,10 +230,11 @@ PersonEditor.view = function(vn) {
 			m(Cell, {spandesktop:6, spantablet:4}, m(TextField, {
 				id: prefix+'email2',
 				label: _('HOLDER_EMAIL_2'),
-				help: _('HOLDER_EMAIL_2_HELP'),
+				help: '', //help: _('HOLDER_EMAIL_2_HELP'),
 				type: 'email',
-				leadingfaicon: 'envelope',
+				leadingicon: 'email',
 				value: person.email2,
+				outlined: true,
 				oninput: function(ev) {
 					person.email2 = ev.target.value;
 				},
@@ -235,10 +245,11 @@ PersonEditor.view = function(vn) {
 			m(Cell, {spandesktop:6, spantablet:4}, m(TextField, {
 				id: prefix+'phone1',
 				label: _('HOLDER_PHONE'),
-				help: _('HOLDER_PHONE_HELP'),
+				help: '', //help: _('HOLDER_PHONE_HELP'),
 				maxlength: 9,
-				leadingfaicon: 'phone',
+				leadingicon: 'phone',
 				value: person.phone1,
+				outlined: true,
 				oninput: function(ev) {
 					person.phone1 = ev.target.value;
 				},
@@ -252,10 +263,11 @@ PersonEditor.view = function(vn) {
 			m(Cell, {spandesktop:6, spantablet:4}, m(TextField, {
 				id: prefix+'phone2',
 				label: _('HOLDER_PHONE_2'),
-				help: _('HOLDER_PHONE_2_HELP'),
+				help: '', //help: _('HOLDER_PHONE_2_HELP'),
 				maxlength: 9,
-				leadingfaicon: 'phone',
+				leadingicon: 'phone',
 				value: person.phone2,
+				outlined: true,
 				oninput: function(ev) {
 					person.phone2 = ev.target.value;
 				},
@@ -277,6 +289,7 @@ PersonEditor.view = function(vn) {
 			faicon: 'language',
 			help: _('HOLDER_LANGUAGE_HELP'),
 			required: true,
+			outlined: true,
 		}),
 		m(Row, [
 			m(Cell, {span:12, className:'legalconsent'}, m(LegalConsent, {
