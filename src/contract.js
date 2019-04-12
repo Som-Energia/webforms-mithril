@@ -88,7 +88,7 @@ var Contract = {
 		become_member: false,
 	},
 	voluntary_cent: false,
-	
+	especial_cases: {}
 };
 
 Mousetrap.bindGlobal('ctrl+shift+1', function() {
@@ -108,38 +108,34 @@ Mousetrap.bindGlobal('ctrl+shift+1', function() {
 
 var Form = {};
 Form.view = function(vn) {
-	return m('.form.mdc-typography', [
+	return m('.main.form.mdc-typography', [
 		m(Inspector, {
 			shortcut: 'ctrl+shift+d',
 			model: Contract,
 		}),
-		m('.root', [
-			m('.main', [
-				m(TopAppBar, {
-					title: _('CONTRACT_FORM_TITLE'),
-					fixed: false
-				}),
-				m(Steps, {
-					showall: showall,
-					focusonjump: true,
-					nextonenter: true,
-					className: 'mdc-top-app-bar--fixed-adjust',
-					pages:[
-						IntroPage(),
-						PasswordPage(),
-						CupsPage(),
-						HolderPage(),
-						MemberPage(),
-						VoluntaryCentPage(),
-						SpecialCasesPage(),
-						PaymentPage(),
-						ReviewPage(),
-						FailurePage(),
-						SuccessPage(),
-					],
-				}),
-			]),
-		])
+		m(TopAppBar, {
+			title: _('CONTRACT_FORM_TITLE'),
+			fixed: false
+		}),
+		m(Steps, {
+			showall: showall,
+			focusonjump: true,
+			nextonenter: true,
+			className: 'mdc-top-app-bar--fixed-adjust',
+			pages:[
+				IntroPage(),
+				PasswordPage(),
+				CupsPage(),
+				HolderPage(),
+				MemberPage(),
+				VoluntaryCentPage(),
+				SpecialCasesPage(),
+				PaymentPage(),
+				ReviewPage(),
+				FailurePage(),
+				SuccessPage(),
+			],
+		}),
 	]);
 };
 
@@ -201,9 +197,10 @@ var PasswordPage = function() {
 			m(Cell, {span:12}, m('', _('FILL_PASSWORD'))),
 			m(Cell, {span:6}, m(TextField, {
 				label: _('PASSWORD_LABEL'),
-				leadingfaicon: 'key',
+				leadingicon: 'vpn_key',
 				type: 'password',
 				boxed: true,
+				outlined: true,
 				help: m('a', {
 					href: _('PASSWORD_HELP_URL'),
 					target: '_blank'
@@ -301,6 +298,7 @@ var CupsPage = function() {
 					required: true,
 					maxlength: 24,
 					fieldData: state.field,
+					outlined: true,
 					inputfilter: function(value) {
 						model.cupsverified = false; //cups edited
 						return value.toUpperCase();
@@ -331,6 +329,7 @@ var CupsPage = function() {
 						tabindex: -1,
 						required: true,
 						maxlength: 24,
+						outlined: true,
 						value: (state.field.data && state.field.isvalid)?
 							state.field.data.address:'',
 					})	
@@ -347,7 +346,7 @@ var CupsPage = function() {
 						}),
 					]
 				),
-				m(Cell, {span:12, style: showVerificationCheck||'visibility:hidden'},
+				m(Cell, {span:12, style: !model.cupsverified||'visibility:hidden'},
 					[
 						m('p.field .mdc-text-field-helper-text'+
 							'.mdc-text-field-helper-text--persistent'+						
@@ -513,7 +512,8 @@ var ReviewPage = function() {
 				m(Cell, {span:12}, m("a",{href: '#'}), _("REVIEW_DATA_AND_CONFIRM")),
 				group(_('SUMMARY_GROUP_PROCESS'), [
 					field(_("PROCESS_TYPE"), _("PROCESS_TYPE_HOLDER_CHANGE")),
-					field(_("RELATED_MEMBER"), _("RELATED_MEMBER_PENDING")),
+					m('p.field .mdc-text-field-helper-text .mdc-text-field-helper-text--persistent',{'aria-hidden': true}, _('SPECIAL_CASE')),
+					field(_("RELATED_MEMBER"), ( Contract.member.become_member && Contract.member.become_member == 'yes' ? Contract.holder.name+" "+Contract.holder.surname1+" "+ (Contract.holder.surname2 ? Contract.holder.surname2:'') : _("RELATED_MEMBER_PENDING") ) ),
 				]),
 				group(_('SUPPLY'), [
 					field(_("CUPS"), Contract.cups.cupsvalue),
@@ -522,7 +522,7 @@ var ReviewPage = function() {
 				group(_("HOLDER"), [
 					field(_("NIF"), Contract.intro.vatvalue),
 					isphisical(Contract.intro.vatvalue) &&
-						field(_("NAME"), Contract.holder.name+" "+Contract.holder.surname1+" "+Contract.holder.surname2),
+						field(_("NAME"), Contract.holder.name+" "+Contract.holder.surname1+" "+ (Contract.holder.surname2 ? Contract.holder.surname2:'')),
 					!isphisical(Contract.intro.vatvalue) &&
 						field(_("LEGAL_NAME"), Contract.holder.name),
 					!isphisical(Contract.intro.vatvalue) &&
@@ -542,13 +542,7 @@ var ReviewPage = function() {
 				group(_('SUMMARY_GROUP_TECHNICAL'), [
 					field(_("FARE"), _("FARE_SAME")),
 					field(_("POWER"), _("POWER_SAME")),
-					m('p.field .mdc-text-field-helper-text'+
-						'.mdc-text-field-helper-text--persistent'+						
-						'', {
-						'aria-hidden': true,
-						},
-						_('FARE_POWER_CHANGE_NOTE')
-					),
+					m('p.field .mdc-text-field-helper-text .mdc-text-field-helper-text--persistent', {'aria-hidden': true},	_('FARE_POWER_CHANGE_NOTE')	),
 				]),
 				group(_('SUMMARY_GROUP_PAYMENT'), [
 					field(_("IBAN"), Contract.payment.iban),
@@ -590,17 +584,38 @@ var ReviewPage = function() {
 	};
 };
 
-var cases = [
-	{ id: 'special_case__reason_defuncio', name: '', label: _('SPECIAL_CASES_REASON_DEFUNCIO'), description: '', checked: false },
-	{ id: 'special_case__reason_fusio', name: '', label: _('SPECIAL_CASES_REASON_FUSIO'), description: '', checked: false },
-	{ id: 'special_case__reason_electrodep', name: '', label: _('SPECIAL_CASES_REASON_ELECTRODEP'), description: '', attachment: true, checked: false },
-];
-
 var SpecialCasesPage = function() {
+
+	const attachmentsRequired = true;
+
+	var fileUploadValidation = function (e) {
+		let file = e.target.files[0];
+		/*													
+		let reader = new FileReader();
+		reader.onload = function (e) {
+		  //state.thumbnail = e.target.result;													  
+		  m.redraw();
+		};
+		reader.readAsDataURL(file);
+		console.log(reader);													
+		*/
+		console.log(file);
+	  }		
+
 	return {
 		id: 'special_cases_page',
 		title: _('SPECIAL_CASES_TITLE'),
 		next: true,
+		validator: function() {
+			if ( attachmentsRequired && Contract.especial_cases.reason_electrodep === true
+				&& ( Contract.especial_cases.attachments === undefined
+					|| Contract.especial_cases.attachments.medical === undefined
+					|| Contract.especial_cases.attachments.resident === undefined )
+				) {
+				return _('ELECTRODEP_ATTACH_REQUIRED');
+			}
+			return undefined;
+		},
 		content: [
 			m(Row, { className: 'special_cases_page' }, [
 				m(Cell, {
@@ -609,34 +624,84 @@ var SpecialCasesPage = function() {
 					}, 
 					_('SPECIAL_CASES_QUESTION'),
 				),		
-				cases.map( function(elem) {
-					return m(Cell, {span:12}, [
+				[
+					m(Cell, {span:12}, [
 						m('.special_case__reason'
-						+ (elem.checked?'.special_case__reason--selected':''), [
+						+ (Contract.especial_cases.reason_defunsio === true?'.special_case__reason--selected':''), [
 							m('label.special_case__lbl', [
 								m(CheckBox, {
-									id: elem.id,
-									label: elem.label,
-									checked: elem.checked,
+									id: 'reason_defuncio',
+									label: _('SPECIAL_CASES_REASON_DEFUNCIO'),
+									checked: (Contract.especial_cases.reason_defunsio === true),
 									onchange: function(ev) {
-										elem.checked = ev.target.checked;
+										Contract.especial_cases.reason_defunsio = ev.target.checked;
+										Contract.especial_cases.reason_fusio = false;
 									}
-								}),
-								(elem.checked && elem.attachment === true ? 
-									m('.special_case__description', [
-										m(Cell, {span:12}, [
-											m('p','Adjunta el document que acredita aquest cas',[
-												m('i.fa.fa-asterisk.red'),
-											]),
-										]) 
-									]) 	
-									: false
-								)
-	
+								})
 							])
 						])	
-					])	
-				})			
+					]),
+					m(Cell, {span:12}, [
+						m('.special_case__reason'
+						+ (Contract.especial_cases.reason_fusio === true?'.special_case__reason--selected':''), [
+							m('label.special_case__lbl', [
+								m(CheckBox, {
+									id: 'reason_fusio',
+									label: _('SPECIAL_CASES_REASON_FUSIO'),
+									checked: (Contract.especial_cases.reason_fusio === true),
+									onchange: function(ev) {
+										Contract.especial_cases.reason_fusio = ev.target.checked;
+										Contract.especial_cases.reason_defunsio = false;
+										Contract.especial_cases.reason_electrodep = false;
+									}
+								}) 	
+							])
+						])	
+					]),
+					m(Cell, {span:12}, [
+						m('.special_case__reason'
+						+ (Contract.especial_cases.reason_electrodep === true?'.special_case__reason--selected':''), [
+							m('label.special_case__lbl', [
+								m(CheckBox, {
+									id: 'reason_electrodep',
+									label: _('SPECIAL_CASES_REASON_ELECTRODEP'),
+									checked: (Contract.especial_cases.reason_electrodep === true),
+									disabled: (Contract.especial_cases.reason_fusio === true),
+									onchange: function(ev) {
+										Contract.especial_cases.reason_electrodep = ev.target.checked;
+									}
+								}),
+								(attachmentsRequired && Contract.especial_cases.reason_electrodep === true ?
+								m('.special_case__description', [
+									m(Cell, {span:12}, [
+										m('p',_('ELECTRODEP_ATTACH_MEDICAL'),[
+											m('i.fa.fa-asterisk.red'),
+											m('input.mdc-button', {
+												type:'file',
+												name: 'reason_electrodep[attach][medical]',
+												onchange: fileUploadValidation && function(e){
+													Contract.especial_cases.attachments === undefined ? Contract.especial_cases.attachments = {} : false;
+													Contract.especial_cases.attachments.medical = true;
+												}										  
+											})
+										]),
+										m('p',_('ELECTRODEP_ATTACH_RESIDENT'),[
+											m('i.fa.fa-asterisk.red'),
+											m('input.mdc-button', {
+												type:'file',
+												name: 'reason_electrodep[attach][resident]',
+												onchange: fileUploadValidation && function(e){
+													Contract.especial_cases.attachments === undefined ? Contract.especial_cases.attachments = {} : false;
+													Contract.especial_cases.attachments.resident = true;
+												}										  
+											})
+										]),
+									]) 
+								]) : []) 	
+							])
+						])	
+					])
+				]									
 			])
 		]
 	}

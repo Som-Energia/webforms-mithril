@@ -90,7 +90,7 @@ CUPS_LABEL: CUPS
 CUPS_HELP: On puc trobar el CUPS?
 CUPS_HELP_URL: TODO
 CUPS_VERIFY_LABEL: Confirmo que l'adreça és la que correspon al CUPS que vull contractar
-CUPS_NO_VERIFY_HELP: Si l'adreça no s'hi correspon, ens pots contactar a l'adreça <a href="mailto:comercialitzacio@somenergia.coop">comercialitzacio@somenergia.coop</a>.
+CUPS_NO_VERIFY_HELP: Si l'adreça postal no s'hi correspon, ens pots contactar a l'adreça <a href="mailto:comercialitzacio@somenergia.coop">comercialitzacio@somenergia.coop</a>.
 INVALID_SUPPLY_POINT_CUPS: No has especificat un <b>identificador CUPS</b> vàlid pel punt de subministrament
 CUPS_IN_PROCESS: Aquest CUPS actualment està en un proces
 MARK_ADDRESS_CONFIRMATION_BOX: Verifica que l'adreça associada a aquest CUPS és correcta
@@ -228,6 +228,9 @@ SPECIAL_CASES_QUESTION: Siusplau, indica si et trobes en algun dels següents ca
 SPECIAL_CASES_REASON_DEFUNCIO: El canvi de titular es realitza per motius de defunció
 SPECIAL_CASES_REASON_FUSIO: El canvi de titular es realitza per motius d'una fusió d'empreses
 SPECIAL_CASES_REASON_ELECTRODEP: En el domicili viu una persona electrodependent
+ELECTRODEP_ATTACH_MEDICAL: Certificat mèdic electrodependencia
+ELECTRODEP_ATTACH_RESIDENT: Certificat empadronament
+ELECTRODEP_ATTACH_REQUIRED: Cal adjuntar els certificats demanats
 
 # FailurePage
 FAILURE_TITLE: Ups!
