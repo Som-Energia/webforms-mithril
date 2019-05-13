@@ -15,7 +15,7 @@ PaymentEditor.oninit = function(vn) {
 
     this.model=vn.attrs.model;
     this.model.iban = undefined;
-    this.model.sepaaccepted = false;
+    this.model.sepa_accepted = false;
     vn.state.ibaneditor = {};
     var self = this.model;
 
@@ -24,7 +24,7 @@ PaymentEditor.oninit = function(vn) {
         if (vn.state.ibaneditor.isvalid !== true) {
             return _('INVALID_PAYER_IBAN');
         }
-        if (self.sepaaccepted !== true) {
+        if (self.sepa_accepted !== true) {
             return _('UNCONFIRMED_ACCOUNT_OWNER');
         }
         return undefined;
@@ -66,10 +66,10 @@ PaymentEditor.view = function(vn){
 			},
         }),
         m(LegalConsent, {
-            id: 'sepaaccepted',
-            accepted: vn.state.model.sepaaccepted,
+            id: 'sepa_accepted',
+            accepted: vn.state.model.sepa_accepted,
             onchanged: function(value) {
-                vn.state.model.sepaaccepted = value;
+                vn.state.model.sepa_accepted = value;
                 vn.state.model.validate();
             },
             label: m.trust(_('IBAN_ACCEPT_DIRECT_DEBIT', {

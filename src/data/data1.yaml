@@ -1,17 +1,15 @@
 {
-  "intro": {
-    "vatvalue": "58291270R",
-    "vatvalid": true,
-    "vatexists": false
-  },
-  "cups": {
-    "cupsverified": true,
-    "cupsvalue": "ES0031101322018013GN0F",
-    "cupsaddress": "Pedro López 13 BJO-E",
-    "cupsstatus": "active"
+  "supply_point": {
+    "verified": true,
+    "cups": "ES0031101322018013GN0F",
+    "address": "Pedro López 13 BJO-E",
+    "status": "active"
   },
   "holder": {
-    "privacypolicyaccepted": true,
+    "vatvalue": "58291270R",
+    "vatvalid": true,
+    "vatexists": false,
+    "privacy_policy_accepted": true,
     "name": "Perico",
     "surname1": "Palote",
     "surname2": "Romero",
@@ -36,12 +34,12 @@
   },
   "payment": {
     "iban": "ES77 1234 1234 1612 3456 7890",
-    "sepaaccepted": true
+    "sepa_accepted": true,
+    "voluntary_cent": "yes"
   },
   "member": {
     "is_member": false,
     "invite_token" : false,
     "become_member": "yes",
-  },
-  "voluntary_cent": "yes"
+  }
 }

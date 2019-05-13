@@ -38,7 +38,6 @@ function updateHeight(vn, mode) {
 
 	var newHeight = Math.max.apply(Math,
 		vn.children.map(function(child) {
-			console.log(child.dom.offsetHeight);
 			return child.dom.offsetHeight;
 		}));
 
@@ -74,7 +73,7 @@ function firstFocusable(){
 		// During the transition the inputs are disable
 		setTimeout(function() {
 			focusable[0].focus();			
-		}, 800);
+		}, 600);
 	} 
 }
 

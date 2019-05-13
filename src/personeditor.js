@@ -24,7 +24,7 @@ PersonEditor.oninit = function(vn) {
 	vn.state.person = vn.attrs.model || {};
 	var person = vn.state.person;
 
-	person.privacypolicyaccepted = false;
+	person.privacy_policy_accepted = false;
 
 	person.validate = function() {
 
@@ -71,7 +71,7 @@ PersonEditor.oninit = function(vn) {
 		if (this.language === undefined) {
 			return _('NO_LANGUAGE');
 		}
-		if (this.privacypolicyaccepted !== true) {
+		if (this.privacy_policy_accepted !== true) {
 			return _('UNACCEPTED_PRIVACY_POLICY');
 		}
 	};
@@ -294,9 +294,9 @@ PersonEditor.view = function(vn) {
 		m(Row, [
 			m(Cell, {span:12, className:'legalconsent'}, m(LegalConsent, {
 				id: prefix+'acceptprivacypolicy',
-				accepted: person.privacypolicyaccepted,
+				accepted: person.privacy_policy_accepted,
 				onchanged: function(value) {
-					person.privacypolicyaccepted = value;
+					person.privacy_policy_accepted = value;
 				},
 				label: m.trust(_('ACCEPT_PRIVACY_POLICY', {
 					url: _('ACCEPT_PRIVACY_POLICY_URL')})),
@@ -333,7 +333,7 @@ PersonEditor.oncreate = function(vn) {
 		person.phone2='987654321';
 		person.email ='b@b';
 		person.email2='b@a';
-		person.privacypolicyaccepted=false;
+		person.privacy_policy_accepted=false;
 		m.redraw();
 		return false;
 	});

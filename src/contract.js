@@ -77,17 +77,17 @@ SomMockupApi.validateMeasure = function(cups, date, measure) {
 
 
 var Contract = {
-	intro: {},
-	cups: {
-		cupsverified: false,
+	supply_point: {
+		verified: false,
 	},
 	holder: {},
-	payment: {},
+	payment: {
+		voluntary_cent: false
+	},
 	terms: {},
 	member: {
 		become_member: false,
 	},
-	voluntary_cent: false,
 	especial_cases: {}
 };
 
@@ -140,7 +140,7 @@ Form.view = function(vn) {
 };
 
 var IntroPage = function() {
-	var intro = Contract.intro;
+	var intro = Contract.holder;
 	return {
 		id: 'intro_page',
 		title: _('WELCOME'),
@@ -167,7 +167,7 @@ Tests:
 - Despues de contraseña mala, se queda inactivo hasta que editas algo
 */
 var PasswordPage = function() {
-	var model = Contract.intro;
+	var model = Contract.holder;
 	return {
 		id: 'password_page',
 		title: _('IDENTIFY'),
@@ -215,13 +215,12 @@ var PasswordPage = function() {
 };
 
 var HolderPage = function() {
-	var intro = Contract.intro;
 	var holder = Contract.holder;
 	return {
 		id: 'holder_page',
 		title: _('HOLDER_PERSONAL_DATA'),
 		skipif: function() {
-			return intro.vatexists === true;
+			return holder.vatexists === true;
 		},
 		validator: function() {
 			return holder.validate && holder.validate();
@@ -229,7 +228,7 @@ var HolderPage = function() {
 		content: [
 			m(PersonEditor, {
 				id: 'holder',
-				isphisical: isphisical(intro.vatvalue),
+				isphisical: isphisical(holder.vatvalue),
 				model: holder,
 			}),
 		],
@@ -242,43 +241,43 @@ CupsContract.field = {};
 
 var CupsPage = function() {
 
-	var model = Contract.cups;
+	var model = Contract.supply_point;
 	var state = CupsContract;
 
-	if (model.cupsvalue){
-		state.field.value = model.cupsvalue;
-		if(model.cupsstatus === 'active') state.field.isvalid = true;
+	if (model.cups){
+		state.field.value = model.cups;
+		if(model.status === 'active') state.field.isvalid = true;
 
 		state.field.data = {};
-		state.field.data.cups = model.cupsvalue;
-		if (model.cupsstatus) state.field.data.status = model.cupsvalue;
-		if (model.cupsaddress) state.field.data.address = model.cupsaddress;
+		state.field.data.cups = model.cups;
+		if (model.status) state.field.data.status = model.cups;
+		if (model.address) state.field.data.address = model.address;
 	}
 
-	var showVerificationCheck = model.cupsaddress && (model.cupsstatus === 'active' || model.cupsstatus === 'inactive');
+	var showVerificationCheck = model.address && (model.status === 'active' || model.status === 'inactive');
 
 	return {
 		id: 'cups_page',
 		title: _('CUPS_TITLE'),
 		validator: function() {
-			if (model.cupsaddress === undefined) { // empty
+			if (model.address === undefined) { // empty
 				return ""; // Forbid going on, no message
 			}
-			if (model.cupsstatus === 'invalid' && state.field.isvalid === false) {
+			if (model.status === 'invalid' && state.field.isvalid === false) {
 				return _('INVALID_SUPPLY_POINT_CUPS');
 			}
-			if (model.cupsstatus === 'busy') {
+			if (model.status === 'busy') {
 				return _('CUPS_IN_PROCESS');
 			}
-			if (model.cupsstatus !== 'active' && model.cupsstatus !== 'inactive') {
+			if (model.status !== 'active' && model.status !== 'inactive') {
 				// Should never get here
-				return _('CUPS_STATE_UNEXPECTED')+" "+model.cupsstatus;
+				return _('CUPS_STATE_UNEXPECTED')+" "+model.status;
 			}
 			// TODO: Should be removed as soon as we implement more than holder changes
-			if (model.cupsstatus !== 'active') {
+			if (model.status !== 'active') {
 				return _('CUPS_SHOULD_BE_ACTIVE');
 			}
-			if (model.cupsverified === false) {
+			if (model.verified === false) {
 				return _('MARK_ADDRESS_CONFIRMATION_BOX');
 			}
 			return undefined;
@@ -300,19 +299,19 @@ var CupsPage = function() {
 					fieldData: state.field,
 					outlined: true,
 					inputfilter: function(value) {
-						model.cupsverified = false; //cups edited
+						model.verified = false; //cups edited
 						return value.toUpperCase();
 					},
 
 					onvalidated: function(value, data) {
 						if (value) {
-							model.cupsvalue = value;
-							model.cupsaddress = data.address;
-							model.cupsstatus = data.status;
+							model.cups = value;
+							model.address = data.address;
+							model.status = data.status;
 						} else {
-							model.cupsvalue = undefined;
-							model.cupsaddress = undefined;
-							model.cupsstatus = 'invalid';
+							model.cups = undefined;
+							model.address = undefined;
+							model.status = 'invalid';
 						}
 					},
 				}))
@@ -339,14 +338,14 @@ var CupsPage = function() {
 						m(CheckBox, {
 							id: 'cups_verify',
 							label: _('CUPS_VERIFY_LABEL'),
-							checked: model.cupsverified,
+							checked: model.verified,
 							onchange: function(ev){
-								model.cupsverified = ev.target.checked;
+								model.verified = ev.target.checked;
 							}
 						}),
 					]
 				),
-				m(Cell, {span:12, style: !model.cupsverified||'visibility:hidden'},
+				m(Cell, {span:12, style: !model.verified||'visibility:hidden'},
 					[
 						m('p.field .mdc-text-field-helper-text'+
 							'.mdc-text-field-helper-text--persistent'+						
@@ -402,9 +401,9 @@ var VoluntaryCentPage = function() {
 		id: 'voluntary_cent_page',
 		title: _('VOLUNTARY_CENT_TITLE'),
 		validator: function() {
-			if (Contract.voluntary_cent === undefined)
+			if (Contract.payment.voluntary_cent === undefined)
 				return  _("NO_VOLUNTARY_DONATION_CHOICE_TAKEN");
-				if (Contract.voluntary_cent === false)
+				if (Contract.payment.voluntary_cent === false)
 					return false;
 			return undefined;
 		},
@@ -416,9 +415,9 @@ var VoluntaryCentPage = function() {
 						id: 'voluntary_cent',
 						question: _("VOLUNTARY_CENT_QUESTION"),
 						required: true,
-						value: Contract.voluntary_cent,
+						value: Contract.payment.voluntary_cent,
 						onvaluechanged: function(new_value){
-							Contract.voluntary_cent = new_value;
+							Contract.payment.voluntary_cent = new_value;
 						},
 						options: [{
 							value: 'yes',
@@ -458,7 +457,7 @@ SomMockupApi.postContract = function(contract) {
 	var self = this;
 	var promise = new Promise(function(accept, reject) {
 		setTimeout(function() {
-			if (contract.voluntary_cent !== 'yes') {
+			if (contract.payment.voluntary_cent !== 'yes') {
 				promise.catch(function() {m.redraw()})
 				reject({
 					failed: true,
@@ -516,16 +515,16 @@ var ReviewPage = function() {
 					field(_("RELATED_MEMBER"), ( Contract.member.become_member && Contract.member.become_member == 'yes' ? Contract.holder.name+" "+Contract.holder.surname1+" "+ (Contract.holder.surname2 ? Contract.holder.surname2:'') : _("RELATED_MEMBER_PENDING") ) ),
 				]),
 				group(_('SUPPLY'), [
-					field(_("CUPS"), Contract.cups.cupsvalue),
-					field(_("ADDRESS"), Contract.cups.cupsaddress),
+					field(_("CUPS"), Contract.supply_point.cups),
+					field(_("ADDRESS"), Contract.supply_point.address),
 				]),
 				group(_("HOLDER"), [
-					field(_("NIF"), Contract.intro.vatvalue),
-					isphisical(Contract.intro.vatvalue) &&
+					field(_("NIF"), Contract.holder.vatvalue),
+					isphisical(Contract.holder.vatvalue) &&
 						field(_("NAME"), Contract.holder.name+" "+Contract.holder.surname1+" "+ (Contract.holder.surname2 ? Contract.holder.surname2:'')),
-					!isphisical(Contract.intro.vatvalue) &&
+					!isphisical(Contract.holder.vatvalue) &&
 						field(_("LEGAL_NAME"), Contract.holder.name),
-					!isphisical(Contract.intro.vatvalue) &&
+					!isphisical(Contract.holder.vatvalue) &&
 						field(_("PROXY"), Contract.holder.proxyname+
 							  " ("+Contract.holder.proxyvat+")"),
 					field(_("ADDRESS"), Contract.holder.address),
@@ -552,9 +551,9 @@ var ReviewPage = function() {
 			m(Row, [
 				m(Cell, {span:12, className:'legalconsent'}, m(LegalConsent, {
 					id: 'accept-terms',
-					accepted: typeof Contract.terms.termsaccepted === 'undefined' ? false : Contract.terms.termsaccepted,
+					accepted: typeof Contract.terms.terms_accepted === 'undefined' ? false : Contract.terms.termsaccepted,
 					onchanged: function(value) {
-						Contract.terms.termsaccepted = value;
+						Contract.terms.terms_accepted = value;
 					},
 					label: m.trust(_('ACCEPT_TERMS', {
 						url: _('ACCEPT_TERMS_URL')
@@ -627,15 +626,15 @@ var SpecialCasesPage = function() {
 				[
 					m(Cell, {span:12}, [
 						m('.special_case__reason'
-						+ (Contract.especial_cases.reason_defunsio === true?'.special_case__reason--selected':''), [
+						+ (Contract.especial_cases.reason_death === true?'.special_case__reason--selected':''), [
 							m('label.special_case__lbl', [
 								m(CheckBox, {
 									id: 'reason_defuncio',
-									label: _('SPECIAL_CASES_REASON_DEFUNCIO'),
-									checked: (Contract.especial_cases.reason_defunsio === true),
+									label: _('SPECIAL_CASES_REASON_DEATH'),
+									checked: (Contract.especial_cases.reason_death === true),
 									onchange: function(ev) {
-										Contract.especial_cases.reason_defunsio = ev.target.checked;
-										Contract.especial_cases.reason_fusio = false;
+										Contract.especial_cases.reason_death = ev.target.checked;
+										Contract.especial_cases.reason_merge = false;
 									}
 								})
 							])
@@ -643,15 +642,15 @@ var SpecialCasesPage = function() {
 					]),
 					m(Cell, {span:12}, [
 						m('.special_case__reason'
-						+ (Contract.especial_cases.reason_fusio === true?'.special_case__reason--selected':''), [
+						+ (Contract.especial_cases.reason_merge === true?'.special_case__reason--selected':''), [
 							m('label.special_case__lbl', [
 								m(CheckBox, {
-									id: 'reason_fusio',
-									label: _('SPECIAL_CASES_REASON_FUSIO'),
-									checked: (Contract.especial_cases.reason_fusio === true),
+									id: 'reason_merge',
+									label: _('SPECIAL_CASES_REASON_MERGE'),
+									checked: (Contract.especial_cases.reason_merge === true),
 									onchange: function(ev) {
-										Contract.especial_cases.reason_fusio = ev.target.checked;
-										Contract.especial_cases.reason_defunsio = false;
+										Contract.especial_cases.reason_merge = ev.target.checked;
+										Contract.especial_cases.reason_death = false;
 										Contract.especial_cases.reason_electrodep = false;
 									}
 								}) 	
@@ -666,7 +665,7 @@ var SpecialCasesPage = function() {
 									id: 'reason_electrodep',
 									label: _('SPECIAL_CASES_REASON_ELECTRODEP'),
 									checked: (Contract.especial_cases.reason_electrodep === true),
-									disabled: (Contract.especial_cases.reason_fusio === true),
+									disabled: (Contract.especial_cases.reason_merge === true),
 									onchange: function(ev) {
 										Contract.especial_cases.reason_electrodep = ev.target.checked;
 									}
