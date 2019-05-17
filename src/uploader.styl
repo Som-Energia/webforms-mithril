@@ -1,0 +1,56 @@
+.uploader
+    padding: 12px 0 8px
+    .uploader__button
+        margin-bottom: 10px
+    input        
+        width: 0.1px
+        height: 0.1px
+        opacity: 0
+        overflow: hidden
+        position: absolute
+        z-index: -1
+    .uploader__file-name
+        padding-left: 15px
+        text-overflow: ellipsis
+        white-space: nowrap
+        overflow: hidden
+        display: inline-block
+        max-width: 75%
+    .uploader__file-size
+        color: #a2a2a2
+        font-size: 12px
+        padding-left: 15px
+        text-overflow: ellipsis
+        white-space: nowrap
+        overflow: hidden
+        display: inline-block
+    .error
+        padding: 0 15px
+        font-size: 14px
+    .uploader__clear
+        margin-bottom: 10px
+    .progress-bar
+        width: 100%
+        height: 8px
+        background-color: #e0e0e0
+        border-radius: 5px
+        .progress-bar__progress
+            background-color: #aec122
+            height: 100%
+            margin: 0
+            border-radius: 5px
+
+    &.init, &.error
+        .progress-bar
+            opacity: 0
+            transition: visibility 0s, opacity 0.5s linear
+    &.error
+        .uploader__file-name, .uploader__clear, .uploader__file-size
+            display: none
+    &.progress
+        .progress-bar
+            opacity: 1
+
+
+
+

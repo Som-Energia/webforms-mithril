@@ -25,6 +25,7 @@ var PageSlider = require('./pageslider');
 var DatePicker = require('./datepicker');
 var LegalConsent = require('./legalconsent');
 var GapMinder = require('./gapminder');
+var Uploader = require('./uploader');
 
 require('font-awesome/css/font-awesome.css');
 require('@material/typography/dist/mdc.typography.css').default;
@@ -56,6 +57,7 @@ var Examples = {
 			skip(PersonEditor.Example),
 			skip(FarePower.Example),
 			skip(LegalConsent.Example),
+			skip(Uploader.Example),
 		]);
 	},
 };
