@@ -12,6 +12,7 @@ var config = {
 		examples: './examples',
 		contract: './contract',
 		opendata: './opendata',
+		gapminder: './gapminder',
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
@@ -38,6 +39,11 @@ var config = {
 			filename: 'opendata.html',
 			template: './mithriltemplate.html',
 			chunks: ['common','opendata'],
+			}),
+		new HtmlWebpackPlugin({
+			filename: 'gapminder.html',
+			template: './mithriltemplate.html',
+			chunks: ['common','gapminder'],
 			}),
 		// Split css included as js into a separate file again
 		new MiniCssExtractPlugin({
