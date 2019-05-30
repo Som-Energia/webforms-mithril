@@ -62,6 +62,12 @@ I_ACCEPT: Accepto
 Previous: Anterior
 Next: Següent
 
+#Uploader
+FILE_ACTION: "Tria un fitxer"
+FILE_EXTENSION_NOT_ALLOWED: El fitxer té una extensió no permesa
+FILE_MAX_SIZE_EXCEEDED: El fitxer supera la mida màxima (%{max_file_size} MB)
+UPLOAD_UKNOWN_ERROR: Error desconegut
+
 # Contract form
 
 #CONTRACT_FORM_TITLE: Formulari de Contractació

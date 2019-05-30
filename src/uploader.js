@@ -13,7 +13,11 @@ require('./uploader.styl');
 @property {string} id - (it won't work if you don't provide one)
 @property {string} label - Text to be shown as label of the input
 @property {string} name
-@property {function} onchange
+@property {string} url_upload
+@property {string} extensions
+@property {string} max_file_size
+@property {function} onupload
+@property {function} onclear
 
 */
 
@@ -21,6 +25,15 @@ const Uploader = {};
 
 Uploader.oncreate = function(vn){
     vn.state.input = vn.dom.querySelector('#' + vn.attrs.id);
+}
+
+Uploader.onupdate = function(vn){
+    if ( vn.attrs.error ) {
+        console.log("Error!!");
+        console.log(vn.attrs.error);
+        vn.state.status = "error";
+        vn.state.error = vn.attrs.error;
+    }    
 }
 
 Uploader.oninit = function(vn){
@@ -47,26 +60,28 @@ Uploader.oninit = function(vn){
     vn.state.upload = function(event){
 
         vn.state.status = "pending";
-        vn.state.percentage = 0;
         vn.state.error = undefined;
+        vn.state.percentage = 0;
         vn.state.file = event.target.files[0];
 
         if( !vn.state.validateFileType() ){
             vn.state.status = "error";
-            vn.state.error = `El fitxer té una extensió no permesa!`;
+            vn.state.error = _("FILE_EXTENSION_NOT_ALLOWED");
             vn.state.input.value = '';
             return false;
         } 
 
         if( !vn.state.validateSize() ){
             vn.state.status = "error";
-            vn.state.error = `El fitxer supera la mida màxima! (${vn.state.max_file_size} MB)`;
+            vn.state.error = _("FILE_MAX_SIZE_EXCEEDED", { max_file_size: vn.state.max_file_size });
             vn.state.input.value = '';
             return false;
         } 
 
         var formData = new FormData(); 
-        formData.append("image", vn.state.file);
+        formData.append("context", vn.attrs.context);
+        formData.append("field", vn.attrs.name);
+        formData.append("uploaded_file", vn.state.file);
 
         return m.request({
             method: "POST",
