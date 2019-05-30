@@ -29,8 +29,6 @@ Uploader.oncreate = function(vn){
 
 Uploader.onupdate = function(vn){
     if ( vn.attrs.error ) {
-        console.log("Error!!");
-        console.log(vn.attrs.error);
         vn.state.status = "error";
         vn.state.error = vn.attrs.error;
     }    

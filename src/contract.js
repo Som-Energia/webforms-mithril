@@ -21,6 +21,7 @@ var ValidatedField = require('./validatedfield');
 var UserValidator = require('./uservalidator');
 var DatePicker = require('./datepicker');
 var Chooser = require('./chooser');
+var Uploader = require('./uploader');
 var moment = require('moment');
 var jsyaml = require('js-yaml');
 var cuca = require('./img/cuca-somenergia.svg');
@@ -75,6 +76,12 @@ SomMockupApi.validateMeasure = function(cups, date, measure) {
 	return promise;
 };
 
+var SomApi = {};
+SomApi.validateMeasure = function(cups, date, measure) {
+	SomMockupApi.validateMeasure(cups, date, measure);
+};
+
+var SomApiAdapter = process.env.NODE_ENV === 'development' ? SomApi : SomApi;
 
 var Contract = {
 	supply_point: {
@@ -88,7 +95,10 @@ var Contract = {
 	member: {
 		become_member: false,
 	},
-	especial_cases: {}
+	especial_cases: {
+		attachments: {},
+		attachments_errors: {},
+	}
 };
 
 Mousetrap.bindGlobal('ctrl+shift+1', function() {
@@ -453,6 +463,14 @@ var PaymentPage = function() {
 var postError = undefined;
 var postErrorData = undefined;
 
+SomApi.postContract = function(contract) {
+	return m.request({
+        method: "POST",
+        url: `${process.env.APIBASE}/form/holderchange`,
+        data: contract,
+    });	
+};
+
 SomMockupApi.postContract = function(contract) {
 	var self = this;
 	var promise = new Promise(function(accept, reject) {
@@ -501,7 +519,7 @@ var ReviewPage = function() {
 		nexticon: 'send',
 		nextlabel: _("SEND"),
 		validator: function() {
-			if (Contract.terms.termsaccepted !== true) {
+			if (Contract.terms.terms_accepted !== true) {
 				return _('UNACCEPTED_TERMS');
 			}
 			return undefined;
@@ -551,7 +569,7 @@ var ReviewPage = function() {
 			m(Row, [
 				m(Cell, {span:12, className:'legalconsent'}, m(LegalConsent, {
 					id: 'accept-terms',
-					accepted: typeof Contract.terms.terms_accepted === 'undefined' ? false : Contract.terms.termsaccepted,
+					accepted: typeof Contract.terms.terms_accepted === 'undefined' ? false : Contract.terms.terms_accepted,
 					onchanged: function(value) {
 						Contract.terms.terms_accepted = value;
 					},
@@ -567,7 +585,14 @@ var ReviewPage = function() {
 		],
 		next: function() {
 			return new Promise(function (resolve, reject) {
-				SomMockupApi.postContract(Contract)
+
+				var pContract =  Object.assign({}, Contract);
+				pContract.holder.language !== undefined && pContract.holder.language.code !== undefined ?
+					pContract.holder.language = pContract.holder.language.code : false;
+				pContract.holder.state !== undefined && pContract.holder.state.id !== undefined ?
+					pContract.holder.state = pContract.holder.state.id : false;
+
+				SomApiAdapter.postContract(Contract)
 					.then(function(data) {
 						// TODO: Save data into state
 						Contract.contract_number = data.data.contract_number;
@@ -586,20 +611,6 @@ var ReviewPage = function() {
 var SpecialCasesPage = function() {
 
 	const attachmentsRequired = true;
-
-	var fileUploadValidation = function (e) {
-		let file = e.target.files[0];
-		/*													
-		let reader = new FileReader();
-		reader.onload = function (e) {
-		  //state.thumbnail = e.target.result;													  
-		  m.redraw();
-		};
-		reader.readAsDataURL(file);
-		console.log(reader);													
-		*/
-		console.log(file);
-	  }		
 
 	return {
 		id: 'special_cases_page',
@@ -668,36 +679,80 @@ var SpecialCasesPage = function() {
 									disabled: (Contract.especial_cases.reason_merge === true),
 									onchange: function(ev) {
 										Contract.especial_cases.reason_electrodep = ev.target.checked;
+										if(!ev.target.checked){
+											Contract.especial_cases.attachments = undefined;
+										}
 									}
-								}),
-								(attachmentsRequired && Contract.especial_cases.reason_electrodep === true ?
+								})
+							]),
+							(attachmentsRequired && Contract.especial_cases.reason_electrodep === true ?
 								m('.special_case__description', [
-									m(Cell, {span:12}, [
-										m('p',_('ELECTRODEP_ATTACH_MEDICAL'),[
+										m('p', m('b', _('ELECTRODEP_ATTACH_MEDICAL')),[
 											m('i.fa.fa-asterisk.red'),
-											m('input.mdc-button', {
-												type:'file',
-												name: 'reason_electrodep[attach][medical]',
-												onchange: fileUploadValidation && function(e){
+											m(Uploader, {
+												id: "electrodependent_medical_report",
+												name: "electrodependent_medical_report",
+												context: "contract",
+												label: _("FILE_ACTION"),
+												url: process.env.APIBASE + "/form/upload_attachment",
+												//url: "https://www.mocky.io/v2/5185415ba171ea3a00704eed?mocky-delay=500ms",
+												max_file_size: 5,
+												extensions: [".jpg",".png",".gif",".pdf"],
+												error: Contract.especial_cases.attachments_errors.medical,
+												onupload: function(response){
+													const uploadErrors = function(e){
+														const errorCodes = {
+															"INVALIDFORMAT" : _("INVALIDFORMAT"),
+															"UPLOAD_MAX_SIZE" : _("UPLOAD_MAX_SIZE"),
+														}
+														return ( e.code !== undefined &&  errorCodes[e.code] !== undefined ) ? 
+															_(e.code, e.data) : _("UPLOAD_UKNOWN_ERROR");
+													};
+
 													Contract.especial_cases.attachments === undefined ? Contract.especial_cases.attachments = {} : false;
-													Contract.especial_cases.attachments.medical = true;
-												}										  
+													Contract.especial_cases.attachments_errors === undefined ? Contract.especial_cases.attachments_errors = {} : false;
+
+													if( response.code !== undefined && response.code === 'UPLOAD_OK'){
+														Contract.especial_cases.attachments.medical = response.file_hash !== undefined ? response.file_hash : true ;
+														//Contract.especial_cases.attachments_errors.medical = undefined;
+													} else {
+														Contract.especial_cases.attachments.medical = undefined;
+														Contract.especial_cases.attachments_errors.medical = uploadErrors(response);
+													}
+													//Contract.especial_cases.attachments.medical = (e.filename !== undefined ? e.filename : undefined);
+													m.redraw();
+												},
+												onclear: function(e){
+													console.log('onclear!');
+													Contract.especial_cases.attachments === undefined ? Contract.especial_cases.attachments = {} : false;
+													Contract.especial_cases.attachments.medical = undefined;
+												}							  
+											})										
+										]),
+										m('p', m('b',_('ELECTRODEP_ATTACH_RESIDENT')),[
+											m('i.fa.fa-asterisk.red'),
+											m(Uploader, {
+												id: "electrodependent_residence_certificate",
+												name: "electrodependent_residence_certificate",
+												label: _("FILE_ACTION"),
+												url: process.env.APIBASE + "/form/upload_attachment",
+												//url: "https://www.mocky.io/v2/5185415ba171ea3a00704eed?mocky-delay=500ms",
+												max_file_size: 5,
+												extensions: [".jpg",".png",".gif",".pdf"],
+												onupload: function(e){
+													console.log(e);
+													Contract.especial_cases.attachments === undefined ? Contract.especial_cases.attachments = {} : false;
+													Contract.especial_cases.attachments.resident = (e.filename !== undefined ? e.filename : undefined);
+													Contract.especial_cases.attachments.resident = 'resident_filename.pdf';
+												},
+												onclear: function(e){
+													console.log('onclear!');
+													Contract.especial_cases.attachments === undefined ? Contract.especial_cases.attachments = {} : false;
+													Contract.especial_cases.attachments.resident = undefined;
+												}						  
 											})
 										]),
-										m('p',_('ELECTRODEP_ATTACH_RESIDENT'),[
-											m('i.fa.fa-asterisk.red'),
-											m('input.mdc-button', {
-												type:'file',
-												name: 'reason_electrodep[attach][resident]',
-												onchange: fileUploadValidation && function(e){
-													Contract.especial_cases.attachments === undefined ? Contract.especial_cases.attachments = {} : false;
-													Contract.especial_cases.attachments.resident = true;
-												}										  
-											})
-										]),
-									]) 
-								]) : []) 	
-							])
+								]) : '') 								
 						])	
 					])
 				]									

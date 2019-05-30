@@ -35,8 +35,8 @@
 - [x] PageSlider: On jump, focus the first element
 - [ ] Dialog: Option to not jumping to the first control
     - [x] Dialog: Hack, hidden control on the top
-- [ ] SummaryPage: Member info 
-- [ ] SpecialCasesPage: Attach file for different cases   
+- [ ] SummaryPage: Member info
+- [x] SpecialCasesPage: Attach file for different cases
 
 # Not for now?
 
