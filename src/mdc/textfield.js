@@ -151,7 +151,6 @@ var TextField = {
 				(outlined? m('.mdc-notched-outline'
 					+(floating?
 						'.mdc-notched-outline--notched':''),
-					//m('svg', m('path.mdc-notched-outline__path'))):[]),
 					m('.mdc-notched-outline__leading'),
 					m('.mdc-notched-outline__notch',
 						m('label.mdc-floating-label' + (floating?' mdc-floating-label--float-above':''),{'for':vn.attrs.id}, [ vn.attrs.label ])),
@@ -160,14 +159,16 @@ var TextField = {
 				(outlined? m('.mdc-notched-outline__idle'):''),
 			]),
 			vn.attrs.nohelp?[]:
-			m('.mdc-text-field-helper-text'+
-				'.mdc-text-field-helper-text--persistent'+
-				(errormessage?'.mdc-text-field-helper-text--validation-msg':'')+
-				'', {
-				id: help_id,
-				'aria-hidden': true,
-				},
-				errormessage || help || m.trust('&nbsp;')
+			m('.mdc-text-field-helper-line',
+				m('.mdc-text-field-helper-text'+
+					'.mdc-text-field-helper-text--persistent'+
+					(errormessage?'.mdc-text-field-helper-text--validation-msg':'')+
+					'', {
+					id: help_id,
+					'aria-hidden': true,
+					},
+					errormessage || help || m.trust('&nbsp;')
+				),
 			),
 		]);
 	},
