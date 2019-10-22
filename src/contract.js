@@ -110,7 +110,6 @@ Mousetrap.bindGlobal('ctrl+shift+1', function() {
 		}else{
 			Contract[k] = newData[k];
 		}
-		
 	});
 	m.redraw();
 	return false;
@@ -341,7 +340,7 @@ var CupsPage = function() {
 						outlined: true,
 						value: (state.field.data && state.field.isvalid)?
 							state.field.data.address:'',
-					})	
+					})
 				]),
 				m(Cell, {span:12, style: showVerificationCheck||'visibility:hidden'},
 					[
@@ -358,14 +357,14 @@ var CupsPage = function() {
 				m(Cell, {span:12, style: !model.verified||'visibility:hidden'},
 					[
 						m('p.field .mdc-text-field-helper-text'+
-							'.mdc-text-field-helper-text--persistent'+						
+							'.mdc-text-field-helper-text--persistent'+
 							'', {
 							'aria-hidden': true,
 							},
 							m.trust(_('CUPS_NO_VERIFY_HELP'))
-						)	
+						)
 					]
-				)	
+				)
 			]),
 		],
 	};
@@ -468,7 +467,7 @@ SomApi.postContract = function(contract) {
         method: "POST",
         url: `${process.env.APIBASE}/form/holderchange`,
         data: contract,
-    });	
+    });
 };
 
 SomMockupApi.postContract = function(contract) {
@@ -581,7 +580,7 @@ var ReviewPage = function() {
 				},
 					m.trust(LegalTexts.get('generalterms', _('LANGKEY')))
 				)),
-			]),			
+			]),
 		],
 		next: function() {
 			return new Promise(function (resolve, reject) {
@@ -591,6 +590,9 @@ var ReviewPage = function() {
 					pContract.holder.language = pContract.holder.language.code : false;
 				pContract.holder.state !== undefined && pContract.holder.state.id !== undefined ?
 					pContract.holder.state = pContract.holder.state.id : false;
+				pContract.holder.city !== undefined && pContract.holder.city.id !== undefined ?
+					pContract.holder.city = pContract.holder.city.id : false;
+
 
 				SomApiAdapter.postContract(Contract)
 					.then(function(data) {
@@ -631,9 +633,9 @@ var SpecialCasesPage = function() {
 				m(Cell, {
 						className: 'special_cases__question',
 						span: 12,
-					}, 
+					},
 					_('SPECIAL_CASES_QUESTION'),
-				),		
+				),
 				[
 					m(Cell, {span:12}, [
 						m('.special_case__reason'
@@ -649,7 +651,7 @@ var SpecialCasesPage = function() {
 									}
 								})
 							])
-						])	
+						])
 					]),
 					m(Cell, {span:12}, [
 						m('.special_case__reason'
@@ -664,9 +666,9 @@ var SpecialCasesPage = function() {
 										Contract.especial_cases.reason_death = false;
 										Contract.especial_cases.reason_electrodep = false;
 									}
-								}) 	
+								})
 							])
-						])	
+						])
 					]),
 					m(Cell, {span:12}, [
 						m('.special_case__reason'
@@ -705,7 +707,7 @@ var SpecialCasesPage = function() {
 															"INVALIDFORMAT" : _("INVALIDFORMAT"),
 															"UPLOAD_MAX_SIZE" : _("UPLOAD_MAX_SIZE"),
 														}
-														return ( e.code !== undefined &&  errorCodes[e.code] !== undefined ) ? 
+														return ( e.code !== undefined &&  errorCodes[e.code] !== undefined ) ?
 															_(e.code, e.data) : _("UPLOAD_UKNOWN_ERROR");
 													};
 
@@ -726,8 +728,8 @@ var SpecialCasesPage = function() {
 													console.log('onclear!');
 													Contract.especial_cases.attachments === undefined ? Contract.especial_cases.attachments = {} : false;
 													Contract.especial_cases.attachments.medical = undefined;
-												}							  
-											})										
+												}
+											})
 										]),
 										m('p', m('b',_('ELECTRODEP_ATTACH_RESIDENT')),[
 											m('i.fa.fa-asterisk.red'),
@@ -749,13 +751,13 @@ var SpecialCasesPage = function() {
 													console.log('onclear!');
 													Contract.especial_cases.attachments === undefined ? Contract.especial_cases.attachments = {} : false;
 													Contract.especial_cases.attachments.resident = undefined;
-												}						  
+												}
 											})
 										]),
-								]) : '') 								
-						])	
+								]) : '')
+						])
 					])
-				]									
+				]
 			])
 		]
 	}
@@ -776,7 +778,7 @@ var FailurePage = function() {
 					m.trust(_('FAILURE_TEXT')),
 					unexpectedError && m('.error', _("UNEXPECTED_POSTERROR", {code:postError})),
 					unexpectedError && postErrorData && m('pre.error', jsyaml.dump(postErrorData)),
-					!unexpectedError && m('.error', translatedError),	
+					!unexpectedError && m('.error', translatedError),
 				]),
 				m(Cell, { spandesktop:2, spantablet:1 })
 			])
@@ -805,7 +807,7 @@ var SuccessPage = function() {
 			])
 		]
 	};
-};			
+};
 
 
 window.onload = function() {
