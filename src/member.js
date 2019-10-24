@@ -28,9 +28,6 @@ var Member = {
             if(vn.state.model.become_member === undefined ){
                 return error(_('BECOME_MEMBER_UNSELECTED'));
             }
-            if(vn.state.model.become_member === false){
-                return error(false);
-            }                
             return vn.state.model.error;
         };
     },
@@ -47,11 +44,11 @@ var Member = {
                         vn.state.model.become_member = newvalue;
                     },
                     options: [{
-                        value: 'yes',
+                        value: true,
                         label: _('BECOME_MEMBER_YES_LABEL'),
                         description: m.trust(_('BECOME_MEMBER_YES_DESCRIPTION')),
                     },{
-                        value: 'no',
+                        value: false,
                         label: _('BECOME_MEMBER_NO_LABEL'),
                         description: m.trust(_('BECOME_MEMBER_NO_DESCRIPTION')),
                     }],
@@ -60,7 +57,7 @@ var Member = {
             m(Cell, {span:12}, m.trust(_('BECOME_MEMBER_NOTE'))),
         ]);
     }
-}    
+}
 
 module.exports=Member
 // vim: noet ts=4 sw=4

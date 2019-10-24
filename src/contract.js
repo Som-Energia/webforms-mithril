@@ -412,8 +412,6 @@ var VoluntaryCentPage = function() {
 		validator: function() {
 			if (Contract.payment.voluntary_cent === undefined)
 				return  _("NO_VOLUNTARY_DONATION_CHOICE_TAKEN");
-				if (Contract.payment.voluntary_cent === false)
-					return false;
 			return undefined;
 		},
 		content: [
@@ -429,11 +427,11 @@ var VoluntaryCentPage = function() {
 							Contract.payment.voluntary_cent = new_value;
 						},
 						options: [{
-							value: 'yes',
+							value: true,
 							label: _("VOLUNTARY_CENT_YES_LABEL"),
 							description: _("VOLUNTARY_CENT_YES_DESCRIPTION"),
 						},{
-							value: 'no',
+							value: false,
 							label: _("VOLUNTARY_CENT_NO_LABEL"),
 							description: _("VOLUNTARY_CENT_NO_DESCRIPTION"),
 						}],
@@ -474,7 +472,7 @@ SomMockupApi.postContract = function(contract) {
 	var self = this;
 	var promise = new Promise(function(accept, reject) {
 		setTimeout(function() {
-			if (contract.payment.voluntary_cent !== 'yes') {
+			if (contract.payment.voluntary_cent !== true) {
 				promise.catch(function() {m.redraw()})
 				reject({
 					failed: true,
@@ -529,7 +527,7 @@ var ReviewPage = function() {
 				group(_('SUMMARY_GROUP_PROCESS'), [
 					field(_("PROCESS_TYPE"), _("PROCESS_TYPE_HOLDER_CHANGE")),
 					m('p.field .mdc-text-field-helper-text .mdc-text-field-helper-text--persistent',{'aria-hidden': true}, _('SPECIAL_CASE')),
-					field(_("RELATED_MEMBER"), ( Contract.member.become_member && Contract.member.become_member == 'yes' ? Contract.holder.name+" "+Contract.holder.surname1+" "+ (Contract.holder.surname2 ? Contract.holder.surname2:'') : _("RELATED_MEMBER_PENDING") ) ),
+					field(_("RELATED_MEMBER"), ( Contract.member.become_member && Contract.member.become_member === true ? Contract.holder.name+" "+Contract.holder.surname1+" "+ (Contract.holder.surname2 ? Contract.holder.surname2:'') : _("RELATED_MEMBER_PENDING") ) ),
 				]),
 				group(_('SUPPLY'), [
 					field(_("CUPS"), Contract.supply_point.cups),
@@ -562,7 +560,7 @@ var ReviewPage = function() {
 				]),
 				group(_('SUMMARY_GROUP_PAYMENT'), [
 					field(_("IBAN"), Contract.payment.iban),
-					field(_("VOLUNTARY_CENT"), Contract.voluntary_cent === 'yes' ? _("YES"):_("NO")),
+					field(_("VOLUNTARY_CENT"), Contract.voluntary_cent === true ? _("YES"):_("NO")),
 				]),
 			]),
 			m(Row, [
@@ -613,6 +611,15 @@ var ReviewPage = function() {
 var SpecialCasesPage = function() {
 
 	const attachmentsRequired = true;
+
+	const uploadErrors = function(e){
+		const errorCodes = {
+			"INVALIDFORMAT" : _("INVALIDFORMAT"),
+			"UPLOAD_MAX_SIZE" : _("UPLOAD_MAX_SIZE"),
+		}
+		return ( e.code !== undefined &&  errorCodes[e.code] !== undefined ) ?
+			_(e.code, e.data) : _("UPLOAD_UKNOWN_ERROR");
+	};
 
 	return {
 		id: 'special_cases_page',
@@ -697,35 +704,22 @@ var SpecialCasesPage = function() {
 												context: "contract",
 												label: _("FILE_ACTION"),
 												url: process.env.APIBASE + "/form/upload_attachment",
-												//url: "https://www.mocky.io/v2/5185415ba171ea3a00704eed?mocky-delay=500ms",
 												max_file_size: 5,
 												extensions: [".jpg",".png",".gif",".pdf"],
 												error: Contract.especial_cases.attachments_errors.medical,
 												onupload: function(response){
-													const uploadErrors = function(e){
-														const errorCodes = {
-															"INVALIDFORMAT" : _("INVALIDFORMAT"),
-															"UPLOAD_MAX_SIZE" : _("UPLOAD_MAX_SIZE"),
-														}
-														return ( e.code !== undefined &&  errorCodes[e.code] !== undefined ) ?
-															_(e.code, e.data) : _("UPLOAD_UKNOWN_ERROR");
-													};
-
 													Contract.especial_cases.attachments === undefined ? Contract.especial_cases.attachments = {} : false;
 													Contract.especial_cases.attachments_errors === undefined ? Contract.especial_cases.attachments_errors = {} : false;
 
 													if( response.code !== undefined && response.code === 'UPLOAD_OK'){
 														Contract.especial_cases.attachments.medical = response.file_hash !== undefined ? response.file_hash : true ;
-														//Contract.especial_cases.attachments_errors.medical = undefined;
 													} else {
 														Contract.especial_cases.attachments.medical = undefined;
 														Contract.especial_cases.attachments_errors.medical = uploadErrors(response);
 													}
-													//Contract.especial_cases.attachments.medical = (e.filename !== undefined ? e.filename : undefined);
 													m.redraw();
 												},
 												onclear: function(e){
-													console.log('onclear!');
 													Contract.especial_cases.attachments === undefined ? Contract.especial_cases.attachments = {} : false;
 													Contract.especial_cases.attachments.medical = undefined;
 												}
@@ -738,17 +732,21 @@ var SpecialCasesPage = function() {
 												name: "electrodependent_residence_certificate",
 												label: _("FILE_ACTION"),
 												url: process.env.APIBASE + "/form/upload_attachment",
-												//url: "https://www.mocky.io/v2/5185415ba171ea3a00704eed?mocky-delay=500ms",
 												max_file_size: 5,
 												extensions: [".jpg",".png",".gif",".pdf"],
-												onupload: function(e){
-													console.log(e);
+												onupload: function(response){
 													Contract.especial_cases.attachments === undefined ? Contract.especial_cases.attachments = {} : false;
-													Contract.especial_cases.attachments.resident = (e.filename !== undefined ? e.filename : undefined);
-													Contract.especial_cases.attachments.resident = 'resident_filename.pdf';
+													Contract.especial_cases.attachments_errors === undefined ? Contract.especial_cases.attachments_errors = {} : false;
+
+													if( response.code !== undefined && response.code === 'UPLOAD_OK'){
+														Contract.especial_cases.attachments.resident = response.file_hash !== undefined ? response.file_hash : true ;
+													} else {
+														Contract.especial_cases.attachments.resident = undefined;
+														Contract.especial_cases.attachments_errors.resident = uploadErrors(response);
+													}
+													m.redraw();
 												},
 												onclear: function(e){
-													console.log('onclear!');
 													Contract.especial_cases.attachments === undefined ? Contract.especial_cases.attachments = {} : false;
 													Contract.especial_cases.attachments.resident = undefined;
 												}

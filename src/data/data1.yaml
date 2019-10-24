@@ -35,11 +35,11 @@
   "payment": {
     "iban": "ES77 1234 1234 1612 3456 7890",
     "sepa_accepted": true,
-    "voluntary_cent": "yes"
+    "voluntary_cent": false
   },
   "member": {
     "is_member": false,
     "invite_token" : false,
-    "become_member": "yes",
+    "become_member": true,
   }
 }
