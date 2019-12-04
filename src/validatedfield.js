@@ -77,7 +77,7 @@ var ValidatedField = {
 				if (error) { return fielderror(error); }
 			}
 			if (vnode.attrs.checkurl === undefined) {
-				return acceptValue(newValue||''); 
+				return acceptValue(newValue||'');
 			}
 			// Asynchronous validation (via API)
 			waitValue(newValue);
@@ -108,7 +108,7 @@ var ValidatedField = {
 				if (result.data !== undefined) {
 					vnode.state.fieldData.data = result.data;
 				}
-				acceptValue(newValue, vnode.state.fieldData.data); 
+				acceptValue(newValue, vnode.state.fieldData.data);
 
 			}).catch(function(reason) {
 				fielderror(reason || _('Unknown Error'));
@@ -121,7 +121,7 @@ var ValidatedField = {
 			oninput: validateInput,
 			value: vnode.state.fieldData.value,
 			faicon: statusIcon,
-			errormessage: vnode.state.errormessage,
+			errormessage: vnode.state.fieldData.errormessage,
 			help: statusMessage || vnode.attrs.help,
 		}));
 	},

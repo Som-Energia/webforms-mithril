@@ -104,6 +104,7 @@ SUPPLY_POINT_ADDRESS: Adreça de subministrament
 CUPS_SHOULD_BE_ACTIVE: El CUPS no te cap contracte actiu a Som Energia
 CUPS_STATE_UNEXPECTED: No s'ha pogut identificar l'estat del CUPS (error intern)
 CUPS_PARTIAL_ADDRESS_NOTICE: Per motius de seguretat, no mostrem l'adreça completa. Podràs consultar l'adreça completa des de l'Oficina Virtual.
+CUPS_INVALID: CUPS incorrecte
 
 # Generic fields
 STATE: Província
@@ -117,7 +118,7 @@ LANGUAGE_HELP: Idioma
 # Holder personal data
 HOLDER_PERSONAL_DATA: Dades personals de la persona titular
 HOLDER_NAME: Nom
-HOLDER_NAME_HELP: Nom de la persona titular 
+HOLDER_NAME_HELP: Nom de la persona titular
 HOLDER_SURNAME1: Primer cognom
 HOLDER_SURNAME1_HELP: Primer cognom de la persona titular
 HOLDER_SURNAME2: Segon cognom
@@ -128,9 +129,9 @@ PROXY_NAME: Nom del representant legal
 PROXY_NAME_HELP: Nom i cognoms del representant legal
 PROXY_NIF: Nif del representant legal
 PROXY_NIF_HELP: Nif del representant legal
-HOLDER_ADDRESS: Adreça 
+HOLDER_ADDRESS: Adreça
 HOLDER_ADDRESS_HELP: Adreça de la persona titular
-HOLDER_POSTALCODE: Codi postal  
+HOLDER_POSTALCODE: Codi postal
 HOLDER_POSTALCODE_HELP: Codi postal de la persona titular
 HOLDER_EMAIL: Email
 HOLDER_EMAIL_HELP: Email de la persona titular
@@ -159,7 +160,7 @@ NO_LANGUAGE: No has especificat l'idioma
 UNACCEPTED_PRIVACY_POLICY: Has d'acceptar la política de privacitat
 
 # Member
-BECOME_MEMBER_TITLE: Fer-se Soci 
+BECOME_MEMBER_TITLE: Fer-se Soci
 BECOME_MEMBER_PRESENTATION: <p>Tingues en compte que per poder ser titular d’un contracte amb la cooperativa cal que siguis soci o sòcia de la mateixa.</p>
 BECOME_MEMBER_QUESTION: Vols fer-te persona sòcia de la cooperativa?
 BECOME_MEMBER_YES_LABEL:  Sí, vull ser persona sòcia de la cooperativa
@@ -196,6 +197,7 @@ IBAN_ACCEPT_DIRECT_DEBIT: Com a titular del compte bancari, accepto la domicilia
 IBAN_ERROR: IBAN incorrecte
 INVALID_PAYER_IBAN:
  No has especificat correctament l'IBAN del compte on domiciliar
+UNCONFIRMED_ACCOUNT_OWNER: Has d'acceptar la domiciliació dels rebuts
 
 # ReviewPage
 REVIEW_TITLE: Revisa i confirma el contracte
@@ -275,4 +277,4 @@ ACCEPT_PRIVACY_POLICY:
 ACCEPT_PRIVACY_POLICY_URL:
     //www.somenergia.coop/ca/avis-legal/
 TERMS_TITLE: Condicions generals
-
+Checking...: Comprovant...

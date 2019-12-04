@@ -89,17 +89,17 @@ var Steps = {
 		if(vn.state.nextonenter){
 			Mousetrap.bindGlobal('enter', function() {
 				let button = vn.dom.querySelector('.mdc-button--next');
-				if(button) 
+				if(button)
 				button.click();
 			});
 		}
-	},	
+	},
 	oncreate: function(vn){
 		this.nextOnEnter(vn);
 	},
 	onupdate: function(vn) {
 		this.pages = vn.attrs.pages;
-		this.nextOnEnter(vn);		
+		this.nextOnEnter(vn);
 	},
 	view: function(vn) {
 		var self = this;
@@ -108,11 +108,9 @@ var Steps = {
 		var errors = self.pages[currentIndex].validator && self.pages[currentIndex].validator();
 
 		if(errors){
-			if(vn.state.snackbar.open !== undefined)
-				vn.state.snackbar.open();
+			if(vn.state.snackbar.open !== undefined) vn.state.snackbar.open();
 		}else{
-			if(vn.state.snackbar.close !== undefined)
-				vn.state.snackbar.close();
+			if(vn.state.snackbar.close !== undefined) vn.state.snackbar.close();
 		}
 
 		var showNext = self.pages[currentIndex].next !== false;
@@ -122,6 +120,7 @@ var Steps = {
 			m(LinearProgress, {
 				max: vn.attrs.pages.length-1,
 				value: currentIndex,
+				loading: (vn.attrs.loading !== undefined) ? vn.attrs.loading : false
 			}),
 			m(Pager, {
 				height: '100%',
@@ -134,24 +133,28 @@ var Steps = {
 				return m(Layout, [
 					m(Cell, {span:12}, m('h2', page.title)),
 					page.content,
+					( showNext || showPrev ) ? m('.step__controls', [
+						showNext ? m(Button, {
+							raised:true,
+							trailingicon: self.intransition?'spinner.fa-spin': (self.pages[currentIndex].nexticon||'navigate_next'),
+							disabled: errors !== undefined || self.intransition,
+							onclick: function() { self.next(); },
+							class: 'mdc-button--next  '
+							},
+							self.pages[currentIndex].nextlabel||_("Next")
+						) : '',
+						showPrev ? m(Button, {
+							icon: 'navigate_before',
+							disabled: !self.history.length || self.intransition,
+							onclick: function() { self.prev(); },
+							class: 'mdc-button--back  '
+							},
+							_("Previous")
+						) : '',
+					]) : ''
 				]);
 			})),
-			m(Fab, {
-				icon: 'navigate_before',
-				disabled: !self.history.length || self.intransition,
-				onclick: function() { self.prev(); },
-				class: 'mdc-fab__before ' + (showPrev ? '':' mdc-fab--exited')
-			}),
-			m(Fab, {
-				raised:true,
-				trailingicon: self.intransition?'spinner.fa-spin': (self.pages[currentIndex].nexticon||'navigate_next'),
-				disabled: errors !== undefined || self.intransition,
-				onclick: function() { self.next(); },
-				class: 'mdc-button--next mdc-fab__next ' + (showNext ? '':' mdc-fab--exited')
-				},
-				//self.pages[currentIndex].nextlabel||_("Next")
-			),
-			m(Snackbar, { model: vn.state.snackbar, dismiss: true } ,errors)
+			m(Snackbar, { model: vn.state.snackbar, dismiss: true, leading: false } ,errors)
 		]);
 	},
 	page: function(pageid) {

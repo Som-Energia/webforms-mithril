@@ -44,7 +44,7 @@ LinearProgress.onremove = function(vn) {
 
 LinearProgress.view = function(vn) {
 	return m('[role="progressbar"].mdc-linear-progress'
-		+(vn.attrs.max===undefined?'.mdc-linear-progress--indeterminate':'')
+		+(vn.attrs.max===undefined || vn.attrs.loading ?'.mdc-linear-progress--indeterminate':'')
 		+(vn.attrs.reversed?'.mdc-linear-progress--reversed':'')
 		+(vn.attrs.closed?'.mdc-linear-progress--closed':'')
 		, vn.attrs, [

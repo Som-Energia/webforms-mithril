@@ -81,6 +81,7 @@ SomApi.validateMeasure = function(cups, date, measure) {
 	SomMockupApi.validateMeasure(cups, date, measure);
 };
 
+var loading = false;
 var SomApiAdapter = process.env.NODE_ENV === 'development' ? SomApi : SomApi;
 
 var Contract = {
@@ -103,7 +104,6 @@ var Contract = {
 
 Mousetrap.bindGlobal('ctrl+shift+1', function() {
 	var newData = require('./data/data1.yaml');
-	console.log(newData);
 	Object.keys(Contract).map(function(k) {
 		if(typeof Contract[k] === 'object'){
 			Object.assign(Contract[k], newData[k]);
@@ -117,7 +117,7 @@ Mousetrap.bindGlobal('ctrl+shift+1', function() {
 
 var Form = {};
 Form.view = function(vn) {
-	return m('.main.form.mdc-typography', [
+	return m('.main.form.mdc-typography', { 'autocomplete':'off' }, [
 		m(Inspector, {
 			shortcut: 'ctrl+shift+d',
 			model: Contract,
@@ -131,9 +131,10 @@ Form.view = function(vn) {
 			focusonjump: true,
 			nextonenter: true,
 			className: 'mdc-top-app-bar--fixed-adjust',
+			loading: loading,
 			pages:[
 				IntroPage(),
-				PasswordPage(),
+				//PasswordPage(),
 				CupsPage(),
 				HolderPage(),
 				MemberPage(),
@@ -180,7 +181,7 @@ var PasswordPage = function() {
 	return {
 		id: 'password_page',
 		title: _('IDENTIFY'),
-		skipif: function() { return model.vatexists!==true || model.sessionActive===true; },
+		skipif: function() { return true || model.vatexists!==true || model.sessionActive===true; },
 		validator: function() {
 			if (model.wrongpassword===true)
 				return _('WRONG_PASSWORD');
@@ -229,7 +230,8 @@ var HolderPage = function() {
 		id: 'holder_page',
 		title: _('HOLDER_PERSONAL_DATA'),
 		skipif: function() {
-			return holder.vatexists === true;
+			//return holder.vatexists === true;
+			return false;
 		},
 		validator: function() {
 			return holder.validate && holder.validate();
@@ -272,6 +274,7 @@ var CupsPage = function() {
 			if (model.address === undefined) { // empty
 				return ""; // Forbid going on, no message
 			}
+
 			if (model.status === 'invalid' && state.field.isvalid === false) {
 				return _('INVALID_SUPPLY_POINT_CUPS');
 			}
@@ -307,11 +310,11 @@ var CupsPage = function() {
 					maxlength: 24,
 					fieldData: state.field,
 					outlined: true,
+					autocomplete: 'off',
 					inputfilter: function(value) {
 						model.verified = false; //cups edited
 						return value.toUpperCase();
 					},
-
 					onvalidated: function(value, data) {
 						if (value) {
 							model.cups = value;
@@ -461,11 +464,36 @@ var postError = undefined;
 var postErrorData = undefined;
 
 SomApi.postContract = function(contract) {
-	return m.request({
-        method: "POST",
-        url: `${process.env.APIBASE}/form/holderchange`,
-        data: contract,
-    });
+
+		const ONLINE = 'ONLINE';
+		const OFFLINE = 'OFFLINE';
+
+		return new Promise(function(resolve, reject) {
+			console.log('Request som!');
+			m.request({
+				method: 'POST',
+				url: `${process.env.APIBASE}/form/holderchange`,
+				data: contract
+			})
+			.then(function(response) {
+				console.log('response', response);
+				if (response.status === ONLINE) {
+					resolve(response);
+				} else if (response.status === OFFLINE) {
+					reject(_('The backend server is offline'));
+				} else {
+					reject(_('Unexpected response'));
+				}
+			})
+			.catch(function(reason) {
+				console.log(_('Request postContract failed'), reason);
+				if( reason.status !== undefined && reason.status == ONLINE && reason.state){
+					(reason.state !== undefined && reason.state === true) ? resolve(reason) : reject(reason);
+				}else{
+					reject(reason.message || _('Request failed'));
+				}
+			});
+		});
 };
 
 SomMockupApi.postContract = function(contract) {
@@ -526,7 +554,7 @@ var ReviewPage = function() {
 				m(Cell, {span:12}, m("a",{href: '#'}), _("REVIEW_DATA_AND_CONFIRM")),
 				group(_('SUMMARY_GROUP_PROCESS'), [
 					field(_("PROCESS_TYPE"), _("PROCESS_TYPE_HOLDER_CHANGE")),
-					m('p.field .mdc-text-field-helper-text .mdc-text-field-helper-text--persistent',{'aria-hidden': true}, _('SPECIAL_CASE')),
+					( Contract.especial_cases.reason_death || Contract.especial_cases.reason_electrodep || Contract.especial_cases.reason_merge ) ? field(_("SPECIAL_CASES_TITLE"), _("SPECIAL_CASES_DETAIL")) : '',
 					field(_("RELATED_MEMBER"), ( Contract.member.become_member && Contract.member.become_member === true ? Contract.holder.name+" "+Contract.holder.surname1+" "+ (Contract.holder.surname2 ? Contract.holder.surname2:'') : _("RELATED_MEMBER_PENDING") ) ),
 				]),
 				group(_('SUPPLY'), [
@@ -583,7 +611,9 @@ var ReviewPage = function() {
 		next: function() {
 			return new Promise(function (resolve, reject) {
 
-				var pContract =  Object.assign({}, Contract);
+				var pContract = {};
+				Object.assign(pContract, Contract);
+
 				pContract.holder.language !== undefined && pContract.holder.language.code !== undefined ?
 					pContract.holder.language = pContract.holder.language.code : false;
 				pContract.holder.state !== undefined && pContract.holder.state.id !== undefined ?
@@ -591,15 +621,18 @@ var ReviewPage = function() {
 				pContract.holder.city !== undefined && pContract.holder.city.id !== undefined ?
 					pContract.holder.city = pContract.holder.city.id : false;
 
-
-				SomApiAdapter.postContract(Contract)
+				loading = true;
+				SomApiAdapter.postContract(pContract)
 					.then(function(data) {
 						// TODO: Save data into state
 						Contract.contract_number = data.data.contract_number;
+						loading = false;
 						resolve('success_page');
 					}).catch(function(reason) {
-						postError = reason.error_id;
-						postErrorData = reason.data;
+						loading = false;
+						console.log(reason);
+						postError = (reason.data !== undefined ) ? reason.data.code : undefined;
+						postErrorData = (reason.data !== undefined ) ? reason.data.msg : undefined;
 						// TODO: Save reason into state
 						resolve('failure_page');
 					});
@@ -762,7 +795,8 @@ var SpecialCasesPage = function() {
 };
 
 var FailurePage = function() {
-	var translatedError = _(postError, postErrorData);
+	//var translatedError = _(postError, postErrorData);
+	var translatedError = postErrorData;
 	var unexpectedError = translatedError === postError;
 	return {
 		id: 'failure_page',
@@ -776,7 +810,7 @@ var FailurePage = function() {
 					m.trust(_('FAILURE_TEXT')),
 					unexpectedError && m('.error', _("UNEXPECTED_POSTERROR", {code:postError})),
 					unexpectedError && postErrorData && m('pre.error', jsyaml.dump(postErrorData)),
-					!unexpectedError && m('.error', translatedError),
+					//!unexpectedError && m('.error', translatedError),
 				]),
 				m(Cell, { spandesktop:2, spantablet:1 })
 			])

@@ -98,6 +98,7 @@ SUPPLY_POINT_ADDRESS: Dirección de suministro
 CUPS_SHOULD_BE_ACTIVE: El CUPS no tiene un contrato activo con Som Energia
 CUPS_STATE_UNEXPECTED: No se pudo identificar el estado del CUPS (error interno)
 CUPS_PARTIAL_ADDRESS_NOTICE: Por motivos de seguridad, no mostramos la dirección completa. Podrá consultar la dirección completa en la Oficina Virtual.
+CUPS_INVALID: CUPS incorrecto
 
 # Generic fields
 STATE: Provincia
@@ -111,7 +112,7 @@ LANGUAGE_HELP: Idioma
 # Holder personal data
 HOLDER_PERSONAL_DATA: Datos personales de la persona titular
 HOLDER_NAME: Nombre
-HOLDER_NAME_HELP: Nombre de la persona titular 
+HOLDER_NAME_HELP: Nombre de la persona titular
 HOLDER_SURNAME1: Primer apellido
 HOLDER_SURNAME1_HELP: Primer apellido de la persona titular
 HOLDER_SURNAME2: Segundo apellido
@@ -122,9 +123,9 @@ PROXY_NAME: Nombre del representante legal
 PROXY_NAME_HELP: Nombre y apellidos del representante legal
 PROXY_NIF: Nif del representante legal
 PROXY_NIF_HELP: Nif del representante legal
-HOLDER_ADDRESS: Dirección 
+HOLDER_ADDRESS: Dirección
 HOLDER_ADDRESS_HELP: Dirección de la persona titular
-HOLDER_POSTALCODE: Código postal  
+HOLDER_POSTALCODE: Código postal
 HOLDER_POSTALCODE_HELP: Código postal de la persona titular
 HOLDER_EMAIL: Email
 HOLDER_EMAIL_HELP: Email de la persona titular
@@ -153,7 +154,7 @@ NO_LANGUAGE: No has especificado el idioma
 UNACCEPTED_PRIVACY_POLICY: Tienes que aceptar la política de privacidad
 
 # Member
-BECOME_MEMBER_TITLE: Hacerse Socio 
+BECOME_MEMBER_TITLE: Hacerse Socio
 BECOME_MEMBER_PRESENTATION: Puede serlo cualquier particular, cooperativa, empresa, asociación, fundación, comunidad de vecinos y vecinas, ayuntamiento... Para serlo debes llevar a cabo una aportación única al capital social de <b>100€</b>, que <b>se devuelven</b> en caso de que te des de baja.
 BECOME_MEMBER_QUESTION: Quieres ser persona sòcia de la cooperativa?
 BECOME_MEMBER_YES_LABEL: Sí, quiero ser persona socia de la cooperativa
@@ -164,23 +165,21 @@ BECOME_MEMBER_NOTE: Ten en cuenta que para poder ser titular de un contrato con 
 BECOME_MEMBER_UNSELECTED: Es necesario indicar si quieres o no hacerte socia
 
 # VoluntaryCentPage
-VOLUNTARY_CENT_TITLE: Donatiu voluntari
+VOLUNTARY_CENT_TITLE: Donativo voluntario
 VOLUNTARY_CENT_PRESENTATION: |
-  Som una Cooperativa sense ànim de lucre amb l'objectiu ferm de canviar el model energètic.
-  Els socis i sòcies que ho desitgin poden realitzar un donatiu voluntari de 0,01€/kWh
-  destinat a recolzar i facilitar l'acció social i voluntària
-  dels més de 50 Grups Locals repartits pel territori.
-VOLUNTARY_CENT_QUESTION: Vols participar amb la teva energia a fer-ho possible?
-VOLUNTARY_CENT_YES_LABEL: Sí, vull fer un donatiu voluntari de 0,01€/kWh
+  Somos una Cooperativa sin ánimo de lucro con el objetivo firme de cambiar el modelo energético.
+  Los socios y socias que lo deseen pueden realizar un donativo voluntario de 0,01€/kWh
+  destinado a apoyar y facilitar la acción social y voluntaria de los más de 50 Grupos Locales repartidos por el territorio.
+VOLUNTARY_CENT_QUESTION: Quieres participar con tu energía para hacer-lo posible?
+VOLUNTARY_CENT_YES_LABEL: Sí, quiero hacer un donativo voluntario de 0,01€/kWh
 VOLUNTARY_CENT_YES_DESCRIPTION: |
-  Per un consum mitjà d'una família (aproximadament 300kWh/mes)
-  això representa un increment de 3€ mensuals.
+  Por un consumo medio de una família (aproximadamente 300kWh/mes)
+  esto representa un incremento de 3€ mensuales.
 
 VOLUNTARY_CENT_NO_LABEL: No
 VOLUNTARY_CENT_NO_DESCRIPTION: |
-  Sempre que ho vulguis podràs activar o desactivar aquest donatiu a l'instant
-  des de l'Oficinal Virtual.
-NO_VOLUNTARY_DONATION_CHOICE_TAKEN: Cal dir si vols o no fer el donatiu voluntari
+  Siempre que quieras podrás activar o desactivar este donativo al instante desde la Oficina Virtual.
+NO_VOLUNTARY_DONATION_CHOICE_TAKEN: Es necesario especificar si quieres hacer o no el donativo voluntario
 
 # PaymentPage
 PAYMENT_TITLE: Datos de pago
@@ -190,6 +189,7 @@ IBAN_ACCEPT_DIRECT_DEBIT: Como titular de la cuenta bancaria, acepto la domicili
 IBAN_ERROR: IBAN incorrecto
 INVALID_PAYER_IBAN:
  No has especificado correctamente el IBAN de la cuenta donde domiciliar
+UNCONFIRMED_ACCOUNT_OWNER: Tienes que aceptar la domiciliación de recibos
 
 # ReviewPage
 REVIEW_TITLE: Revisa y confirma el contrato
@@ -259,3 +259,4 @@ ACCEPT_PRIVACY_POLICY:
 ACCEPT_PRIVACY_POLICY_URL:
     //www.somenergia.coop/es/aviso-legal/
 TERMS_TITLE: Condiciones generales
+Checking...: Comprobando...

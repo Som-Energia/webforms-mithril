@@ -4,9 +4,9 @@
 - [x] PersonalData: Checkbox privacy policy -> LegalConsent widget
 
 - [x] Skip closure page
-- [ ] PersonalData: Move translations from angular
-- [ ] Validations: Move translations from angular
-- [ ] Review untranslated texts
+- [x] PersonalData: Move translations from angular
+- [x] Validations: Move translations from angular
+- [x] Review untranslated texts
 - [ ] Static tools for compiling translations (i18n4v?)
 - [x] Ask Legal: privacy concerns on showing CUPS Address
 - [x] PersonalData: new field for firm name
@@ -35,8 +35,9 @@
 - [x] PageSlider: On jump, focus the first element
 - [ ] Dialog: Option to not jumping to the first control
     - [x] Dialog: Hack, hidden control on the top
-- [ ] SummaryPage: Member info
+- [x] SummaryPage: Member info
 - [x] SpecialCasesPage: Attach file for different cases
+- [ ] Review help links
 
 # Not for now?
 

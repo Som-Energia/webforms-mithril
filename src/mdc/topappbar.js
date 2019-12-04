@@ -25,12 +25,12 @@ TopAppBar.onremove = function(vn) {
 
 TopAppBar.view = function(vn) {
 
-	return m(".mdc-top-app-bar "+(vn.attrs.fixed?'.mdc-top-app-bar--fixed':''), 
-		m(".mdc-top-app-bar__row", 
+	return m(".mdc-top-app-bar "+(vn.attrs.fixed?'.mdc-top-app-bar--fixed':''),
+		m(".mdc-top-app-bar__row",
 			m("section.mdc-top-app-bar__section.mdc-top-app-bar__section--align-start",
 				[
-					m("span.mdc-top-app-bar__title", 
-						(vn.attrs.title !== undefined ? m.trust(vn.attrs.title):'') 
+					m("span.mdc-top-app-bar__title",
+						(vn.attrs.title !== undefined ? vn.attrs.title:'')
 					)
 				]
 			)
@@ -47,7 +47,7 @@ TopAppBar.Example.view = function(vn) {
 	return m(TopAppBar, {
 			title: TopAppBar.Example.title,
 			fixed: TopAppBar.Example.fixed
-		});	
+		});
 };
 
 module.exports=TopAppBar;

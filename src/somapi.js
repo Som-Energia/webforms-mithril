@@ -2,8 +2,6 @@
 var m = require('mithril');
 var _ = require('./translate');
 
-console.log(process.env.APIBASE);
-
 var apibase = process.env.APIBASE;
 
 const ONLINE = 'ONLINE';
@@ -35,9 +33,12 @@ function requestSom(uri) {
 		})
 		.catch(function(reason) {
 			console.log(_('Request failed'), apibase+uri, reason);
-			reject(reason.message || _('Request failed'));
-		})
-		;
+			if( reason.status !== undefined && reason.status == ONLINE ){
+				resolve(reason);
+			}else {
+				reject(reason.message || _('Request failed'));
+			}
+		});
 	});
 	promise.abort = function() {
 		console.log("Aborting request ",apibase+uri);
@@ -45,9 +46,6 @@ function requestSom(uri) {
 	};
 	return promise;
 };
-
-
-
 
 module.exports.requestSom = requestSom;
 

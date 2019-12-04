@@ -30,7 +30,7 @@ severall attributes to control the look and feel.
 */
 var Button = {
 	view: function(vn) {
-		var attrs = vn.attrs;	
+		var attrs = vn.attrs;
 		return  m('button'+
 			'.mdc-button'+
 			(vn.attrs.raised ? '.mdc-button--raised' : '')+

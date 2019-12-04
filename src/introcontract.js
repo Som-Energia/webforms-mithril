@@ -30,6 +30,7 @@ IntroContract.oninit = function(vn) {
 	vn.state.model = vn.attrs.model || {};
 	var model = vn.state.model;
 
+	/*
 	vn.state.state = checkingSession;
 	UserValidator.isSessionOpen().then(function (data) {
 		console.log('checked session open');
@@ -44,7 +45,9 @@ IntroContract.oninit = function(vn) {
 		console.log('no session')
 		vn.state.state = askDni;
 	});
+	*/
 
+	vn.state.state = askDni;
 	vn.state.vateditor = {data: {}};
 
 	model.isphisical = function() {
@@ -73,8 +76,8 @@ IntroContract.oninit = function(vn) {
 IntroContract.onupdate = function(vn){
 	if (vn.state.model.vatvalue) {
 		vn.state.vateditor.value = vn.state.model.vatvalue;
-		if(vn.state.model.vatvalid) vn.state.vateditor.isvalid = vn.state.model.vatvalid;
-		if(vn.state.model.vatexists) vn.state.vateditor.isvalid = vn.state.model.vatvalid;
+		if(vn.state.model.vatvalid !== undefined) vn.state.vateditor.isvalid = vn.state.model.vatvalid;
+		//if(vn.state.model.vatexists !== undefined) vn.state.vateditor.isvalid = vn.state.model.vatexists;
 	}
 }
 
@@ -100,14 +103,17 @@ IntroContract.view = function(vn) {
 				help: m('a', {
 					href: _('VAT_HELP_URL'),
 					target: '_blank'
-					}, _('VAT_HELP')),
+				}, _('VAT_HELP')),
 				boxed: true,
 				required: true,
 				maxlength: 9,
 				outlined: true,
+				autocomplete: 'off',
 				fieldData: vn.state.vateditor,
 				inputfilter: function(value) {
-					if (!value) return value;
+					if (!value){
+						return '';
+					}
 					value=value.toUpperCase();
 					value=value.replace(/[^0-9A-Z]/g,'');
 					return value.slice(0,9);
