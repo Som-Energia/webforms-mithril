@@ -620,6 +620,8 @@ var ReviewPage = function() {
 				pContract.holder.city !== undefined && pContract.holder.city.id !== undefined ?
 					pContract.holder.city = pContract.holder.city.id : false;
 
+				pContract.payment.iban !== undefined ? pContract.payment.iban = pContract.payment.iban.split(' ').join('') : false;
+
 				loading = true;
 				SomApiAdapter.postContract(pContract)
 					.then(function(data) {
