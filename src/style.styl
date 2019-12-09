@@ -41,7 +41,7 @@ body, html {
 :root {
 	--mdc-theme-primary: #aec122;
 	--mdc-theme-secondary: #707a1a;
-	--mdc-theme-error: #f1501a;
+	--mdc-theme-error: #707a1a;
 	--mdc-theme-on-error: #f1501a;
 }
 
@@ -53,7 +53,7 @@ body, html {
 }
 
 .main .mdc-top-app-bar {
-	background: #FFFFFF;
+	background: #ffffff;
 	color: #3C4043;
 	display: flex;
 	align-items: center;
@@ -186,6 +186,10 @@ h1, h2 {
 	color: var(--mdc-theme-primary)
 }
 
+.mdc-checkbox
+	label
+		cursor: pointer
+
 .mdc-text-field-helper-line
 	margin-bottom: 0.5rem
 
@@ -248,9 +252,12 @@ h1, h2 {
 
 .chooser
 	.chooser__option
+		cursor: pointer
 		border: 2pt solid rgba(204,221,204,0.667) !important
 		.mdc-form-field
 			font-size: 1rem
+		label
+			cursor: pointer
 	.choser__option__description
 		font-size: 0.875rem
 		padding: 5px 10px 3px
@@ -287,6 +294,7 @@ h1, h2 {
 			border: 2pt solid #cdc
 		label
 			font-size: 1rem
+			cursor: pointer
 		.uploader label
 			font-size: 12px
 	.special_case__reason--selected

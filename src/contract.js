@@ -469,7 +469,6 @@ SomApi.postContract = function(contract) {
 		const OFFLINE = 'OFFLINE';
 
 		return new Promise(function(resolve, reject) {
-			console.log('Request som!');
 			m.request({
 				method: 'POST',
 				url: `${process.env.APIBASE}/form/holderchange`,

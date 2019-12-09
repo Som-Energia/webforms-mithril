@@ -59,6 +59,7 @@ PaymentEditor.view = function(vn){
             fieldData: vn.state.ibaneditor,
             boxed: true,
             outlined: true,
+            autocomplete: 'off',
 			onvalidated: function() {
 				console.log('payment editor, onvalidated: ', vn.state);
 				vn.state.model.validate();
@@ -79,7 +80,7 @@ PaymentEditor.view = function(vn){
             required: true,
         },
             m.trust(LegalTexts.get('generalterms', _('LANGKEY')))
-        ),        
+        ),
     ]);
 };
 
