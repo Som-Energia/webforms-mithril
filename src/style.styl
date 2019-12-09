@@ -290,7 +290,7 @@ h1, h2 {
 		border: 2pt solid rgba(204,221,204,0.333)
 		border-radius: 10px
 		padding: 10px
-		&:hover
+		&:not(.special_case__reason--disabled):hover
 			border: 2pt solid #cdc
 		label
 			font-size: 1rem
@@ -298,8 +298,12 @@ h1, h2 {
 		.uploader label
 			font-size: 12px
 	.special_case__reason--selected
-		border: 2pt solid rgba(204,221,204,0.667);
-		background: rgba(204,221,204,0.133);
+		border: 2pt solid rgba(204,221,204,0.667)
+		background: rgba(204,221,204,0.133)
+	.special_case__reason--disabled
+		cursor: not-allowed
+		label
+			cursor: not-allowed
 	.special_case__lbl
 		width: 100%
 		padding: 10px

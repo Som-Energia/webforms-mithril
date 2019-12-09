@@ -711,7 +711,9 @@ var SpecialCasesPage = function() {
 					]),
 					m(Cell, {span:12}, [
 						m('.special_case__reason'
-						+ (Contract.especial_cases.reason_electrodep === true?'.special_case__reason--selected':''), [
+						+ (Contract.especial_cases.reason_electrodep === true?'.special_case__reason--selected':'')
+						+ (Contract.especial_cases.reason_merge === true?'.special_case__reason--disabled':'')
+						, [
 							m('label.special_case__lbl', [
 								m(CheckBox, {
 									id: 'reason_electrodep',
