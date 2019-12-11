@@ -49,7 +49,7 @@ PersonEditor.oninit = function(vn) {
 		if (!this.address) {
 			return _('NO_ADDRESS');
 		}
-		if (!this.postalcode || this.postalcodeError) {
+		if (!this.postal_code || this.postal_codeError) {
 			return _('NO_POSTALCODE');
 		}
 		if (this.state === undefined) {
@@ -163,7 +163,7 @@ PersonEditor.view = function(vn) {
 							vn.state.person.proxyvatvalue = undefined;
 							vn.state.person.proxyvatvalid = false;
 						}
-					}					
+					}
 				}))]
 		]),
 		m(Row, [
@@ -184,12 +184,12 @@ PersonEditor.view = function(vn) {
 				id: prefix+'postalcode',
 				label: _('HOLDER_POSTALCODE'),
 				help: '', //help: _('HOLDER_POSTALCODE_HELP'),
-				value: person.postalcode,
+				value: person.postal_code,
 				maxlength: 5,
 				minlength: 5,
 				pattern: '[0-9]{5}',
 				oninput: function(ev) {
-					person.postalcode = ev.target.value;
+					person.postal_code = ev.target.value;
 					person.postalcodeError = ev.target.validationMessage;
 				},
 				inputfilter: /^[0-9]{0,5}$/,
@@ -315,7 +315,7 @@ PersonEditor.oncreate = function(vn) {
 		person.name='Perico';
 		person.surname='Palotes';
 		person.address='Percebe 13';
-		person.postalcode='12345';
+		person.postal_code='12345';
 		person.phone1='123456789';
 		person.phone2='987654321';
 		person.email ='a@a';
@@ -328,7 +328,7 @@ PersonEditor.oncreate = function(vn) {
 		person.name='Juana';
 		person.surname='Calamidad';
 		person.address='Calle Mayor';
-		person.postalcode='54321';
+		person.postal_code='54321';
 		person.phone1='123456789';
 		person.phone2='987654321';
 		person.email ='b@b';

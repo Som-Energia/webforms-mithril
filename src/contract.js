@@ -97,6 +97,9 @@ var Contract = {
 		become_member: false,
 	},
 	especial_cases: {
+		reason_death: false,
+		reason_electrodep: false,
+		reason_merge: false,
 		attachments: {},
 		attachments_errors: {},
 	}
@@ -572,7 +575,7 @@ var ReviewPage = function() {
 					field(_("ADDRESS"), Contract.holder.address),
 					field(_("CITY"),
 						  (Contract.holder.city && Contract.holder.city.name)+
-						  " ("+Contract.holder.postalcode+") "+
+						  " ("+Contract.holder.postal_code+") "+
 						  (Contract.holder.state && Contract.holder.state.name)),
 				]),
 				group(_('CONTACT'), [
@@ -619,22 +622,40 @@ var ReviewPage = function() {
 					pContract.holder.state = pContract.holder.state.id : false;
 				pContract.holder.city !== undefined && pContract.holder.city.id !== undefined ?
 					pContract.holder.city = pContract.holder.city.id : false;
+				if (pContract.holder.vatvalue !== undefined ){
+					pContract.holder.vat = pContract.holder.vatvalue;
+					delete pContract.holder.vatvalue;
+					delete pContract.holder.vatexists;
+					delete pContract.holder.vatvalid;
+				}
+				if (pContract.holder.privacy_policy_accepted !== undefined ){
+					pContract.privacy_policy_accepted = pContract.holder.privacy_policy_accepted;
+					delete pContract.holder.privacy_policy_accepted;
+				}
 
 				pContract.payment.iban !== undefined ? pContract.payment.iban = pContract.payment.iban.split(' ').join('') : false;
+				pContract.supply_point.verified !== undefined ? delete pContract.supply_point.verified : false;
+				pContract.supply_point.status !== undefined ? delete pContract.supply_point.status : false;
+
+				pContract.especial_cases !== undefined ? (
+					Object.keys(pContract.especial_cases).map(prop => prop.indexOf('reason') === 0 && pContract.especial_cases[prop] === true)
+						.reduce((prev, current) => !prev ? current : prev) ?
+							false : ( delete pContract.especial_cases.attachments && delete pContract.especial_cases.attachments_errors )
+				) : false;
 
 				loading = true;
 				SomApiAdapter.postContract(pContract)
 					.then(function(data) {
+						console.log(data);
 						// TODO: Save data into state
 						Contract.contract_number = data.data.contract_number;
 						loading = false;
 						resolve('success_page');
 					}).catch(function(reason) {
 						loading = false;
-						console.log(reason);
+						reason = (typeof reason === 'string') ? JSON.parse(reason) : undefined;
 						postError = (reason.data !== undefined ) ? reason.data.code : undefined;
 						postErrorData = (reason.data !== undefined ) ? reason.data.msg : undefined;
-						// TODO: Save reason into state
 						resolve('failure_page');
 					});
 			});
@@ -798,8 +819,7 @@ var SpecialCasesPage = function() {
 };
 
 var FailurePage = function() {
-	//var translatedError = _(postError, postErrorData);
-	var translatedError = postErrorData;
+	var translatedError = _(postError, postErrorData);
 	var unexpectedError = translatedError === postError;
 	return {
 		id: 'failure_page',
@@ -813,7 +833,7 @@ var FailurePage = function() {
 					m.trust(_('FAILURE_TEXT')),
 					unexpectedError && m('.error', _("UNEXPECTED_POSTERROR", {code:postError})),
 					unexpectedError && postErrorData && m('pre.error', jsyaml.dump(postErrorData)),
-					//!unexpectedError && m('.error', translatedError),
+					!unexpectedError && m('.error', translatedError),
 				]),
 				m(Cell, { spandesktop:2, spantablet:1 })
 			])
