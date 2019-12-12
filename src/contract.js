@@ -88,13 +88,17 @@ var Contract = {
 	supply_point: {
 		verified: false,
 	},
-	holder: {},
+	holder: {
+
+	},
 	payment: {
 		voluntary_cent: false
 	},
 	terms: {},
 	member: {
 		become_member: false,
+		is_member: false,
+		invite_token: false
 	},
 	especial_cases: {
 		reason_death: false,
@@ -632,6 +636,9 @@ var ReviewPage = function() {
 					pContract.privacy_policy_accepted = pContract.holder.privacy_policy_accepted;
 					delete pContract.holder.privacy_policy_accepted;
 				}
+
+				if(pContract.holder.emailError !== undefined) delete pContract.holder.emailError;
+				if(pContract.holder.postalcodeError !== undefined) delete pContract.holder.postalcodeError;
 
 				if(pContract.payment.iban !== undefined) pContract.payment.iban = pContract.payment.iban.split(' ').join('');
 				if(pContract.supply_point.verified !== undefined) delete pContract.supply_point.verified;

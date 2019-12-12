@@ -49,7 +49,7 @@ PersonEditor.oninit = function(vn) {
 		if (!this.address) {
 			return _('NO_ADDRESS');
 		}
-		if (!this.postal_code || this.postal_codeError) {
+		if (!this.postal_code || this.postalcodeError) {
 			return _('NO_POSTALCODE');
 		}
 		if (this.state === undefined) {
