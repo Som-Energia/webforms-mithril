@@ -633,9 +633,9 @@ var ReviewPage = function() {
 					delete pContract.holder.privacy_policy_accepted;
 				}
 
-				pContract.payment.iban !== undefined ? pContract.payment.iban = pContract.payment.iban.split(' ').join('') : false;
-				pContract.supply_point.verified !== undefined ? delete pContract.supply_point.verified : false;
-				pContract.supply_point.status !== undefined ? delete pContract.supply_point.status : false;
+				if(pContract.payment.iban !== undefined) pContract.payment.iban = pContract.payment.iban.split(' ').join('');
+				if(pContract.supply_point.verified !== undefined) delete pContract.supply_point.verified;
+				if(pContract.supply_point.status !== undefined) delete pContract.supply_point.status;
 
 				pContract.especial_cases !== undefined ? (
 					Object.keys(pContract.especial_cases).map(prop => prop.indexOf('reason') === 0 && pContract.especial_cases[prop] === true)
@@ -646,12 +646,13 @@ var ReviewPage = function() {
 				loading = true;
 				SomApiAdapter.postContract(pContract)
 					.then(function(data) {
-						console.log(data);
+						console.log('then somapiadapter', data);
 						// TODO: Save data into state
-						Contract.contract_number = data.data.contract_number;
+						Contract.contract_number = data.data.contract_number.name;
 						loading = false;
 						resolve('success_page');
 					}).catch(function(reason) {
+						console.log('catch somapiadapter', reason);
 						loading = false;
 						reason = (typeof reason === 'string') ? JSON.parse(reason) : undefined;
 						postError = (reason.data !== undefined ) ? reason.data.code : undefined;
