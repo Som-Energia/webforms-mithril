@@ -96,7 +96,7 @@ CUPS_LABEL: CUPS
 CUPS_HELP: On puc trobar el CUPS?
 CUPS_HELP_URL: TODO
 CUPS_VERIFY_LABEL: Confirmo que l'adreça és la que correspon al CUPS que vull contractar
-CUPS_NO_VERIFY_HELP: Si l'adreça postal no s'hi correspon, ens pots contactar a l'adreça <a href="mailto:comercialitzacio@somenergia.coop">comercialitzacio@somenergia.coop</a>.
+CUPS_NO_VERIFY_HELP: Si l'adreça postal no s'hi correspon, ens pots contactar a l'adreça <a href="mailto:modifica@somenergia.coop">modifica@somenergia.coop</a>.
 INVALID_SUPPLY_POINT_CUPS: No has especificat un <b>identificador CUPS</b> vàlid pel punt de subministrament
 CUPS_IN_PROCESS: Aquest CUPS actualment està en un proces
 MARK_ADDRESS_CONFIRMATION_BOX: Verifica que l'adreça associada a aquest CUPS és correcta
@@ -243,7 +243,7 @@ ELECTRODEP_ATTACH_REQUIRED: Cal adjuntar els certificats demanats
 # FailurePage
 FAILURE_TITLE: Ups!
 FAILURE_TEXT: <p><b>Ho sentim, no ha estat possible realitzar el contracte</b></p>
-UNEXPECTED_POSTERROR: S'ha produit un error inesperat amb codi %{code}
+UNEXPECTED_POSTERROR: S'ha produit un error amb codi %{code}
 
 # SuccessPage
 SUCCESS_TITLE: Enhorabona
