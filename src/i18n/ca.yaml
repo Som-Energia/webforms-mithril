@@ -82,6 +82,7 @@ FILL_VAT: "<p>Aquest és el formulari que et permet realitzar un canvi de titula
 VAT_LABEL: Número d'identificació fiscal (NIF)
 VAT_HELP: I si no disposo d'un NIF?
 VAT_HELP_URL: TODO
+NO_VAT_HELP: "Si no disposes de NIE i tens passaport, pots enviar-nos un correu a <a target=\"_blank\" href=\"mailto:modifica@somenergia\">modifica@somenergia.coop</a> amb les dades del punt de subministrament que vols canviar (número de contracte i CUPS), les dades de la nova persona titular (Nom, cognoms, passaport adjunt, correu electrònic i telèfon de contacte) i dades IBAN de pagament."
 
 IDENTIFY: Identificació
 FILL_PASSWORD: Si us plau, identifiqueu-vos fent servir la contrasenya de l'Oficina Virtual

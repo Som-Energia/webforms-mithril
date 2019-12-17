@@ -103,7 +103,7 @@ IntroContract.view = function(vn) {
 				help: m('a', {
 					href: _('VAT_HELP_URL'),
 					target: '_blank'
-				}, _('VAT_HELP')),
+				}, ''), //_('VAT_HELP')
 				boxed: true,
 				required: true,
 				maxlength: 9,
@@ -130,6 +130,16 @@ IntroContract.view = function(vn) {
 					}
 				}
 			})),
+			m(Cell, {span:12},
+				[
+					m('p.field .mdc-text-field-helper-text'+
+						'.mdc-text-field-helper-text--persistent', {
+							'aria-hidden': true,
+						},
+						m.trust(_('NO_VAT_HELP'))
+					)
+				]
+			)
 		] :
 		m('', vn.state.state)
 		)),
