@@ -690,19 +690,22 @@ var SpecialCasesPage = function() {
 		title: _('SPECIAL_CASES_TITLE'),
 		next: true,
 		validator: function() {
-			if ( attachmentsRequired && Contract.especial_cases.reason_electrodep === true
-				&& ( Contract.especial_cases.attachments === undefined
-					&& (Contract.especial_cases.attachments.medical === undefined
-					|| Contract.especial_cases.attachments.resident === undefined ))
+			if ( (Contract.especial_cases.reason_electrodep === true
+					&& ( Contract.especial_cases.attachments === undefined
+					|| (Contract.especial_cases.attachments.medical === undefined
+					&& Contract.especial_cases.attachments.resident === undefined )))
+				|| Contract.especial_cases.reason_death === true
+					&& ( Contract.especial_cases.attachments === undefined
+						|| Contract.especial_cases.attachments.death === undefined)
 				) {
-				return _('ELECTRODEP_ATTACH_REQUIRED');
+					return _('ELECTRODEP_ATTACH_REQUIRED');
 			}
 			return undefined;
 		},
 		content: [
 			m(Row, { className: 'special_cases_page' }, [
 				m(Cell, {
-						className: 'special_cases__question',
+						className: '',
 						span: 12,
 					},
 					_('SPECIAL_CASES_QUESTION'),
@@ -740,7 +743,7 @@ var SpecialCasesPage = function() {
 												Contract.especial_cases.attachments === undefined ? Contract.especial_cases.attachments = {} : false;
 												Contract.especial_cases.attachments_errors === undefined ? Contract.especial_cases.attachments_errors = {} : false;
 
-												if( response.data !== undefined && response.data.code !== undefined && response.code === 'UPLOAD_OK'){
+												if( response.data !== undefined && response.data.code !== undefined && response.data.code === 'UPLOAD_OK'){
 													Contract.especial_cases.attachments.death = response.data.file_hash !== undefined ? response.data.file_hash : true ;
 												} else {
 													Contract.especial_cases.attachments.death = undefined;
@@ -812,7 +815,7 @@ var SpecialCasesPage = function() {
 													Contract.especial_cases.attachments === undefined ? Contract.especial_cases.attachments = {} : false;
 													Contract.especial_cases.attachments_errors === undefined ? Contract.especial_cases.attachments_errors = {} : false;
 
-													if( response.data !== undefined && response.data.code !== undefined && response.code === 'UPLOAD_OK'){
+													if( response.data !== undefined && response.data.code !== undefined && response.data.code === 'UPLOAD_OK'){
 														Contract.especial_cases.attachments.medical = response.data.file_hash !== undefined ? response.data.file_hash : true ;
 													} else {
 														Contract.especial_cases.attachments.medical = undefined;
@@ -839,7 +842,7 @@ var SpecialCasesPage = function() {
 													Contract.especial_cases.attachments === undefined ? Contract.especial_cases.attachments = {} : false;
 													Contract.especial_cases.attachments_errors === undefined ? Contract.especial_cases.attachments_errors = {} : false;
 
-													if( response.data.code !== undefined && response.data.code === 'UPLOAD_OK'){
+													if( response.data !== undefined && response.data.code !== undefined && response.data.code === 'UPLOAD_OK'){
 														Contract.especial_cases.attachments.resident = response.data.file_hash !== undefined ? response.data.file_hash : true ;
 													} else {
 														Contract.especial_cases.attachments.resident = undefined;

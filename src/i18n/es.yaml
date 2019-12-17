@@ -230,7 +230,7 @@ NO: No
 
 # SpecialCasesPage
 SPECIAL_CASES_TITLE: Casos especiales
-SPECIAL_CASES_QUESTION: Por favor, indica si alguna de las opcions siguientes se dan en tu caso para llevar a cabo el cambio de titular. En caso contrario, puedes continuar sin marcar ninguna opción
+SPECIAL_CASES_QUESTION: Por favor, indica si alguna de las opcions siguientes se dan en tu caso para llevar a cabo el cambio de titular. En caso contrario, puedes continuar sin marcar ninguna opción.
 SPECIAL_CASES_REASON_DEATH: El cambio de titular es realitzado por motivo de defunción
 SPECIAL_CASES_REASON_MERGE: El cambio de titular es realitzado por motivo de una fusión de empresas
 SPECIAL_CASES_REASON_ELECTRODEP: En el domicilio vive una persona electrodependiente
