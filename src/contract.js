@@ -129,15 +129,15 @@ Form.view = function(vn) {
 			shortcut: 'ctrl+shift+d',
 			model: Contract,
 		}),
-		m(TopAppBar, {
+		(process.env.NODE_ENV.match('ov') === null) ? m(TopAppBar, {
 			title: _('CONTRACT_FORM_TITLE'),
 			fixed: false
-		}),
+		}) : '',
 		m(Steps, {
 			showall: showall,
 			focusonjump: true,
 			nextonenter: true,
-			className: 'mdc-top-app-bar--fixed-adjust',
+			className: (process.env.NODE_ENV.match('ov') === null) ? 'mdc-top-app-bar--fixed-adjust':'',
 			loading: loading,
 			pages:[
 				IntroPage(),
@@ -620,6 +620,7 @@ var ReviewPage = function() {
 				var pContract = {};
 				Object.assign(pContract, Contract);
 
+
 				pContract.holder.language !== undefined && pContract.holder.language.code !== undefined ?
 					pContract.holder.language = pContract.holder.language.code : false;
 				pContract.holder.state !== undefined && pContract.holder.state.id !== undefined ?
@@ -662,8 +663,8 @@ var ReviewPage = function() {
 						console.log('catch somapiadapter', reason);
 						loading = false;
 						reason = (typeof reason === 'string') ? JSON.parse(reason) : undefined;
-						postError = (reason.data !== undefined ) ? reason.data.code : undefined;
-						postErrorData = (reason.data !== undefined ) ? reason.data.msg : undefined;
+						postError = (reason.data.code !== undefined ) ? reason.data.code : undefined;
+						postErrorData = (reason.data.msg !== undefined ) ? reason.data.msg : undefined;
 						resolve('failure_page');
 					});
 			});
@@ -680,7 +681,7 @@ var SpecialCasesPage = function() {
 			"INVALIDFORMAT" : _("INVALIDFORMAT"),
 			"UPLOAD_MAX_SIZE" : _("UPLOAD_MAX_SIZE"),
 		}
-		return ( e.code !== undefined &&  errorCodes[e.code] !== undefined ) ?
+		return ( e.data !== undefined && e.data.code !== undefined &&  errorCodes[e.data.code] !== undefined ) ?
 			_(e.code, e.data) : _("UPLOAD_UKNOWN_ERROR");
 	};
 
@@ -691,8 +692,8 @@ var SpecialCasesPage = function() {
 		validator: function() {
 			if ( attachmentsRequired && Contract.especial_cases.reason_electrodep === true
 				&& ( Contract.especial_cases.attachments === undefined
-					|| Contract.especial_cases.attachments.medical === undefined
-					|| Contract.especial_cases.attachments.resident === undefined )
+					&& (Contract.especial_cases.attachments.medical === undefined
+					|| Contract.especial_cases.attachments.resident === undefined ))
 				) {
 				return _('ELECTRODEP_ATTACH_REQUIRED');
 			}
@@ -709,7 +710,7 @@ var SpecialCasesPage = function() {
 				[
 					m(Cell, {span:12}, [
 						m('.special_case__reason'
-						+ (Contract.especial_cases.reason_death === true?'.special_case__reason--selected':''), [
+						+ (Contract.especial_cases.reason_death === true ? '.special_case__reason--selected':''), [
 							m('label.special_case__lbl', [
 								m(CheckBox, {
 									id: 'reason_defuncio',
@@ -720,7 +721,41 @@ var SpecialCasesPage = function() {
 										Contract.especial_cases.reason_merge = false;
 									}
 								})
-							])
+							]),
+							(attachmentsRequired && Contract.especial_cases.reason_death === true ?
+								m('.special_case__description', [
+									m('p', m('b', _('CERT_ATTACH_DEATH')),[
+										m('i.fa.fa-asterisk.red'),
+										m(Uploader, {
+											id: "electrodependent_death_report",
+											name: "electrodependent_death_report",
+											context: "contract",
+											label: _("FILE_ACTION"),
+											url: process.env.APIBASE + "/form/upload_attachment",
+											max_file_size: 5,
+											extensions: [".jpg",".jpeg",".pdf"],
+											error: Contract.especial_cases.attachments_errors.death,
+											onupload: function(response){
+
+												Contract.especial_cases.attachments === undefined ? Contract.especial_cases.attachments = {} : false;
+												Contract.especial_cases.attachments_errors === undefined ? Contract.especial_cases.attachments_errors = {} : false;
+
+												if( response.data !== undefined && response.data.code !== undefined && response.code === 'UPLOAD_OK'){
+													Contract.especial_cases.attachments.death = response.data.file_hash !== undefined ? response.data.file_hash : true ;
+												} else {
+													Contract.especial_cases.attachments.death = undefined;
+													Contract.especial_cases.attachments_errors.death = uploadErrors(response);
+												}
+												m.redraw();
+											},
+											onclear: function(e){
+												Contract.especial_cases.attachments === undefined ? Contract.especial_cases.attachments = {} : false;
+												Contract.especial_cases.attachments.death = undefined;
+											}
+										})
+									]),
+								])
+							: '')
 						])
 					]),
 					m(Cell, {span:12}, [
@@ -770,14 +805,15 @@ var SpecialCasesPage = function() {
 												label: _("FILE_ACTION"),
 												url: process.env.APIBASE + "/form/upload_attachment",
 												max_file_size: 5,
-												extensions: [".jpg",".png",".gif",".pdf"],
+												extensions: [".jpg",".jpeg",".pdf"],
 												error: Contract.especial_cases.attachments_errors.medical,
 												onupload: function(response){
+
 													Contract.especial_cases.attachments === undefined ? Contract.especial_cases.attachments = {} : false;
 													Contract.especial_cases.attachments_errors === undefined ? Contract.especial_cases.attachments_errors = {} : false;
 
-													if( response.code !== undefined && response.code === 'UPLOAD_OK'){
-														Contract.especial_cases.attachments.medical = response.file_hash !== undefined ? response.file_hash : true ;
+													if( response.data !== undefined && response.data.code !== undefined && response.code === 'UPLOAD_OK'){
+														Contract.especial_cases.attachments.medical = response.data.file_hash !== undefined ? response.data.file_hash : true ;
 													} else {
 														Contract.especial_cases.attachments.medical = undefined;
 														Contract.especial_cases.attachments_errors.medical = uploadErrors(response);
@@ -798,13 +834,13 @@ var SpecialCasesPage = function() {
 												label: _("FILE_ACTION"),
 												url: process.env.APIBASE + "/form/upload_attachment",
 												max_file_size: 5,
-												extensions: [".jpg",".png",".gif",".pdf"],
+												extensions: [".jpg",".jpeg",".pdf"],
 												onupload: function(response){
 													Contract.especial_cases.attachments === undefined ? Contract.especial_cases.attachments = {} : false;
 													Contract.especial_cases.attachments_errors === undefined ? Contract.especial_cases.attachments_errors = {} : false;
 
-													if( response.code !== undefined && response.code === 'UPLOAD_OK'){
-														Contract.especial_cases.attachments.resident = response.file_hash !== undefined ? response.file_hash : true ;
+													if( response.data.code !== undefined && response.data.code === 'UPLOAD_OK'){
+														Contract.especial_cases.attachments.resident = response.data.file_hash !== undefined ? response.data.file_hash : true ;
 													} else {
 														Contract.especial_cases.attachments.resident = undefined;
 														Contract.especial_cases.attachments_errors.resident = uploadErrors(response);
@@ -827,8 +863,16 @@ var SpecialCasesPage = function() {
 };
 
 var FailurePage = function() {
-	var translatedError = _(postError, postErrorData);
-	var unexpectedError = translatedError === postError;
+
+	const postErrorsMessages = function(code, msg){
+		const errorCodes = {
+			"INVALIDFORMAT" : _("INVALIDFORMAT"),
+			"UPLOAD_MAX_SIZE" : _("UPLOAD_MAX_SIZE"),
+		}
+		return ( code !== undefined &&  errorCodes[code] !== undefined ) ?
+			_(code, msg) : _("UNEXPECTED_POSTERROR", {code:code});
+	};
+
 	return {
 		id: 'failure_page',
 		title: '',
@@ -839,9 +883,7 @@ var FailurePage = function() {
 				m(Cell, { spandesktop:8, spantablet:6, className: '', align: 'center' }, [
 					m('h2', _('FAILURE_TITLE')),
 					m.trust(_('FAILURE_TEXT')),
-					unexpectedError && m('.error', _("UNEXPECTED_POSTERROR", {code:postError})),
-					unexpectedError && postErrorData && m('pre.error', jsyaml.dump(postErrorData)),
-					!unexpectedError && m('.error', translatedError),
+					m('.error', postErrorsMessages(postError, postErrorData)),
 				]),
 				m(Cell, { spandesktop:2, spantablet:1 })
 			])

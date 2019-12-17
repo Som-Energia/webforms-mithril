@@ -62,6 +62,12 @@ I_ACCEPT: Acepto
 Previous: Anterior
 Next: Siguiente
 
+#Uploader
+FILE_ACTION: "Escoge un archivo"
+FILE_EXTENSION_NOT_ALLOWED: El archivo tiene una extensión no válida
+FILE_MAX_SIZE_EXCEEDED: El archivo supera el tamaño máximo (%{max_file_size} MB)
+UPLOAD_UKNOWN_ERROR: Error desconocido
+
 # Contract form
 
 #CONTRACT_FORM_TITLE: Formulario de Contratación
@@ -88,7 +94,7 @@ CUPS_TITLE: Identifica el punto de suministro
 FILL_CUPS: "Indica el código CUPS (Código Universal de Punto de Suministro):"
 CUPS_LABEL: CUPS
 CUPS_HELP: ¿Dónde puedo encontrar el código CUPS?
-CUPS_HELP_URL: TODO
+CUPS_HELP_URL: https://es.support.somenergia.coop/article/210-que-es-el-cups
 CUPS_VERIFY_LABEL: Confirmo que la dirección se corresponde con el CUPS que quiero contratar
 CUPS_NO_VERIFY_HELP: Si la dirección postal no corresponde puedes contactar con nosotros en <a href="mailto:modifica@somenergia.coop">modifica@somenergia.coop</a>.
 INVALID_SUPPLY_POINT_CUPS: CUPS inválido
@@ -155,13 +161,13 @@ UNACCEPTED_PRIVACY_POLICY: Tienes que aceptar la política de privacidad
 
 # Member
 BECOME_MEMBER_TITLE: Hacerse Socio
-BECOME_MEMBER_PRESENTATION: Puede serlo cualquier particular, cooperativa, empresa, asociación, fundación, comunidad de vecinos y vecinas, ayuntamiento... Para serlo debes llevar a cabo una aportación única al capital social de <b>100€</b>, que <b>se devuelven</b> en caso de que te des de baja.
+BECOME_MEMBER_PRESENTATION: <p>Ten en cuenta que para poder ser titular de un contrato con la cooperativa es necesario que seas persona socia de la misma.</p>
 BECOME_MEMBER_QUESTION: Quieres ser persona sòcia de la cooperativa?
 BECOME_MEMBER_YES_LABEL: Sí, quiero ser persona socia de la cooperativa
-BECOME_MEMBER_YES_DESCRIPTION: ''
+BECOME_MEMBER_YES_DESCRIPTION: Para serlo debes llevar a cabo una aportación única al capital social de <b>100€</b>, que <b>se devuelven</b> en caso de que te des de baja.
 BECOME_MEMBER_NO_LABEL: No, todavía no quiero serlo
-BECOME_MEMBER_NO_DESCRIPTION: ''
-BECOME_MEMBER_NOTE: Ten en cuenta que para poder ser titular de un contrato con la cooperativa es necesario que seas persona socia de la misma. Si todavía no te has decidido, te damos el tiempo necesario para que puedas valorar hacer este paso más adelante.
+BECOME_MEMBER_NO_DESCRIPTION: Si todavía no te has decidido, te damos el tiempo necesario para que puedas valorar hacer este paso más adelante.
+BECOME_MEMBER_NOTE: ''
 BECOME_MEMBER_UNSELECTED: Es necesario indicar si quieres o no hacerte socia
 
 # VoluntaryCentPage
@@ -221,6 +227,17 @@ UNACCEPTED_TERMS: Tienes que aceptar las condiciones
 SEND: Enviar
 YES: Sí
 NO: No
+
+# SpecialCasesPage
+SPECIAL_CASES_TITLE: Casos especiales
+SPECIAL_CASES_QUESTION: Por favor, indica si alguna de las opcions siguientes se dan en tu caso para llevar a cabo el cambio de titular. En caso contrario, puedes continuar sin marcar ninguna opción
+SPECIAL_CASES_REASON_DEATH: El cambio de titular es realitzado por motivo de defunción
+SPECIAL_CASES_REASON_MERGE: El cambio de titular es realitzado por motivo de una fusión de empresas
+SPECIAL_CASES_REASON_ELECTRODEP: En el domicilio vive una persona electrodependiente
+CERT_ATTACH_DEATH: Certificado defunción
+ELECTRODEP_ATTACH_MEDICAL: Certificado médico electrodependiente
+ELECTRODEP_ATTACH_RESIDENT: Certificado empadronamiento
+ELECTRODEP_ATTACH_REQUIRED: Tienes que adjuntar el certificado especificado
 
 # FailurePage
 FAILURE_TITLE: Ups!

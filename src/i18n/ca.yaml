@@ -94,7 +94,7 @@ CUPS_TITLE: Identifica el punt de subministrament
 FILL_CUPS: "Indica el codi CUPS (Codi Universal de Punt de Subministrament):"
 CUPS_LABEL: CUPS
 CUPS_HELP: On puc trobar el CUPS?
-CUPS_HELP_URL: TODO
+CUPS_HELP_URL: https://ca.support.somenergia.coop/article/173-que-es-el-cups
 CUPS_VERIFY_LABEL: Confirmo que l'adreça és la que correspon al CUPS que vull contractar
 CUPS_NO_VERIFY_HELP: Si l'adreça postal no s'hi correspon, ens pots contactar a l'adreça <a href="mailto:modifica@somenergia.coop">modifica@somenergia.coop</a>.
 INVALID_SUPPLY_POINT_CUPS: No has especificat un <b>identificador CUPS</b> vàlid pel punt de subministrament
@@ -232,10 +232,11 @@ NO: No
 
 # SpecialCasesPage
 SPECIAL_CASES_TITLE: Casos especials
-SPECIAL_CASES_QUESTION: Siusplau, indica si et trobes en algun dels següents casos excepcionals
+SPECIAL_CASES_QUESTION: Si us plau, indica si alguna de les opcions següents es dónen en el canvi de titular que vols dur a terme. En cas contrari, pots continuar sense marcar-ne cap
 SPECIAL_CASES_REASON_DEATH: El canvi de titular es realitza per motius de defunció
 SPECIAL_CASES_REASON_MERGE: El canvi de titular es realitza per motius d'una fusió d'empreses
 SPECIAL_CASES_REASON_ELECTRODEP: En el domicili viu una persona electrodependent
+CERT_ATTACH_DEATH: Certificat defunció
 ELECTRODEP_ATTACH_MEDICAL: Certificat mèdic electrodependencia
 ELECTRODEP_ATTACH_RESIDENT: Certificat empadronament
 ELECTRODEP_ATTACH_REQUIRED: Cal adjuntar els certificats demanats
