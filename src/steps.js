@@ -131,7 +131,7 @@ var Steps = {
 				var active = self.currentPage === page.id;
 
 				return m(Layout, [
-					m(Cell, {span:12}, m('h2', page.title)),
+					m(Cell, {span:12}, m('.header', [m('.header__container',m('.header__text', page.title)), m('.header__after')])),
 					page.content,
 					( showNext || showPrev ) ? m('.step__controls', [
 						showNext ? m(Button, {
