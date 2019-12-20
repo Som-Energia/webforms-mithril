@@ -105,16 +105,15 @@ var Contract = {
 		reason_electrodep: false,
 		reason_merge: false,
 		attachments: {},
-		attachments_errors: {},
 	}
 };
 
 Mousetrap.bindGlobal('ctrl+shift+1', function() {
 	var newData = require('./data/data1.yaml');
 	Object.keys(Contract).map(function(k) {
-		if(typeof Contract[k] === 'object'){
+		if(typeof Contract[k] === 'object') {
 			Object.assign(Contract[k], newData[k]);
-		}else{
+		}else {
 			Contract[k] = newData[k];
 		}
 	});
@@ -644,6 +643,8 @@ var ReviewPage = function() {
 				if(pContract.payment.iban !== undefined) pContract.payment.iban = pContract.payment.iban.split(' ').join('');
 				if(pContract.supply_point.verified !== undefined) delete pContract.supply_point.verified;
 				if(pContract.supply_point.status !== undefined) delete pContract.supply_point.status;
+
+				if(pContract.terms.terms_accepted !== undefined) pContract.terms_accepted = pContract.terms.terms_accepted; delete pContract.terms.terms_accepted;
 
 				pContract.especial_cases !== undefined ? (
 					Object.keys(pContract.especial_cases).map(prop => prop.indexOf('reason') === 0 && pContract.especial_cases[prop] === true)
