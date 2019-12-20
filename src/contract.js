@@ -81,7 +81,7 @@ SomApi.validateMeasure = function(cups, date, measure) {
 	SomMockupApi.validateMeasure(cups, date, measure);
 };
 
-var loading = false;
+var isLoading = false;
 var SomApiAdapter = process.env.NODE_ENV === 'development' ? SomApi : SomApi;
 
 var Contract = {
@@ -138,7 +138,7 @@ Form.view = function(vn) {
 			focusonjump: true,
 			nextonenter: true,
 			className: (process.env.NODE_ENV.match('ov') === null) ? 'mdc-top-app-bar--fixed-adjust':'',
-			loading: loading,
+			loading: isLoading,
 			pages:[
 				IntroPage(),
 				//PasswordPage(),
@@ -470,7 +470,7 @@ var PaymentPage = function() {
 var postError = undefined;
 var postErrorData = undefined;
 
-SomApi.postContract = function(contract) {
+SomApi.postContract = function(data) {
 
 		const ONLINE = 'ONLINE';
 		const OFFLINE = 'OFFLINE';
@@ -479,7 +479,7 @@ SomApi.postContract = function(contract) {
 			m.request({
 				method: 'POST',
 				url: `${process.env.APIBASE}/form/holderchange`,
-				data: contract
+				data: data
 			})
 			.then(function(response) {
 				if (response.status === ONLINE) {
@@ -532,43 +532,43 @@ SomMockupApi.postContract = function(contract) {
 var ReviewPage = function() {
 
 	function normalizeContract(contract){
+		let normalizedContract = { ...contract };
+		//let normalizedContract = Object.assign({}, contract);
 
-		var pContract = {};
-		Object.assign(pContract, contract);
-
-		pContract.holder.language !== undefined && pContract.holder.language.code !== undefined ?
-			pContract.holder.language = pContract.holder.language.code : false;
-		pContract.holder.state !== undefined && pContract.holder.state.id !== undefined ?
-			pContract.holder.state = pContract.holder.state.id : false;
-		pContract.holder.city !== undefined && pContract.holder.city.id !== undefined ?
-			pContract.holder.city = pContract.holder.city.id : false;
-		if (pContract.holder.vatvalue !== undefined ){
-			pContract.holder.vat = pContract.holder.vatvalue;
-			delete pContract.holder.vatvalue;
-			delete pContract.holder.vatexists;
-			delete pContract.holder.vatvalid;
-		}
-		if (pContract.holder.privacy_policy_accepted !== undefined ){
-			pContract.privacy_policy_accepted = pContract.holder.privacy_policy_accepted;
-			delete pContract.holder.privacy_policy_accepted;
+		normalizedContract.holder.language !== undefined && normalizedContract.holder.language.code !== undefined ?
+			normalizedContract.holder.language = normalizedContract.holder.language.code : false;
+		normalizedContract.holder.state !== undefined && normalizedContract.holder.state.id !== undefined ?
+			normalizedContract.holder.state = normalizedContract.holder.state.id : false;
+		normalizedContract.holder.city !== undefined && normalizedContract.holder.city.id !== undefined ?
+			normalizedContract.holder.city = normalizedContract.holder.city.id : false;
+		if (normalizedContract.holder.vatvalue !== undefined ){
+			normalizedContract.holder.vat = normalizedContract.holder.vatvalue;
+			delete normalizedContract.holder.vatvalue;
+			delete normalizedContract.holder.vatexists;
+			delete normalizedContract.holder.vatvalid;
 		}
 
-		if(pContract.holder.emailError !== undefined) delete pContract.holder.emailError;
-		if(pContract.holder.postalcodeError !== undefined) delete pContract.holder.postalcodeError;
+		if (normalizedContract.holder.privacy_policy_accepted !== undefined ){
+			normalizedContract.privacy_policy_accepted = normalizedContract.holder.privacy_policy_accepted;
+			delete normalizedContract.holder.privacy_policy_accepted;
+		}
 
-		if(pContract.payment.iban !== undefined) pContract.payment.iban = pContract.payment.iban.split(' ').join('');
-		if(pContract.supply_point.verified !== undefined) delete pContract.supply_point.verified;
-		if(pContract.supply_point.status !== undefined) delete pContract.supply_point.status;
+		if(normalizedContract.holder.emailError !== undefined) delete normalizedContract.holder.emailError;
+		if(normalizedContract.holder.postalcodeError !== undefined) delete normalizedContract.holder.postalcodeError;
 
-		if(pContract.terms.terms_accepted !== undefined) pContract.terms_accepted = pContract.terms.terms_accepted; delete pContract.terms.terms_accepted;
+		if(normalizedContract.payment.iban !== undefined) normalizedContract.payment.iban = normalizedContract.payment.iban.split(' ').join('');
+		if(normalizedContract.supply_point.verified !== undefined) delete normalizedContract.supply_point.verified;
+		if(normalizedContract.supply_point.status !== undefined) delete normalizedContract.supply_point.status;
 
-		pContract.especial_cases !== undefined ? (
-			Object.keys(pContract.especial_cases).map(prop => prop.indexOf('reason') === 0 && pContract.especial_cases[prop] === true)
+		if(normalizedContract.terms.terms_accepted !== undefined) normalizedContract.terms_accepted = normalizedContract.terms.terms_accepted; delete normalizedContract.terms;
+
+		normalizedContract.especial_cases !== undefined ? (
+			Object.keys(normalizedContract.especial_cases).map(prop => prop.indexOf('reason') === 0 && normalizedContract.especial_cases[prop] === true)
 				.reduce((prev, current) => !prev ? current : prev) ?
-					false : ( delete pContract.especial_cases.attachments & delete pContract.especial_cases.attachments_errors )
+					false : ( delete normalizedContract.especial_cases.attachments & delete normalizedContract.especial_cases.attachments_errors )
 		) : false;
 
-		return pContract;
+		return normalizedContract;
 	}
 
 	function group(name, fields) {
@@ -590,7 +590,7 @@ var ReviewPage = function() {
 		nexticon: 'send',
 		nextlabel: _("SEND"),
 		validator: function() {
-			if (Contract.terms.terms_accepted !== true) {
+			if (Contract.terms.terms_accepted === false) {
 				return _('UNACCEPTED_TERMS');
 			}
 			return undefined;
@@ -656,18 +656,16 @@ var ReviewPage = function() {
 		],
 		next: function() {
 			return new Promise(function (resolve, reject) {
-
-				pContract = normalizeContract(Contract);
-
-				loading = true;
-				SomApiAdapter.postContract(pContract)
+				let contract = normalizeContract(Contract);
+				isLoading = true;
+				SomApiAdapter.postContract(contract)
 					.then(function(data) {
 						// TODO: Save data into state
 						Contract.contract_number = data.data.contract_number.name;
-						loading = false;
+						isLoading = false;
 						resolve('success_page');
 					}).catch(function(reason) {
-						loading = false;
+						isLoading = false;
 						reason = (typeof reason === 'string') ? JSON.parse(reason) : undefined;
 						postError = (reason.data.code !== undefined ) ? reason.data.code : undefined;
 						postErrorData = (reason.data.msg !== undefined ) ? reason.data.msg : undefined;
