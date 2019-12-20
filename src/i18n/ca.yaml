@@ -82,7 +82,7 @@ FILL_VAT: "<p>Aquest és el formulari que et permet realitzar un canvi de titula
 VAT_LABEL: Número d'identificació fiscal (NIF)
 VAT_HELP: I si no disposo d'un NIF?
 VAT_HELP_URL: TODO
-NO_VAT_HELP: "Si no disposes de NIE i tens passaport, pots enviar-nos un correu a <a target=\"_blank\" href=\"mailto:modifica@somenergia\">modifica@somenergia.coop</a> amb les dades del punt de subministrament que vols canviar (número de contracte i CUPS), les dades de la nova persona titular (Nom, cognoms, passaport adjunt, correu electrònic i telèfon de contacte) i dades IBAN de pagament."
+NO_VAT_HELP: "Si no disposes de NIE i tens passaport, pots enviar-nos un correu a <a target=\"_blank\" href=\"mailto:modifica@somenergia\">modifica@somenergia.coop</a> amb les dades del punt de subministrament que vols canviar (número de contracte i CUPS), les dades de la nova persona titular (nom, cognoms, passaport adjunt, correu electrònic i telèfon de contacte) i dades IBAN de pagament."
 
 IDENTIFY: Identificació
 FILL_PASSWORD: Si us plau, identifiqueu-vos fent servir la contrasenya de l'Oficina Virtual
@@ -104,7 +104,7 @@ MARK_ADDRESS_CONFIRMATION_BOX: Verifica que l'adreça associada a aquest CUPS é
 SUPPLY_POINT_ADDRESS: Adreça de subministrament
 CUPS_SHOULD_BE_ACTIVE: El CUPS no te cap contracte actiu a Som Energia
 CUPS_STATE_UNEXPECTED: No s'ha pogut identificar l'estat del CUPS (error intern)
-CUPS_PARTIAL_ADDRESS_NOTICE: Per motius de seguretat, no mostrem l'adreça completa. Podràs consultar l'adreça completa des de l'Oficina Virtual.
+CUPS_PARTIAL_ADDRESS_NOTICE: Per motius de seguretat, no mostrem l'adreça completa. Podràs consultar l'adreça completa a l'Oficina Virtual.
 CUPS_INVALID: CUPS incorrecte
 
 # Generic fields
@@ -142,7 +142,7 @@ HOLDER_PHONE: Telèfon
 HOLDER_PHONE_HELP: Telèfon de la persona titular
 HOLDER_PHONE_2: Telèfon alternatiu
 HOLDER_PHONE_2_HELP: Telèfon alternatiu
-HOLDER_LANGUAGE_HELP: Idioma per la comunicació amb Som Energia
+HOLDER_LANGUAGE_HELP: Idioma per a la comunicació amb Som Energia
 
 ## Holder personal data errors
 NO_NAME: No has especificat el nom
@@ -161,11 +161,11 @@ NO_LANGUAGE: No has especificat l'idioma
 UNACCEPTED_PRIVACY_POLICY: Has d'acceptar la política de privacitat
 
 # Member
-BECOME_MEMBER_TITLE: Fer-se Soci
-BECOME_MEMBER_PRESENTATION: <p>Tingues en compte que per poder ser titular d’un contracte amb la cooperativa cal que siguis soci o sòcia de la mateixa.</p>
+BECOME_MEMBER_TITLE: Fer-se Soci/Sòcia
+BECOME_MEMBER_PRESENTATION: <p>Tingues en compte que per poder ser titular d’un contracte amb la cooperativa cal que en siguis soci o sòcia de la mateixa.</p>
 BECOME_MEMBER_QUESTION: Vols fer-te persona sòcia de la cooperativa?
 BECOME_MEMBER_YES_LABEL:  Sí, vull ser persona sòcia de la cooperativa
-BECOME_MEMBER_YES_DESCRIPTION: Per ser-ho has de fer una aportació única al capital social de <b>100 €</b>, que <b>es retornen</b> en el cas que qualsevol dia vulguis donar-te de baixa.
+BECOME_MEMBER_YES_DESCRIPTION: Per ser-ho has de fer una aportació única al capital social de <b>100 €</b>, que <b>es retornen</b> en el cas que qualsevol dia vulguis donar-te'n de baixa.
 BECOME_MEMBER_NO_LABEL: No, encara no me'n vull fer sòcia
 BECOME_MEMBER_NO_DESCRIPTION: Si encara no t’hi has decidit, et donem el temps necessari perquè puguis valorar fer aquest pas més endavant.
 BECOME_MEMBER_NOTE: ''
@@ -175,8 +175,8 @@ BECOME_MEMBER_UNSELECTED: Cal dir si vols o no fer-te sòcia
 VOLUNTARY_CENT_TITLE: Donatiu voluntari
 VOLUNTARY_CENT_PRESENTATION: |
   Som una Cooperativa sense ànim de lucre amb l'objectiu ferm de canviar el model energètic.
-  Els socis i sòcies que ho desitgin poden realitzar un donatiu voluntari de 0,01€/kWh
-  destinat a recolzar i facilitar l'acció social i voluntària
+  Els socis i les sòcies que ho desitgin poden realitzar un donatiu voluntari de 0,01€/kWh
+  destinat a donar suport i facilitar l'acció social i voluntària
   dels més de 50 Grups Locals repartits pel territori.
 VOLUNTARY_CENT_QUESTION: Vols participar amb la teva energia a fer-ho possible?
 VOLUNTARY_CENT_YES_LABEL: Sí, vull fer un donatiu voluntari de 0,01€/kWh
@@ -207,8 +207,8 @@ REVIEW_DATA_AND_CONFIRM: |
 SUMMARY_GROUP_PROCESS: Tipus de tràmit
 PROCESS_TYPE: Tipus de tràmit
 PROCESS_TYPE_HOLDER_CHANGE: Canvi de titularitat
-RELATED_MEMBER: Socia vinculada
-RELATED_MEMBER_PENDING: Queda pendent de fer-se socia
+RELATED_MEMBER: Sòcia vinculada
+RELATED_MEMBER_PENDING: Queda pendent de fer-se sòcia
 HOLDER: Titular
 CONTACT: Informació de contacte
 LEGAL_NAME: Raó social
@@ -220,10 +220,10 @@ PROXY: Representant legal
 SUMMARY_GROUP_PAYMENT: Dades de pagament
 SUMMARY_GROUP_TECHNICAL: Dades tècniques
 FARE: Tarifa
-FARE_SAME: Es matindrà la tarifa actual
+FARE_SAME: Es mantindrà la tarifa actual
 POWER: Potència
 POWER_SAME: Es mantindrà la potència actual
-FARE_POWER_CHANGE_NOTE: Un cop aquest tramit hagi finalitzat, podràs canviar-ho a través de l'Oficina Virtual de Som Energia
+FARE_POWER_CHANGE_NOTE: Un cop aquest tràmit hagi finalitzat, podràs canviar-ho a l'Oficina Virtual de Som Energia
 VOLUNTARY_CENT: Donatiu voluntari
 ACCEPT_TERMS: He llegit i accepto les condicions de Som Energia
 UNACCEPTED_TERMS: Has d'acceptar les condicions
@@ -233,9 +233,9 @@ NO: No
 
 # SpecialCasesPage
 SPECIAL_CASES_TITLE: Casos especials
-SPECIAL_CASES_QUESTION: Si us plau, indica si alguna de les opcions següents es dónen en el canvi de titular que vols dur a terme. En cas contrari, pots continuar sense marcar-ne cap.
-SPECIAL_CASES_REASON_DEATH: El canvi de titular es realitza per motius de defunció
-SPECIAL_CASES_REASON_MERGE: El canvi de titular es realitza per motius d'una fusió d'empreses
+SPECIAL_CASES_QUESTION: Si us plau, indica si alguna de les opcions següents es donen en el canvi de titular que vols dur a terme. En cas contrari, pots continuar sense marcar-ne cap.
+SPECIAL_CASES_REASON_DEATH: El canvi de titular es fa per motiu de defunció
+SPECIAL_CASES_REASON_MERGE: El canvi de titular es fa per motiu d'una fusió d'empreses
 SPECIAL_CASES_REASON_ELECTRODEP: En el domicili viu una persona electrodependent
 CERT_ATTACH_DEATH: Certificat defunció
 ELECTRODEP_ATTACH_MEDICAL: Certificat mèdic electrodependencia

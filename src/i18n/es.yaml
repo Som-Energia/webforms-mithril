@@ -104,7 +104,7 @@ MARK_ADDRESS_CONFIRMATION_BOX: Verifica que la dirección asociada a este CUPS e
 SUPPLY_POINT_ADDRESS: Dirección de suministro
 CUPS_SHOULD_BE_ACTIVE: El CUPS no tiene un contrato activo con Som Energia
 CUPS_STATE_UNEXPECTED: No se pudo identificar el estado del CUPS (error interno)
-CUPS_PARTIAL_ADDRESS_NOTICE: Por motivos de seguridad, no mostramos la dirección completa. Podrá consultar la dirección completa en la Oficina Virtual.
+CUPS_PARTIAL_ADDRESS_NOTICE: Por motivos de seguridad, no mostramos la dirección completa. Podrás consultar la dirección completa en la Oficina Virtual.
 CUPS_INVALID: CUPS incorrecto
 
 # Generic fields
@@ -161,7 +161,7 @@ NO_LANGUAGE: No has especificado el idioma
 UNACCEPTED_PRIVACY_POLICY: Tienes que aceptar la política de privacidad
 
 # Member
-BECOME_MEMBER_TITLE: Hacerse Socio
+BECOME_MEMBER_TITLE: Hacerse Socio/Socia
 BECOME_MEMBER_PRESENTATION: <p>Ten en cuenta que para poder ser titular de un contrato con la cooperativa es necesario que seas persona socia de la misma.</p>
 BECOME_MEMBER_QUESTION: Quieres ser persona sòcia de la cooperativa?
 BECOME_MEMBER_YES_LABEL: Sí, quiero ser persona socia de la cooperativa
@@ -174,10 +174,10 @@ BECOME_MEMBER_UNSELECTED: Es necesario indicar si quieres o no hacerte socia
 # VoluntaryCentPage
 VOLUNTARY_CENT_TITLE: Donativo voluntario
 VOLUNTARY_CENT_PRESENTATION: |
-  Somos una Cooperativa sin ánimo de lucro con el objetivo firme de cambiar el modelo energético.
+  Somos una cooperativa sin ánimo de lucro con el objetivo firme de cambiar el modelo energético.
   Los socios y socias que lo deseen pueden realizar un donativo voluntario de 0,01€/kWh
   destinado a apoyar y facilitar la acción social y voluntaria de los más de 50 Grupos Locales repartidos por el territorio.
-VOLUNTARY_CENT_QUESTION: Quieres participar con tu energía para hacer-lo posible?
+VOLUNTARY_CENT_QUESTION: Quieres participar con tu energía para hacerlo posible?
 VOLUNTARY_CENT_YES_LABEL: Sí, quiero hacer un donativo voluntario de 0,01€/kWh
 VOLUNTARY_CENT_YES_DESCRIPTION: |
   Por un consumo medio de una família (aproximadamente 300kWh/mes)
@@ -221,7 +221,7 @@ FARE: Tarifa
 FARE_SAME: Se mantendrá la tarifa actual
 POWER: Potencia
 POWER_SAME: Se mantendrá la potencia actual
-FARE_POWER_CHANGE_NOTE: Una vez este trámite haya finalizado, podrás cambiarla mediante la Oficina Virtual de Som Energia
+FARE_POWER_CHANGE_NOTE: Una vez este trámite haya finalizado, podrás cambiarla a través de la Oficina Virtual de Som Energia
 VOLUNTARY_CENT: Donativo voluntario
 ACCEPT_TERMS: He leído y acepto las condiciones de Som Energia
 UNACCEPTED_TERMS: Tienes que aceptar las condiciones
