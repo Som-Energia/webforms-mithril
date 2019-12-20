@@ -18,6 +18,7 @@ A Mithril component wrapping a Material Design Floating Action Button.
 @property {bool} leading  Shows the snackbar in leading style
 @property {string} action  Text for action item
 @property {bool} dismiss
+@property {number} timeoutMs Gets/sets the automatic dismiss timeout in milliseconds. Value must be between 4000 and 10000 (or -1 to disable the timeout completely) or an error will be thrown. Defaults to 5000 (5 seconds).
 @property - Any other attribute is propagated to the button subelement.
   Interesting ones are `onclick`, `disabled`, `style`...
 @property {text/vnode} children Any component children are taken as the content of the label
@@ -27,7 +28,7 @@ A Mithril component wrapping a Material Design Floating Action Button.
 var Snackbar = {
 	oncreate: function(vn) {
 		vn.state.widget = new MDCSnackbar(vn.dom);
-		//vn.state.widget.setTimeoutMs(10000);
+		vn.state.widget.timeoutMs = (vn.attrs.timeoutMs !== undefined) ? vn.attrs.timeoutMs : 5000;
 	},
 	oninit: function(vn) {
 		vn.state.model = vn.attrs.model || {};
@@ -39,23 +40,23 @@ var Snackbar = {
 			if(vn.state.widget.isOpen)
 				vn.state.widget.close(action);
 		};
-	},		
+	},
 	onremove: function(vn) {
 		vn.state.widget.destroy();
 	},
 	view: function(vn) {
-		var attrs = vn.attrs;	
+		var attrs = vn.attrs;
 		return  m('.mdc-snackbar'+
 			(vn.attrs.stacked ? '.mdc-snackbar--stacked' : '')+
 			(vn.attrs.leading ? '.mdc-snackbar--leading' : '')+
 			'', attrs, [
-				m('.mdc-snackbar__surface', [	
+				m('.mdc-snackbar__surface', [
 					m('.mdc-snackbar__label', {'role':'status', 'aria-live':'polite'}, vn.children),
 					( vn.attrs.action || vn.attrs.dismiss ? m('.mdc-snackbar__actions', [
 						(vn.attrs.action ? m(vn.attrs.action) : ''),
 						(vn.attrs.dismiss ? m('button.mdc-icon-button.mdc-snackbar__dismiss.material-icons',{'title':'Dismiss'}, 'close') : '')
 					]):''),
-				]),	
+				]),
 			]);
 	},
 };

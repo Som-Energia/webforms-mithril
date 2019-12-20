@@ -154,7 +154,7 @@ var Steps = {
 					]) : ''
 				]);
 			})),
-			m(Snackbar, { model: vn.state.snackbar, dismiss: true, leading: false } ,errors)
+			m(Snackbar, { model: vn.state.snackbar, dismiss: true, leading: false, timeoutMs: 10000 } ,errors)
 		]);
 	},
 	page: function(pageid) {
