@@ -160,7 +160,7 @@ var IntroPage = function() {
 	var intro = Contract.holder;
 	return {
 		id: 'intro_page',
-		title: _('WELCOME'),
+		title: _('CONTRACT_FORM_TITLE'),
 		validator: function() {
 			return intro.validationErrors && intro.validationErrors();
 		},
