@@ -105,6 +105,7 @@ var Contract = {
 		reason_electrodep: false,
 		reason_merge: false,
 		attachments: {},
+		attachments_errors: {},
 	}
 };
 
@@ -481,7 +482,6 @@ SomApi.postContract = function(contract) {
 				data: contract
 			})
 			.then(function(response) {
-				console.log('response', response);
 				if (response.status === ONLINE) {
 					resolve(response);
 				} else if (response.status === OFFLINE) {
@@ -492,9 +492,9 @@ SomApi.postContract = function(contract) {
 			})
 			.catch(function(reason) {
 				console.log(_('Request postContract failed'), reason);
-				if( reason.status !== undefined && reason.status == ONLINE && reason.state){
+				if( reason.status !== undefined && reason.status == ONLINE && reason.state) {
 					(reason.state !== undefined && reason.state === true) ? resolve(reason) : reject(reason);
-				}else{
+				} else{
 					reject(reason.message || _('Request failed'));
 				}
 			});
@@ -530,6 +530,47 @@ SomMockupApi.postContract = function(contract) {
 };
 
 var ReviewPage = function() {
+
+	function normalizeContract(contract){
+
+		var pContract = {};
+		Object.assign(pContract, contract);
+
+		pContract.holder.language !== undefined && pContract.holder.language.code !== undefined ?
+			pContract.holder.language = pContract.holder.language.code : false;
+		pContract.holder.state !== undefined && pContract.holder.state.id !== undefined ?
+			pContract.holder.state = pContract.holder.state.id : false;
+		pContract.holder.city !== undefined && pContract.holder.city.id !== undefined ?
+			pContract.holder.city = pContract.holder.city.id : false;
+		if (pContract.holder.vatvalue !== undefined ){
+			pContract.holder.vat = pContract.holder.vatvalue;
+			delete pContract.holder.vatvalue;
+			delete pContract.holder.vatexists;
+			delete pContract.holder.vatvalid;
+		}
+		if (pContract.holder.privacy_policy_accepted !== undefined ){
+			pContract.privacy_policy_accepted = pContract.holder.privacy_policy_accepted;
+			delete pContract.holder.privacy_policy_accepted;
+		}
+
+		if(pContract.holder.emailError !== undefined) delete pContract.holder.emailError;
+		if(pContract.holder.postalcodeError !== undefined) delete pContract.holder.postalcodeError;
+
+		if(pContract.payment.iban !== undefined) pContract.payment.iban = pContract.payment.iban.split(' ').join('');
+		if(pContract.supply_point.verified !== undefined) delete pContract.supply_point.verified;
+		if(pContract.supply_point.status !== undefined) delete pContract.supply_point.status;
+
+		if(pContract.terms.terms_accepted !== undefined) pContract.terms_accepted = pContract.terms.terms_accepted; delete pContract.terms.terms_accepted;
+
+		pContract.especial_cases !== undefined ? (
+			Object.keys(pContract.especial_cases).map(prop => prop.indexOf('reason') === 0 && pContract.especial_cases[prop] === true)
+				.reduce((prev, current) => !prev ? current : prev) ?
+					false : ( delete pContract.especial_cases.attachments & delete pContract.especial_cases.attachments_errors )
+		) : false;
+
+		return pContract;
+	}
+
 	function group(name, fields) {
 		return m(Cell, {
 			className: 'fieldgroup ',
@@ -616,52 +657,16 @@ var ReviewPage = function() {
 		next: function() {
 			return new Promise(function (resolve, reject) {
 
-				var pContract = {};
-				Object.assign(pContract, Contract);
-
-
-				pContract.holder.language !== undefined && pContract.holder.language.code !== undefined ?
-					pContract.holder.language = pContract.holder.language.code : false;
-				pContract.holder.state !== undefined && pContract.holder.state.id !== undefined ?
-					pContract.holder.state = pContract.holder.state.id : false;
-				pContract.holder.city !== undefined && pContract.holder.city.id !== undefined ?
-					pContract.holder.city = pContract.holder.city.id : false;
-				if (pContract.holder.vatvalue !== undefined ){
-					pContract.holder.vat = pContract.holder.vatvalue;
-					delete pContract.holder.vatvalue;
-					delete pContract.holder.vatexists;
-					delete pContract.holder.vatvalid;
-				}
-				if (pContract.holder.privacy_policy_accepted !== undefined ){
-					pContract.privacy_policy_accepted = pContract.holder.privacy_policy_accepted;
-					delete pContract.holder.privacy_policy_accepted;
-				}
-
-				if(pContract.holder.emailError !== undefined) delete pContract.holder.emailError;
-				if(pContract.holder.postalcodeError !== undefined) delete pContract.holder.postalcodeError;
-
-				if(pContract.payment.iban !== undefined) pContract.payment.iban = pContract.payment.iban.split(' ').join('');
-				if(pContract.supply_point.verified !== undefined) delete pContract.supply_point.verified;
-				if(pContract.supply_point.status !== undefined) delete pContract.supply_point.status;
-
-				if(pContract.terms.terms_accepted !== undefined) pContract.terms_accepted = pContract.terms.terms_accepted; delete pContract.terms.terms_accepted;
-
-				pContract.especial_cases !== undefined ? (
-					Object.keys(pContract.especial_cases).map(prop => prop.indexOf('reason') === 0 && pContract.especial_cases[prop] === true)
-						.reduce((prev, current) => !prev ? current : prev) ?
-							false : ( delete pContract.especial_cases.attachments && delete pContract.especial_cases.attachments_errors )
-				) : false;
+				pContract = normalizeContract(Contract);
 
 				loading = true;
 				SomApiAdapter.postContract(pContract)
 					.then(function(data) {
-						console.log('then somapiadapter', data);
 						// TODO: Save data into state
 						Contract.contract_number = data.data.contract_number.name;
 						loading = false;
 						resolve('success_page');
 					}).catch(function(reason) {
-						console.log('catch somapiadapter', reason);
 						loading = false;
 						reason = (typeof reason === 'string') ? JSON.parse(reason) : undefined;
 						postError = (reason.data.code !== undefined ) ? reason.data.code : undefined;

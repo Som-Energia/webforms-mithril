@@ -131,7 +131,7 @@ var Steps = {
 				var active = self.currentPage === page.id;
 
 				return m(Layout, [
-					m(Cell, {span:12}, m('.header', [m('.header__container',m('.header__text', page.title)), m('.header__after')])),
+					m(Cell, {span:12}, page.title ? m('.header', [m('.header__container',m('.header__text', page.title)), m('.header__after')]) : ''),
 					page.content,
 					( showNext || showPrev ) ? m('.step__controls', [
 						showNext ? m(Button, {
@@ -140,7 +140,7 @@ var Steps = {
 							disabled: errors !== undefined || self.intransition,
 							onclick: function() { self.next(); },
 							class: 'mdc-button--next  '
-							},
+						},
 							self.pages[currentIndex].nextlabel||_("Next")
 						) : '',
 						showPrev ? m(Button, {
