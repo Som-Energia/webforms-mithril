@@ -78,7 +78,7 @@ STILL_VALIDATING_SESSION: '' # Empty
 CONTRACTING_AS: Estás contratando a nombre de %{name}.
 NOT_YOU_LOGOUT: Si no eres esa persona, por favor, <a href="%{url}" target="_blank">cierra la sesión</a>
 FILL_NIF: No has introducido un NIF correcto
-FILL_VAT: Por favor, introduzca el NIF de la persona titular del nuevo contrato
+FILL_VAT: Por favor, introduce el NIF de la persona titular del nuevo contrato
 VAT_LABEL: Número de Identificación Fiscal (NIF)
 VAT_HELP: ¿Y si no dispongo de NIF?
 VAT_HELP_URL: TODO
@@ -268,7 +268,7 @@ Holder: Titular
 Supply point: Punto de subministro
 Confirmation: Confirmación
 Submit: Enviar
-Required: Camp obligatorio
+Required: Campo obligatorio
 CONTRACT_INTRO:
     Para contractar la luz con Som Energia... bla bla
 PRIVACY_POLICY_TITLE: Política de Protección de Datos
