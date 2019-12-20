@@ -63,11 +63,11 @@ IntroContract.oninit = function(vn) {
 		if (vn.state.state === welcomeExistingSession) {
 			return undefined;
 		}
-		if (vn.state.vateditor.isvalid === false) {
+		if (vn.state.vateditor.isvalid === false && vn.state.vateditor.value !== undefined) {
 			return _('FILL_NIF');
 		}
-		if (vn.state.vateditor.isvalid === undefined) {
-			return "";
+		if (vn.state.vateditor.isvalid === undefined || vn.state.vateditor.value === undefined) {
+			return false;
 		}
 		return undefined;
 	};
