@@ -74,6 +74,7 @@ var Steps = {
 		};
 
 		vn.state.snackbar = {};
+		vn.state.errors = false;
 
 		vn.state.focusonjump = vn.attrs.focusonjump === true;
 		vn.state.nextonenter = vn.attrs.nextonenter === true;
@@ -105,9 +106,10 @@ var Steps = {
 		var self = this;
 		var currentIndex = self.pageIndex(self.currentPage);
 
-		var errors = self.pages[currentIndex].validator && self.pages[currentIndex].validator();
+		vn.state.errors = self.pages[currentIndex].validator && self.pages[currentIndex].validator();
+		console.log('validator', currentIndex, vn.state.errors);
 
-		if(errors){
+		if(vn.state.errors){
 			if(vn.state.snackbar.open !== undefined) vn.state.snackbar.open();
 		}else{
 			if(vn.state.snackbar.close !== undefined) vn.state.snackbar.close();
@@ -137,7 +139,7 @@ var Steps = {
 						showNext ? m(Button, {
 							raised:true,
 							trailingicon: self.intransition?'spinner.fa-spin': (self.pages[currentIndex].nexticon||'navigate_next'),
-							disabled: errors !== undefined || self.intransition,
+							disabled: vn.state.errors !== undefined || self.intransition,
 							onclick: function() { self.next(); },
 							class: 'mdc-button--next  '
 						},
@@ -154,7 +156,7 @@ var Steps = {
 					]) : ''
 				]);
 			})),
-			m(Snackbar, { model: vn.state.snackbar, dismiss: true, leading: false, timeoutMs: 10000 } ,errors)
+			m(Snackbar, { model: vn.state.snackbar, dismiss: true, leading: false, timeoutMs: 10000 } ,vn.state.errors)
 		]);
 	},
 	page: function(pageid) {
