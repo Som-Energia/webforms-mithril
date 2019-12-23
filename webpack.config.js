@@ -16,8 +16,8 @@ var config = {
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
-		filename: 'bundle-[name]-[chunkhash].js',
-		chunkFilename: 'chunk-[name]-[chunkhash].js',
+		filename: 'bundle-[name].js',
+		chunkFilename: 'chunk-[name].js',
 	},
 	devServer: {
 		contentBase: path.resolve(__dirname, 'dist'),
@@ -47,8 +47,8 @@ var config = {
 			}),
 		// Split css included as js into a separate file again
 		new MiniCssExtractPlugin({
-			filename: "bundle-[name]-[contenthash].css",
-			chunkFilename: "chunk-[name]-[contenthash].css",
+			filename: "bundle-[name].css",
+			chunkFilename: "chunk-[name].css",
 			}),
         new JsDocPlugin({
             conf: './.jsdoc.json'
@@ -90,8 +90,9 @@ module.exports = (env, argv) => {
 
 	api_urls = {
 		production: 'https://sf5.somenergia.coop',
-		testing: 'https://testing.somenergia.coop',
-		development: 'http://localhost:5001',
+		testing: 'https://webforms-demo.somenergia.local:5001',
+		development: 'https://webforms-demo.somenergia.local:5001',
+		ov_test: 'https://webforms-demo.somenergia.local:5001',
 	};
 
 	var environment = !env ? argv.mode : env.NODE_ENV;

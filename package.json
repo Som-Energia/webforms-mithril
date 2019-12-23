@@ -6,6 +6,7 @@
   "scripts": {
     "deploy-prod": "webpack --env.NODE_ENV --mode production --color --progress --optimize-minimize",
     "deploy-test": "webpack --env.NODE_ENV=testing --color --progress --optimize-minimize",
+    "deploy-ov-test": "webpack --env.NODE_ENV=ov_test --color --progress --optimize-minimize",
     "build": "webpack --mode development --color --progress",
     "server": "webpack-dev-server --mode development --open --watch -d",
     "getlegal": "./downloadlegal.sh",
