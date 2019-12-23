@@ -107,7 +107,6 @@ var Steps = {
 		var currentIndex = self.pageIndex(self.currentPage);
 
 		vn.state.errors = self.pages[currentIndex].validator && self.pages[currentIndex].validator();
-		console.log('validator', currentIndex, vn.state.errors);
 
 		if(vn.state.errors){
 			if(vn.state.snackbar.open !== undefined) vn.state.snackbar.open();
@@ -132,7 +131,7 @@ var Steps = {
 			}, vn.attrs.pages.map(function(page) {
 				var active = self.currentPage === page.id;
 
-				return m(Layout, [
+				return m(Layout, {class:page.id}, [
 					m(Cell, {span:12}, page.title ? m('.header', [m('.header__container',m('.header__text', page.title)), m('.header__after')]) : ''),
 					page.content,
 					( showNext || showPrev ) ? m('.step__controls', [
