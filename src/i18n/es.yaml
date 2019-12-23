@@ -162,7 +162,7 @@ UNACCEPTED_PRIVACY_POLICY: Tienes que aceptar la política de privacidad
 
 # Member
 BECOME_MEMBER_TITLE: Hacerse Socio/Socia
-BECOME_MEMBER_PRESENTATION: <p>Ten en cuenta que para poder ser titular de un contrato con la cooperativa es necesario que seas persona socia de la misma.</p>
+BECOME_MEMBER_PRESENTATION: <p>Ten en cuenta que para poder ser titular de un contrato con la cooperativa es necesario que seas persona socia de la misma.</p><p>Si ya eres socio o socia de Som Energia, no es necesario que marques ninguna opción y puedes seguir adelante con el formulario.</p>
 BECOME_MEMBER_QUESTION: Quieres ser persona sòcia de la cooperativa?
 BECOME_MEMBER_YES_LABEL: Sí, quiero ser persona socia de la cooperativa
 BECOME_MEMBER_YES_DESCRIPTION: Para serlo debes llevar a cabo una aportación única al capital social de <b>100€</b>, que <b>se devuelven</b> en caso de que te des de baja.

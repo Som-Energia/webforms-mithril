@@ -25,9 +25,11 @@ var Member = {
                 vn.state.model.error = message;
                 return message;
             }
+            /*
             if(vn.state.model.become_member === undefined ){
                 return error(_('BECOME_MEMBER_UNSELECTED'));
             }
+            */
             return vn.state.model.error;
         };
     },

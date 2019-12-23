@@ -99,7 +99,7 @@ CUPS_HELP_URL: https://ca.support.somenergia.coop/article/173-que-es-el-cups
 CUPS_VERIFY_LABEL: Confirmo que l'adreça és la que correspon al CUPS que vull contractar
 CUPS_NO_VERIFY_HELP: Si l'adreça postal no s'hi correspon, ens pots contactar a l'adreça <a href="mailto:modifica@somenergia.coop">modifica@somenergia.coop</a>.
 INVALID_SUPPLY_POINT_CUPS: No has especificat un <b>identificador CUPS</b> vàlid pel punt de subministrament
-CUPS_IN_PROCESS: Aquest CUPS actualment està en un proces
+CUPS_IN_PROCESS: Aquest CUPS actualment està en un procés
 MARK_ADDRESS_CONFIRMATION_BOX: Verifica que l'adreça associada a aquest CUPS és correcta
 SUPPLY_POINT_ADDRESS: Adreça de subministrament
 CUPS_SHOULD_BE_ACTIVE: El CUPS no te cap contracte actiu a Som Energia
@@ -162,7 +162,7 @@ UNACCEPTED_PRIVACY_POLICY: Has d'acceptar la política de privacitat
 
 # Member
 BECOME_MEMBER_TITLE: Fer-se Soci/Sòcia
-BECOME_MEMBER_PRESENTATION: <p>Tingues en compte que per poder ser titular d’un contracte amb la cooperativa cal que en siguis soci o sòcia de la mateixa.</p>
+BECOME_MEMBER_PRESENTATION: <p>Tingues en compte que per poder ser titular d’un contracte amb la cooperativa cal que en siguis soci o sòcia de la mateixa.</p><p>Si ja ets soci o sòcia de Som Energia, no cal que marquis cap casella i pots continuar endavant amb el formulari.</p>
 BECOME_MEMBER_QUESTION: Vols fer-te persona sòcia de la cooperativa?
 BECOME_MEMBER_YES_LABEL:  Sí, vull ser persona sòcia de la cooperativa
 BECOME_MEMBER_YES_DESCRIPTION: Per ser-ho has de fer una aportació única al capital social de <b>100 €</b>, que <b>es retornen</b> en el cas que qualsevol dia vulguis donar-te'n de baixa.

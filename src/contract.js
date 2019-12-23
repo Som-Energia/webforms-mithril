@@ -96,7 +96,7 @@ var Contract = {
 	},
 	terms: {},
 	member: {
-		become_member: false,
+		become_member: null,
 		is_member: false,
 		invite_token: false
 	},
@@ -535,6 +535,9 @@ var ReviewPage = function() {
 		let normalizedContract = { ...contract };
 		//let normalizedContract = Object.assign({}, contract);
 
+		if(normalizedContract.supply_point.verified !== undefined) delete normalizedContract.supply_point.verified;
+		if(normalizedContract.supply_point.status !== undefined) delete normalizedContract.supply_point.status;
+
 		normalizedContract.holder.language !== undefined && normalizedContract.holder.language.code !== undefined ?
 			normalizedContract.holder.language = normalizedContract.holder.language.code : false;
 		normalizedContract.holder.state !== undefined && normalizedContract.holder.state.id !== undefined ?
@@ -556,17 +559,20 @@ var ReviewPage = function() {
 		if(normalizedContract.holder.emailError !== undefined) delete normalizedContract.holder.emailError;
 		if(normalizedContract.holder.postalcodeError !== undefined) delete normalizedContract.holder.postalcodeError;
 
-		if(normalizedContract.payment.iban !== undefined) normalizedContract.payment.iban = normalizedContract.payment.iban.split(' ').join('');
-		if(normalizedContract.supply_point.verified !== undefined) delete normalizedContract.supply_point.verified;
-		if(normalizedContract.supply_point.status !== undefined) delete normalizedContract.supply_point.status;
+		if(normalizedContract.member.become_member === undefined){
+			 normalizedContract.member.is_member = true;
+			 normalizedContract.member.become_member = false;
+		}
 
-		if(normalizedContract.terms.terms_accepted !== undefined) normalizedContract.terms_accepted = normalizedContract.terms.terms_accepted; delete normalizedContract.terms;
+		if(normalizedContract.payment.iban !== undefined) normalizedContract.payment.iban = normalizedContract.payment.iban.split(' ').join('');
 
 		normalizedContract.especial_cases !== undefined ? (
 			Object.keys(normalizedContract.especial_cases).map(prop => prop.indexOf('reason') === 0 && normalizedContract.especial_cases[prop] === true)
 				.reduce((prev, current) => !prev ? current : prev) ?
 					false : ( delete normalizedContract.especial_cases.attachments & delete normalizedContract.especial_cases.attachments_errors )
 		) : false;
+
+		if(normalizedContract.terms.terms_accepted !== undefined) normalizedContract.terms_accepted = normalizedContract.terms.terms_accepted; delete normalizedContract.terms;
 
 		return normalizedContract;
 	}
@@ -882,13 +888,12 @@ var FailurePage = function() {
 
 	return {
 		id: 'failure_page',
-		title: '',
+		title: _('FAILURE_TITLE'),
 		next: false,
 		content: [
 			m(Row, { className: 'error_page' }, [
 				m(Cell, { spandesktop:2, spantablet:1 }),
 				m(Cell, { spandesktop:8, spantablet:6, className: '', align: 'center' }, [
-					m('h2', _('FAILURE_TITLE')),
 					m.trust(_('FAILURE_TEXT')),
 					m('.error', postErrorsMessages(postError, postErrorData)),
 				]),
@@ -901,14 +906,13 @@ var FailurePage = function() {
 var SuccessPage = function() {
 	return {
 		id: 'success_page',
-		title: '',
+		title: _('SUCCESS_TITLE'),
 		prev: false,
 		next: false,
 		content: [
 			m(Row, { className: 'success_page' }, [
 				m(Cell, { spandesktop:2, spantablet:1 }),
 				m(Cell, { spandesktop:8, spantablet:6, className: '', align: 'center' }, [
-					m('h2', _('SUCCESS_TITLE')),
 					m.trust(_('SUCCESS_TEXT', {
 						contract_number: Contract.contract_number,
 						urlov: _('OV_URL'),
