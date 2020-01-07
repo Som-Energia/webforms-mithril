@@ -544,14 +544,18 @@ var ReviewPage = function() {
 			normalizedContract.holder.state = normalizedContract.holder.state.id : false;
 		normalizedContract.holder.city !== undefined && normalizedContract.holder.city.id !== undefined ?
 			normalizedContract.holder.city = normalizedContract.holder.city.id : false;
-		if (normalizedContract.holder.vatvalue !== undefined ){
+		if(normalizedContract.holder.vatvalue !== undefined ){
 			normalizedContract.holder.vat = normalizedContract.holder.vatvalue;
 			delete normalizedContract.holder.vatvalue;
 			delete normalizedContract.holder.vatexists;
 			delete normalizedContract.holder.vatvalid;
 		}
 
-		if (normalizedContract.holder.privacy_policy_accepted !== undefined ){
+		if(normalizedContract.holder.phone2 !== undefined && normalizedContract.holder.phone2 === ''){
+			delete normalizedContract.holder.phone2;
+		}
+
+		if(normalizedContract.holder.privacy_policy_accepted !== undefined){
 			normalizedContract.privacy_policy_accepted = normalizedContract.holder.privacy_policy_accepted;
 			delete normalizedContract.holder.privacy_policy_accepted;
 		}
@@ -564,15 +568,20 @@ var ReviewPage = function() {
 			 normalizedContract.member.become_member = false;
 		}
 
-		if(normalizedContract.payment.iban !== undefined) normalizedContract.payment.iban = normalizedContract.payment.iban.split(' ').join('');
+		if(normalizedContract.payment.iban !== undefined){
+			normalizedContract.payment.iban = normalizedContract.payment.iban.split(' ').join('');
+		}
 
 		normalizedContract.especial_cases !== undefined ? (
 			Object.keys(normalizedContract.especial_cases).map(prop => prop.indexOf('reason') === 0 && normalizedContract.especial_cases[prop] === true)
 				.reduce((prev, current) => !prev ? current : prev) ?
-					false : ( delete normalizedContract.especial_cases.attachments & delete normalizedContract.especial_cases.attachments_errors )
+					false : (delete normalizedContract.especial_cases.attachments & delete normalizedContract.especial_cases.attachments_errors)
 		) : false;
 
-		if(normalizedContract.terms.terms_accepted !== undefined) normalizedContract.terms_accepted = normalizedContract.terms.terms_accepted; delete normalizedContract.terms;
+		if(normalizedContract.terms.terms_accepted !== undefined){
+			normalizedContract.terms_accepted = normalizedContract.terms.terms_accepted;
+			delete normalizedContract.terms;
+		}
 
 		return normalizedContract;
 	}
