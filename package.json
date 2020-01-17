@@ -4,7 +4,7 @@
   "description": "Web front end for Som Energia forms",
   "main": "index.js",
   "scripts": {
-    "deploy-prod": "webpack --env.NODE_ENV=production --mode production --color --progress --optimize-minimize",
+    "deploy-prod": "webpack --env.NODE_ENV=ov_production --mode production --color --progress --optimize-minimize",
     "deploy-test": "webpack --env.NODE_ENV=testing --color --progress --optimize-minimize",
     "deploy-ov-test": "webpack --env.NODE_ENV=ov_test --color --progress --optimize-minimize",
     "build": "webpack --mode development --color --progress",
