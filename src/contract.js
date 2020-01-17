@@ -156,14 +156,47 @@ Form.view = function(vn) {
 	];
 
   if (process.env.NODE_ENV !== 'ov_production') {
-    component_list.concat(
+    component_list.push(
       m(Inspector, {
         shortcut: 'ctrl+shift+d',
         model: Contract,
       })
     );
   }
-  return m('.main.form.mdc-typography', { 'autocomplete':'off' }, component_list);
+  return m(
+    '.main.form.mdc-typography',
+    { 'autocomplete':'off' }, [
+		  (process.env.NODE_ENV.match('ov') === null) ?
+        m(TopAppBar, {
+			    title: _('CONTRACT_FORM_TITLE'),
+			    fixed: false
+		    }) : '',
+      (process.env.NODE_ENV !== 'ov_production') ?
+        m(Inspector, {
+          shortcut: 'ctrl+shift+d',
+          model: Contract,
+        }) : '',
+		  m(Steps, {
+			  showall: showall,
+			  focusonjump: true,
+			  nextonenter: true,
+			  className: (process.env.NODE_ENV.match('ov') === null) ? 'mdc-top-app-bar--fixed-adjust':'',
+			  loading: isLoading,
+			  pages:[
+				  IntroPage(),
+				  CupsPage(),
+				  HolderPage(),
+				  MemberPage(),
+				  VoluntaryCentPage(),
+				  SpecialCasesPage(),
+				  PaymentPage(),
+				  ReviewPage(),
+				  FailurePage(),
+				  SuccessPage(),
+			  ],
+		  }),
+	  ],
+  );
 };
 
 var IntroPage = function() {
