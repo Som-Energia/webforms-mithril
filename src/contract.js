@@ -42,11 +42,13 @@ function isphisical (vat) {
 	return '0123456789KLMXYZ'.indexOf(firstchar) !== -1;
 }
 
-Mousetrap.bindGlobal('ctrl+shift+y', function() {
-	showall = !showall;
-	m.redraw();
-	return false;
-});
+if (process.env.NODE_ENV !== 'ov_production') {
+  Mousetrap.bindGlobal('ctrl+shift+y', function() {
+	  showall = !showall;
+	  m.redraw();
+	  return false;
+  });
+}
 
 var SomMockupApi = {};
 SomMockupApi.validateMeasure = function(cups, date, measure) {
@@ -109,26 +111,25 @@ var Contract = {
 	}
 };
 
-Mousetrap.bindGlobal('ctrl+shift+1', function() {
-	var newData = require('./data/data1.yaml');
-	Object.keys(Contract).map(function(k) {
-		if(typeof Contract[k] === 'object') {
-			Object.assign(Contract[k], newData[k]);
-		}else {
-			Contract[k] = newData[k];
-		}
-	});
-	m.redraw();
-	return false;
-});
+
+if (process.env.NODE_ENV !== 'ov_production') {
+  Mousetrap.bindGlobal('ctrl+shift+1', function() {
+	  var newData = require('./data/data1.yaml');
+	  Object.keys(Contract).map(function(k) {
+		  if(typeof Contract[k] === 'object') {
+			  Object.assign(Contract[k], newData[k]);
+		  } else {
+			  Contract[k] = newData[k];
+		  }
+	  });
+	  m.redraw();
+	  return false;
+  });
+}
 
 var Form = {};
 Form.view = function(vn) {
-	return m('.main.form.mdc-typography', { 'autocomplete':'off' }, [
-		m(Inspector, {
-			shortcut: 'ctrl+shift+d',
-			model: Contract,
-		}),
+  var component_list = [
 		(process.env.NODE_ENV.match('ov') === null) ? m(TopAppBar, {
 			title: _('CONTRACT_FORM_TITLE'),
 			fixed: false
@@ -141,7 +142,6 @@ Form.view = function(vn) {
 			loading: isLoading,
 			pages:[
 				IntroPage(),
-				//PasswordPage(),
 				CupsPage(),
 				HolderPage(),
 				MemberPage(),
@@ -153,7 +153,17 @@ Form.view = function(vn) {
 				SuccessPage(),
 			],
 		}),
-	]);
+	];
+
+  if (process.env.NODE_ENV !== 'ov_production') {
+    component_list.concat(
+      m(Inspector, {
+        shortcut: 'ctrl+shift+d',
+        model: Contract,
+      })
+    );
+  }
+  return m('.main.form.mdc-typography', { 'autocomplete':'off' }, component_list);
 };
 
 var IntroPage = function() {
