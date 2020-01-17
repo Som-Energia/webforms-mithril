@@ -89,7 +89,7 @@ var config = {
 module.exports = (env, argv) => {
 
 	api_urls = {
-		production: 'https://sf5.somenergia.coop',
+		production: 'https://apiv2.somenergia.coop',
 		testing: 'https://webforms-demo.somenergia.local:5001',
 		development: 'https://webforms-demo.somenergia.local:5001',
 		ov_test: 'https://webforms-demo.somenergia.local:5001',
