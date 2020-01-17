@@ -4,10 +4,6 @@ deploy_server=$1
 deploy_path=$2
 testing=$3
 
-if [ -z "$testing" ]; then
-    testing=0
-fi;
-
 function usage () {
     echo "Usage: $0 -s server -P path [-u user] [-p port] [-t testing]" 1>&2
     exit 1
@@ -69,14 +65,14 @@ function build () {
     then
         log_message "ERROR" "An error ocurred building app $?"
         exit -1
-    fi  
+    fi
 }
 
 function upload () {
-    remote_shell="ssh -p $port"
-    export remote_shell
+    RSYNC_RSH="ssh -p $port"
+    export RSYNC_RSH
     log_message "INFO" "Uploading build build_$today to $deploy_server:$port"
-    rsync -auv dist/bundle-contract.* dist/*.ttf dist/*.woff dist/*.woff2 dist/*.svg dist/*.html somenergia@$deploy_server:$dest_dir
+    rsync -auv dist/bundle-contract.* dist/*.ttf dist/*.woff dist/*.woff2 dist/*.svg dist/*.html $user@$deploy_server:$dest_dir
     if [ $? != 0 ]
     then
         log_message "ERROR" "An error ocurred uploading code: $?"
@@ -90,7 +86,7 @@ function upload () {
         log_message "ERROR" "An error ocurred linking new build $?"
         exit -1
     fi
-    unset remote_shell
+    unset RSYNC_RSH
 }
 
 build
