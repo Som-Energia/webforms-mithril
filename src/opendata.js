@@ -28,27 +28,29 @@ var ondate = undefined;
 var viewmode= 'table';
 var filters=undefined;
 
-function uri() {
-    var result = uribase+'/'+metric;
-	result += geolevel?'/by/'+geolevel:'';
+var UriComposer = {
+	uri: function() {
+		var result = uribase+'/'+metric;
+		result += geolevel?'/by/'+geolevel:'';
 
-    var geolevelPart = geolevel?"/by/"+geolevel:"";
-	var timePart = '';
-	var fromPart = '';
-	var toPart = '';
-	var onPart = '';
-	if (time==='on') {
-		result+= ondate && '/on/'+ondate.format('YYYY-MM-DD') || '';
-	}
-	else {
-		result+= '/'+time;
-		result+= fromdate && '/from/'+fromdate.format('YYYY-MM-DD') || '';
-		result+= todate   && '/to/'  +  todate.format('YYYY-MM-DD') || '';
-	}
-	if (filters) {
-		result+= '?'+filters;
-	}
-    return result;
+		var geolevelPart = geolevel?"/by/"+geolevel:"";
+		var timePart = '';
+		var fromPart = '';
+		var toPart = '';
+		var onPart = '';
+		if (time==='on') {
+			result+= ondate && '/on/'+ondate.format('YYYY-MM-DD') || '';
+		}
+		else {
+			result+= '/'+time;
+			result+= fromdate && '/from/'+fromdate.format('YYYY-MM-DD') || '';
+			result+= todate   && '/to/'  +  todate.format('YYYY-MM-DD') || '';
+		}
+		if (filters) {
+			result+= '?'+filters;
+		}
+		return result;
+	},
 }
 
 function doRequest() {
@@ -58,7 +60,7 @@ function doRequest() {
     var promise = m.request({
         method: 'GET',
         deserialize: jsyaml.load,
-        url: uri(),
+        url: UriComposer.uri(),
         withCredentials: true,
     });
     promise.then(function(response){
@@ -189,7 +191,7 @@ var OpenData = {
 					padding: '12pt',
 					background: 'rgba(0,0,0,0.1)',
 					margin: '16pt 0pt',
-				}}, m('tt', uri())),
+				}}, m('tt', UriComposer.uri())),
 				m(Button, {
 					raised: true,
 					disabled: sending,
