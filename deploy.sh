@@ -15,7 +15,7 @@ function log_message () {
     echo "[$level] [$(date --rfc-3339=ns)] $msg"
 }
 
-while getopts ":s:P:u:p:t:h" o; do
+while getopts ":s:P:u:p:th" o; do
     case "${o}" in
         s)
             s=${OPTARG}
@@ -30,7 +30,7 @@ while getopts ":s:P:u:p:t:h" o; do
             p=${OPTARG}
             ;;
         t)
-            t=${OPTARG}
+            testing=1
             ;;
         h)
             usage
@@ -43,7 +43,7 @@ if [ -z "$s" ]; then usage; fi
 if [ -z "$P" ]; then usage; fi
 if [ -z "$u" ]; then user="somdevel"; else user=$u; fi
 if [ -z "$p" ]; then port="22"; else port=$p; fi
-if [ -z "$t" ]; then testing=0; else testing=1; fi
+if [ $testing != 1 ]; then testing=0; fi
 
 deploy_server=$s
 deploy_path=$P
