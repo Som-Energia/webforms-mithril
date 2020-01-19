@@ -28,6 +28,10 @@ var ondate = undefined;
 var viewmode= 'table';
 var filters=undefined;
 
+function isodate(date) {
+	return date.format('YYYY-MM-DD');
+}
+
 var UriComposer = {
 	uri: function() {
 		var result = uribase+'/'+metric;
@@ -39,12 +43,12 @@ var UriComposer = {
 		var toPart = '';
 		var onPart = '';
 		if (time==='on') {
-			result+= ondate && '/on/'+ondate.format('YYYY-MM-DD') || '';
+			result+= ondate && '/on/'+ isodate(ondate) || '';
 		}
 		else {
 			result+= '/'+time;
-			result+= fromdate && '/from/'+fromdate.format('YYYY-MM-DD') || '';
-			result+= todate   && '/to/'  +  todate.format('YYYY-MM-DD') || '';
+			result+= fromdate && '/from/'+ isodate(fromdate) || '';
+			result+= todate   && '/to/'  + isodate(todate) || '';
 		}
 		if (filters) {
 			result+= '?'+filters;
