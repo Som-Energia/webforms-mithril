@@ -598,6 +598,10 @@ var ReviewPage = function() {
 			delete normalizedContract.holder.phone2;
 		}
 
+		if(normalizedContract.holder.proxyvatvalid !== undefined){
+			delete normalizedContract.holder.proxyvatvalid;
+		}		
+
 		if(normalizedContract.holder.privacy_policy_accepted !== undefined){
 			normalizedContract.privacy_policy_accepted = normalizedContract.holder.privacy_policy_accepted;
 			delete normalizedContract.holder.privacy_policy_accepted;
