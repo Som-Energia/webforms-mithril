@@ -113,18 +113,18 @@ var Contract = {
 
 
 if (process.env.NODE_ENV !== 'ov_production') {
-  Mousetrap.bindGlobal('ctrl+shift+1', function() {
-	  var newData = require('./data/data1.yaml');
-	  Object.keys(Contract).map(function(k) {
-		  if(typeof Contract[k] === 'object') {
-			  Object.assign(Contract[k], newData[k]);
-		  } else {
-			  Contract[k] = newData[k];
-		  }
-	  });
-	  m.redraw();
-	  return false;
-  });
+	Mousetrap.bindGlobal('ctrl+shift+1', function() {
+		var newData = require('./data/data1.yaml');
+		Object.keys(Contract).map(function(k) {
+			if(typeof Contract[k] === 'object') {
+				Object.assign(Contract[k], newData[k]);
+			} else {
+				Contract[k] = newData[k];
+			}
+		});
+		m.redraw();
+		return false;
+	});
 }
 
 var Form = {};
@@ -155,48 +155,49 @@ Form.view = function(vn) {
 		}),
 	];
 
-  if (process.env.NODE_ENV !== 'ov_production') {
-    component_list.push(
-      m(Inspector, {
-        shortcut: 'ctrl+shift+d',
-        model: Contract,
-      })
-    );
-  }
-  return m(
-    '.main.form.mdc-typography',
-    { 'autocomplete':'off' }, [
-		  (process.env.NODE_ENV.match('ov') === null) ?
-        m(TopAppBar, {
-			    title: _('CONTRACT_FORM_TITLE'),
-			    fixed: false
-		    }) : '',
-      (process.env.NODE_ENV !== 'ov_production') ?
-        m(Inspector, {
-          shortcut: 'ctrl+shift+d',
-          model: Contract,
-        }) : '',
-		  m(Steps, {
-			  showall: showall,
-			  focusonjump: true,
-			  nextonenter: true,
-			  className: (process.env.NODE_ENV.match('ov') === null) ? 'mdc-top-app-bar--fixed-adjust':'',
-			  loading: isLoading,
-			  pages:[
-				  IntroPage(),
-				  CupsPage(),
-				  HolderPage(),
-				  MemberPage(),
-				  VoluntaryCentPage(),
-				  SpecialCasesPage(),
-				  PaymentPage(),
-				  ReviewPage(),
-				  FailurePage(),
-				  SuccessPage(),
-			  ],
-		  }),
-	  ],
-  );
+	if (process.env.NODE_ENV !== 'ov_production') {
+	component_list.push(
+			m(Inspector, {
+			 shortcut: 'ctrl+shift+d',
+				model: Contract,
+			})
+		);
+	}
+	return m(
+		'.main.form.mdc-typography', {
+			'autocomplete': 'off'
+		}, [
+			(process.env.NODE_ENV.match('ov') === null) ?
+				m(TopAppBar, {
+					title: _('CONTRACT_FORM_TITLE'),
+					fixed: false
+				}) : '',
+			(process.env.NODE_ENV !== 'ov_production') ?
+				m(Inspector, {
+					shortcut: 'ctrl+shift+d',
+					model: Contract,
+				}) : '',
+			m(Steps, {
+				showall: showall,
+				focusonjump: true,
+				nextonenter: true,
+				className: (process.env.NODE_ENV.match('ov') === null) ? 'mdc-top-app-bar--fixed-adjust':'',
+				loading: isLoading,
+				pages:[
+					IntroPage(),
+					CupsPage(),
+					HolderPage(),
+					MemberPage(),
+					VoluntaryCentPage(),
+					SpecialCasesPage(),
+					PaymentPage(),
+					ReviewPage(),
+					FailurePage(),
+					SuccessPage(),
+				],
+			}),
+		],
+	);
 };
 
 var IntroPage = function() {
@@ -677,12 +678,12 @@ var ReviewPage = function() {
 						field(_("LEGAL_NAME"), Contract.holder.name),
 					!isphisical(Contract.holder.vatvalue) &&
 						field(_("PROXY"), Contract.holder.proxyname+
-							  " ("+Contract.holder.proxyvat+")"),
+							" ("+Contract.holder.proxyvat+")"),
 					field(_("ADDRESS"), Contract.holder.address),
 					field(_("CITY"),
-						  (Contract.holder.city && Contract.holder.city.name)+
-						  " ("+Contract.holder.postal_code+") "+
-						  (Contract.holder.state && Contract.holder.state.name)),
+						(Contract.holder.city && Contract.holder.city.name)+
+						" ("+Contract.holder.postal_code+") "+
+						(Contract.holder.state && Contract.holder.state.name)),
 				]),
 				group(_('CONTACT'), [
 					field(_("PHONE"), Contract.holder.phone1 + (Contract.holder.phone2 ? (" / " + Contract.holder.phone2) : "")),
