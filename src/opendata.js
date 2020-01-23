@@ -34,11 +34,6 @@ var OpenDataUri = {
 		var result = uribase+'/'+OpenDataUri._metric;
 		result += OpenDataUri._geolevel?'/by/'+OpenDataUri._geolevel:'';
 
-		var geolevelPart = OpenDataUri._geolevel?"/by/"+OpenDataUri._geolevel:"";
-		var timePart = '';
-		var fromPart = '';
-		var toPart = '';
-		var onPart = '';
 		if (time==='on') {
 			result+= ondate && '/on/'+ondate.format('YYYY-MM-DD') || '';
 		}
