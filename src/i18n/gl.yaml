@@ -1,2 +1,13 @@
 LANGKEY: gl
+# Open Data UI
+OPENDATAUI_TITLE: |
+  Som Energia - API de Datos Abertos - Interface de usuario
+ALPHA_DISCLAIMER: |
+  Advertencia: isto e unha versión alpha
+  As cifras calculadas pola API aínda non son as reais
+METRIC_LABEL: Métrica
+METRIC_HELP: Escolle a métrica a empregar
+Members: Socias
+Contracts: Contratos
+GEOLEVEL_LABEL: Nivel Xeográfico [by]
 
