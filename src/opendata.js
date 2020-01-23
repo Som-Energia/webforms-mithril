@@ -19,9 +19,6 @@ var uribase = 'https://opendata.somenergia.coop/v0.2';
 var sending = false;
 var result = undefined;
 var apierror = undefined;
-var fromdate = undefined;
-var todate = undefined;
-var ondate = undefined;
 var viewmode= 'table';
 var filters=undefined;
 
@@ -29,18 +26,21 @@ var OpenDataUri = {
 	_metric: 'members',
 	_geolevel: '',
 	_time: 'on',
+	_ondate: undefined,
+	_fromdate: undefined,
+	_todate: undefined,
 
 	uri: function () {
 		var result = uribase+'/'+OpenDataUri._metric;
 		result += OpenDataUri._geolevel?'/by/'+OpenDataUri._geolevel:'';
 
 		if (OpenDataUri._time==='on') {
-			result+= ondate && '/on/'+ondate.format('YYYY-MM-DD') || '';
+			result+= OpenDataUri._ondate && '/on/'+OpenDataUri._ondate.format('YYYY-MM-DD') || '';
 		}
 		else {
 			result+= '/'+OpenDataUri._time;
-			result+= fromdate && '/from/'+fromdate.format('YYYY-MM-DD') || '';
-			result+= todate   && '/to/'  +  todate.format('YYYY-MM-DD') || '';
+			result+= OpenDataUri._fromdate && '/from/'+OpenDataUri._fromdate.format('YYYY-MM-DD') || '';
+			result+= OpenDataUri._todate   && '/to/'  +  OpenDataUri._todate.format('YYYY-MM-DD') || '';
 		}
 		if (filters) {
 			result+= '?'+filters;
@@ -136,9 +136,9 @@ var OpenData = {
 					id: 'ondate',
 					label: _('ON_LABEL'),
 					help: _('ON_DESCRIPTION'),
-					value: ondate,
+					value: OpenDataUri._ondate,
 					onchange: function(newvalue) {
-						ondate=newvalue;
+						OpenDataUri._ondate=newvalue;
 					},
 					boxed: true,
 					autoclose: true,
@@ -148,9 +148,9 @@ var OpenData = {
 						id: 'fromdate',
 						label: _('FROM_LABEL'),
 						help: _('FROM_DESCRIPTION'),
-						value: fromdate,
+						value: OpenDataUri._fromdate,
 						onchange: function(newvalue) {
-							fromdate=newvalue;
+							OpenDataUri._fromdate=newvalue;
 						},
 						boxed: true,
 						autoclose: true,
@@ -160,9 +160,9 @@ var OpenData = {
 					id: 'todate',
 					label: _('TO_LABEL'),
 					help: _('TO_DESCRIPTION'),
-					value: todate,
+					value: OpenDataUri._todate,
 					onchange: function(newvalue) {
-						todate=newvalue;
+						OpenDataUri._todate=newvalue;
 					},
 					boxed: true,
 					autoclose: true,
