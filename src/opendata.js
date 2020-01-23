@@ -20,7 +20,6 @@ var sending = false;
 var result = undefined;
 var apierror = undefined;
 var time = 'on';
-var geolevel = '';
 var fromdate = undefined;
 var todate = undefined;
 var ondate = undefined;
@@ -29,11 +28,13 @@ var filters=undefined;
 
 var OpenDataUri = {
 	_metric: 'members',
+	_geolevel: '',
+
 	uri: function () {
 		var result = uribase+'/'+OpenDataUri._metric;
-		result += geolevel?'/by/'+geolevel:'';
+		result += OpenDataUri._geolevel?'/by/'+OpenDataUri._geolevel:'';
 
-		var geolevelPart = geolevel?"/by/"+geolevel:"";
+		var geolevelPart = OpenDataUri._geolevel?"/by/"+OpenDataUri._geolevel:"";
 		var timePart = '';
 		var fromPart = '';
 		var toPart = '';
@@ -98,8 +99,8 @@ var OpenData = {
                 id: 'geolevel',
                 label: _('GEOLEVEL_LABEL'),
                 help: _('GEOLEVEL_HELP'),
-                value: geolevel,
-                onchange: function(ev) {geolevel=ev.target.value;},
+                value: OpenDataUri._geolevel,
+                onchange: function(ev) {OpenDataUri._geolevel=ev.target.value;},
                 options: [{
                     text: _('Country'),
                     value: 'country',
