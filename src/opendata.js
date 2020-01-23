@@ -20,7 +20,6 @@ var sending = false;
 var result = undefined;
 var apierror = undefined;
 var viewmode= 'table';
-var filters=undefined;
 
 var OpenDataUri = {
 	_metric: 'members',
@@ -29,6 +28,7 @@ var OpenDataUri = {
 	_ondate: undefined,
 	_fromdate: undefined,
 	_todate: undefined,
+	_filters: undefined,
 
 	uri: function () {
 		var result = uribase+'/'+OpenDataUri._metric;
@@ -42,8 +42,8 @@ var OpenDataUri = {
 			result+= OpenDataUri._fromdate && '/from/'+OpenDataUri._fromdate.format('YYYY-MM-DD') || '';
 			result+= OpenDataUri._todate   && '/to/'  +  OpenDataUri._todate.format('YYYY-MM-DD') || '';
 		}
-		if (filters) {
-			result+= '?'+filters;
+		if (OpenDataUri._filters) {
+			result+= '?'+OpenDataUri._filters;
 		}
 		return result;
 	},
@@ -173,13 +173,13 @@ var OpenData = {
 				label: _('FILTERS_LABEL'),
 				help: _('FILTERS_DESCRIPTION'),
 				leadingfaicon: 'filter',
-				faicon: filters && 'times-circle',
-				value: filters,
-				iconaction: filters && function() {
-					filters='';
+				faicon: OpenDataUri._filters && 'times-circle',
+				value: OpenDataUri._filters,
+				iconaction: OpenDataUri._filters && function() {
+					OpenDataUri._filters='';
 				},
 				oninput: function(ev) {
-					filters=ev.target.value;
+					OpenDataUri._filters=ev.target.value;
 				},
 			}),
 			m('', {style: 'text-align: center'},
