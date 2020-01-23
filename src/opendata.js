@@ -16,32 +16,50 @@ require('@material/typography/dist/mdc.typography.css').default;
 var uribase = 'http://0.0.0.0:5001/v0.2';
 var uribase = 'https://opendata.somenergia.coop/v0.2';
 
-var sending = false;
-var result = undefined;
 var apierror = undefined;
-var metric = 'members';
 var time = 'on';
-var geolevel = '';
 var fromdate = undefined;
 var todate = undefined;
 var ondate = undefined;
-var viewmode= 'table';
 var filters=undefined;
+
+var sending = false;
+var viewmode= 'table';
 
 function isodate(date) {
 	return date.format('YYYY-MM-DD');
 }
 
 var UriComposer = {
+	_metric: 'members',
+	_geolevel: '',
+	metric: function() {
+		return this._metric;
+	},
+	geolevel: function() {
+		return this._geolevel;
+	},
+	setMetric: function(value) {
+		this.oldUri = this.uri();
+		this._metric = value;
+	},
+	setGeoLevel: function(value) {
+		this.oldUri = this.uri();
+		this._geolevel = value;
+	},
+	animatedUri: function() {
+		var currentUri = this.uri();
+		for (var i=0; this.oldUri && i<currentUri.length && currentUri[i]===this.oldUri[i]; i++);
+		return m('b',
+			currentUri.substr(0,i),
+			m('span', {"class":"red"}, this.oldUri && currentUri.substr(i)),
+			this.oldUri && currentUri.substr(-j+1)
+			);
+	},
 	uri: function() {
-		var result = uribase+'/'+metric;
-		result += geolevel?'/by/'+geolevel:'';
+		var result = uribase+'/'+this._metric;
 
-		var geolevelPart = geolevel?"/by/"+geolevel:"";
-		var timePart = '';
-		var fromPart = '';
-		var toPart = '';
-		var onPart = '';
+		result += this._geolevel?'/by/'+this._geolevel:'';
 		if (time==='on') {
 			result+= ondate && '/on/'+ isodate(ondate) || '';
 		}
@@ -88,8 +106,8 @@ var OpenData = {
                 label: _('METRIC_LABEL'),
                 help: _('METRIC_HELP'),
                 required: true,
-                value: metric,
-                onchange: function(ev) {metric=ev.target.value;},
+                value: UriComposer.metric(),
+                onchange: function(ev) {UriComposer.setMetric(ev.target.value);},
                 options: [{
                     text: _('Members'),
                     value: 'members',
@@ -102,8 +120,8 @@ var OpenData = {
                 id: 'geolevel',
                 label: _('GEOLEVEL_LABEL'),
                 help: _('GEOLEVEL_HELP'),
-                value: geolevel,
-                onchange: function(ev) {geolevel=ev.target.value;},
+                value: UriComposer.geolevel(),
+                onchange: function(ev) {UriComposer.setGeoLevel(ev.target.value);},
                 options: [{
                     text: _('Country'),
                     value: 'country',
@@ -195,7 +213,7 @@ var OpenData = {
 					padding: '12pt',
 					background: 'rgba(0,0,0,0.1)',
 					margin: '16pt 0pt',
-				}}, m('tt', UriComposer.uri())),
+				}}, m('tt', UriComposer.animatedUri())),
 				m(Button, {
 					raised: true,
 					disabled: sending,
