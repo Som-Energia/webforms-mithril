@@ -19,7 +19,6 @@ var uribase = 'https://opendata.somenergia.coop/v0.2';
 var sending = false;
 var result = undefined;
 var apierror = undefined;
-var metric = 'members';
 var time = 'on';
 var geolevel = '';
 var fromdate = undefined;
@@ -29,8 +28,9 @@ var viewmode= 'table';
 var filters=undefined;
 
 var OpenDataUri = {
+	_metric: 'members',
 	uri: function () {
-		var result = uribase+'/'+metric;
+		var result = uribase+'/'+OpenDataUri._metric;
 		result += geolevel?'/by/'+geolevel:'';
 
 		var geolevelPart = geolevel?"/by/"+geolevel:"";
@@ -84,8 +84,8 @@ var OpenData = {
                 label: _('METRIC_LABEL'),
                 help: _('METRIC_HELP'),
                 required: true,
-                value: metric,
-                onchange: function(ev) {metric=ev.target.value;},
+                value: OpenDataUri._metric,
+                onchange: function(ev) {OpenDataUri._metric=ev.target.value;},
                 options: [{
                     text: _('Members'),
                     value: 'members',
