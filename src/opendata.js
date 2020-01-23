@@ -19,7 +19,6 @@ var uribase = 'https://opendata.somenergia.coop/v0.2';
 var sending = false;
 var result = undefined;
 var apierror = undefined;
-var time = 'on';
 var fromdate = undefined;
 var todate = undefined;
 var ondate = undefined;
@@ -29,16 +28,17 @@ var filters=undefined;
 var OpenDataUri = {
 	_metric: 'members',
 	_geolevel: '',
+	_time: 'on',
 
 	uri: function () {
 		var result = uribase+'/'+OpenDataUri._metric;
 		result += OpenDataUri._geolevel?'/by/'+OpenDataUri._geolevel:'';
 
-		if (time==='on') {
+		if (OpenDataUri._time==='on') {
 			result+= ondate && '/on/'+ondate.format('YYYY-MM-DD') || '';
 		}
 		else {
-			result+= '/'+time;
+			result+= '/'+OpenDataUri._time;
 			result+= fromdate && '/from/'+fromdate.format('YYYY-MM-DD') || '';
 			result+= todate   && '/to/'  +  todate.format('YYYY-MM-DD') || '';
 		}
@@ -115,8 +115,8 @@ var OpenData = {
                 label: _('TIME_LABEL'),
                 help: _('TIME_DESCRIPTION'),
                 required: true,
-                value: time,
-                onchange: function(ev) {time=ev.target.value;},
+                value: OpenDataUri._time,
+                onchange: function(ev) {OpenDataUri._time=ev.target.value;},
                 options: [{
                     text: _('Single date'),
                     value: 'on',
@@ -132,7 +132,7 @@ var OpenData = {
                 }],
             }),
 			m(Layout.Row, [
-				time==='on' && m(Layout.Cell, {span:12}, m(DatePicker, {
+				OpenDataUri._time==='on' && m(Layout.Cell, {span:12}, m(DatePicker, {
 					id: 'ondate',
 					label: _('ON_LABEL'),
 					help: _('ON_DESCRIPTION'),
@@ -144,7 +144,7 @@ var OpenData = {
 					autoclose: true,
 				})),
 
-				time !== 'on' && m(Layout.Cell, {span:6, spantablet:8}, m(DatePicker, {
+				OpenDataUri._time !== 'on' && m(Layout.Cell, {span:6, spantablet:8}, m(DatePicker, {
 						id: 'fromdate',
 						label: _('FROM_LABEL'),
 						help: _('FROM_DESCRIPTION'),
@@ -156,7 +156,7 @@ var OpenData = {
 						autoclose: true,
 					})),
 
-				time !== 'on' && m(Layout.Cell, {span:6, spantablet:8}, m(DatePicker, {
+				OpenDataUri._time !== 'on' && m(Layout.Cell, {span:6, spantablet:8}, m(DatePicker, {
 					id: 'todate',
 					label: _('TO_LABEL'),
 					help: _('TO_DESCRIPTION'),
