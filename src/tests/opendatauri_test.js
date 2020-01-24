@@ -1,5 +1,6 @@
 'use strict';
 var o = require("ospec")
+var moment = require('moment');
 
 var OpendataUri = require("../opendatauri.js")
 
@@ -58,5 +59,20 @@ o.spec("OpendataUri", function() {
             opendatauri.setFilters('filter1')
             o(opendatauri.getFilters()).equals('filter1')
         })        
+    })
+    o.spec("On a date", function() {
+    
+        var opendatauri = new OpendataUri()
+        o("no date requested", function() {
+            o(opendatauri.uri()).equals('https://opendata.somenergia.coop/v0.2/members')
+        })
+        o("Date requested", function() {
+            opendatauri.setOnDate(moment("20190101", "YYYYMMDD"))
+            o(opendatauri.uri()).equals('https://opendata.somenergia.coop/v0.2/members/on/2019-01-01')
+        })
+        o("Return to undefined", function() {
+            opendatauri.setOnDate(undefined)
+            o(opendatauri.uri()).equals('https://opendata.somenergia.coop/v0.2/members')
+        })
     })
 })
