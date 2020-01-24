@@ -12,6 +12,48 @@ function OpenDataUri() {
 	this._todate = undefined;
 	this._filters = undefined;
 
+    this.getMetric = function () {
+        return this._metric;
+    };
+    this.getGeolevel = function () {
+        return this._geolevel;
+    };
+    this.getTime = function() {
+        return this._time;
+    };
+    this.getOnDate = function () {
+        return this._ondate;
+    }
+    this.getFromDate = function () {
+        return this._fromdate;
+    };
+    this.getToDate = function() {
+        return this._todate;
+    };
+    this.getFilters = function () {
+        return this._filters;
+    };
+    this.setMetric = function (value) {
+        this._metric = value;
+    };
+    this.setGeolevel = function(value) {
+        this._geolevel = value;
+    };
+    this.setTime = function(value) {
+        this._time = value;
+    };
+    this.setOnDate = function(value) {
+        this._ondate = value;
+    };
+    this.setFromDate = function(value) {
+        this._fromdate = value;
+    };
+    this.setToDate = function(value) {
+        this._todate = value;
+    };  
+    this.setFilters = function(value) {
+        this._filters = value;
+    };
 	this.uri = function () {
 		var result = uribase+'/'+this._metric;
 		result += this._geolevel?'/by/'+this._geolevel:'';
