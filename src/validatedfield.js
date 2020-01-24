@@ -14,10 +14,6 @@ var ValidatedField = {
 		vnode.state.fieldData.errormessage = undefined;
 		vnode.state._lastPromise = undefined;
 	},
-	oncreate: function(vnode) {
-		//var mdcinput = vnode.dom.querySelector('.mdc-text-field');
-		//this.mdcinstance = new MDCTextField.MDCTextField(mdcinput);
-	},
 	view: function (vnode) {
 		const help_id = vnode.attrs.id+'_help';
 		const statusIcons = {
@@ -47,7 +43,8 @@ var ValidatedField = {
 				vnode.state.fieldData.isvalid = false;
 				vnode.state.fieldData.errormessage = message;
 				ev.target.setCustomValidity(message);
-				ev.target.value = newValue||'';
+				//ev.target.value = newValue||'';
+				vnode.state.fieldData.value = newValue||'';
 				vnode.attrs.onvalidated && vnode.attrs.onvalidated();
 			}
 			function acceptValue(newValue) {

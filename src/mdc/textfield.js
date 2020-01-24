@@ -10,15 +10,12 @@ function applyInputFilter(input, inputfilter, event) {
 		inputfilter(input.value) :
 		(RegExp(inputfilter).test(input.value) && input.value);
 
-	console.log("applyInputFilter", input.value, filtered, inputfilter);
 	if (filtered!==false) {
-		console.log("saving",input.value);
 		input.value = filtered;
 		input.oldValue = filtered;
 		input.oldSelectionStart = input.selectionStart;
 		input.oldSelectionEnd = input.selectionEnd;
 	} else if (input.hasOwnProperty("oldValue")) {
-		console.log("recovering",input.oldvalue);
 		input.value = input.oldValue;
 		input.setSelectionRange(input.oldSelectionStart, input.oldSelectionEnd);
 	}
@@ -101,7 +98,6 @@ var TextField = {
 			// redefined
 			oninput: function(ev) {
 				console.log('TextField oninput', ev.target.value);
-				var value = ev.target.value;
 				applyInputFilter(ev.target, inputfilter);
 				ev.target.setCustomValidity('');
 				if (attrs.oninput) attrs.oninput(ev);
