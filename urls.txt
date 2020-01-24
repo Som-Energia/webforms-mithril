@@ -6,7 +6,7 @@ https://www.somenergia.coop/aviso-legal-ca.html disclaimer-ca.html
 https://www.somenergia.coop/aviso-legal-es.html disclaimer-es.html
 https://www.somenergia.coop/aviso-legal-gl.html disclaimer-gl.html
 https://www.somenergia.coop/aviso-legal-eu.html disclaimer-eu.html
-https://www.somenergia.coop/proteccio-de-dades-ca.html privacypolicy-ca.html
-https://www.somenergia.coop/proteccion-de-datos-eu.html privacypolicy-eu.html
-https://www.somenergia.coop/proteccion-de-datos-es.html privacypolicy-es.html
-https://www.somenergia.coop/proteccion-de-datos-gl.html privacypolicy-gl.html
+https://www.somenergia.coop/aviso-legal-ca.html privacypolicy-ca.html
+https://www.somenergia.coop/aviso-legal-eu.html privacypolicy-eu.html
+https://www.somenergia.coop/aviso-legal-es.html privacypolicy-es.html
+https://www.somenergia.coop/aviso-legal-gl.html privacypolicy-gl.html
