@@ -97,7 +97,6 @@ var TextField = {
 		}, attrs, {
 			// redefined
 			oninput: function(ev) {
-				console.log('TextField oninput', ev.target.value);
 				applyInputFilter(ev.target, inputfilter);
 				ev.target.setCustomValidity('');
 				if (attrs.oninput) attrs.oninput(ev);
