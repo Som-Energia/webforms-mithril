@@ -9,47 +9,18 @@ var Select = require('./mdc/select');
 var TextField = require('./mdc/textfield');
 var DatePicker = require('./datepicker');
 var jsyaml = require('js-yaml');
+var OpenDataUri = require('./opendatauri');
+
+var opendatauri = new OpenDataUri();
 
 require('font-awesome/css/font-awesome.css');
 require('@material/typography/dist/mdc.typography.css').default;
 
-var uribase = 'http://0.0.0.0:5001/v0.2';
-var uribase = 'https://opendata.somenergia.coop/v0.2';
-
 var sending = false;
 var result = undefined;
 var apierror = undefined;
-var metric = 'members';
-var time = 'on';
-var geolevel = '';
-var fromdate = undefined;
-var todate = undefined;
-var ondate = undefined;
 var viewmode= 'table';
-var filters=undefined;
 
-function uri() {
-    var result = uribase+'/'+metric;
-	result += geolevel?'/by/'+geolevel:'';
-
-    var geolevelPart = geolevel?"/by/"+geolevel:"";
-	var timePart = '';
-	var fromPart = '';
-	var toPart = '';
-	var onPart = '';
-	if (time==='on') {
-		result+= ondate && '/on/'+ondate.format('YYYY-MM-DD') || '';
-	}
-	else {
-		result+= '/'+time;
-		result+= fromdate && '/from/'+fromdate.format('YYYY-MM-DD') || '';
-		result+= todate   && '/to/'  +  todate.format('YYYY-MM-DD') || '';
-	}
-	if (filters) {
-		result+= '?'+filters;
-	}
-    return result;
-}
 
 function doRequest() {
     sending=true;
@@ -58,7 +29,7 @@ function doRequest() {
     var promise = m.request({
         method: 'GET',
         deserialize: jsyaml.load,
-        url: uri(),
+        url: opendatauri.uri(),
         withCredentials: true,
     });
     promise.then(function(response){
@@ -82,8 +53,8 @@ var OpenData = {
                 label: _('METRIC_LABEL'),
                 help: _('METRIC_HELP'),
                 required: true,
-                value: metric,
-                onchange: function(ev) {metric=ev.target.value;},
+                value: opendatauri._metric,
+                onchange: function(ev) {opendatauri._metric=ev.target.value;},
                 options: [{
                     text: _('Members'),
                     value: 'members',
@@ -96,8 +67,8 @@ var OpenData = {
                 id: 'geolevel',
                 label: _('GEOLEVEL_LABEL'),
                 help: _('GEOLEVEL_HELP'),
-                value: geolevel,
-                onchange: function(ev) {geolevel=ev.target.value;},
+                value: opendatauri._geolevel,
+                onchange: function(ev) {opendatauri._geolevel=ev.target.value;},
                 options: [{
                     text: _('Country'),
                     value: 'country',
@@ -117,8 +88,8 @@ var OpenData = {
                 label: _('TIME_LABEL'),
                 help: _('TIME_DESCRIPTION'),
                 required: true,
-                value: time,
-                onchange: function(ev) {time=ev.target.value;},
+                value: opendatauri._time,
+                onchange: function(ev) {opendatauri._time=ev.target.value;},
                 options: [{
                     text: _('Single date'),
                     value: 'on',
@@ -134,37 +105,37 @@ var OpenData = {
                 }],
             }),
 			m(Layout.Row, [
-				time==='on' && m(Layout.Cell, {span:12}, m(DatePicker, {
+				opendatauri._time==='on' && m(Layout.Cell, {span:12}, m(DatePicker, {
 					id: 'ondate',
 					label: _('ON_LABEL'),
 					help: _('ON_DESCRIPTION'),
-					value: ondate,
+					value: opendatauri._ondate,
 					onchange: function(newvalue) {
-						ondate=newvalue;
+						opendatauri._ondate=newvalue;
 					},
 					boxed: true,
 					autoclose: true,
 				})),
 
-				time !== 'on' && m(Layout.Cell, {span:6, spantablet:8}, m(DatePicker, {
+				opendatauri._time !== 'on' && m(Layout.Cell, {span:6, spantablet:8}, m(DatePicker, {
 						id: 'fromdate',
 						label: _('FROM_LABEL'),
 						help: _('FROM_DESCRIPTION'),
-						value: fromdate,
+						value: opendatauri._fromdate,
 						onchange: function(newvalue) {
-							fromdate=newvalue;
+							opendatauri._fromdate=newvalue;
 						},
 						boxed: true,
 						autoclose: true,
 					})),
 
-				time !== 'on' && m(Layout.Cell, {span:6, spantablet:8}, m(DatePicker, {
+				opendatauri._time !== 'on' && m(Layout.Cell, {span:6, spantablet:8}, m(DatePicker, {
 					id: 'todate',
 					label: _('TO_LABEL'),
 					help: _('TO_DESCRIPTION'),
-					value: todate,
+					value: opendatauri._todate,
 					onchange: function(newvalue) {
-						todate=newvalue;
+						opendatauri._todate=newvalue;
 					},
 					boxed: true,
 					autoclose: true,
@@ -175,13 +146,13 @@ var OpenData = {
 				label: _('FILTERS_LABEL'),
 				help: _('FILTERS_DESCRIPTION'),
 				leadingfaicon: 'filter',
-				faicon: filters && 'times-circle',
-				value: filters,
-				iconaction: filters && function() {
-					filters='';
+				faicon: opendatauri._filters && 'times-circle',
+				value: opendatauri._filters,
+				iconaction: opendatauri._filters && function() {
+					opendatauri._filters='';
 				},
 				oninput: function(ev) {
-					filters=ev.target.value;
+					opendatauri._filters=ev.target.value;
 				},
 			}),
 			m('', {style: 'text-align: center'},
@@ -189,7 +160,13 @@ var OpenData = {
 					padding: '12pt',
 					background: 'rgba(0,0,0,0.1)',
 					margin: '16pt 0pt',
-				}}, m('tt', uri())),
+				}}, m('tt', opendatauri.highlightedUri().map(function(value) {
+					switch (value[0]) {
+						case 'O': return m('em', value[1]);
+						case 'I': return m('b', {style:'color:red'}, value[1]);
+						default: return m('span', value[1]);
+					}
+				}))),
 				m(Button, {
 					raised: true,
 					disabled: sending,
