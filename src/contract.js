@@ -599,6 +599,12 @@ var ReviewPage = function() {
 			delete normalizedContract.holder.phone2;
 		}
 
+		
+		if(normalizedContract.holder.proxyvatvalue !== undefined){
+			normalizedContract.holder.proxynif = normalizedContract.holder.proxyvatvalue;
+			delete normalizedContract.holder.proxyvatvalue;
+		}	
+
 		if(normalizedContract.holder.proxyvatvalid !== undefined){
 			delete normalizedContract.holder.proxyvatvalid;
 		}		
@@ -664,7 +670,10 @@ var ReviewPage = function() {
 				group(_('SUMMARY_GROUP_PROCESS'), [
 					field(_("PROCESS_TYPE"), _("PROCESS_TYPE_HOLDER_CHANGE")),
 					( Contract.especial_cases.reason_death || Contract.especial_cases.reason_electrodep || Contract.especial_cases.reason_merge ) ? field(_("SPECIAL_CASES_TITLE"), _("SPECIAL_CASES_DETAIL")) : '',
-					field(_("RELATED_MEMBER"), ( Contract.member.become_member && Contract.member.become_member === true ? Contract.holder.name+" "+Contract.holder.surname1+" "+ (Contract.holder.surname2 ? Contract.holder.surname2:'') : _("RELATED_MEMBER_PENDING") ) ),
+					isphisical(Contract.holder.vatvalue) &&
+						field(_("RELATED_MEMBER"), ( Contract.member.become_member && Contract.member.become_member === true ? Contract.holder.name+" "+Contract.holder.surname1+" "+ (Contract.holder.surname2 ? Contract.holder.surname2:'') : _("RELATED_MEMBER_PENDING") ) ),
+					!isphisical(Contract.holder.vatvalue) &&
+						field(_("RELATED_MEMBER"), ( Contract.member.become_member && Contract.member.become_member === true ? Contract.holder.name : _("RELATED_MEMBER_PENDING") ) ),
 				]),
 				group(_('SUPPLY'), [
 					field(_("CUPS"), Contract.supply_point.cups),
@@ -678,7 +687,7 @@ var ReviewPage = function() {
 						field(_("LEGAL_NAME"), Contract.holder.name),
 					!isphisical(Contract.holder.vatvalue) &&
 						field(_("PROXY"), Contract.holder.proxyname+
-							" ("+Contract.holder.proxyvat+")"),
+							" ("+Contract.holder.proxyvatvalue+")"),
 					field(_("ADDRESS"), Contract.holder.address),
 					field(_("CITY"),
 						(Contract.holder.city && Contract.holder.city.name)+
