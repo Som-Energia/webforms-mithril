@@ -273,7 +273,7 @@ CONTRACT_INTRO:
     Para contractar la luz con Som Energia... bla bla
 PRIVACY_POLICY_TITLE: Política de Protección de Datos
 ACCEPT_PRIVACY_POLICY:
-    He leído y acepto la <strong><a target="_blank" href="%{url}">política de privacidad</a></strong> de Som Energia
+    He leído y acepto la política de privacidad de Som Energia
 ACCEPT_PRIVACY_POLICY_URL:
     //www.somenergia.coop/es/aviso-legal/
 TERMS_TITLE: Condiciones generales
