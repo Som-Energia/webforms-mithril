@@ -5,7 +5,6 @@ var m = require('mithril');
 var _ = require('./translate');
 var moment = require('moment');
 var TextField = require('./mdc/textfield');
-var Inspector = require('./inspector');
 var MdDateTimePicker = require('md-date-time-picker/src/js/mdDateTimePicker').default;
 require('md-date-time-picker/dist/css/themes/light/light-green/mdDateTimePicker.css');
 
@@ -122,10 +121,6 @@ DatePicker.Example.view = function(vn){
 		m(Layout.Cell, {span:6},
 			m(_("hola"))
 		),
-		m(Inspector, {
-			model: DatePicker.Example,
-			shortcut: 'ctrl+shift+d',
-		}),
 	));
 };
 

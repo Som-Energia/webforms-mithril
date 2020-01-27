@@ -27,7 +27,7 @@ var jsyaml = require('js-yaml');
 var cuca = require('./img/cuca-somenergia.svg');
 
 var Mousetrap = require('mousetrap');
-require('mousetrap-global-bind');
+require('mousetrap/plugins/global-bind/mousetrap-global-bind');
 require('font-awesome/css/font-awesome.css');
 require('webpack-roboto/sass/roboto.scss');
 require('@material/typography/dist/mdc.typography.css').default;

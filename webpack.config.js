@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin').CleanWebpackPlugin;
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const JsDocPlugin = require('jsdoc-webpack4-plugin');
@@ -13,6 +13,7 @@ var config = {
 		contract: './contract',
 		opendata: './opendata',
 		gapminder: './gapminder',
+		alltests: './alltests',
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
@@ -23,7 +24,7 @@ var config = {
 		contentBase: path.resolve(__dirname, 'dist'),
 	},
 	plugins:[
-		new CleanWebpackPlugin('dist/*'),
+		new CleanWebpackPlugin(),
 		// Rewrites html to insert generated css and js
 		new HtmlWebpackPlugin({
 			filename: 'index.html',
@@ -81,9 +82,12 @@ var config = {
 			//chunks: 'all',
 		}
 	},
-	externals: [
-		'child_process',
-	],
+	node: {
+		fs: 'empty',
+		net: 'empty',
+		tls: 'empty',
+		child_process: 'empty',
+	},
 };
 
 module.exports = (env, argv) => {
@@ -95,7 +99,10 @@ module.exports = (env, argv) => {
 		ov_test: 'https://webforms-demo.somenergia.local:5001',
 	};
 
-	var environment = !env ? argv.mode : env.NODE_ENV;
+	var environment =
+		env ? env.NODE_ENV :
+		argv ? argv.mode :
+		'development';
 
 	config.plugins.push(new webpack.EnvironmentPlugin({
 		NODE_ENV: environment,

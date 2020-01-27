@@ -1,5 +1,5 @@
 'use strict';
-var o = require("ospec")
+const o=require('ospec').default
 
 o.spec("math", function() {
 	o.spec("arithmetics", function() {

@@ -14,7 +14,7 @@ var LanguageChooser = require('./languagechooser');
 var LegalConsent = require('./legalconsent');
 var LegalTexts = require('./legaltexts');
 var Mousetrap = require('mousetrap');
-require('mousetrap-global-bind');
+require('mousetrap/plugins/global-bind/mousetrap-global-bind');
 
 
 var PersonEditor = {};

@@ -1,7 +1,7 @@
 'use strict';
 var m = require('mithril');
 var Mousetrap = require('mousetrap');
-require('mousetrap-global-bind');
+require('mousetrap/plugins/global-bind/mousetrap-global-bind');
 
 const Inspector = {};
 
