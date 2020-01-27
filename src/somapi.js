@@ -21,8 +21,6 @@ function requestSom(uri) {
 			},
 		})
 		.then(function(response) {
-			console.log('response', response);
-
 			if (response.status === ONLINE) {
 				resolve(response);
 			} else if (response.status === OFFLINE) {
@@ -42,7 +40,8 @@ function requestSom(uri) {
 	});
 	promise.abort = function() {
 		console.log("Aborting request ",apibase+uri);
-		abortable.abort()
+		if(abortable !== undefined)
+			abortable.abort()
 	};
 	return promise;
 };

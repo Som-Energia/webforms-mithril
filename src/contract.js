@@ -322,7 +322,7 @@ var CupsPage = function() {
 		id: 'cups_page',
 		title: _('CUPS_TITLE'),
 		validator: function() {
-			if (model.address === undefined) { // empty
+			if (model.address === undefined) { // empty				
 				return ""; // Forbid going on, no message
 			}
 
@@ -535,7 +535,6 @@ SomApi.postContract = function(data) {
 				}
 			})
 			.catch(function(reason) {
-				console.log(_('Request postContract failed'), reason);
 				if( reason.status !== undefined && reason.status == ONLINE && reason.state) {
 					(reason.state !== undefined && reason.state === true) ? resolve(reason) : reject(reason);
 				} else{

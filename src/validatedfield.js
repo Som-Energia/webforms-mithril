@@ -43,9 +43,9 @@ var ValidatedField = {
 				vnode.state.fieldData.isvalid = false;
 				vnode.state.fieldData.errormessage = message;
 				ev.target.setCustomValidity(message);
-				//ev.target.value = newValue||'';
 				vnode.state.fieldData.value = newValue||'';
 				vnode.attrs.onvalidated && vnode.attrs.onvalidated();
+				m.redraw();
 			}
 			function acceptValue(newValue) {
 				vnode.state.fieldData.isvalid = true;
@@ -53,6 +53,7 @@ var ValidatedField = {
 				var data = vnode.state.fieldData.data;
 				ev.target.setCustomValidity('');
 				vnode.attrs.onvalidated && vnode.attrs.onvalidated(newValue, data);
+				m.redraw();
 			}
 			function waitValue(newValue) {
 				vnode.state.fieldData.value = newValue;
