@@ -316,7 +316,8 @@ var CupsPage = function() {
 		if (model.address) state.field.data.address = model.address;
 	}
 
-	var showVerificationCheck = model.address && (model.status === 'active' || model.status === 'inactive');
+	//var showVerificationCheck = model.address && (model.status === 'active' || model.status === 'inactive');
+	var showVerificationCheck = model.address && model.status === 'active';
 
 	return {
 		id: 'cups_page',
@@ -574,9 +575,11 @@ SomMockupApi.postContract = function(contract) {
 
 var ReviewPage = function() {
 
+	var normalizedContract = {};
+
 	function normalizeContract(contract){
-		let normalizedContract = { ...contract };
-		//let normalizedContract = Object.assign({}, contract);
+
+		let normalizedContract = Object.assign({}, contract);
 
 		if(normalizedContract.supply_point.verified !== undefined) delete normalizedContract.supply_point.verified;
 		if(normalizedContract.supply_point.status !== undefined) delete normalizedContract.supply_point.status;
@@ -598,7 +601,6 @@ var ReviewPage = function() {
 			delete normalizedContract.holder.phone2;
 		}
 
-		
 		if(normalizedContract.holder.proxyvatvalue !== undefined){
 			normalizedContract.holder.proxynif = normalizedContract.holder.proxyvatvalue;
 			delete normalizedContract.holder.proxyvatvalue;
@@ -705,7 +707,7 @@ var ReviewPage = function() {
 				]),
 				group(_('SUMMARY_GROUP_PAYMENT'), [
 					field(_("IBAN"), Contract.payment.iban),
-					field(_("VOLUNTARY_CENT"), Contract.voluntary_cent === true ? _("YES"):_("NO")),
+					field(_("VOLUNTARY_CENT"), Contract.payment.voluntary_cent === true ? _("YES"):_("NO")),
 				]),
 			]),
 			m(Row, [
@@ -726,10 +728,11 @@ var ReviewPage = function() {
 			]),
 		],
 		next: function() {
+			normalizedContract = JSON.parse(JSON.stringify(Contract));
+			normalizedContract = normalizeContract(normalizedContract);
 			return new Promise(function (resolve, reject) {
-				let contract = normalizeContract(Contract);
 				isLoading = true;
-				SomApiAdapter.postContract(contract)
+				SomApiAdapter.postContract(normalizedContract)
 					.then(function(data) {
 						// TODO: Save data into state
 						Contract.contract_number = data.data.contract_number.name;

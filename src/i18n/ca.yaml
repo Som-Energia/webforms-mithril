@@ -117,7 +117,7 @@ LANGUAGE: Idioma
 LANGUAGE_HELP: Idioma
 
 # Holder personal data
-HOLDER_PERSONAL_DATA: Dades personals de la persona titular
+HOLDER_PERSONAL_DATA: Dades personals de la nova persona titular
 HOLDER_NAME: Nom
 HOLDER_NAME_HELP: Nom de la persona titular
 HOLDER_SURNAME1: Primer cognom
