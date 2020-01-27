@@ -53,8 +53,8 @@ var OpenData = {
                 label: _('METRIC_LABEL'),
                 help: _('METRIC_HELP'),
                 required: true,
-                value: opendatauri._metric,
-                onchange: function(ev) {opendatauri._metric=ev.target.value;},
+                value: opendatauri.getMetric(),
+                onchange: function(ev) {opendatauri.setMetric(ev.target.value);},
                 options: [{
                     text: _('Members'),
                     value: 'members',
@@ -67,8 +67,8 @@ var OpenData = {
                 id: 'geolevel',
                 label: _('GEOLEVEL_LABEL'),
                 help: _('GEOLEVEL_HELP'),
-                value: opendatauri._geolevel,
-                onchange: function(ev) {opendatauri._geolevel=ev.target.value;},
+                value: opendatauri.getGeolevel(),
+                onchange: function(ev) {opendatauri.setGeolevel(ev.target.value);},
                 options: [{
                     text: _('Country'),
                     value: 'country',
@@ -88,8 +88,8 @@ var OpenData = {
                 label: _('TIME_LABEL'),
                 help: _('TIME_DESCRIPTION'),
                 required: true,
-                value: opendatauri._time,
-                onchange: function(ev) {opendatauri._time=ev.target.value;},
+                value: opendatauri.getTime(),
+                onchange: function(ev) {opendatauri.setTime(ev.target.value);},
                 options: [{
                     text: _('Single date'),
                     value: 'on',
@@ -105,37 +105,37 @@ var OpenData = {
                 }],
             }),
 			m(Layout.Row, [
-				opendatauri._time==='on' && m(Layout.Cell, {span:12}, m(DatePicker, {
+				opendatauri.getTime()==='on' && m(Layout.Cell, {span:12}, m(DatePicker, {
 					id: 'ondate',
 					label: _('ON_LABEL'),
 					help: _('ON_DESCRIPTION'),
-					value: opendatauri._ondate,
+					value: opendatauri.getOnDate(),
 					onchange: function(newvalue) {
-						opendatauri._ondate=newvalue;
+						opendatauri.setOnDate(newvalue);
 					},
 					boxed: true,
 					autoclose: true,
 				})),
 
-				opendatauri._time !== 'on' && m(Layout.Cell, {span:6, spantablet:8}, m(DatePicker, {
+				opendatauri.getTime() !== 'on' && m(Layout.Cell, {span:6, spantablet:8}, m(DatePicker, {
 						id: 'fromdate',
 						label: _('FROM_LABEL'),
 						help: _('FROM_DESCRIPTION'),
-						value: opendatauri._fromdate,
+						value: opendatauri.getFromDate(),
 						onchange: function(newvalue) {
-							opendatauri._fromdate=newvalue;
+							opendatauri.setFromDate(newvalue);
 						},
 						boxed: true,
 						autoclose: true,
 					})),
 
-				opendatauri._time !== 'on' && m(Layout.Cell, {span:6, spantablet:8}, m(DatePicker, {
+				opendatauri.getTime() !== 'on' && m(Layout.Cell, {span:6, spantablet:8}, m(DatePicker, {
 					id: 'todate',
 					label: _('TO_LABEL'),
 					help: _('TO_DESCRIPTION'),
-					value: opendatauri._todate,
+					value: opendatauri.getToDate(),
 					onchange: function(newvalue) {
-						opendatauri._todate=newvalue;
+						opendatauri.setToDate(newvalue);
 					},
 					boxed: true,
 					autoclose: true,
@@ -146,13 +146,13 @@ var OpenData = {
 				label: _('FILTERS_LABEL'),
 				help: _('FILTERS_DESCRIPTION'),
 				leadingfaicon: 'filter',
-				faicon: opendatauri._filters && 'times-circle',
-				value: opendatauri._filters,
-				iconaction: opendatauri._filters && function() {
-					opendatauri._filters='';
+				faicon: opendatauri.getFilters() && 'times-circle',
+				value: opendatauri.getFilters(),
+				iconaction: opendatauri.getFilters() && function() {
+					opendatauri.setFilters('');
 				},
 				oninput: function(ev) {
-					opendatauri._filters=ev.target.value;
+					opendatauri.setFilters(ev.target.value);
 				},
 			}),
 			m('', {style: 'text-align: center'},
@@ -160,13 +160,13 @@ var OpenData = {
 					padding: '12pt',
 					background: 'rgba(0,0,0,0.1)',
 					margin: '16pt 0pt',
-				}}, m('tt', opendatauri.highlightedUri().map(function(value) {
+				}}, m('tt', opendatauri.uri() /*.highlightedUri().map(function(value) {
 					switch (value[0]) {
 						case 'O': return m('em', value[1]);
 						case 'I': return m('b', {style:'color:red'}, value[1]);
 						default: return m('span', value[1]);
 					}
-				}))),
+				})*/)),
 				m(Button, {
 					raised: true,
 					disabled: sending,
