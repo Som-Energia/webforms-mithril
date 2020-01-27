@@ -3,7 +3,26 @@ var o = require("ospec")
 var moment = require('moment');
 
 var OpendataUri = require("../opendatauri.js")
+function compare(arr1, arr2){
+    if (arr1.length != arr2.length){
+        console.log("Different length arrays " + arr1 +" and " + arr2);
+        return false;
 
+    }
+    for (var i=0; i<arr1.length; i++){
+        if (arr1[i].length != arr2[i].length){
+            console.log("Different length subarrays " + arr1[i][0]+ " and " + arr2[i][0]);
+            return false;
+        }
+        for (var j=0; j<arr1[i].length; j++){
+            if (arr1[i][j]!=arr2[i][j]){
+                console.log("Different item " + arr1[i][j]+ " and " + arr2[i][j]);
+                return false;
+            }
+        }
+    }
+    return true;
+}
 o.spec("OpendataUri", function() {
     o.spec("default", function() {
         var opendatauri= new OpendataUri()
@@ -59,6 +78,24 @@ o.spec("OpendataUri", function() {
             opendatauri.setFilters('filter1')
             o(opendatauri.getFilters()).equals('filter1')
         })        
+    })
+    o.spec("Uri when values set", function() {
+        var opendatauri = new OpendataUri()
+        o("default", function() {
+            o(opendatauri.uri()).equals('https://opendata.somenergia.coop/v0.2/members')
+        })
+        o("Metric set", function() {
+            opendatauri.setMetric('contracts')
+            o(opendatauri.uri()).equals('https://opendata.somenergia.coop/v0.2/contracts')
+        })
+        o("geolevel set", function() {
+            opendatauri.setGeolevel('city')
+            o(opendatauri.uri()).equals('https://opendata.somenergia.coop/v0.2/contracts/by/city')
+        })
+        o("with filters", function() {
+            opendatauri.setFilters('country=ES')
+            o(opendatauri.uri()).equals('https://opendata.somenergia.coop/v0.2/contracts/by/city?country=ES')
+        })
     })
     o.spec("On a date", function() {
     
