@@ -40,7 +40,7 @@ var Member = {
                 m(Chooser, {
                     id: 'become_member',
                     question: _('BECOME_MEMBER_QUESTION'),
-                    required: true,
+                    required: false,
                     value: vn.state.model.become_member,
                     onvaluechanged: function(newvalue){
                         vn.state.model.become_member = newvalue;
