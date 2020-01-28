@@ -996,6 +996,11 @@ var SuccessPage = function() {
 
 window.onload = function() {
 	var element = document.getElementById("mithril-target");
+	const lang = element.dataset.lang;
+	if(lang !== undefined){
+		_.setLanguage(lang);
+		moment.locale(lang);	
+	}
 	m.mount(element, Form);
 };
 // vim: noet ts=4 sw=4

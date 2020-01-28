@@ -19,11 +19,11 @@
 - [x] SummaryPage: Explain the kind of action (C1, M1...) (Just holder change)
 - [ ] SummaryPage: Change the kind of action for other cases (C1, M1...)
 - [x] SummaryPage: On holder changes, explain power and fare are kept
-- [ ] SuccessPage: Mejorar textos
+- [x] SuccessPage: Mejorar textos
 - [x] SuccessPage: Improve format (card?)
 - [x] FailurePage: Improve format (card?)
-- [ ] FailurePage: Mejorar textos
-- [ ] FailurePage: Backlinks
+- [x] FailurePage: Mejorar textos
+- [x] FailurePage: Backlinks
 - [x] Select: Delayed programatic fill in when options depend on an API call
 - [ ] Wizard: Rethink tab navigation
 - [x] Wizard: Disable hidden pages
@@ -31,19 +31,19 @@
 - [x] Wizard: Default action 'next' when enter key pressed
 - [x] TextField: translate 'required'
 - [ ] Wizard: Option to fix size content with scroll
-- [ ] PageSlider: whenever we change page, scroll it up
+- [x] PageSlider: whenever we change page, scroll it up
 - [x] PageSlider: On jump, focus the first element
-- [ ] Dialog: Option to not jumping to the first control
+- [x] Dialog: Option to not jumping to the first control
     - [x] Dialog: Hack, hidden control on the top
 - [x] SummaryPage: Member info
 - [x] SpecialCasesPage: Attach file for different cases
-- [ ] Review help links
+- [x] Review help links
+- [x] Take form language from query or token
 
 # Not for now?
 
 - [ ] LegalConsent: Split dialog and checkbox to avoid overlaps of later html
 - [ ] ValidatedField: Do not validate until a regexp applies
-- [ ] Take form language from query or token
 - [ ] Set language field to form language by default
 - [ ] email validation in old browsers
 
