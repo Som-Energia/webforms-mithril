@@ -10,7 +10,7 @@
     "build": "webpack --mode development --color --progress",
     "server": "webpack-dev-server --mode development --open --watch -d",
     "getlegal": "./downloadlegal.sh",
-    "test": "webpack --mode development -d --color --progress && node dist/bundle-alltests.js"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -49,8 +49,8 @@
     "jsdom": "^16.0.1",
     "jsdom-global": "^3.0.2",
     "mini-css-extract-plugin": "^0.4.2",
+    "mithril-jest": "^1.0.3",
     "node-sass": "^4.11.0",
-    "ospec": "^3.1.0",
     "sass-loader": "^7.1.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",

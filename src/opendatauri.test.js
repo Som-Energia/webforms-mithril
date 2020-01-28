@@ -2,36 +2,36 @@
 const o = require("ospec")
 const OpenDataUri = require("./opendatauri");
 
-o.spec("OpenDataUri", function() {
-  o.spec("Uri", function() {
-    o("url", function() {
+describe("OpenDataUri", function() {
+  describe("Uri", function() {
+    test("url", function() {
       var defaultUri = new OpenDataUri();
-      o(defaultUri.uri()).equals(
+      expect(defaultUri.uri()).toBe(
         '//v0.2/members'
       )
       var changedUri = new OpenDataUri('base');
-      o(changedUri.uri()).equals(
+      expect(changedUri.uri()).toBe(
         'base/members'
       )
     })
-    o("setting metric", function() {
+    test("setting metric", function() {
       var opendatauri = new OpenDataUri('base');
       opendatauri.setMetric('contracts')
-			o(opendatauri.uri())
-        .equals('base/contracts')
+			expect(opendatauri.uri())
+        .toBe('base/contracts')
 
       opendatauri.setMetric('members')
-			o(opendatauri.uri())
-        .equals('base/members')
+			expect(opendatauri.uri())
+        .toBe('base/members')
 		})
-    o.spec("Highligthed Uri", function() {
+    describe("Highligthed Uri", function() {
 /*
-      o(opendatauri.highlightedUri()).equals([
+      describe(opendatauri.highlightedUri()).toBe([
         ['K', 'base']
         ['K', '/members']
       ])
       opendatauri.setMetric('contracts')
-      o(opendatauri.highlightedUri()).equals([
+      describe(opendatauri.highlightedUri()).toBe([
         ['K', 'base',],
         ['O', '/members'],
         ['I', '/contracts'],

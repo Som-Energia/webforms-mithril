@@ -1,13 +1,12 @@
 'use strict';
-const o=require('ospec').default
 
-o.spec("math", function() {
-	o.spec("arithmetics", function() {
-		o("addition", function() {
-			o(1 + 1).equals(2)
+describe("math", function() {
+	describe("arithmetics", function() {
+		test("addition", function() {
+			expect(1 + 1).toBe(2)
 		})
-		o("subtraction", function() {
-			o(1 - 1).notEquals(2)
+		test("subtraction", function() {
+			expect(1 - 1).not.toBe(2)
 		})
 	})
 })
