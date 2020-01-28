@@ -239,6 +239,9 @@ CERT_ATTACH_DEATH: Certificado defunción
 ELECTRODEP_ATTACH_MEDICAL: Certificado médico electrodependiente
 ELECTRODEP_ATTACH_RESIDENT: Certificado empadronamiento
 ELECTRODEP_ATTACH_REQUIRED: Tienes que adjuntar el certificado especificado
+SPECIAL_CASES_DEATH: Defunción
+SPECIAL_CASES_MERGE: Fusión de empresas
+SPECIAL_CASES_ELECTRODEP: Electrodependiente
 
 # FailurePage
 FAILURE_TITLE: Ups!

@@ -193,7 +193,7 @@ NO_VOLUNTARY_DONATION_CHOICE_TAKEN: Cal dir si vols o no fer el donatiu voluntar
 # PaymentPage
 PAYMENT_TITLE: Dades de pagament
 IBAN_LABEL: IBAN (compte bancari)
-IBAN_HELP: "Un com aquest: ES77 1234 1234 1612 3456 7890" # TODO: cambiar texto
+IBAN_HELP: "Un com aquest: ES11 2222 3333 4444 5555 6666" # TODO: cambiar texto
 IBAN_ACCEPT_DIRECT_DEBIT: Com a titular del compte bancari, accepto la domiciliació dels rebuts
 IBAN_ERROR: IBAN incorrecte
 INVALID_PAYER_IBAN:
@@ -241,6 +241,9 @@ CERT_ATTACH_DEATH: Certificat defunció
 ELECTRODEP_ATTACH_MEDICAL: Certificat mèdic electrodependencia
 ELECTRODEP_ATTACH_RESIDENT: Certificat empadronament
 ELECTRODEP_ATTACH_REQUIRED: Cal adjuntar els certificats demanats
+SPECIAL_CASES_DEATH: Defunció
+SPECIAL_CASES_MERGE: Fusió d'empreses
+SPECIAL_CASES_ELECTRODEP: Electrodependent
 
 # FailurePage
 FAILURE_TITLE: Ups!

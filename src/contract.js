@@ -642,6 +642,13 @@ var ReviewPage = function() {
 		return normalizedContract;
 	}
 
+	function specialCaseType(especial_cases){
+		if(especial_cases.reason_death) return _("SPECIAL_CASES_DEATH");
+		else if(especial_cases.reason_merge) return _("SPECIAL_CASES_MERGE");
+		else if(especial_cases.reason_electrodep ) return _("SPECIAL_CASES_ELECTRODEP");
+		else return '';
+	}
+
 	function group(name, fields) {
 		return m(Cell, {
 			className: 'fieldgroup ',
@@ -671,7 +678,7 @@ var ReviewPage = function() {
 				m(Cell, {span:12}, m("a",{href: '#'}), _("REVIEW_DATA_AND_CONFIRM")),
 				group(_('SUMMARY_GROUP_PROCESS'), [
 					field(_("PROCESS_TYPE"), _("PROCESS_TYPE_HOLDER_CHANGE")),
-					( Contract.especial_cases.reason_death || Contract.especial_cases.reason_electrodep || Contract.especial_cases.reason_merge ) ? field(_("SPECIAL_CASES_TITLE"), _("SPECIAL_CASES_DETAIL")) : '',
+					( Contract.especial_cases.reason_death || Contract.especial_cases.reason_electrodep || Contract.especial_cases.reason_merge ) ? field(_("SPECIAL_CASES_TITLE"), specialCaseType(Contract.especial_cases)) : '',
 					isphisical(Contract.holder.vatvalue) &&
 						field(_("RELATED_MEMBER"), ( Contract.member.become_member && Contract.member.become_member === true ? Contract.holder.name+" "+Contract.holder.surname1+" "+ (Contract.holder.surname2 ? Contract.holder.surname2:'') : _("RELATED_MEMBER_PENDING") ) ),
 					!isphisical(Contract.holder.vatvalue) &&
