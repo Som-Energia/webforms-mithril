@@ -13,7 +13,6 @@ var config = {
 		contract: './contract',
 		opendata: './opendata',
 		gapminder: './gapminder',
-		alltests: './alltests',
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
