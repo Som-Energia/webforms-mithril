@@ -1,5 +1,4 @@
 'use strict';
-const o = require("ospec")
 const OpenDataUri = require("./opendatauri");
 
 describe("OpenDataUri", function() {
