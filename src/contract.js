@@ -1,6 +1,7 @@
 'use strict';
 var m = require('mithril');
 var _ = require('./translate');
+var translations = require('./translations');
 var css = require('./style.styl');
 var Wizard = require('./wizard');
 var Steps = require('./steps');
@@ -999,7 +1000,8 @@ window.onload = function() {
 	const lang = element.dataset.lang;
 	if(lang !== undefined){
 		_.setLanguage(lang);
-		moment.locale(lang);	
+		_.translator.add(translations[lang]);
+		moment.locale(lang);		
 	}
 	m.mount(element, Form);
 };
