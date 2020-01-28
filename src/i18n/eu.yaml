@@ -191,7 +191,7 @@ NO_VOLUNTARY_DONATION_CHOICE_TAKEN: Es necesario especificar si quieres hacer o 
 # PaymentPage
 PAYMENT_TITLE: Datos de pago
 IBAN_LABEL: IBAN (cuenta bancaria)
-IBAN_HELP: "Ejemplo: ES77 1234 1234 1612 3456 7890" # TODO: cambiar texto
+IBAN_HELP: "Ejemplo: ES11 2222 3333 4444 5555 6666" # TODO: cambiar texto
 IBAN_ACCEPT_DIRECT_DEBIT: Como titular de la cuenta bancaria, acepto la domiciliación de los recibos
 IBAN_ERROR: IBAN incorrecto
 INVALID_PAYER_IBAN:
