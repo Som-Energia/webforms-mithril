@@ -4,83 +4,127 @@ var uribase = 'http://0.0.0.0:5001/v0.2';
 var uribase = 'https://opendata.somenergia.coop/v0.2';
 
 function OpenDataUri() {
-	this._metric = 'members';
-	this._geolevel = '';
-	this._time = 'on';
-	this._ondate = undefined;
-	this._fromdate = undefined;
-	this._todate = undefined;
-	this._filters = undefined;
+	var _metric = 'members';
+	var _geolevel = '';
+	var _time = 'on';
+	var _ondate = undefined;
+	var _fromdate = undefined;
+	var _todate = undefined;
+	var _filters = undefined;
+    var _prevValue = undefined;
+    var _prevUri = undefined;
+    var lastChange = [undefined, undefined]; //[previousValue,newValue]
 
     this.getMetric = function () {
-        return this._metric;
+        return _metric;
     };
     this.getGeolevel = function () {
-        return this._geolevel;
+        return _geolevel;
     };
     this.getTime = function() {
-        return this._time;
+        return _time;
     };
     this.getOnDate = function () {
-        return this._ondate;
+        return _ondate;
     }
     this.getFromDate = function () {
-        return this._fromdate;
+        return _fromdate;
     };
     this.getToDate = function() {
-        return this._todate;
+        return _todate;
     };
     this.getFilters = function () {
-        return this._filters;
+        return _filters;
     };
     this.setMetric = function (value) {
-        this._metric = value;
+        lastChange[0]=_metric;
+        lastChange[1] = value;
+        _prevUri = this.uri();
+        _metric = value;
     };
     this.setGeolevel = function(value) {
-        this._geolevel = value;
+        lastChange[0]= value ? _geolevel : '/by/' + _geolevel;
+        lastChange[1] = _geolevel ? value : '/by/'+value;
+        _prevUri = this.uri();
+        _geolevel = value;
     };
     this.setTime = function(value) {
-        this._time = value;
+        if (_time === 'on'){
+            lastChange[0] = _ondate ? '/on/'+_ondate.format('YYYY-MM-DD') : '';
+        }
+        lastChange[0] = '/'+_time;
+        if (value === 'on'){
+            lastChange[1] = _ondate ? '/on/'+_ondate.format('YYYY-MM-DD') : '';
+        }
+        else {lastChange[1] = '/'+value;}
+        _prevUri = this.uri();
+        _time = value;
     };
     this.setOnDate = function(value) {
-        this._ondate = value;
+        lastChange[0]= value ? _ondate : '/on/' + _ondate;
+        lastChange[1] = _ondate ? value : '/on/'+value;
+        _prevUri = this.uri();
+        _ondate = value;
     };
     this.setFromDate = function(value) {
-        this._fromdate = value;
+        _prevUri = this.uri();
+        _fromdate = value;
     };
     this.setToDate = function(value) {
-        this._todate = value;
+        _todate = value;
     };  
     this.setFilters = function(value) {
-        this._filters = value;
+        _prevUri = this.uri();
+        _filters = value;
     };
 	this.uri = function () {
-		var result = uribase+'/'+this._metric;
-		result += this._geolevel?'/by/'+this._geolevel:'';
+		var result = uribase+'/'+_metric;
+		result += _geolevel?'/by/'+_geolevel:'';
 
-		if (this._time==='on') {
-			result+= this._ondate && '/on/'+this._ondate.format('YYYY-MM-DD') || '';
+		if (_time==='on') {
+			result+= _ondate && '/on/'+_ondate.format('YYYY-MM-DD') || '';
 		}
 		else {
-			result+= '/'+this._time;
-			result+= this._fromdate && '/from/'+this._fromdate.format('YYYY-MM-DD') || '';
-			result+= this._todate   && '/to/'  +  this._todate.format('YYYY-MM-DD') || '';
+			result+= '/'+_time;
+			result+= _fromdate && '/from/'+_fromdate.format('YYYY-MM-DD') || '';
+			result+= _todate   && '/to/'  +  _todate.format('YYYY-MM-DD') || '';
 		}
-		if (this._filters) {
-			result+= '?'+this._filters;
+		if (_filters) {
+			result+= '?'+_filters;
 		}
 		return result;
 	};
+
     this.highlightedUri = function() {
-        return [
-            ['K', this.uri()],
-        ];
-        return [
-            ['K', 'hola'],
-            ['I', 'padentro'],
-            ['O', 'pafuera'],
-            ['K', 'hola'],
-        ];
+        var uri = this.uri();
+        var fragments = [];
+        var result = [];
+        if (_prevUri == undefined) {
+                return [['K', uri]];
+        }
+        else {
+            if (lastChange[1] === undefined || lastChange[1] === '' ){
+                console.log("he entrat frabmento" + _prevUri + " per " + lastChange[0] + "")
+                fragments = _prevUri.split(lastChange[0]);
+                result.push(['K', fragments[0]]);
+                result.push(['I', '']);
+            }
+            else {
+                console.log("noo he entrat")
+                console.log("he entrat frabmento" + uri+" per " + lastChange[1] + "")
+                fragments = uri.split(lastChange[1]);
+                result.push(['K', fragments[0]]);
+                result.push(['I', lastChange[1]]);
+            }
+        console.log("fragments: "+ fragments)
+            result.push(['O', lastChange[0]]);
+        console.log("lastChange: "+ lastChange[0] +" , " + lastChange[1]);
+            if (fragments.length >1 && fragments[1].length>0){
+                result.push(['K', fragments[1]]);
+            }
+            console.log("Ara tinc "+ result);
+            return result;
+        }
     };
 }
 

@@ -160,13 +160,13 @@ var OpenData = {
 					padding: '12pt',
 					background: 'rgba(0,0,0,0.1)',
 					margin: '16pt 0pt',
-				}}, m('tt', opendatauri.uri() /*.highlightedUri().map(function(value) {
+				}}, m('tt', opendatauri.highlightedUri().map(function(value) {
 					switch (value[0]) {
 						case 'O': return m('em', value[1]);
 						case 'I': return m('b', {style:'color:red'}, value[1]);
 						default: return m('span', value[1]);
 					}
-				})*/)),
+				}))),
 				m(Button, {
 					raised: true,
 					disabled: sending,
