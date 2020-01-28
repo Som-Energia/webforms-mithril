@@ -1,8 +1,7 @@
 'use strict';
-var o = require("ospec")
 var moment = require('moment');
 
-var OpendataUri = require("../opendatauri.js")
+var OpendataUri = require("./opendatauri.js")
 function compare(arr1, arr2){
     console.log("Comparo " + arr1 +" and " + arr2);
     if (arr1.length != arr2.length){
@@ -24,169 +23,169 @@ function compare(arr1, arr2){
     }
     return true;
 }
-o.spec("OpendataUri", function() {
-    o.spec("default", function() {
+describe("OpendataUri", function() {
+    describe("default", function() {
         var opendatauri= new OpendataUri()
-        o("metric", function() {
-            o(opendatauri.getMetric()).equals('members')
+        test("metric", function() {
+            expect(opendatauri.getMetric()).toBe('members')
         })
-        o("geolevel", function() {
-            o(opendatauri.getGeolevel()).equals('')
+        test("geolevel", function() {
+            expect(opendatauri.getGeolevel()).toBe('')
         })
-        o("time (frequency)", function() {
-            o(opendatauri.getTime()).equals('on')
+        test("time (frequency)", function() {
+            expect(opendatauri.getTime()).toBe('on')
         })
-        o("onDate", function() {
-            o(opendatauri.getOnDate()).equals(undefined)
+        test("onDate", function() {
+            expect(opendatauri.getOnDate()).toBe(undefined)
         })         
-        o("fromDate", function() {
-            o(opendatauri.getFromDate()).equals(undefined)
+        test("fromDate", function() {
+            expect(opendatauri.getFromDate()).toBe(undefined)
         })        
-        o("toDate", function() {
-            o(opendatauri.getToDate()).equals(undefined)
+        test("toDate", function() {
+            expect(opendatauri.getToDate()).toBe(undefined)
         })        
-        o("filters", function() {
-            o(opendatauri.getFilters()).equals()
+        test("filters", function() {
+            expect(opendatauri.getFilters()).toBe()
         })        
     })
-    o.spec("Set Values Independently", function() {
+    describe("Set Values Independently", function() {
         var opendatauri = new OpendataUri()
-        o("metric", function() {
+        test("metric", function() {
             opendatauri.setMetric('contracts')
-            o(opendatauri.getMetric()).equals('contracts')
+            expect(opendatauri.getMetric()).toBe('contracts')
         })
-        o("geolevel", function() {
+        test("geolevel", function() {
             opendatauri.setGeolevel('ccaa')
-            o(opendatauri.getGeolevel()).equals('ccaa')
+            expect(opendatauri.getGeolevel()).toBe('ccaa')
         })
-        o("time (frequency)", function() {
+        test("time (frequency)", function() {
             opendatauri.setTime('yearly')
-            o(opendatauri.getTime()).equals('yearly')
+            expect(opendatauri.getTime()).toBe('yearly')
         })        
-        o("fromDate", function() {
+        test("fromDate", function() {
             opendatauri.setFromDate(moment("20190101", "YYYYMMDD"))
-            o(opendatauri.getFromDate().format('YYYY-MM-DD')).equals('2019-01-01')
+            expect(opendatauri.getFromDate().format('YYYY-MM-DD')).toBe('2019-01-01')
         })        
-        o("onDate", function() {
+        test("onDate", function() {
             opendatauri.setOnDate(moment("20190101", "YYYYMMDD"))
-            o(opendatauri.getOnDate().format('YYYY-MM-DD')).equals('2019-01-01')
+            expect(opendatauri.getOnDate().format('YYYY-MM-DD')).toBe('2019-01-01')
         })        
-        o("toDate", function() {
+        test("toDate", function() {
             opendatauri.setToDate(moment("20190101", "YYYYMMDD"))
-            o(opendatauri.getToDate().format('YYYY-MM-DD')).equals('2019-01-01')
+            expect(opendatauri.getToDate().format('YYYY-MM-DD')).toBe('2019-01-01')
         })        
-        o("filters", function() {
+        test("filters", function() {
             opendatauri.setFilters('filter1')
-            o(opendatauri.getFilters()).equals('filter1')
+            expect(opendatauri.getFilters()).toBe('filter1')
         })        
     })
-    o.spec("Uri when values set", function() {
+    describe("Uri when values set", function() {
         var opendatauri = new OpendataUri()
-        o("default", function() {
-            o(opendatauri.uri()).equals('https://opendata.somenergia.coop/v0.2/members')
+        test("default", function() {
+            expect(opendatauri.uri()).toBe('https://opendata.somenergia.coop/v0.2/members')
         })
-        o("Metric set", function() {
+        test("Metric set", function() {
             opendatauri.setMetric('contracts')
-            o(opendatauri.uri()).equals('https://opendata.somenergia.coop/v0.2/contracts')
+            expect(opendatauri.uri()).toBe('https://opendata.somenergia.coop/v0.2/contracts')
         })
-        o("geolevel set", function() {
+        test("geolevel set", function() {
             opendatauri.setGeolevel('city')
-            o(opendatauri.uri()).equals('https://opendata.somenergia.coop/v0.2/contracts/by/city')
+            expect(opendatauri.uri()).toBe('https://opendata.somenergia.coop/v0.2/contracts/by/city')
         })
-        o("with filters", function() {
+        test("with filters", function() {
             opendatauri.setFilters('country=ES')
-            o(opendatauri.uri()).equals('https://opendata.somenergia.coop/v0.2/contracts/by/city?country=ES')
+            expect(opendatauri.uri()).toBe('https://opendata.somenergia.coop/v0.2/contracts/by/city?country=ES')
         })
     })
-    o.spec("On a date", function() {
+    describe("On a date", function() {
     
         var opendatauri = new OpendataUri()
-        o("no date requested", function() {
-            o(opendatauri.uri()).equals('https://opendata.somenergia.coop/v0.2/members')
+        test("no date requested", function() {
+            expect(opendatauri.uri()).toBe('https://opendata.somenergia.coop/v0.2/members')
         })
-        o("Date requested", function() {
+        test("Date requested", function() {
             opendatauri.setOnDate(moment("20190101", "YYYYMMDD"))
-            o(opendatauri.uri()).equals('https://opendata.somenergia.coop/v0.2/members/on/2019-01-01')
+            expect(opendatauri.uri()).toBe('https://opendata.somenergia.coop/v0.2/members/on/2019-01-01')
         })
-        o("Return to undefined", function() {
+        test("Return to undefined", function() {
             opendatauri.setOnDate(undefined)
-            o(opendatauri.uri()).equals('https://opendata.somenergia.coop/v0.2/members')
+            expect(opendatauri.uri()).toBe('https://opendata.somenergia.coop/v0.2/members')
         })
     })
-    o.spec("With a frequency", function() {
+    describe("With a frequency", function() {
         var opendatauri = new OpendataUri()
-        o("no from nor to", function() {
+        test("no from nor to", function() {
             opendatauri.setTime('yearly')
-            o(opendatauri.uri()).equals('https://opendata.somenergia.coop/v0.2/members/yearly')
+            expect(opendatauri.uri()).toBe('https://opendata.somenergia.coop/v0.2/members/yearly')
         })
-        o("From set", function() {
+        test("From set", function() {
             opendatauri.setFromDate(moment("20190101", "YYYYMMDD"))
-            o(opendatauri.uri()).equals('https://opendata.somenergia.coop/v0.2/members/yearly/from/2019-01-01')
+            expect(opendatauri.uri()).toBe('https://opendata.somenergia.coop/v0.2/members/yearly/from/2019-01-01')
         })
         var opendatauri2 = new OpendataUri()
-        o("To date set", function() {
+        test("To date set", function() {
             opendatauri2.setTime('yearly')
             opendatauri2.setToDate(moment("20190101", "YYYYMMDD"))
-            o(opendatauri2.uri()).equals('https://opendata.somenergia.coop/v0.2/members/yearly/to/2019-01-01')
+            expect(opendatauri2.uri()).toBe('https://opendata.somenergia.coop/v0.2/members/yearly/to/2019-01-01')
         })
-        o("Both set", function() {
+        test("Both set", function() {
             opendatauri2.setTime('yearly')
             opendatauri2.setFromDate(moment("20180101", "YYYYMMDD"))
             opendatauri2.setToDate(moment("20190101", "YYYYMMDD"))
-            o(opendatauri2.uri()).equals('https://opendata.somenergia.coop/v0.2/members/yearly/from/2018-01-01/to/2019-01-01')
+            expect(opendatauri2.uri()).toBe('https://opendata.somenergia.coop/v0.2/members/yearly/from/2018-01-01/to/2019-01-01')
         })
-        o("Return to time undefined", function() {
+        test("Return to time undefined", function() {
             opendatauri2.setTime('on')
-            o(opendatauri2.uri()).equals('https://opendata.somenergia.coop/v0.2/members')
+            expect(opendatauri2.uri()).toBe('https://opendata.somenergia.coop/v0.2/members')
         })
     })
-    o.spec("HighlightedUri", function() {
-        o("Default", function() {
+    describe("HighlightedUri", function() {
+        test("Default", function() {
             var opendatauri = new OpendataUri()
             var result = opendatauri.highlightedUri()
             var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members']]
-            o(compare(result, expected)).equals(true)
+            expect(compare(result, expected)).toBe(true)
         })
-        o("Changed metric", function() {
+        test("Changed metric", function() {
             var opendatauri = new OpendataUri()
             console.log("a changed")
             opendatauri.setMetric('contracts')
             var result = opendatauri.highlightedUri()
             var expected = [['K', 'https://opendata.somenergia.coop/v0.2/'], ['I', 'contracts'], ['O', 'members']]
-            o(compare(result, expected)).equals(true)
+            expect(compare(result, expected)).toBe(true)
         })
-        o("Changed geolevel", function() {
+        test("Changed geolevel", function() {
             var opendatauri = new OpendataUri()
             opendatauri.setGeolevel('ccaa')
             var result = opendatauri.highlightedUri()
             var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members'], ['I', '/by/ccaa'], ['O', '']]
-            o(compare(result, expected)).equals(true)
+            expect(compare(result, expected)).toBe(true)
         })
-        o("Changed geolevel-> return to undefined", function() {
+        test("Changed geolevel-> return to undefined", function() {
             console.log("new atest");
             var opendatauri = new OpendataUri()
             opendatauri.setGeolevel('ccaa')
             opendatauri.setGeolevel(undefined)
             var result = opendatauri.highlightedUri()
             var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members'], ['I',''], ['O', '/by/ccaa']]
-            o(compare(result, expected)).equals(true)
+            expect(compare(result, expected)).toBe(true)
         })
-        /*o("Changed frequency", function() {
+        /*test("Changed frequency", function() {
             var opendatauri = new OpendataUri()
             console.log("a changed")
             opendatauri.setTime('yearly')
             var result = opendatauri.highlightedUri()
             var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members'], ['I', '/yearly'], ['O', '']]
-            o(compare(result, expected)).equals(true)
+            expect(compare(result, expected)).toBe(true)
         })
-        o("Changed frequency -> back to 'on'", function() {
+        test("Changed frequency -> back to 'on'", function() {
             var opendatauri = new OpendataUri()
             console.log("a changed")
             opendatauri.setTime('yearly')
             opendatauri.setTime('on')
             var result = opendatauri.highlightedUri()
             var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members'], ['I', ''], ['O', '/yearly']]
-            o(compare(result, expected)).equals(true)
+            expect(compare(result, expected)).toBe(true)
         })*/
     })
 })
