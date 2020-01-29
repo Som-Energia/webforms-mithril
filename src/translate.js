@@ -1,8 +1,6 @@
 'use strict';
 
 // Mockup module for translations
-
-const _ = require('i18n4v');
 const moment = require('moment');
 require('moment/locale/es');
 require('moment/locale/ca');
@@ -12,26 +10,31 @@ require('moment/locale/gl');
 function basename(path) {
 	return path.split('/').pop().split('.').shift();
 }
+var _ = require('i18n4v');
 
-var translations = {};
-// TODO: remove this when jest supports webpack's require.context
-//const requireContext = require.context!== undefined ? require.context('./i18n', false, /\.yaml$/) : {};
-const requireContext = require.context('./i18n', false, /\.yaml$/);
-for (let key of requireContext.keys()) {
-	const translation = requireContext(key);
-	const langname = basename(key);
-	translations[langname] = {
-		values: translation
-	};
+console.log(require);
+
+if (require.context === undefined){
+    _ = function(t,params) {
+        return t;
+    };
 }
-_.selectLanguage(Object.keys(translations), function(err, lang) {
-	_.translator.add(translations[lang] || translations['es']);
-	moment.locale(lang);
-});
+else{
+    var translations = {};
+    // TODO: remove this when jest supports webpack's require.context
+    const requireContext = require.context('./i18n', false, /\.yaml$/);
+    //const requireContext = require.context('./i18n', false, /\.yaml$/);
+    for (let key of requireContext.keys()) {
+    	const translation = requireContext(key);
+    	const langname = basename(key);
+    	translations[langname] = {
+    		values: translation
+    	};
+    }
+    _.selectLanguage(Object.keys(translations), function(err, lang) {
+    	_.translator.add(translations[lang] || translations['es']);
+    	moment.locale(lang);
+    });
+}
 
-/*
-var _ = function(t,params) {
-	return t;
-};
-*/
 module.exports = _
