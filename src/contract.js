@@ -628,12 +628,16 @@ var ReviewPage = function() {
 			normalizedContract.payment.iban = normalizedContract.payment.iban.split(' ').join('');
 		}
 
-		normalizedContract.especial_cases !== undefined ? (
+		if (normalizedContract.especial_cases !== undefined ) {
 			Object.keys(normalizedContract.especial_cases).map(prop => prop.indexOf('reason') === 0 && normalizedContract.especial_cases[prop] === true)
 				.reduce((prev, current) => !prev ? current : prev) ?
-					false : (delete normalizedContract.especial_cases.attachments & delete normalizedContract.especial_cases.attachments_errors)
-		) : false;
+					false : (delete normalizedContract.especial_cases.attachments & delete normalizedContract.especial_cases.attachments_errors);
 
+			if(normalizedContract.especial_cases.attachments_errors !== undefined) {
+				delete normalizedContract.especial_cases.attachments_errors;
+			}								
+		}
+			
 		if(normalizedContract.terms.terms_accepted !== undefined){
 			normalizedContract.terms_accepted = normalizedContract.terms.terms_accepted;
 			delete normalizedContract.terms;
@@ -993,7 +997,9 @@ var SuccessPage = function() {
 						contract_number: Contract.contract_number,
 						urlov: _('OV_URL'),
 					})),
-					m('img.cuca', {src: cuca})
+					m('.cuca__container',
+						m('img.cuca', {src: cuca})
+					)
 				]),
 				m(Cell, { spandesktop:2, spantablet:1 })
 			])
