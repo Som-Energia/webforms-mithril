@@ -96,7 +96,7 @@ function OpenDataUri() {
 			_prevUri = this.uri();
 			_todate = formattedValue;
 		}
-	};  
+	};
 	this.setFilters = function(value) {
 		lastChange[0] = value ? '' : '?' + _filters;
 		lastChange[1] = value ? '?'+value : '';

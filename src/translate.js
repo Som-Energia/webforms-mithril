@@ -14,7 +14,7 @@ function basename(path) {
 }
 
 var translations = {};
-// TODO: remove this when jest supports webpack's require.context 
+// TODO: remove this when jest supports webpack's require.context
 //const requireContext = require.context!== undefined ? require.context('./i18n', false, /\.yaml$/) : {};
 const requireContext = require.context('./i18n', false, /\.yaml$/);
 for (let key of requireContext.keys()) {

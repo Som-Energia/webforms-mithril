@@ -36,16 +36,16 @@ describe("OpendataUri", function() {
         })
         test("onDate", function() {
             expect(opendatauri.getOnDate()).toBe(undefined)
-        })         
+        })
         test("fromDate", function() {
             expect(opendatauri.getFromDate()).toBe(undefined)
-        })        
+        })
         test("toDate", function() {
             expect(opendatauri.getToDate()).toBe(undefined)
-        })        
+        })
         test("filters", function() {
             expect(opendatauri.getFilters()).toBe()
-        })        
+        })
     })
     describe("Set Values Independently", function() {
         var opendatauri = new OpendataUri()
@@ -60,23 +60,23 @@ describe("OpendataUri", function() {
         test("time (frequency)", function() {
             opendatauri.setTime('yearly')
             expect(opendatauri.getTime()).toBe('yearly')
-        })        
+        })
         test("fromDate", function() {
             opendatauri.setFromDate(moment("20190101", "YYYYMMDD"))
             expect(opendatauri.getFromDate().format("YYYY-MM-DD")).toBe('2019-01-01')
-        })        
+        })
         test("onDate", function() {
             opendatauri.setOnDate(moment("20190101", "YYYYMMDD"))
             expect(opendatauri.getOnDate().format("YYYY-MM-DD")).toBe('2019-01-01')
-        })        
+        })
         test("toDate", function() {
             opendatauri.setToDate(moment("20190101", "YYYYMMDD"))
             expect(opendatauri.getToDate().format("YYYY-MM-DD")).toBe('2019-01-01')
-        })        
+        })
         test("filters", function() {
             opendatauri.setFilters('filter1')
             expect(opendatauri.getFilters()).toBe('filter1')
-        })        
+        })
     })
     describe("Uri when values set", function() {
         var opendatauri = new OpendataUri()
@@ -97,7 +97,6 @@ describe("OpendataUri", function() {
         })
     })
     describe("On a date", function() {
-    
         var opendatauri = new OpendataUri()
         test("no date requested", function() {
             expect(opendatauri.uri()).toBe('https://opendata.somenergia.coop/v0.2/members')
