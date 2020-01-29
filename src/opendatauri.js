@@ -12,7 +12,6 @@ function OpenDataUri() {
 	var _fromdate = undefined;
 	var _todate = undefined;
 	var _filters = undefined;
-	var _prevValue = undefined;
 	var _prevUri = undefined;
 	var lastChange = [undefined, undefined]; //[previousValue,newValue]
 
