@@ -1,9 +1,8 @@
 'use strict';
-var moment = require('moment');
-
+var moment = require('moment')
 var OpendataUri = require("./opendatauri.js")
+
 function compare(arr1, arr2){
-    console.log("Comparo " + arr1 +" and " + arr2);
     if (arr1.length != arr2.length){
         console.log("Different length arrays " + arr1 +" and " + arr2);
         return false;
@@ -64,15 +63,15 @@ describe("OpendataUri", function() {
         })        
         test("fromDate", function() {
             opendatauri.setFromDate(moment("20190101", "YYYYMMDD"))
-            expect(opendatauri.getFromDate().format('YYYY-MM-DD')).toBe('2019-01-01')
+            expect(opendatauri.getFromDate().format("YYYY-MM-DD")).toBe('2019-01-01')
         })        
         test("onDate", function() {
             opendatauri.setOnDate(moment("20190101", "YYYYMMDD"))
-            expect(opendatauri.getOnDate().format('YYYY-MM-DD')).toBe('2019-01-01')
+            expect(opendatauri.getOnDate().format("YYYY-MM-DD")).toBe('2019-01-01')
         })        
         test("toDate", function() {
             opendatauri.setToDate(moment("20190101", "YYYYMMDD"))
-            expect(opendatauri.getToDate().format('YYYY-MM-DD')).toBe('2019-01-01')
+            expect(opendatauri.getToDate().format("YYYY-MM-DD")).toBe('2019-01-01')
         })        
         test("filters", function() {
             opendatauri.setFilters('filter1')
@@ -107,6 +106,11 @@ describe("OpendataUri", function() {
             opendatauri.setOnDate(moment("20190101", "YYYYMMDD"))
             expect(opendatauri.uri()).toBe('https://opendata.somenergia.coop/v0.2/members/on/2019-01-01')
         })
+        test("Change frequency and return to ondate -> keep ondate", function() {
+            opendatauri.setTime('yearly')
+            opendatauri.setTime('on')
+            expect(opendatauri.uri()).toBe('https://opendata.somenergia.coop/v0.2/members/on/2019-01-01')
+        })
         test("Return to undefined", function() {
             opendatauri.setOnDate(undefined)
             expect(opendatauri.uri()).toBe('https://opendata.somenergia.coop/v0.2/members')
@@ -138,8 +142,14 @@ describe("OpendataUri", function() {
             opendatauri2.setTime('on')
             expect(opendatauri2.uri()).toBe('https://opendata.somenergia.coop/v0.2/members')
         })
+        test("Return to frequency -> keep from a to date", function() {
+            opendatauri2.setTime('yearly')
+            expect(opendatauri2.uri()).toBe('https://opendata.somenergia.coop/v0.2/members/yearly/from/2018-01-01/to/2019-01-01')
+        })
     })
-    describe("HighlightedUri", function() {
+})
+describe("HighlightedUri", function() {
+    describe("Simple fields", function() {
         test("Default", function() {
             var opendatauri = new OpendataUri()
             var result = opendatauri.highlightedUri()
@@ -148,7 +158,6 @@ describe("OpendataUri", function() {
         })
         test("Changed metric", function() {
             var opendatauri = new OpendataUri()
-            console.log("a changed")
             opendatauri.setMetric('contracts')
             var result = opendatauri.highlightedUri()
             var expected = [['K', 'https://opendata.somenergia.coop/v0.2/'], ['I', 'contracts'], ['O', 'members']]
@@ -162,7 +171,6 @@ describe("OpendataUri", function() {
             expect(compare(result, expected)).toBe(true)
         })
         test("Changed geolevel-> return to undefined", function() {
-            console.log("new atest");
             var opendatauri = new OpendataUri()
             opendatauri.setGeolevel('ccaa')
             opendatauri.setGeolevel(undefined)
@@ -170,22 +178,124 @@ describe("OpendataUri", function() {
             var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members'], ['I',''], ['O', '/by/ccaa']]
             expect(compare(result, expected)).toBe(true)
         })
-        /*test("Changed frequency", function() {
+        test("Filters", function() {
             var opendatauri = new OpendataUri()
-            console.log("a changed")
+            opendatauri.setFilters('ca=2')
+            var result = opendatauri.highlightedUri()
+            var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members'], ['I', '?ca=2'], ['O','']]
+            expect(compare(result, expected)).toBe(true)
+        })
+        test("Trying to set same value", function() {
+            var opendatauri = new OpendataUri()
+            opendatauri.setMetric('contracts')
+            opendatauri.setOnDate(moment("20190101", "YYYYMMDD"))
+            opendatauri.setMetric('contracts')
+            var result = opendatauri.highlightedUri()
+            var expected = [['K', 'https://opendata.somenergia.coop/v0.2/contracts'], ['I', '/on/2019-01-01'], ['O', '']]
+            expect(compare(result, expected)).toBe(true)
+        })
+    })
+    describe("Fields with consequences", function() {
+        test("Changed frequency", function() {
+            var opendatauri = new OpendataUri()
             opendatauri.setTime('yearly')
             var result = opendatauri.highlightedUri()
             var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members'], ['I', '/yearly'], ['O', '']]
             expect(compare(result, expected)).toBe(true)
         })
-        test("Changed frequency -> back to 'on'", function() {
+        test("Changed frequency and fromDate -> back to 'on'", function() {
             var opendatauri = new OpendataUri()
-            console.log("a changed")
             opendatauri.setTime('yearly')
+            opendatauri.setFromDate(moment("20190101", "YYYYMMDD"))
             opendatauri.setTime('on')
             var result = opendatauri.highlightedUri()
-            var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members'], ['I', ''], ['O', '/yearly']]
+            var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members'], ['I', ''], ['O', '/yearly/from/2019-01-01']]
             expect(compare(result, expected)).toBe(true)
-        })*/
+        })
+        test("Changed on date", function() {
+            var opendatauri = new OpendataUri()
+            opendatauri.setOnDate(moment("20190101", "YYYYMMDD"))
+            var result = opendatauri.highlightedUri()
+            var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members'], ['I', '/on/2019-01-01'], ['O', '']]
+            expect(compare(result, expected)).toBe(true)
+            opendatauri.setOnDate(moment("20150101", "YYYYMMDD"))
+            var result = opendatauri.highlightedUri()
+            var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members/on/'], ['I', '2015-01-01'], ['O', '2019-01-01']]
+            expect(compare(result, expected)).toBe(true)
+        })
+        test("Changed on date -> clear onDate", function() {
+            var opendatauri = new OpendataUri()
+            opendatauri.setOnDate(moment("20190101", "YYYYMMDD"))
+            opendatauri.setOnDate(undefined)
+            var result = opendatauri.highlightedUri()
+            var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members'], ['I', ''], ['O', '/on/2019-01-01']]
+            expect(compare(result, expected)).toBe(true)
+        })
+        test("Set from date ", function() {
+            var opendatauri = new OpendataUri()
+            opendatauri.setTime('yearly')
+            opendatauri.setFromDate(moment("20190101", "YYYYMMDD"))
+            var result = opendatauri.highlightedUri()
+            var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members/yearly'], ['I', '/from/2019-01-01'], ['O', '']]
+            expect(compare(result, expected)).toBe(true)
+        })
+        test("Change from date ", function() {
+            var opendatauri = new OpendataUri()
+            opendatauri.setTime('yearly')
+            opendatauri.setFromDate(moment("20190101", "YYYYMMDD"))
+            opendatauri.setFromDate(moment("20150101", "YYYYMMDD"))
+            var result = opendatauri.highlightedUri()
+            var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members/yearly/from/'], ['I', '2015-01-01'], ['O', '2019-01-01']]
+            expect(compare(result, expected)).toBe(true)
+        })
+        test("Set to date ", function() {
+            var opendatauri = new OpendataUri()
+            opendatauri.setTime('yearly')
+            opendatauri.setToDate(moment("20190101", "YYYYMMDD"))
+            var result = opendatauri.highlightedUri()
+            var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members/yearly'], ['I', '/to/2019-01-01'], ['O', '']]
+            expect(compare(result, expected)).toBe(true)
+        })
+        test("Change to date ", function() {
+            var opendatauri = new OpendataUri()
+            opendatauri.setTime('yearly')
+            opendatauri.setToDate(moment("20190101", "YYYYMMDD"))
+            opendatauri.setToDate(moment("20150101", "YYYYMMDD"))
+            var result = opendatauri.highlightedUri()
+            var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members/yearly/to/'], ['I', '2015-01-01'], ['O', '2019-01-01']]
+            expect(compare(result, expected)).toBe(true)
+        })
+        test("Return to frequency -> keep from a to date", function() {
+            var opendatauri = new OpendataUri()
+            opendatauri.setTime('yearly')
+            opendatauri.setFromDate(moment("20150101", "YYYYMMDD"))
+            opendatauri.setToDate(moment("20160101", "YYYYMMDD"))
+            opendatauri.setTime('on')
+            opendatauri.setOnDate(moment("20190101", "YYYYMMDD"))
+            opendatauri.setTime('yearly')
+            var result = opendatauri.highlightedUri()
+            var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members'], ['I', '/yearly/from/2015-01-01/to/2016-01-01'], ['O', '/on/2019-01-01']]
+            expect(compare(result, expected)).toBe(true)
+        })
+        test("Values middle uri -> keep part at the end", function() {
+            var opendatauri = new OpendataUri()
+            opendatauri.setTime('yearly')
+            opendatauri.setToDate(moment("20190101", "YYYYMMDD"))
+            opendatauri.setFromDate(moment("20150101", "YYYYMMDD"))
+            opendatauri.setTime('monthly')
+            var result = opendatauri.highlightedUri()
+            var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members/'], ['I', 'monthly'], ['O', 'yearly'], ['K','/from/2015-01-01/to/2019-01-01']]
+            expect(compare(result, expected)).toBe(true)
+        })
+        test("Set same todate and fromdate", function() {
+            var opendatauri = new OpendataUri()
+            opendatauri.setTime('yearly')
+            opendatauri.setFromDate(moment("20150101", "YYYYMMDD"))
+            opendatauri.setToDate(moment("20190101", "YYYYMMDD"))
+            opendatauri.setFromDate(moment("20190101", "YYYYMMDD"))
+            var result = opendatauri.highlightedUri()
+            var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members/yearly/from/'], ['I', '2019-01-01'], ['O', '2015-01-01'], ['K','/to/2019-01-01']]
+            expect(compare(result, expected)).toBe(true)
+        })
     })
 })
