@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot Example Negative control 1`] = `
+"<div>
+  Nooo!
+</div>
+"
+`;
+
+exports[`Snapshot Example Positive control 1`] = `
+"<div>
+  Bye!
+</div>
+"
+`;
