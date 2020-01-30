@@ -14,7 +14,7 @@ var _ = require('i18n4v');
 
 
 // TODO: remove this when jest supports webpack's require.context
-if (global.__TEST__){
+if (global.__JEST_TESTING__){
     _ = function(t,params) {
         return t;
     };

@@ -69,10 +69,13 @@
       "\\.(scss|sass|css|styl|svg)$": "identity-obj-proxy"
     },
     "globals": {
-      "__TEST__": true
+      "__JEST_TESTING__": true
     },
     "transform": {
       "\\.html$": "./node_modules/html-loader-jest"
-    }
+    },
+    "watchPathIgnorePatterns": [
+      "<rootDir>/node_modules/"
+    ]
   }
 }
