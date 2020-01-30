@@ -12,18 +12,16 @@ function basename(path) {
 }
 var _ = require('i18n4v');
 
-console.log(require);
 
-if (require.context === undefined){
+// TODO: remove this when jest supports webpack's require.context
+if (global.__TEST__){
     _ = function(t,params) {
         return t;
     };
 }
 else{
     var translations = {};
-    // TODO: remove this when jest supports webpack's require.context
     const requireContext = require.context('./i18n', false, /\.yaml$/);
-    //const requireContext = require.context('./i18n', false, /\.yaml$/);
     for (let key of requireContext.keys()) {
     	const translation = requireContext(key);
     	const langname = basename(key);
