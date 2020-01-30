@@ -253,5 +253,5 @@ window.onload = function() {
     m.mount(element, OpenData);
     //traceFocus();
 };
-
+module.exports=OpenData;
 // vim: noet ts=4 sw=4
