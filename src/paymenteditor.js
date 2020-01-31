@@ -34,7 +34,7 @@ PaymentEditor.oninit = function(vn) {
 PaymentEditor.onupdate = function(vn) {
     if(vn.attrs.model.iban !== undefined){
         vn.state.ibaneditor.value = vn.attrs.model.iban;
-        vn.state.ibaneditor.isvalid = true;
+        //vn.state.ibaneditor.isvalid = true;
     }
 };
 
@@ -61,7 +61,6 @@ PaymentEditor.view = function(vn){
             outlined: true,
             autocomplete: 'off',
 			onvalidated: function() {
-				console.log('payment editor, onvalidated: ', vn.state);
 				vn.state.model.validate();
 				vn.state.model.iban = vn.state.ibaneditor.value;
 			},
