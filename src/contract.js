@@ -324,7 +324,7 @@ var CupsPage = function() {
 		id: 'cups_page',
 		title: _('CUPS_TITLE'),
 		validator: function() {
-			if (model.address === undefined) { // empty				
+			if (model.address === undefined) { // empty
 				return ""; // Forbid going on, no message
 			}
 
@@ -370,7 +370,7 @@ var CupsPage = function() {
 					},
 					onvalidated: function(value, data) {
 						if (value) {
-							model.cups = value;
+							model.cups = data.cups;
 							model.address = data.address;
 							model.status = data.status;
 						} else {
@@ -605,11 +605,11 @@ var ReviewPage = function() {
 		if(normalizedContract.holder.proxyvatvalue !== undefined){
 			normalizedContract.holder.proxynif = normalizedContract.holder.proxyvatvalue;
 			delete normalizedContract.holder.proxyvatvalue;
-		}	
+		}
 
 		if(normalizedContract.holder.proxyvatvalid !== undefined){
 			delete normalizedContract.holder.proxyvatvalid;
-		}		
+		}
 
 		if(normalizedContract.holder.privacy_policy_accepted !== undefined){
 			normalizedContract.privacy_policy_accepted = normalizedContract.holder.privacy_policy_accepted;
@@ -635,9 +635,9 @@ var ReviewPage = function() {
 
 			if(normalizedContract.especial_cases.attachments_errors !== undefined) {
 				delete normalizedContract.especial_cases.attachments_errors;
-			}								
+			}
 		}
-			
+
 		if(normalizedContract.terms.terms_accepted !== undefined){
 			normalizedContract.terms_accepted = normalizedContract.terms.terms_accepted;
 			delete normalizedContract.terms;
@@ -672,7 +672,7 @@ var ReviewPage = function() {
 		nexticon: 'send',
 		nextlabel: _("SEND"),
 		validator: function() {
-			if (Contract.terms.terms_accepted === false) {
+			if (Contract.terms.terms_accepted === false || Contract.terms.terms_accepted === undefined) {
 				return _('UNACCEPTED_TERMS');
 			}
 			return undefined;
@@ -1014,7 +1014,7 @@ window.onload = function() {
 	if(lang !== undefined){
 		_.setLanguage(lang);
 		_.translator.add(translations[lang]);
-		moment.locale(lang);		
+		moment.locale(lang);
 	}
 	m.mount(element, Form);
 };
