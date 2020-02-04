@@ -246,17 +246,16 @@ PersonEditor.view = function(vn) {
 				id: prefix+'phone1',
 				label: _('HOLDER_PHONE'),
 				help: '', //help: _('HOLDER_PHONE_HELP'),
+				minlength: 9,
 				maxlength: 9,
+				pattern: '[0-9]{9}',
 				leadingicon: 'phone',
 				value: person.phone1,
 				outlined: true,
 				oninput: function(ev) {
 					person.phone1 = ev.target.value;
 				},
-				inputfilter: function(value) {
-					value = value.replace(/[^0-9]/g,'');
-					return value;
-				},
+				inputfilter: /^[0-9]{0,9}$/,
 				required: true,
 				boxed: true,
 			})),
@@ -265,16 +264,14 @@ PersonEditor.view = function(vn) {
 				label: _('HOLDER_PHONE_2'),
 				help: '', //help: _('HOLDER_PHONE_2_HELP'),
 				maxlength: 9,
+				pattern: '[0-9]{9}',
 				leadingicon: 'phone',
 				value: person.phone2,
 				outlined: true,
 				oninput: function(ev) {
 					person.phone2 = ev.target.value;
 				},
-				inputfilter: function(value) {
-					value = value.replace(/[^0-9]/g,'');
-					return value;
-				},
+				inputfilter: /^[0-9]{0,9}$/,
 				boxed: true,
 			})),
 		]),
