@@ -5,6 +5,7 @@ var uribase = 'http://0.0.0.0:5001/v0.2';
 var uribase = 'https://opendata.somenergia.coop/v0.2';
 
 function OpenDataUri() {
+    var _responseType = 'data'
 	var _metric = 'members';
 	var _geolevel = '';
 	var _time = 'on';
@@ -15,7 +16,10 @@ function OpenDataUri() {
 	var _prevUri = undefined;
 	var lastChange = [undefined, undefined]; //[previousValue,newValue]
 
-	this.getMetric = function () {
+	this.getResponseType = function () {
+        return _responseType;
+    };
+    this.getMetric = function () {
 		return _metric;
 	};
 	this.getGeolevel = function () {
@@ -36,6 +40,20 @@ function OpenDataUri() {
 	this.getFilters = function () {
 		return _filters;
 	};
+    this.setResponseType = function (value) {
+        if (value !== _responseType){
+            if (value === 'map'){
+                lastChange[0]= '';
+                lastChange[1] = '/'+value;
+            }
+            else {
+                lastChange[0]='/map';
+                lastChange[1] = '';
+            }
+            _prevUri = this.uri();
+            _responseType = value;
+        }
+    };
 	this.setMetric = function (value) {
 		if (value !== _metric){
 			lastChange[0]=_metric;
@@ -103,7 +121,9 @@ function OpenDataUri() {
 		_filters = value;
 	};
 	this.uri = function () {
-		var result = uribase+'/'+_metric;
+		var result = uribase
+        result+= _responseType==='map'? '/map' :'';
+        result+='/'+_metric;
 		result += _geolevel?'/by/'+_geolevel:'';
 
 		result+= frequencyAndDates();
