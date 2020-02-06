@@ -78,7 +78,7 @@ STILL_VALIDATING_SESSION: '' # Empty
 CONTRACTING_AS: Està contractant a nom de %{name}.
 NOT_YOU_LOGOUT: Si no sou aquesta persona, si us plau,  <a href="%{url}" target="_blank">tanqueu la sessió</a>
 FILL_NIF: No has introduit un NIF correcte
-FILL_VAT: "<p>Aquest és el formulari que et permet realitzar un canvi de titularitat d’un contracte actiu amb Som Energia.</p><p>A continuació, has d’indicar el NIF de la persona o entitat jurídica que serà titular del contracte:</p>"
+FILL_VAT: "<p>Aquest formulari permet realitzar un canvi de titularitat d’un contracte actiu amb Som Energia.</p><p>Indica el <b>NIF de la persona o entitat jurídica que serà la nova titular</b> del contracte:</p>"
 VAT_LABEL: Número d'identificació fiscal (NIF)
 VAT_HELP: I si no disposo d'un NIF?
 VAT_HELP_URL: TODO
