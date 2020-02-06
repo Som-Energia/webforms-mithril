@@ -312,3 +312,45 @@ describe("OpendataUri when map requested", function() {
         })
     })
 })
+describe("Relative metric", function() {
+    describe("Uri", function() {
+        var opendatauri= new OpendataUri()
+        test("default", function() {
+            expect(opendatauri.getRelativeMetric()).toBe('')
+        })
+        test("getter", function() {
+            opendatauri.setRelativeMetric('population')
+            expect(opendatauri.getRelativeMetric()).toBe('population')
+        })
+        test("uri", function() {
+            expect(opendatauri.uri()).toBe('https://opendata.somenergia.coop/v0.2/members/per/population')
+        })
+        test("uri when many parameters set", function() {
+            opendatauri.setResponseType('map')
+            opendatauri.setTime('yearly')
+            opendatauri.setFromDate(moment("20150101", "YYYYMMDD"))
+            opendatauri.setToDate(moment("20190101", "YYYYMMDD"))
+            expect(opendatauri.uri()).toBe('https://opendata.somenergia.coop/v0.2/map/members/per/population/yearly/from/2015-01-01/to/2019-01-01')
+        })
+    })
+    describe("HighlightedUri", function() {
+        var opendatauri= new OpendataUri()
+        test("Set relative metric", function() {
+            opendatauri.setRelativeMetric('population')
+            var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members'], ['I', '/per/population'],['O', '']]
+            expect(opendatauri.highlightedUri()).toStrictEqual(expected)
+        })
+        test("return not relative", function() {
+            opendatauri.setRelativeMetric('')
+            var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members'], ['I', ''],['O', '/per/population']]
+            expect(opendatauri.highlightedUri()).toStrictEqual(expected)
+        })
+        test("return not relative when other parameters set", function() {
+            opendatauri.setTime('yearly')
+            opendatauri.setRelativeMetric('population')
+            opendatauri.setRelativeMetric('')
+            var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members'], ['I', ''],['O', '/per/population'], ['K', '/yearly']]
+            expect(opendatauri.highlightedUri()).toStrictEqual(expected)
+        })
+    })
+})
