@@ -7,10 +7,15 @@ OPENDATAUI_TITLE: |
 ALPHA_DISCLAIMER: |
   Advertència: això és una versió alfa.
   Les xifres calculades per l'API encara no són exactament les reals.
+OPENDATA_CONTROLS_TITLE: Consulta
+RESPONSE_TYPE_HELP: Tria el tipus de resposta a demanar
+OBTAIN_DATA: Dades
+OBTAIN_MAP: Mapa
 METRIC_LABEL: Mètrica
 METRIC_HELP: Selecciona la mètrica a demanar
 Members: Socies
 Contracts: Contractes
+RELATIVE_METRIC_LABEL: Relatiu a [per]
 GEOLEVEL_LABEL: Nivell geogràfic [by]
 GEOLEVEL_HELP: |
   Fins quin nivell de detall vols aprofundir.

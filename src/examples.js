@@ -25,6 +25,8 @@ var PageSlider = require('./pageslider');
 var DatePicker = require('./datepicker');
 var LegalConsent = require('./legalconsent');
 var Uploader = require('./uploader');
+var Card = require('./mdc/card');
+var TopAppBar = require('./mdc/topappbar');
 
 require('font-awesome/css/font-awesome.css');
 require('@material/typography/dist/mdc.typography.css').default;

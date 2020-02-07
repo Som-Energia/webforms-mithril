@@ -7,10 +7,15 @@ OPENDATAUI_TITLE: |
 ALPHA_DISCLAIMER: |
   Disclaimer: This is an Alpha version.
   Numbers retrieved by the API are not fully reliable yet.
+OPENDATA_CONTROLS_TITLE: Query
+RESPONSE_TYPE_HELP: Choose the response type to query
+OBTAIN_DATA: Data
+OBTAIN_MAP: Map
 METRIC_LABEL: Metric
 METRIC_HELP: Select the metric to query
 Members: Members
 Contracts: Contracts
+RELATIVE_METRIC_LABEL: Relative to [per]
 GEOLEVEL_LABEL: Geographical level [by]
 GEOLEVEL_HELP: |
   Dig down to a geographical level of detail.
