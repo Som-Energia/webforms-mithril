@@ -126,16 +126,21 @@ var OpenData = {
                         value: 'contracts',
                     }],
                 }),
-                responsetype === 'map' && m(Select, {
+                m(Select, {
                     id: 'relativeMetric',
                     label: _('RELATIVE_METRIC_LABEL'),
                     help: _('RELATIVE_METRIC_HELP'),
-                    value: opendatauri.getRelativeMetric(),
-                    required: false,
+                    value: opendatauri.getRelativeMetric()? opendatauri.getRelativeMetric() : 'absolute',
+                    required: true,
+                    disabled: responsetype === 'table',
                     onchange: function(ev) {opendatauri.setRelativeMetric(ev.target.value);},
                     options: [{
+                        text: _('Absolute Values'),
+                        value: 'absolute',
+                    }, {
                         text: _('Population'),
                         value: 'population',
+                        disabled: responsetype === 'table',
                     }],
                 }),
                 m(Select, {
