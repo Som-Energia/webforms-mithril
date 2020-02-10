@@ -14,6 +14,7 @@ function OpenDataUri() {
 	var _fromdate = undefined;
 	var _todate = undefined;
 	var _filters = undefined;
+    var _language = '';
 	var _prevUri = undefined;
 	var lastChange = [undefined, undefined]; //[previousValue,newValue]
 
@@ -44,6 +45,9 @@ function OpenDataUri() {
 	this.getFilters = function () {
 		return _filters;
 	};
+    this.getLanguage = function () {
+        return _language;
+    };
     this.setResponseType = function (value) {
         if (value !== _responseType){
             if (value === 'map'){
@@ -133,11 +137,17 @@ function OpenDataUri() {
 		}
 	};
 	this.setFilters = function(value) {
-		lastChange[0] = value ? '' : '?' + _filters;
-		lastChange[1] = value ? '?'+value : '';
+		lastChange[0] = value ? '' : (_language ? _filters + '&': '?' + _filters);
+		lastChange[1] = value ? (_language ? value+'&' : '?' +value) : '';
 		_prevUri = this.uri();
 		_filters = value;
 	};
+    this.setLanguage = function(value) {
+        lastChange[0] = value ? '' : (_filters ? '&lang='+_language : '?lang='+_language);
+        lastChange[1] = value ? (_filters ? '&lang='+value : '?lang='+value) : '';
+        _prevUri = this.uri();
+        _language = value;
+    };
 	this.uri = function () {
 		var result = uribase
         result+= _responseType==='map'? '/map' :'';
@@ -149,6 +159,10 @@ function OpenDataUri() {
 		if (_filters) {
 			result+= '?'+_filters;
 		}
+        if (_language){
+            result += _filters ? '&lang=' : '?lang=';
+            result += _language;
+        }
 		return result;
 	};
 

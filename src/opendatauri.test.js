@@ -354,3 +354,57 @@ describe("Relative metric", function() {
         })
     })
 })
+describe("Language", function() {
+    describe("Uri", function() {
+        var opendatauri= new OpendataUri()
+        test("default", function() {
+            expect(opendatauri.getLanguage()).toBe('')
+        })
+        test("getter", function() {
+            opendatauri.setLanguage('ca')
+            expect(opendatauri.getLanguage()).toBe('ca')
+        })
+        test("uri", function() {
+            expect(opendatauri.uri()).toBe('https://opendata.somenergia.coop/v0.2/members?lang=ca')
+        })
+        test("uri whith other filters", function() {
+            opendatauri.setFilters('filter')
+            expect(opendatauri.uri()).toBe('https://opendata.somenergia.coop/v0.2/members?filter&lang=ca')
+        })
+    })
+    describe("HighlightedUri", function() {
+        var opendatauri= new OpendataUri()
+        test("Set language", function() {
+            opendatauri.setLanguage('ca')
+            var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members'], ['I', '?lang=ca'],['O', '']]
+            expect(opendatauri.highlightedUri()).toStrictEqual(expected)
+        })
+        test("Set Language when other filters", function() {
+            var opendatauri= new OpendataUri()
+            opendatauri.setFilters('filter')
+            opendatauri.setLanguage('ca')
+            var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members?filter'], ['I', '&lang=ca'],['O', '']]
+            expect(opendatauri.highlightedUri()).toStrictEqual(expected)
+        })
+        test("return to default language", function() {
+            opendatauri.setLanguage('')
+            var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members'], ['I', ''],['O', '?lang=ca']]
+            expect(opendatauri.highlightedUri()).toStrictEqual(expected)
+        })
+        test("Language set -> add filters", function(){
+            var opendatauri = new OpendataUri()
+            opendatauri.setLanguage('ca')
+            opendatauri.setFilters('filter')
+            var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members?'], ['I', 'filter&'],['O', ''],['K', 'lang=ca']]
+            expect(opendatauri.highlightedUri()).toStrictEqual(expected)
+        })
+        test("Language set -> remove filters", function(){
+            var opendatauri = new OpendataUri()
+            opendatauri.setFilters('filter')
+            opendatauri.setLanguage('ca')
+            opendatauri.setFilters('')
+            var expected = [['K', 'https://opendata.somenergia.coop/v0.2/members?'], ['I', ''], ['O', 'filter&'],['K', 'lang=ca']]
+            expect(opendatauri.highlightedUri()).toStrictEqual(expected)
+        })
+    })
+})
