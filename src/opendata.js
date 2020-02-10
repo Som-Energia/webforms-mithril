@@ -239,6 +239,59 @@ var OpenData = {
     					opendatauri.setFilters(ev.target.value);
     				},
     			}),
+                responsetype === 'map' && m('.opendata__choose', [
+                    m(Checkbox, {
+                        id: 'default',
+                        label: _('BROWSER_LANG'),
+                        checked: opendatauri.getLanguage() === '',
+                        onchange: function(ev) {
+                            if (opendatauri.getLanguage() !== '' && ev.target.checked) {
+                                opendatauri.setLanguage('');
+                            }
+                        },
+                    }),
+                    m(Checkbox, {
+                        id: 'ca',
+                        label: _('CA_LANG'),
+                        checked: opendatauri.getLanguage() === 'ca',
+                        onchange: function(ev) {
+                            if (opendatauri.getLanguage() !== 'ca' && ev.target.checked) {
+                                opendatauri.setLanguage('ca');
+                            }
+                        },
+                    }),
+                    m(Checkbox, {
+                        id: 'es',
+                        label: _('ES_LANG'),
+                        checked: opendatauri.getLanguage() === 'es',
+                        onchange: function(ev) {
+                            if (opendatauri.getLanguage() !== 'es' && ev.target.checked) {
+                                opendatauri.setLanguage('es');
+                            }
+                        },
+                    }),
+                    m(Checkbox, {
+                        id: 'eu',
+                        label: _('EU_LANG'),
+                        checked: opendatauri.getLanguage() === 'eu',
+                        onchange: function(ev) {
+                            if (opendatauri.getLanguage() !== 'eu' && ev.target.checked) {
+                                opendatauri.setLanguage('eu');
+                            }
+                        },
+                    }),
+                    m(Checkbox, {
+                        id: 'gl',
+                        label: _('GL_LANG'),
+                        checked: opendatauri.getLanguage() === 'gl',
+                        onchange: function(ev) {
+                            if (opendatauri.getLanguage() !== 'gl' && ev.target.checked) {
+                                opendatauri.setLanguage('gl');
+                            }
+                        },
+                    }),
+                    m(".opendata-checkbox-helper-text",_('LANGUAGE_HELP'))
+                ]),
     			m('', {style: 'text-align: center'},
     				m('', {style: {
     					padding: '12pt',
