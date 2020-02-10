@@ -16,6 +16,11 @@ var LegalTexts = require('./legaltexts');
 var Mousetrap = require('mousetrap');
 require('mousetrap-global-bind');
 
+function isphisical (vat) {
+	if (vat === undefined) return undefined;
+	var firstchar = vat[0];
+	return '0123456789KLMXYZ'.indexOf(firstchar) !== -1;
+}
 
 var PersonEditor = {};
 
@@ -157,8 +162,7 @@ PersonEditor.view = function(vn) {
 					onvalidated: function(value, data) {
 						if (value) {
 							vn.state.person.proxyvatvalue = value;
-							vn.state.person.proxyvatvalid = data.valid;
-							// TODO: Ensure is physical
+							vn.state.person.proxyvatvalid = isphisical(value) ? data.valid : false;
 						} else {
 							vn.state.person.proxyvatvalue = undefined;
 							vn.state.person.proxyvatvalid = false;
