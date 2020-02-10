@@ -150,6 +150,7 @@ NO_SURNAME1: No has especificado el primer apellido
 NO_NIF: No has especificado el NIF
 NO_PROXY_NAME: No has especificado el nombre de la persona representante
 NO_PROXY_NIF: No has especificado el NIF de la persona representante
+INVALID_PROXY_NIF: El NIF de la persona representante no es válido
 NO_ADDRESS: No has especificado la dirección
 NO_POSTALCODE: No has especificado un código postal correcto
 NO_STATE: No has especificado la provincia

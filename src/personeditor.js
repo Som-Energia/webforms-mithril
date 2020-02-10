@@ -16,7 +16,7 @@ var LegalTexts = require('./legaltexts');
 var Mousetrap = require('mousetrap');
 require('mousetrap-global-bind');
 
-function isphisical (vat) {
+function isphisical (vat) {	
 	if (vat === undefined) return undefined;
 	var firstchar = vat[0];
 	return '0123456789KLMXYZ'.indexOf(firstchar) !== -1;
@@ -46,9 +46,11 @@ PersonEditor.oninit = function(vn) {
 			if (!this.proxyname) {
 				return _('NO_PROXY_NAME');
 			}
-			if (this.proxyvatvalue === undefined ||
-				this.proxyvatvalid !== true) {
+
+			if (this.proxyvatvalue === undefined) {
 				return _('NO_PROXY_NIF');
+			} else if (this.proxyvatvalid !== true) {
+				return _('INVALID_PROXY_NIF');
 			}
 		}
 		if (!this.address) {

@@ -150,6 +150,7 @@ NO_SURNAME1: No has especificat el primer cognom
 NO_NIF: No has especificat el NIF
 NO_PROXY_NAME: No has especificat el nom de la persona representant
 NO_PROXY_NIF: No has especificat el NIF de la persona representant
+INVALID_PROXY_NIF: El NIF de la persona representant no és vàlid
 NO_ADDRESS: No has especificat l'adreça
 NO_POSTALCODE: No has especificat un codi postal correcte
 NO_STATE: No has especificat la província
