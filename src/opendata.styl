@@ -46,3 +46,22 @@ h1
 
     img
         margin: 0 auto
+
+.text-uri-out
+    display: none
+
+.text-uri-in
+    border-radius: 5px
+    animation: appearing-text 2s infinite
+    animation-direction: alternate
+
+.gif-view
+    background-image: url('img/loading.svg')
+    background-repeat: no-repeat
+    min-height: 3rem
+
+@keyframes appearing-text
+    0%
+        background-color: inherit
+    100%
+        background-color: #cddc39

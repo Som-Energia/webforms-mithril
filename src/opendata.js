@@ -31,7 +31,6 @@ var responsetype = 'table';
 var tabModel = {
     active: 0
 };
-
 const viewModeTabs = [{
     text: _('VIEWMODE_TABLE'),
     id: 'table',
@@ -65,6 +64,21 @@ function doRequest() {
         sending=false;
         apierror=error;
     });
+}
+function GIF() {
+    sending=true;
+    result=undefined;
+    apierror=undefined;
+    var img = new Image();
+    img.src = opendatauri.uri()
+    img.onload = function(){
+        result = img.src;
+        sending = false;
+        m.redraw();
+    }
+    img.onerror = function() {
+        doRequest();
+    }
 }
 
 var OpenData = {
@@ -313,8 +327,7 @@ var OpenData = {
     						if (responsetype=== 'map') {
                                 if(opendatauri.getTime() !== 'on'){
                                     viewmode = 'gif';
-                                    console.log("eeeedddddd")
-                                    result = true;
+                                    GIF()
                                 } else {
                                     doRequest();
                                 }
@@ -342,7 +355,7 @@ var OpenData = {
         				viewmode==='yaml' && m('pre', jsyaml.dump(result)),
         				viewmode==='json' && m('pre', JSON.stringify(result,null,2)),
                         viewmode==='map' && m('.map-view', m.trust(result)),
-                        viewmode==='gif' && m('img#gif-result', {src: opendatauri.uri()}),
+                        viewmode==='gif' && m('.gif-view',m('img#gif-result',{src:result})),
         			])
                 ],
         ]));
