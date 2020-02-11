@@ -144,14 +144,10 @@ var OpenData = {
                     id: 'relativeMetric',
                     label: _('RELATIVE_METRIC_LABEL'),
                     help: _('RELATIVE_METRIC_HELP'),
-                    value: opendatauri.getRelativeMetric()? opendatauri.getRelativeMetric() : 'absolute',
-                    required: true,
+                    value: opendatauri.getRelativeMetric(),
                     disabled: responsetype === 'table',
                     onchange: function(ev) {opendatauri.setRelativeMetric(ev.target.value);},
                     options: [{
-                        text: _('Absolute Values'),
-                        value: 'absolute',
-                    }, {
                         text: _('Population'),
                         value: 'population',
                         disabled: responsetype === 'table',
@@ -306,15 +302,16 @@ var OpenData = {
                     }),
                     m(".opendata-checkbox-helper-text",_('LANGUAGE_HELP'))
                 ]),
-    			m('', {style: 'text-align: center'},
+    			m('', {style: 'text-align: center',
+                    },
     				m('', {style: {
     					padding: '12pt',
     					background: 'rgba(0,0,0,0.1)',
     					margin: '16pt 0pt',
     				}}, m('tt', opendatauri.highlightedUri().map(function(value) {
     					switch (value[0]) {
-    						case 'O': return m('em', value[1]);
-    						case 'I': return m('b', {style:'color:red'}, value[1]);
+    						case 'O': return m('span',{className:'text-uri-out'}, value[1]);
+    						case 'I': return m('span', {className:'text-uri-in'}, value[1]);
     						default: return m('span', value[1]);
     					}
     				}))),
