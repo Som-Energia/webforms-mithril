@@ -16,6 +16,7 @@ METRIC_HELP: Seleccione la métrica a consultar
 Members: Socias
 Contracts: Contratos
 RELATIVE_METRIC_LABEL: Relativo a [per]
+RELATIVE_METRIC_HELP: Seleccione la métrica relativa
 GEOLEVEL_LABEL: Nivel geográfico [by]
 GEOLEVEL_HELP: |
   Hasta qué nivel de detalle quieres profundizar.
@@ -49,6 +50,11 @@ FILTERS_DESCRIPTION: |
   y "codigo" es el código INE o ISO.
 Send: Envía
 API Documentation: Documentación de la API
+BROWSER_LANG: Idioma del navegador
+CA_LANG: Catalán
+ES_LANG: Español
+EU_LANG: Vasco
+GL_LANG: Gallego
 Result: Resultados
 VIEWMODE_LABEL: Vista
 VIEWMODE_DESCRIPTION: Cómo se visualizan los resultados.

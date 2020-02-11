@@ -16,6 +16,7 @@ METRIC_HELP: Select the metric to query
 Members: Members
 Contracts: Contracts
 RELATIVE_METRIC_LABEL: Relative to [per]
+RELATIVE_METRIC_HELP: Select the relative metric
 GEOLEVEL_LABEL: Geographical level [by]
 GEOLEVEL_HELP: |
   Dig down to a geographical level of detail.
@@ -49,6 +50,11 @@ FILTERS_DESCRIPTION: |
   and value is the INE or ISO code.
 Send: Send
 API Documentation: API Documentation
+BROWSER_LANG: Browser language
+CA_LANG: Catalan
+ES_LANG: Spanish
+EU_LANG: Basque
+GL_LANG: Galician
 Result: Result
 VIEWMODE_LABEL: View Mode
 VIEWMODE_DESCRIPTION: Controls how the results are displayed.

@@ -16,6 +16,7 @@ METRIC_HELP: Selecciona la mètrica a demanar
 Members: Socies
 Contracts: Contractes
 RELATIVE_METRIC_LABEL: Relatiu a [per]
+RELATIVE_METRIC_HELP: Selecciona la mètrica relativa
 GEOLEVEL_LABEL: Nivell geogràfic [by]
 GEOLEVEL_HELP: |
   Fins quin nivell de detall vols aprofundir.
@@ -49,6 +50,11 @@ FILTERS_DESCRIPTION: |
   i "codi" és el codi INE o ISO.
 Send: Envia
 API Documentation: Documentació de l'API
+BROWSER_LANG: Idioma del navegador
+CA_LANG: Català
+ES_LANG: Castellà
+EU_LANG: Basc
+GL_LANG: Gallec
 Result: Resultats
 VIEWMODE_LABEL: Mode de visualització
 VIEWMODE_DESCRIPTION: Còm es visualtzen els resultats.
