@@ -21,6 +21,7 @@ var OpenDataUri = require('./opendatauri');
 var opendatauri = new OpenDataUri();
 
 require('font-awesome/css/font-awesome.css');
+require('webpack-roboto/sass/roboto.scss');
 require('@material/typography/dist/mdc.typography.css').default;
 
 var sending = false;
@@ -96,108 +97,133 @@ var OpenData = {
             m(Layout, {className:'mdc-top-app-bar--fixed-adjust'},[			
 			m('.disclaimer', _('ALPHA_DISCLAIMER')),
             m(Card,{className:'opendata__controls'},
-                m('h2', _('OPENDATA_CONTROLS_TITLE')),
-                m('.opendata__choose', [
-                    m(Checkbox, {
-                        id: 'data',
-                        label: _('OBTAIN_DATA'),
-                        checked: opendatauri.getResponseType() === 'data',
-                        onchange: function(ev) {
-                            if (opendatauri.getResponseType() !== 'data' && ev.target.checked) {
-                                opendatauri.setResponseType('data');
-                                responsetype = 'table';
-                            }
-                        },
-                    }),
-                    m(Checkbox, {
-                        id: 'map',
-                        label: _('OBTAIN_MAP'),
-                        checked: opendatauri.getResponseType() === 'map',
-                        onchange: function(ev) {
-                            if (opendatauri.getResponseType() !== 'map' && ev.target.checked) {
-                                if (opendatauri.getGeolevel() !=='state') {
-                                    opendatauri.setGeolevel('ccaa');
-                                }
-                                opendatauri.setResponseType('map');
-                                responsetype = 'map';
-                            }
-                        },
-                    }),
-                    m(".opendata-checkbox-helper-text",_('RESPONSE_TYPE_HELP'))
+                m('.header', [
+                    m('.header__container',
+                        m('.header__text', _('OPENDATA_CONTROLS_TITLE'))
+                    ),
+                    m('.header__after')
                 ]),
-                m(Select, {
-                    id: 'metric',
-                    label: _('METRIC_LABEL'),
-                    help: _('METRIC_HELP'),
-                    required: true,
-                    value: opendatauri.getMetric(),
-                    onchange: function(ev) {opendatauri.setMetric(ev.target.value);},
-                    options: [{
-                        text: _('Members'),
-                        value: 'members',
-                    },{
-                        text: _('Contracts'),
-                        value: 'contracts',
-                    }],
-                }),
-                m(Select, {
-                    id: 'relativeMetric',
-                    label: _('RELATIVE_METRIC_LABEL'),
-                    help: _('RELATIVE_METRIC_HELP'),
-                    value: opendatauri.getRelativeMetric(),
-                    disabled: responsetype === 'table',
-                    onchange: function(ev) {opendatauri.setRelativeMetric(ev.target.value);},
-                    options: [{
-                        text: _('Population'),
-                        value: 'population',
-                        disabled: responsetype === 'table',
-                    }],
-                }),
-                m(Select, {
-                    id: 'geolevel',
-                    label: _('GEOLEVEL_LABEL'),
-                    help: _('GEOLEVEL_HELP'),
-                    value: opendatauri.getGeolevel(),
-                    required: responsetype === 'map',
-                    onchange: function(ev) {opendatauri.setGeolevel(ev.target.value);},
-                    options: [{
-                        text: _('Country'),
-                        value: 'country',
-                        disabled: responsetype === 'map'
-                    },{
-                        text: _('Region'),
-                        value: 'ccaa',
-                    },{
-                        text: _('State'),
-                        value: 'state',
-                    },{
-                        text: _('City'),
-                        value: 'city',
-                        disabled: responsetype === 'map'
-                    }],
-                }),
-                m(Select, {
-                    id: 'time',
-                    label: _('TIME_LABEL'),
-                    help: _('TIME_DESCRIPTION'),
-                    required: true,
-                    value: opendatauri.getTime(),
-                    onchange: function(ev) {opendatauri.setTime(ev.target.value);},
-                    options: [{
-                        text: _('Single date'),
-                        value: 'on',
-                    },{
-                        text: _('Yearly'),
-                        value: 'yearly',
-                    },{
-                        text: _('Monthly'),
-                        value: 'monthly',
-                    },{
-                        text: _('Weekly'),
-                        value: 'weekly',
-                        disabled: true,
-                    }],
-                }),
+                m(Layout.Row, [
+    				m(Layout.Cell, {span:12},
+                        m('.opendata__choose', [
+                            m(Checkbox, {
+                                id: 'data',
+                                label: _('OBTAIN_DATA'),
+                                checked: opendatauri.getResponseType() === 'data',
+                                onchange: function(ev) {
+                                    if (opendatauri.getResponseType() !== 'data' && ev.target.checked) {
+                                        opendatauri.setResponseType('data');
+                                        responsetype = 'table';
+                                    }
+                                },
+                            }),
+                            m(Checkbox, {
+                                id: 'map',
+                                label: _('OBTAIN_MAP'),
+                                checked: opendatauri.getResponseType() === 'map',
+                                onchange: function(ev) {
+                                    if (opendatauri.getResponseType() !== 'map' && ev.target.checked) {
+                                        if (opendatauri.getGeolevel() !=='state') {
+                                            opendatauri.setGeolevel('ccaa');
+                                        }
+                                        opendatauri.setResponseType('map');
+                                        responsetype = 'map';
+                                    }
+                                },
+                            }),
+                            m(".opendata-checkbox-helper-text",_('RESPONSE_TYPE_HELP'))
+                        ]),
+                    )
+                ]),        
+                m(Layout.Row, [
+    				m(Layout.Cell, {span:12},
+                        m(Select, {
+                            id: 'metric',
+                            label: _('METRIC_LABEL'),
+                            help: _('METRIC_HELP'),
+                            required: true,
+                            value: opendatauri.getMetric(),
+                            onchange: function(ev) {opendatauri.setMetric(ev.target.value);},
+                            options: [{
+                                text: _('Members'),
+                                value: 'members',
+                            },{
+                                text: _('Contracts'),
+                                value: 'contracts',
+                            }],
+                        })
+                    )
+                ]),    
+                m(Layout.Row, [
+    				m(Layout.Cell, {span:12},
+                        m(Select, {
+                            id: 'relativeMetric',
+                            label: _('RELATIVE_METRIC_LABEL'),
+                            help: _('RELATIVE_METRIC_HELP'),
+                            value: opendatauri.getRelativeMetric(),
+                            disabled: responsetype === 'table',
+                            onchange: function(ev) {opendatauri.setRelativeMetric(ev.target.value);},
+                            options: [{
+                                text: _('Population'),
+                                value: 'population',
+                                disabled: responsetype === 'table',
+                            }],
+                        })
+                    )
+                ]),
+                m(Layout.Row, [
+    				m(Layout.Cell, {span:12},
+                        m(Select, {
+                            id: 'geolevel',
+                            label: _('GEOLEVEL_LABEL'),
+                            help: _('GEOLEVEL_HELP'),
+                            value: opendatauri.getGeolevel(),
+                            required: responsetype === 'map',
+                            onchange: function(ev) {opendatauri.setGeolevel(ev.target.value);},
+                            options: [{
+                                text: _('Country'),
+                                value: 'country',
+                                disabled: responsetype === 'map'
+                            },{
+                                text: _('Region'),
+                                value: 'ccaa',
+                            },{
+                                text: _('State'),
+                                value: 'state',
+                            },{
+                                text: _('City'),
+                                value: 'city',
+                                disabled: responsetype === 'map'
+                            }],
+                        })
+                        )
+                    ]),
+                    m(Layout.Row, [
+    				m(Layout.Cell, {span:12},
+                        m(Select, {
+                            id: 'time',
+                            label: _('TIME_LABEL'),
+                            help: _('TIME_DESCRIPTION'),
+                            required: true,
+                            value: opendatauri.getTime(),
+                            onchange: function(ev) {opendatauri.setTime(ev.target.value);},
+                            options: [{
+                                text: _('Single date'),
+                                value: 'on',
+                            },{
+                                text: _('Yearly'),
+                                value: 'yearly',
+                            },{
+                                text: _('Monthly'),
+                                value: 'monthly',
+                            },{
+                                text: _('Weekly'),
+                                value: 'weekly',
+                                disabled: true,
+                            }],
+                        })
+                    )
+                ]),
     			m(Layout.Row, [
     				opendatauri.getTime()==='on' && m(Layout.Cell, {span:12}, m(DatePicker, {
     					id: 'ondate',
@@ -339,7 +365,13 @@ var OpenData = {
             apierror && m('pre.red', "Error: ", apierror.message),
 			result && [
                     m(Card,{className:'opendata__results', style: 'display: inline-block'},[
-                        m('h2', _('Result')),
+                        m('.header', [
+                            m('.header__container',
+                                m('.header__text', _('Result'))
+                            ),
+                            m('.header__after')
+                        ]),
+        
                         (viewmode !== 'map' && viewmode!== 'gif') && m(TabBar, {
                             index: 0,
                             onactivated: function(ev) {
@@ -373,7 +405,8 @@ function resultTable(data) {
 					moment(date).format('YYYY-MM-DD'));
 			})
 		),
-		subresultTable(data,0,0)
+        subresultTable(data,0,0)
+        )
 	);
 }
 
