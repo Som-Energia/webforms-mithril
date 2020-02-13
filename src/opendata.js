@@ -418,7 +418,6 @@ function resultTable(data) {
 	);
 }
 
-
 function subresultTable(subresult, level, code, i) {
 	if (subresult===undefined) return [];
 	var children = levels[level] && subresult[levels[level]];
@@ -430,8 +429,8 @@ function subresultTable(subresult, level, code, i) {
 			m('td', m('span.fa.fa-icon.fa-plus')),
 			m('td', {colspan: indent}, code),
 			m('td', name),
-			subresult.values.map(function(value, i) {
-				return m('td', {style: 'text-align: right'}, value);
+			subresult.values.map(function(value,i) {
+				return m('td', {style: 'text-align: right;'}, value);
 			}),
 		]),
 		children!==undefined &&
@@ -440,8 +439,6 @@ function subresultTable(subresult, level, code, i) {
 		}),
 	];
 }
-
-
 window.onload = function() {
     var element = document.getElementById("mithril-target");
     m.mount(element, OpenData);
