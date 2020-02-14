@@ -52,7 +52,6 @@ DatePicker.view = function(vn){
 DatePicker.oninit = function(vn){
 	vn.state.value = vn.attrs.value;
 	vn.state.toggle = function () {
-		console.log("clicking", vn.state.disabled);
 		if (!vn.state.disabled) {
 			vn.state.dialog.toggle();
 		}
