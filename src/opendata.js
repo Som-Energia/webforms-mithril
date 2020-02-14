@@ -32,6 +32,7 @@ var responsetype = 'table';
 var tabModel = {
     active: 0
 };
+
 const viewModeTabs = [{
     text: _('VIEWMODE_TABLE'),
     id: 'table',
@@ -46,40 +47,51 @@ const viewModeTabs = [{
     disabled: false
 }]
 
-
 function doRequest() {
+    console.log('doRequest');
+    console.log(viewmode);
     sending=true;
     result=undefined;
     apierror=undefined;
-    var promise = m.request({
+
+    m.request({
         method: 'GET',
-        deserialize: viewmode === 'table'? jsyaml.load: function(value) {return value},
+        deserialize: viewmode === 'table' ? jsyaml.load: function(value) {return value},
         url: opendatauri.uri(),
         withCredentials: true,
-    });
-    promise.then(function(response){
+        responseType: 'text'
+    })
+    .then(function(response){
         sending=false;
         result=response;
-    });
-    promise.catch(function(error){
+    })
+    .catch(function(error){
         sending=false;
         apierror=error;
     });
 }
-function GIF() {
+function loadGif() {
     sending=true;
     result=undefined;
     apierror=undefined;
-    var img = new Image();
-    img.src = opendatauri.uri()
-    img.onload = function(){
-        result = img.src;
-        sending = false;
-        m.redraw();
-    }
-    img.onerror = function() {
-        doRequest();
-    }
+
+    m.request({
+        method: 'GET',
+        url: opendatauri.uri(),
+        withCredentials: true,
+        responseType: 'blob',
+    }).then(function(blob){
+        var reader = new FileReader();
+        reader.readAsDataURL(blob); 
+        reader.onloadend = function() {
+            var base64data = reader.result;
+            sending=false;
+            result=base64data;
+        }        
+    }).catch(function(error){
+        sending=false;
+        apierror=error;
+    });
 }
 
 var OpenData = {
@@ -347,17 +359,13 @@ var OpenData = {
     					faicon: sending?"spinner.fa-spin":"paper-plane",
     					onclick: function() {
                             viewmode = responsetype;
-    						if (responsetype=== 'map') {
+    						if(responsetype=== 'map'){
                                 if(opendatauri.getTime() !== 'on'){
                                     viewmode = 'gif';
-                                    GIF()
-                                } else {
-                                    doRequest();
-                                }
+                                    return loadGif();                                    
+                                }    
                             }
-                            else{
-                                doRequest();
-                            }
+                            doRequest();
                         }
     				}, _('Send')),
                 ),
