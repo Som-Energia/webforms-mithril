@@ -36,8 +36,9 @@ Input field that unfolds in a set of options you can choose.
 */
 var Select = {
 	oncreate: function(vn) {
-		var mdcselect = this.native = vn.dom.querySelector('.mdc-select');
-		this.mdcinstance = new MDCSelect.MDCSelect(mdcselect);
+		var mdcselect = vn.dom.querySelector('.mdc-select');
+		vn.state.native = mdcselect.querySelector('select');
+		vn.state.mdcinstance = new MDCSelect.MDCSelect(mdcselect);
 	},
 	view: function(vn) {
 		function floats() {
@@ -108,7 +109,7 @@ var Select = {
 					m('option', {
 						value:'', // label provides
 						disabled: vn.attrs.required,
-						selected: true
+						selected: (vn.attrs.value === undefined) ? true : false 
 						}),
 					options.map(function (v,i) {
 						if (v.group) {
@@ -117,6 +118,7 @@ var Select = {
 									return m('option', Object.assign({},v), v.text);
 								}));
 						}
+						
 						return m('option', Object.assign({},v), v.text);
 					})
 				),
