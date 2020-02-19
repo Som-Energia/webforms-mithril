@@ -48,8 +48,6 @@ const viewModeTabs = [{
 }]
 
 function doRequest() {
-    console.log('doRequest');
-    console.log(viewmode);
     sending=true;
     result=undefined;
     apierror=undefined;
@@ -67,7 +65,7 @@ function doRequest() {
     })
     .catch(function(error){
         sending=false;
-        apierror=error;
+        apierror=error.message;
     });
 }
 function loadGif() {
@@ -89,8 +87,12 @@ function loadGif() {
             result=base64data;
         }        
     }).catch(function(error){
-        sending=false;
-        apierror=error;
+        var reader = new FileReader();
+        reader.readAsText(error.response)
+        reader.onloadend = function() {
+            apierror=reader.result;
+            sending=false;
+        }
     });
 }
 
@@ -370,7 +372,7 @@ var OpenData = {
     				}, _('Send')),
                 ),
 			),
-            apierror && m('pre.red', "Error: ", apierror.message),
+            apierror && m('pre.red', "Error: ", apierror),
 			result && [
                     m(Card,{className:'opendata__results', style: 'display: inline-block'},[
                         m('.header', [
