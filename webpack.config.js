@@ -10,9 +10,6 @@ var config = {
 	context: path.resolve(__dirname, 'src'),
 	entry: {
 		examples: './examples',
-		contract: './contract',
-		opendata: './opendata',
-		gapminder: './gapminder',
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
@@ -29,21 +26,6 @@ var config = {
 			filename: 'index.html',
 			template: './mithriltemplate.html',
 			chunks: ['common','examples'],
-			}),
-		new HtmlWebpackPlugin({
-			filename: 'contract.html',
-			template: './mithriltemplate.html',
-			chunks: ['common','contract'],
-			}),
-		new HtmlWebpackPlugin({
-			filename: 'opendata.html',
-			template: './mithriltemplate.html',
-			chunks: ['common','opendata'],
-			}),
-		new HtmlWebpackPlugin({
-			filename: 'gapminder.html',
-			template: './mithriltemplate.html',
-			chunks: ['common','gapminder'],
 			}),
 		// Split css included as js into a separate file again
 		new MiniCssExtractPlugin({
@@ -87,21 +69,6 @@ var config = {
 };
 
 module.exports = (env, argv) => {
-
-	api_urls = {
-		ov_production: 'https://apiv2.somenergia.coop',
-		testing: 'https://webforms-demo.somenergia.local:5001',
-		development: 'https://webforms-demo.somenergia.local:5001',
-		ov_test: 'https://webforms-demo.somenergia.local:5001',
-	};
-
-	var environment = !env ? argv.mode : env.NODE_ENV;
-
-	config.plugins.push(new webpack.EnvironmentPlugin({
-		NODE_ENV: environment,
-		APIBASE: api_urls[environment],
-	}));
-
 	return config;
 };
 

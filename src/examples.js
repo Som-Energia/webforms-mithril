@@ -9,53 +9,29 @@ var Button = require('./mdc/button');
 var Select = require('./mdc/select');
 var Checkbox = require('./mdc/checkbox');
 var TextField = require('./mdc/textfield');
-var ValidatedField = require('./validatedfield');
-var Wizard = require('./wizard');
-var StateCityChooser = require('./statecity');
-var FarePower = require('./farepower');
-var PersonEditor = require('./personeditor');
-var Chooser = require('./chooser');
-var Terms = require('./terms');
 var Dialog = require('./mdc/dialog');
 var Card = require('./mdc/card');
 var LinearProgress = require('./mdc/linearprogress');
 var Slider = require('./mdc/slider');
 var TabBar = require('./mdc/tabbar');
-var PageSlider = require('./pageslider');
-var DatePicker = require('./datepicker');
-var LegalConsent = require('./legalconsent');
-var Uploader = require('./uploader');
 
 require('font-awesome/css/font-awesome.css');
 require('@material/typography/dist/mdc.typography.css').default;
-
-var traceFocus = require('./debughelpers').traceFocus;
 
 var skip = function (c) { return []; }
 
 var Examples = {
 	view: function(vn) {
 		return m('.form.mdc-typography', [
-			skip(DatePicker.Example),
-			skip(Wizard.Example),
-			skip(TabBar.Example),
-			skip(PageSlider.Example),
-			skip(Slider.Example),
-			skip(LinearProgress.Example),
-			skip(Dialog.Example),
-			skip(Card.Example),
-			skip(StateCityChooser.Example),
-			skip(Chooser.Example),
-			skip(Terms.Example),
-			skip(Checkbox.Example),
-			skip(Button.Example),
-			skip(TextField.Example),
-			skip(ValidatedField.Example),
-			skip(Select.Example),
-			skip(PersonEditor.Example),
-			skip(FarePower.Example),
-			skip(LegalConsent.Example),
-			skip(Uploader.Example),
+			m(TabBar.Example),
+			m(Slider.Example),
+			m(LinearProgress.Example),
+			m(Dialog.Example),
+			m(Card.Example),
+			m(Checkbox.Example),
+			m(Button.Example),
+			m(TextField.Example),
+			m(Select.Example),
 		]);
 	},
 };
