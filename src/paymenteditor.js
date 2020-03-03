@@ -13,18 +13,16 @@ var PaymentEditor = {};
 
 PaymentEditor.oninit = function(vn) {
 
-    this.model=vn.attrs.model;
-    this.model.iban = undefined;
-    this.model.sepa_accepted = false;
+    vn.state.model=vn.attrs.model;
+    vn.state.model.iban = undefined;
+    vn.state.model.sepa_accepted = false;
     vn.state.ibaneditor = {};
-    var self = this.model;
 
-    this.model.validate = function() {
-
+    vn.state.model.validate = function() {
         if (vn.state.ibaneditor.isvalid !== true) {
             return _('INVALID_PAYER_IBAN');
         }
-        if (self.sepa_accepted !== true) {
+        if (vn.state.model.sepa_accepted !== true) {
             return _('UNCONFIRMED_ACCOUNT_OWNER');
         }
         return undefined;
