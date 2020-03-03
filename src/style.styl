@@ -1,7 +1,10 @@
-body, html {
+html, body {
+	font-size: 16px;
+}
+
+.template {
 	font-family: Roboto, sans-serif;
 	color: black;
-	position: absolute;
 	height: 100%;
 	width: 100%;
 	padding: 0;
@@ -21,16 +24,19 @@ body, html {
 }
 
 .steps .mdc-dialog .mdc-dialog__surface {
-	max-height: calc(100vh - 120px);
+	max-height: calc(100vh - 240px);
 }
 
 .mdc-dialog.mdc-dialog--open {
     z-index: 50;
+	position: fixed;
+	width: 100%;
+	height: 100%;	
 }
 
 .mdc-dialog h2 {
 	color: rgba(0, 0, 0, 0.6);
-	font-size: 16px;
+	font-size: 18px;
 }
 
 .loading {
@@ -52,8 +58,8 @@ body, html {
 	--mdc-theme-primary: #cddc39;
 	--mdc-theme-on-primary: #000000;
 	--mdc-theme-secondary: #707a1a;
-	--mdc-theme-error: #d93025;
-	--mdc-theme-on-error: #fce8e6;
+	--mdc-theme-error: #c41525;
+	--mdc-theme-on-error: #fff;
 }
 
 .main {
@@ -257,7 +263,7 @@ h1,h2 {
 }
 
 .mdc-linear-progress
-	height: 8px !important
+	height: 10px !important
 
 .mdc-checkbox
 	label
@@ -265,6 +271,9 @@ h1,h2 {
 
 .mdc-text-field-helper-line
 	margin-bottom: 0.5rem
+
+.mdc-layout-grid__cell--align-center
+	text-align: center
 
 .wizard
 	h2
@@ -280,6 +289,7 @@ h1,h2 {
 	flex-grow: 1;
 	overflow: hidden;
 	.pageslider-page
+		height: 100%
 		padding-top: 32px
 		overflow-y: auto
 		overflow-x: hidden
@@ -302,12 +312,15 @@ h1,h2 {
 		padding-top: 0.75rem
 	.mdc-snackbar
 		position: absolute
+		bottom: 20px
 		.mdc-icon-button
-			color: rgba(255, 255, 255, 0.87)
+			color: #721c24
 	.mdc-snackbar__surface
-		background-color: var(--mdc-theme-error)
+		background-color: #f8d7da
 	.mdc-snackbar__label
-		font-weight: 600
+		font-weight: 400
+		color: #721c24
+
 
 .steps.showall
 	overflow-y: auto
@@ -415,24 +428,32 @@ h1,h2 {
 	text-align: center
 	margin-top: 32px
 	h2
-		margin-top: 36px
+		margin-top: 36px	
+	.cuca-marejada
+		width: 40%
+		margin: 8%
 
 .success_page
 	text-align: center
 	margin-top: 32px
-	.cuca__container
-		text-align: center	
+	padding-bottom: 25px
 	h2
 		margin-top: 36px
+
+.cuca__container
+	text-align: center		
 	.cuca
 		width: 40%
-		margin: 8%
-
+		margin: 4% 8%
 
 .error
 	font-weight: bold
-	color: var(--mdc-theme-error);
-	padding: 2em		
+	color: var(--mdc-theme-error)
+	padding: 0.5em
+	p
+		margin-top: 10px
+		font-size: 14px
+		font-weight: normal
 
 .mdc-notched-outline__notch {
   /* Ignore the width set by script, and change it to be calculated from the width of `mdc-floating-label` by setting `auto`. */

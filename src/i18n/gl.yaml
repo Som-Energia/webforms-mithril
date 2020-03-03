@@ -247,7 +247,11 @@ SPECIAL_CASES_ELECTRODEP: Electrodependiente
 # FailurePage
 FAILURE_TITLE: Ups!
 FAILURE_TEXT: Lo sentimos, no ha sido posible realizar el contrato
-UNEXPECTED_POSTERROR: Se ha producido un error con código %{code}
+UNEXPECTED_POSTERROR: |
+  <b>
+  Se ha producido un error inesperado!</b>
+  <p>%{error_message}</p>
+
 
 # SuccessPage
 SUCCESS_TITLE: Enhorabuena

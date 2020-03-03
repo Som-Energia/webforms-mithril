@@ -249,7 +249,10 @@ SPECIAL_CASES_ELECTRODEP: Electrodependent
 # FailurePage
 FAILURE_TITLE: Ups!
 FAILURE_TEXT: <p><b>Ho sentim, no ha estat possible realitzar el contracte</b></p>
-UNEXPECTED_POSTERROR: S'ha produit un error amb codi %{code}
+UNEXPECTED_POSTERROR: |
+  <b>
+  S'ha produit un error inesperat!</b>
+  <p>%{error_message}</p>
 
 # SuccessPage
 SUCCESS_TITLE: Enhorabona
