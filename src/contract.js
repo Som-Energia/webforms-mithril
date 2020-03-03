@@ -993,7 +993,7 @@ var FailurePage = function() {
 					m.trust(_('FAILURE_TEXT')),
 					m('.error', m.trust(postErrorsMessages(postErrorData, postErrorData))),
 					m('.cuca__container',
-						m('img.cuca', {src: (!isOV) ? cucaMarejada : `/static/front/img/cuca-marejada.svg`})
+						m('img.cuca', {src: (!isOV) ? cucaMarejada : `/static/som-ov/front/img/cuca-marejada.svg`})
 					),
 				]),
 				m(Cell, { spandesktop:2, spantablet:1 })
@@ -1017,7 +1017,7 @@ var SuccessPage = function() {
 						urlov: _('OV_URL'),
 					})),
 					m('.cuca__container',
-					m('img.cuca', {src: (!isOV) ? cuca : `/static/front/img/cuca.svg`})
+					m('img.cuca', {src: (!isOV) ? cuca : `/static/som-ov/front/img/cuca.svg`})
 					)
 				]),
 				m(Cell, { spandesktop:2, spantablet:1 })
