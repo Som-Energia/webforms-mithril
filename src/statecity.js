@@ -12,61 +12,54 @@ var requestSom = require('./somapi').requestSom;
 
 var StateCityChooser = {
 	oninit: function(vn) {
-		var self = this;
-		self.states = [];
-		self.state = undefined;
-		self.stateError = undefined;
-		self.city = undefined;
-		self.cityError = undefined;
-		self.cities = [];
+		vn.state.states = [];
+		vn.state.state = undefined;
+		vn.state.stateError = undefined;
+		vn.state.city = undefined;
+		vn.state.cityError = undefined;
+		vn.state.cities = [];
 
-		self.updateStates();
+		vn.state.updateStates = function(countryid) {
+			requestSom('/data/provincies').then(function(data) {
+				vn.state.states = data.data.provincies;
+				m.redraw();
+			}).catch(function(reason) {
+				vn.state.stateError = _('Error loading states');
+			});
+		};
+
+		vn.state.updateStates();
+
+		vn.state.updateCities = function(stateid) {
+			vn.state.cities = [];
+			vn.state.city = vn.state.city;
+			var statename = vn.state.states.find(function(v) {return v.id==stateid;}).name;
+			vn.state.cityError = _('Loading municipalities in %{statename}',{statename:statename});
+			requestSom('/data/municipis/'+stateid).then(function(data) {
+				vn.state.city = vn.state.city;
+				vn.state.cityError = undefined;
+				vn.state.cities = data.data.municipis;
+			}).catch(function(reason) {
+				vn.state.cityError = _('Error loading cities');
+			});
+		};
+
+		vn.state.onupdate = function(vn) {
+			vn.state.state = vn.attrs.statevalue;
+			var citychanged = vn.state.city !== vn.attrs.cityvalue;
+			vn.state.city = vn.attrs.cityvalue;
+	
+			if(vn.state.state !== undefined){
+				if(vn.state.city !== undefined && citychanged)			
+					vn.state.updateCities(vn.state.state);
+			}	
+		};
 	},
-
-	onupdate: function(vn) {
-		var self = this;
-		self.state = vn.attrs.statevalue;
-		var citychanged = self.city !== vn.attrs.cityvalue;
-		self.city = vn.attrs.cityvalue;
-
-		if(self.state !== undefined){
-			if(self.city !== undefined && citychanged)			
-				self.updateCities(self.state);
-		}	
-	},
-
-	updateStates: function(countryid) {
-		var self = this;
-		requestSom('/data/provincies').then(function(data) {
-			self.states = data.data.provincies;
-		}).catch(function(reason) {
-			console.log("TODO: Failed", reason);
-			self.stateError = _('Error loading states');
-		});
-	},
-
-	updateCities: function(stateid) {
-		var self = this;
-		self.cities = [];
-		self.city = self.city;
-		var statename = self.states.find(function(v) {return v.id==stateid;}).name;
-		self.cityError = _('Loading municipalities in %{statename}',{statename:statename});
-		requestSom('/data/municipis/'+stateid).then(function(data) {
-			self.city = self.city;
-			self.cityError = undefined;
-			self.cities = data.data.municipis;
-		}).catch(function(reason) {
-			console.log("TODO: Failed", reason);
-			self.cityError = _('Error loading cities');
-		});
-	},
-
 	view: function(vn) {
-		var self=this;
 		return m(Row, [
 			m(Cell, {spandesktop:6, span:4},
 				m(Select, {
-					options: this.states.map(function(v) {
+					options: vn.state.states.map(function(v) {
 						return {
 							value: v.id,
 							text: v.name,
@@ -75,20 +68,20 @@ var StateCityChooser = {
 					label: _('STATE'),
 					boxed: true,
 					outlined: vn.attrs.outlined,
-					help: this.stateError ? this.stateError : (this.states ? ''/*_('STATE_HELP')*/ : _('LOADING_HELP')),
+					help: vn.state.stateError ? vn.state.stateError : (vn.state.states ? '' : _('LOADING_HELP')),
 					required: true,
-					value: self.state,
+					value: vn.state.state,
 					onchange: function (ev) {
-						self.state = ev.target.value;
-						self.city = undefined;
-						self.updateCities(self.state);
-						vn.attrs.onvaluechanged && vn.attrs.onvaluechanged(self)
+						vn.state.state = ev.target.value;
+						vn.state.city = undefined;
+						vn.state.updateCities(vn.state.state);
+						vn.attrs.onvaluechanged && vn.attrs.onvaluechanged(vn.state)
 					},
 				})
 			),
 			m(Cell, {spandesktop:6, span:4},
 				m(Select, {
-					options: this.cities.map(function(v) {
+					options: vn.state.cities.map(function(v) {
 						return {
 							value: v.id,
 							text: v.name,
@@ -97,12 +90,12 @@ var StateCityChooser = {
 					label: _('CITY'),
 					boxed: true,
 					outlined: vn.attrs.outlined,
-					help: this.cityError ? this.cityError : (this.cities ? ''/*_('CITY_HELP')*/ : _('LOADING_HELP')),
+					help: vn.state.cityError ? vn.state.cityError : (vn.state.cities ? '': _('LOADING_HELP')),
 					required: true,
-					value: self.city || '',
+					value: vn.state.city || '',
 					onchange: function (ev) {
-						self.city = ev.target.value;
-						vn.attrs.onvaluechanged && vn.attrs.onvaluechanged(self)
+						vn.state.city = ev.target.value;
+						vn.attrs.onvaluechanged && vn.attrs.onvaluechanged(vn.state)
 					},
 				})
 			),

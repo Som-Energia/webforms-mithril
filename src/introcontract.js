@@ -56,28 +56,32 @@ IntroContract.oninit = function(vn) {
 		var firstchar = vn.state.vateditor.value[0];
 		return '0123456789KLMXYZ'.indexOf(firstchar) !== -1;
 	};
+
 	model.validationErrors = function() {
+		/*
 		if (vn.state.state === checkingSession) {
 			return _('STILL_VALIDATING_SESSION'); // TODO: Translate
 		}
 		if (vn.state.state === welcomeExistingSession) {
 			return undefined;
+		}*/
+		if(vn.state.model.vatvalue === undefined
+			&& !Object.keys(vn.state.vateditor.data).length ){
+			return undefined;
 		}
-		if (vn.state.vateditor.isvalid === false && vn.state.vateditor.value !== undefined) {
-			return _('FILL_NIF');
+
+		if(vn.state.model.vatvalid === true){
+			return undefined;
 		}
-		if (vn.state.vateditor.isvalid === undefined || vn.state.vateditor.value === undefined) {
-			return false;
-		}
-		return undefined;
+
+		return _('FILL_NIF');
 	};
 };
 
 IntroContract.onupdate = function(vn){
-	if (vn.state.model.vatvalue) {
+	if (vn.state.model.vatvalue !== undefined) {
 		vn.state.vateditor.value = vn.state.model.vatvalue;
-		if(vn.state.model.vatvalid !== undefined) vn.state.vateditor.isvalid = vn.state.model.vatvalid;
-		//if(vn.state.model.vatexists !== undefined) vn.state.vateditor.isvalid = vn.state.model.vatexists;
+		vn.state.vateditor.isvalid = vn.state.model.vatvalid;
 	}
 }
 
@@ -128,6 +132,7 @@ IntroContract.view = function(vn) {
 						vn.state.model.vatvalid = false;
 						vn.state.model.vatexists = false;
 					}
+					return vn.state.model.vatexists;
 				}
 			})),
 			m(Cell, {span:12},

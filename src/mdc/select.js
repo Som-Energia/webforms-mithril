@@ -36,10 +36,12 @@ Input field that unfolds in a set of options you can choose.
 */
 var Select = {
 	oncreate: function(vn) {
-		var mdcselect = this.native = vn.dom.querySelector('.mdc-select');
-		this.mdcinstance = new MDCSelect.MDCSelect(mdcselect);
+		var mdcselect = vn.dom.querySelector('.mdc-select');
+		vn.state.native = mdcselect.querySelector('select');
+		vn.state.mdcinstance = new MDCSelect.MDCSelect(mdcselect);
 	},
 	view: function(vn) {
+
 		function floats() {
 			if (vn.attrs.value!==undefined && vn.attrs.value!=="") return true;
 			if (!vn.dom) return false;
@@ -48,6 +50,7 @@ var Select = {
 			if (!vn.state.native.value) return true;
 			return false;
 		}
+		
 		var attrs = Object.assign({}, vn.attrs);
 		function pop(o,k) { var r=o[k]; if (r!==undefined) { delete o[k];} return r; }
 		const options = vn.attrs.options || [];
@@ -62,6 +65,7 @@ var Select = {
 		const leadingfaicon = pop(attrs, 'leadingfaicon');
 		const leadingiconaction = pop(attrs, 'leadingiconaction');
 		const help_id = vn.attrs.id+'_help';
+
 		return m('', [
 			m('.mdc-select'+
 				(vn.attrs.disabled?'.mdc-select--disabled':'')+
@@ -107,8 +111,8 @@ var Select = {
 				}, 
 					m('option', {
 						value:'', // label provides
-						disabled: vn.attrs.required,
-						selected: true
+						//disabled: vn.attrs.required,
+						selected: (vn.attrs.value === undefined) ? true : false 
 						}),
 					options.map(function (v,i) {
 						if (v.group) {
@@ -117,6 +121,7 @@ var Select = {
 									return m('option', Object.assign({},v), v.text);
 								}));
 						}
+						
 						return m('option', Object.assign({},v), v.text);
 					})
 				),
@@ -148,13 +153,8 @@ var Select = {
 								+(floating?'.mdc-floating-label--float-above':''),
 								vn.attrs.label)),
 						m('.mdc-notched-outline__trailing')
-					]):''),
-				/* Old version
-				vn.attrs.outlined && m('.mdc-notched-outline'
-					+(floating?'.mdc-notched-outline--notched':''),
-					m('svg', m('path.mdc-notched-outline__path'))),
-				vn.attrs.outlined && m('.mdc-notched-outline__idle'),
-				*/
+					]):''
+				),
 			]),
 			vn.attrs.nohelp === true ? []:
 			m('.mdc-text-field-helper-text'+

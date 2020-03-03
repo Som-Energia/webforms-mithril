@@ -6,6 +6,21 @@ var MDCTextField = require('@material/textfield');
 require('@material/textfield/dist/mdc.textfield.css');
 var TextField = require('./mdc/textfield');
 
+const statusIcons = {
+	empty:  'blank',
+	missing:'blank',//'asterisk.red',
+	ok:     'check.green',
+	ko:     'exclamation-triangle.red',
+	wait:   'refresh.fa-spin.orange',
+};
+const statusMessages = {
+	empty:  '',
+	//missing:_('Required'),
+	//ok:     vnode.attrs.checkurl?_('Correct'):'',
+	//ko:     _('Invalid'),
+	wait:   _('Checking...'),
+};
+
 var ValidatedField = {
 	oninit: function(vnode) {
 		vnode.state.fieldData = vnode.attrs.fieldData || {};
@@ -13,29 +28,19 @@ var ValidatedField = {
 		vnode.state.fieldData.isvalid = vnode.attrs.checkurl===undefined;
 		vnode.state.fieldData.errormessage = undefined;
 		vnode.state._lastPromise = undefined;
+
+		vnode.state.status = undefined;
+		vnode.state.statusIcon = undefined;
+		vnode.state.statusMessage = '';
 	},
 	view: function (vnode) {
 		const help_id = vnode.attrs.id+'_help';
-		const statusIcons = {
-			empty:  'blank',
-			missing:'blank',//'asterisk.red',
-			ok:     'check.green',
-			ko:     'exclamation-triangle.red',
-			wait:   'refresh.fa-spin.orange',
-		};
-		const statusMessages = {
-			empty:  '',
-			//missing:_('Required'),
-			//ok:     vnode.attrs.checkurl?_('Correct'):'',
-			//ko:     _('Invalid'),
-			wait:   _('Checking...'),
-		};
 
-		var state = (vnode.state.fieldData.value===undefined)? (vnode.attrs.required!==undefined?'missing':'empty') : (
+		vnode.state.status = (vnode.state.fieldData.value===undefined)? (vnode.attrs.required!==undefined?'missing':'empty') : (
 			vnode.state.fieldData.isvalid===undefined?'wait':vnode.state.fieldData.isvalid===false?'ko':'ok');
 
-		var statusIcon = statusIcons[state] || undefined;
-		var statusMessage = statusMessages[state] || '';
+		vnode.state.statusIcon = statusIcons[vnode.state.status] || undefined;
+		vnode.state.statusMessage = statusMessages[vnode.state.status] || '';
 
 		function validateInput(ev) {
 			var newValue = ev.target.value;
@@ -45,15 +50,15 @@ var ValidatedField = {
 				ev.target.setCustomValidity(message);
 				vnode.state.fieldData.value = newValue||'';
 				vnode.attrs.onvalidated && vnode.attrs.onvalidated();
-				m.redraw();
 			}
 			function acceptValue(newValue) {
 				vnode.state.fieldData.isvalid = true;
 				vnode.state.fieldData.errormessage = undefined;
 				var data = vnode.state.fieldData.data;
 				ev.target.setCustomValidity('');
-				vnode.attrs.onvalidated && vnode.attrs.onvalidated(newValue, data);
-				m.redraw();
+				if(!vnode.attrs.onvalidated || !vnode.attrs.onvalidated(newValue, data)){
+					vnode.state.statusIcon = statusIcons['ko'];
+				}
 			}
 			function waitValue(newValue) {
 				vnode.state.fieldData.value = newValue;
@@ -86,6 +91,7 @@ var ValidatedField = {
 			vnode.state._lastPromise=promise;
 			promise.value = newValue;
 			promise.then(function(result) {
+				vnode.state._lastPromise = undefined;
 				if (promise.value != vnode.state.fieldData.value) {
 					return; // value changed while waiting, ignore
 				}
@@ -118,9 +124,9 @@ var ValidatedField = {
 			// overrrides
 			oninput: validateInput,
 			value: vnode.state.fieldData.value,
-			faicon: statusIcon,
+			faicon: vnode.state.statusIcon,
 			errormessage: vnode.state.fieldData.errormessage,
-			help: statusMessage || vnode.attrs.help,
+			help: vnode.state.statusMessage || vnode.attrs.help,
 		}));
 	},
 };
