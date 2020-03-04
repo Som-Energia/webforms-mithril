@@ -1,6 +1,6 @@
 {
   "name": "mithril-material-components",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Mithril wrapper for Material Web Components",
   "main": "index.js",
   "scripts": {
