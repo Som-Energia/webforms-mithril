@@ -25,7 +25,7 @@ var Chooser = require('./chooser');
 var Uploader = require('./uploader');
 var moment = require('moment');
 var jsyaml = require('js-yaml');
-var cuca = require('./img/cuca-somenergia.svg');
+var cuca = require('./img/cuca.svg');
 var cucaMarejada = require('./img/cuca-marejada.svg');
 
 var Mousetrap = require('mousetrap');
@@ -993,7 +993,7 @@ var FailurePage = function() {
 					m.trust(_('FAILURE_TEXT')),
 					m('.error', m.trust(postErrorsMessages(postErrorData, postErrorData))),
 					m('.cuca__container',
-						m('img.cuca', {src: (!isOV) ? cucaMarejada : `/static/som-ov/front/img/cuca-marejada.svg`})
+						m.trust(cucaMarejada),
 					),
 				]),
 				m(Cell, { spandesktop:2, spantablet:1 })
@@ -1017,7 +1017,7 @@ var SuccessPage = function() {
 						urlov: _('OV_URL'),
 					})),
 					m('.cuca__container',
-					m('img.cuca', {src: (!isOV) ? cuca : `/static/som-ov/front/img/cuca.svg`})
+						m.trust(cuca),
 					)
 				]),
 				m(Cell, { spandesktop:2, spantablet:1 })
