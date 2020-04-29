@@ -19,7 +19,7 @@ digraph G {
 	Technical [label="Potencia\nTarifa\nDocumentación"]
 	NewHolder [label="¿Titular diferente?"]
 	Surrogation [label="¿Por surrogación?"]
-	SwitchDate [label="¿Quieres fecha de cambio?"]
+	NoCutoff [label="¿Eres electrodependiente?"]
 	VoluntaryCent [label="¿Céntimo voluntario?"]
 	Payment [label="Datos de pago"]
 	Summary [label="Resum y signatura"]
