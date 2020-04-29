@@ -48,10 +48,10 @@ digraph G {
     CupsDataCompleted -> HasSupply [id="noActiveCups" label="CUPS sin contrato\nactivo en Som"]
     CupsDataCompleted -> Surrogation [id="isActiveCups" label="CUPS con contrato\nactivo en Som"]
     HasSupply -> Technical [id=noSupply label="Sin luz"]
-    Technical -> VoluntaryCent
+    Technical -> NoCutoff
     HasSupply -> NewHolder [id=hasSupply label="Con luz"]
-    NewHolder -> VoluntaryCent
-    Surrogation -> VoluntaryCent -> Payment -> Summary 
+    NewHolder -> NoCutoff
+    Surrogation -> NoCutoff -> VoluntaryCent -> Payment -> Summary 
     Summary ->  Error
     Summary -> Success
 } 
