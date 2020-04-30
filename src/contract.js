@@ -326,8 +326,9 @@ var CupsPage = function() {
 		id: 'cups_page',
 		title: _('CUPS_TITLE'),
 		validator: function() {
-			if (model.address === undefined) { // empty
-				return ""; // Forbid going on, no message
+
+			if(model.cups === undefined){
+				return "";
 			}
 
 			if (model.status === 'invalid' && state.field.isvalid === false) {
@@ -347,6 +348,11 @@ var CupsPage = function() {
 			if (model.verified === false) {
 				return _('MARK_ADDRESS_CONFIRMATION_BOX');
 			}
+
+			if (model.address === undefined) { // empty
+				return ""; // Forbid going on, no message
+			}
+
 			return undefined;
 		},
 		content: [
