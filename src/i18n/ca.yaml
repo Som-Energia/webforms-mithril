@@ -42,7 +42,7 @@ Send: Envia
 API Documentation: Documentació de l'API
 Result: Resultats
 VIEWMODE_LABEL: Mode de visualització
-VIEWMODE_DESCRIPTION: Com es visualitzen els resultats
+VIEWMODE_DESCRIPTION: Com es visualitzen els resultats.
 VIEWMODE_TABLE: Taula
 VIEWMODE_YAML: YAML (original)
 VIEWMODE_JSON: JSON
@@ -231,7 +231,7 @@ SPECIAL_CASES_MERGE: Fusió d'empreses
 SPECIAL_CASES_ELECTRODEP: Electrodependent
 FAILURE_TITLE: Ups!
 FAILURE_TEXT: <p><b>Ho sentim, no ha estat possible fer el contracte</b></p>
-UNEXPECTED_POSTERROR: S'ha produït un error amb el codi %{code}
+UNEXPECTED_POSTERROR: S'ha produït un error amb codi %{code}
 SUCCESS_TITLE: Enhorabona
 SUCCESS_TEXT: |
   <p>
