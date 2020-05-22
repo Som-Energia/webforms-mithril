@@ -124,7 +124,7 @@ HOLDER_ADDRESS_HELP: Adreça de la persona titular
 HOLDER_POSTALCODE: Codi postal
 HOLDER_POSTALCODE_HELP: Codi postal de la persona titular
 HOLDER_EMAIL: Adreça electrònica
-HOLDER_EMAIL_HELP: Correu de la persona titular
+HOLDER_EMAIL_HELP: Adreça electrònica de la persona titular
 HOLDER_EMAIL_2: Adreça electrònica (repeteix l'adreça electrònica)
 HOLDER_EMAIL_2_HELP: Repeteix l'adreça electrònica
 HOLDER_PHONE: Telèfon
@@ -163,9 +163,9 @@ BECOME_MEMBER_NO_DESCRIPTION: Si encara no t’hi has decidit, et donem el temps
 BECOME_MEMBER_UNSELECTED: 'Cal dir si vols fer-te sòcia o no '
 VOLUNTARY_CENT_TITLE: Donatiu voluntari
 VOLUNTARY_CENT_PRESENTATION: "Som una Cooperativa sense ànim de lucre amb l'objectiu\
-  \ ferm de canviar el model energètic.\nEls socis i les sòcies que ho desitgin poden\
-  \ realitzar un donatiu voluntari de 0,01€/kWh\ndestinat a donar suport i facilitar\
-  \ l'acció social i voluntària\ndels més de 50 grups locals repartits pel territori.\n"
+  \ ferm de canviar el model energètic. Els socis i les sòcies que ho desitgin poden\
+  \ realitzar un donatiu voluntari de 0,01 €/kWh\ndestinat a donar suport i facilitar\
+  \ l'acció social i voluntària dels més de 50 grups locals repartits pel territori.\n"
 VOLUNTARY_CENT_QUESTION: Vols participar amb la teva energia a fer-ho possible?
 VOLUNTARY_CENT_YES_LABEL: Sí, vull fer un donatiu voluntari de 0,01 €/kWh
 VOLUNTARY_CENT_YES_DESCRIPTION: "Per un consum mitjà d'una família (aproximadament\
