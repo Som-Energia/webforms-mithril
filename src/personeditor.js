@@ -224,6 +224,7 @@ PersonEditor.view = function(vn) {
 				help: '', //help: _('HOLDER_EMAIL_HELP'),
 				type: 'email',
 				leadingicon: 'email',
+				required: true,
 				value: person.email,
 				outlined: true,
 				oninput: function(ev) {
@@ -239,6 +240,7 @@ PersonEditor.view = function(vn) {
 				help: '', //help: _('HOLDER_EMAIL_2_HELP'),
 				type: 'email',
 				leadingicon: 'email',
+				required: true,
 				value: person.email2,
 				outlined: true,
 				oninput: function(ev) {

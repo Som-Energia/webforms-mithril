@@ -25,7 +25,8 @@ var Chooser = require('./chooser');
 var Uploader = require('./uploader');
 var moment = require('moment');
 var jsyaml = require('js-yaml');
-var cuca = require('./img/cuca-somenergia.svg');
+var cuca = require('./img/cuca.svg');
+var cucaMarejada = require('./img/cuca-marejada.svg');
 
 var Mousetrap = require('mousetrap');
 require('mousetrap-global-bind');
@@ -44,11 +45,11 @@ function isphisical (vat) {
 }
 
 if (process.env.NODE_ENV !== 'ov_production') {
-  Mousetrap.bindGlobal('ctrl+shift+y', function() {
-	  showall = !showall;
-	  m.redraw();
-	  return false;
-  });
+	Mousetrap.bindGlobal('ctrl+shift+y', function() {
+		showall = !showall;
+		m.redraw();
+		return false;
+	});
 }
 
 var SomMockupApi = {};
@@ -86,6 +87,7 @@ SomApi.validateMeasure = function(cups, date, measure) {
 
 var isLoading = false;
 var SomApiAdapter = process.env.NODE_ENV === 'development' ? SomApi : SomApi;
+const isOV = process.env.NODE_ENV.match('ov');
 
 var Contract = {
 	supply_point: {
@@ -130,8 +132,8 @@ if (process.env.NODE_ENV !== 'ov_production') {
 
 var Form = {};
 Form.view = function(vn) {
-  var component_list = [
-		(process.env.NODE_ENV.match('ov') === null) ? m(TopAppBar, {
+	var component_list = [
+		(!isOV) ? m(TopAppBar, {
 			title: _('CONTRACT_FORM_TITLE'),
 			fixed: false
 		}) : '',
@@ -139,7 +141,7 @@ Form.view = function(vn) {
 			showall: showall,
 			focusonjump: true,
 			nextonenter: true,
-			className: (process.env.NODE_ENV.match('ov') === null) ? 'mdc-top-app-bar--fixed-adjust':'',
+			className: (!isOV) ? 'mdc-top-app-bar--fixed-adjust':'',
 			loading: isLoading,
 			pages:[
 				IntroPage(),
@@ -168,7 +170,7 @@ Form.view = function(vn) {
 		'.main.form.mdc-typography', {
 			'autocomplete': 'off'
 		}, [
-			(process.env.NODE_ENV.match('ov') === null) ?
+			(!isOV) ?
 				m(TopAppBar, {
 					title: _('CONTRACT_FORM_TITLE'),
 					fixed: false
@@ -390,8 +392,7 @@ var CupsPage = function() {
 							m.trust(_('CUPS_PARTIAL_ADDRESS_NOTICE')):'',
 						boxed: true,
 						disabled: true,
-						tabindex: -1,
-						required: true,
+						tabindex: '-1',
 						maxlength: 24,
 						outlined: true,
 						value: (state.field.data && state.field.isvalid)?
@@ -525,7 +526,9 @@ SomApi.postContract = function(data) {
 			m.request({
 				method: 'POST',
 				url: `${process.env.APIBASE}/form/holderchange`,
-				data: data
+				//body: data,
+				data: data,
+				responseType: 'json'
 			})
 			.then(function(response) {
 				if (response.status === ONLINE) {
@@ -534,7 +537,7 @@ SomApi.postContract = function(data) {
 					reject(_('The backend server is offline'));
 				} else {
 					reject(_('Unexpected response'));
-				}
+				}				
 			})
 			.catch(function(reason) {
 				if( reason.status !== undefined && reason.status == ONLINE && reason.state) {
@@ -542,6 +545,9 @@ SomApi.postContract = function(data) {
 				} else{
 					reject(reason.message || _('Request failed'));
 				}
+			/*			
+			.catch(function(error) {
+				reject(error || _('Request failed') );*/
 			});
 		});
 };
@@ -620,8 +626,8 @@ var ReviewPage = function() {
 		if(normalizedContract.holder.postalcodeError !== undefined) delete normalizedContract.holder.postalcodeError;
 
 		if(normalizedContract.member.become_member === undefined){
-			 normalizedContract.member.is_member = true;
-			 normalizedContract.member.become_member = false;
+			normalizedContract.member.is_member = true;
+			normalizedContract.member.become_member = false;
 		}
 
 		if(normalizedContract.payment.iban !== undefined){
@@ -740,21 +746,29 @@ var ReviewPage = function() {
 			]),
 		],
 		next: function() {
+
 			normalizedContract = JSON.parse(JSON.stringify(Contract));
 			normalizedContract = normalizeContract(normalizedContract);
+
 			return new Promise(function (resolve, reject) {
 				isLoading = true;
 				SomApiAdapter.postContract(normalizedContract)
 					.then(function(data) {
-						// TODO: Save data into state
-						Contract.contract_number = data.data.contract_number.name;
+						Contract.contract_number = data.data.contract_number;
 						isLoading = false;
 						resolve('success_page');
+					/*
+					}).catch(function(error) {
+						isLoading = false;
+						postError = (error.code !== undefined ) ? error.code : undefined;
+						postErrorData = (error.response.data !== undefined && error.response.data.error ) ? error.response.data.error : undefined;
+						resolve('failure_page');
+						*/
 					}).catch(function(reason) {
 						isLoading = false;
 						reason = (typeof reason === 'string') ? JSON.parse(reason) : undefined;
 						postError = (reason.data.code !== undefined ) ? reason.data.code : undefined;
-						postErrorData = (reason.data.msg !== undefined ) ? reason.data.msg : undefined;
+						postErrorData = (reason.data.msg !== undefined ) ? reason.data.msg : (reason.data.error !== undefined ) ? reason.data.error : undefined;
 						resolve('failure_page');
 					});
 			});
@@ -962,8 +976,10 @@ var FailurePage = function() {
 			"INVALIDFORMAT" : _("INVALIDFORMAT"),
 			"UPLOAD_MAX_SIZE" : _("UPLOAD_MAX_SIZE"),
 		}
+
+		msg = ( msg === undefined ) ? '': msg;
 		return ( code !== undefined &&  errorCodes[code] !== undefined ) ?
-			_(code, msg) : _("UNEXPECTED_POSTERROR", {code:code});
+			_(code, msg) : _("UNEXPECTED_POSTERROR", {error_message:msg});
 	};
 
 	return {
@@ -973,9 +989,12 @@ var FailurePage = function() {
 		content: [
 			m(Row, { className: 'error_page' }, [
 				m(Cell, { spandesktop:2, spantablet:1 }),
-				m(Cell, { spandesktop:8, spantablet:6, className: '', align: 'center' }, [
+				m(Cell, { spandesktop:8, spantablet:6, align: 'center' }, [
 					m.trust(_('FAILURE_TEXT')),
-					m('.error', postErrorsMessages(postError, postErrorData)),
+					m('.error', m.trust(postErrorsMessages(postErrorData, postErrorData))),
+					m('.cuca__container',
+						m.trust(cucaMarejada),
+					),
 				]),
 				m(Cell, { spandesktop:2, spantablet:1 })
 			])
@@ -998,7 +1017,7 @@ var SuccessPage = function() {
 						urlov: _('OV_URL'),
 					})),
 					m('.cuca__container',
-						m('img.cuca', {src: cuca})
+						m.trust(cuca),
 					)
 				]),
 				m(Cell, { spandesktop:2, spantablet:1 })

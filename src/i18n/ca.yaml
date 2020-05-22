@@ -230,7 +230,10 @@ SPECIAL_CASES_MERGE: Fusió d'empreses
 SPECIAL_CASES_ELECTRODEP: Electrodependent
 FAILURE_TITLE: Ups!
 FAILURE_TEXT: <p><b>Ho sentim, no ha estat possible fer el contracte</b></p>
-UNEXPECTED_POSTERROR: S'ha produït un error amb codi %{code}
+UNEXPECTED_POSTERROR: |
+  <b>
+  S'ha produit un error inesperat!</b>
+  <p>%{error_message}</p>
 SUCCESS_TITLE: Enhorabona
 SUCCESS_TEXT: |
   <p>
@@ -242,7 +245,6 @@ SUCCESS_TEXT: |
   de Som Energia
   </p>
 OV_URL: https://oficinavirtual.somenergia.coop/ca
-POSTERROR_GRASPER: '%{name} ets un rata!'
 Field label: Etiqueta del camp
 Holder: Titular
 Supply point: Punt de subministrament

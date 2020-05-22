@@ -19,7 +19,7 @@ digraph G {
 	Technical [label="Potencia\nTarifa\nDocumentación"]
 	NewHolder [label="¿Titular diferente?"]
 	Surrogation [label="¿Por surrogación?"]
-	SwitchDate [label="¿Quieres fecha de cambio?"]
+	NoCutoff [label="¿Eres electrodependiente?"]
 	VoluntaryCent [label="¿Céntimo voluntario?"]
 	Payment [label="Datos de pago"]
 	Summary [label="Resum y signatura"]
@@ -37,7 +37,7 @@ digraph G {
     CupsCode -> CupsIdentified
     UserIdentified -> CupsIdentified [id="startedByOldHolder" label="Iniciado por\nanterior titular"]
     CupsIdentified -> PersonalData [id="newVat2" label="NIF nuevo"]
-	CupsIdentified -> PersonalDataCompleted [id="existingVat" label="NIF existente"]
+    CupsIdentified -> PersonalDataCompleted [id="existingVat" label="NIF existente"]
     PersonalData -> PersonalDataCompleted
     PersonalDataCompleted -> BecomeMember [id="notMember" label="No es socia"]
     PersonalDataCompleted -> MembershipSolved [id="isMember" label="Es socia"]
@@ -48,11 +48,10 @@ digraph G {
     CupsDataCompleted -> HasSupply [id="noActiveCups" label="CUPS sin contrato\nactivo en Som"]
     CupsDataCompleted -> Surrogation [id="isActiveCups" label="CUPS con contrato\nactivo en Som"]
     HasSupply -> Technical [id=noSupply label="Sin luz"]
-    Technical -> VoluntaryCent
+    Technical -> NoCutoff
     HasSupply -> NewHolder [id=hasSupply label="Con luz"]
-    NewHolder -> VoluntaryCent
-    Surrogation -> SwitchDate
-    SwitchDate -> VoluntaryCent -> Payment -> Summary 
+    NewHolder -> NoCutoff
+    Surrogation -> NoCutoff -> VoluntaryCent -> Payment -> Summary 
     Summary ->  Error
     Summary -> Success
 } 

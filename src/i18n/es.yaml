@@ -233,8 +233,11 @@ SPECIAL_CASES_DEATH: Defunción
 SPECIAL_CASES_MERGE: Fusión de empresas
 SPECIAL_CASES_ELECTRODEP: Electrodependiente
 FAILURE_TITLE: ¡Ups!
-FAILURE_TEXT: <p><b>Lo sentimos, no ha sido posible realizar el contrato</b></p>
-UNEXPECTED_POSTERROR: Se ha producido un error con código %{code}
+FAILURE_TEXT: Lo sentimos, no ha sido posible realizar el contrato
+UNEXPECTED_POSTERROR: |
+  <b>
+  Se ha producido un error inesperado!</b>
+  <p>%{error_message}</p>
 SUCCESS_TITLE: Enhorabuena
 SUCCESS_TEXT: |
   <p>
