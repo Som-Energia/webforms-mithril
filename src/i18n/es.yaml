@@ -249,7 +249,6 @@ SUCCESS_TEXT: |
   de Som Energia,
   </p>
 OV_URL: https://oficinavirtual.somenergia.coop/es
-POSTERROR_GRASPER: '%{name} ¡eres un ...!'
 Field label: Etiqueta del campo
 Holder: Titular
 Supply point: Punto de subministro

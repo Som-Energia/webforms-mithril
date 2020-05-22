@@ -74,7 +74,6 @@ UPLOAD_UKNOWN_ERROR: Error desconocido
 CONTRACT_FORM_TITLE: Cambio de titularidad
 WELCOME: ¡Hola!
 VALIDATING_SESSION: Se está validando la sesión...
-STILL_VALIDATING_SESSION: '' # Empty
 CONTRACTING_AS: Estás contratando a nombre de %{name}.
 NOT_YOU_LOGOUT: Si no eres esa persona, por favor, <a href="%{url}" target="_blank">cierra la sesión</a>
 FILL_NIF: No has introducido un NIF correcto
@@ -169,7 +168,6 @@ BECOME_MEMBER_YES_LABEL: Sí, quiero ser persona socia de la cooperativa
 BECOME_MEMBER_YES_DESCRIPTION: Para serlo debes llevar a cabo una aportación única al capital social de <b>100€</b>, que <b>se devuelven</b> en caso de que te des de baja.
 BECOME_MEMBER_NO_LABEL: No, todavía no quiero serlo
 BECOME_MEMBER_NO_DESCRIPTION: Si todavía no te has decidido, te damos el tiempo necesario para que puedas valorar hacer este paso más adelante.
-BECOME_MEMBER_NOTE: ''
 BECOME_MEMBER_UNSELECTED: Es necesario indicar si quieres o no hacerte socia
 
 # VoluntaryCentPage
@@ -266,9 +264,6 @@ SUCCESS_TEXT: |
   </p>
 
 OV_URL: https://oficinavirtual.somenergia.coop/es
-
-# Post messages
-POSTERROR_GRASPER: '%{name} eres un ...!'
 
 # Widgets
 Field label: Etiqueta del campo
