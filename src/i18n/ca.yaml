@@ -60,7 +60,7 @@ UPLOAD_UKNOWN_ERROR: Error desconegut
 CONTRACT_FORM_TITLE: Canvi de titularitat
 WELCOME: Hola!
 VALIDATING_SESSION: S'està validant la sessió
-STILL_VALIDATING_SESSION: ''
+STILL_VALIDATING_SESSION: ' '
 CONTRACTING_AS: Està contractant a nom de %{name}.
 NOT_YOU_LOGOUT: Si no ets aquesta persona, si us plau,  <a href="%{url}" target="_blank">tanca
   la sessió</a>
@@ -161,7 +161,7 @@ BECOME_MEMBER_YES_DESCRIPTION: Per ser-ho, has de fer una aportació única al c
 BECOME_MEMBER_NO_LABEL: No, encara no me'n vull fer sòcia
 BECOME_MEMBER_NO_DESCRIPTION: Si encara no t’hi has decidit, et donem el temps necessari
   perquè puguis valorar fer-te'n més endavant.
-BECOME_MEMBER_NOTE: ''
+BECOME_MEMBER_NOTE: ' '
 BECOME_MEMBER_UNSELECTED: 'Cal dir si vols fer-te sòcia o no '
 VOLUNTARY_CENT_TITLE: Donatiu voluntari
 VOLUNTARY_CENT_PRESENTATION: "Som una Cooperativa sense ànim de lucre amb l'objectiu\
