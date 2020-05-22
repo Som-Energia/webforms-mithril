@@ -42,7 +42,7 @@ Send: Envía
 API Documentation: Documentación de la API
 Result: Resultados
 VIEWMODE_LABEL: Vista
-VIEWMODE_DESCRIPTION: Cómo se visualizan los resultados
+VIEWMODE_DESCRIPTION: Cómo se visualizan los resultados.
 VIEWMODE_TABLE: Tabla
 VIEWMODE_YAML: YAML (original)
 VIEWMODE_JSON: JSON
@@ -59,7 +59,7 @@ FILE_MAX_SIZE_EXCEEDED: El archivo supera el tamaño máximo (%{max_file_size} M
 UPLOAD_UKNOWN_ERROR: Error desconocido
 CONTRACT_FORM_TITLE: Cambio de titularidad
 WELCOME: ¡Hola!
-VALIDATING_SESSION: Se está validando la sesión...
+VALIDATING_SESSION: Se está validando la sesión
 STILL_VALIDATING_SESSION: ''
 CONTRACTING_AS: Estás contratando a nombre de %{name}.
 NOT_YOU_LOGOUT: Si no eres esa persona, por favor, <a href="%{url}" target="_blank">cierra
@@ -167,11 +167,10 @@ BECOME_MEMBER_NOTE: ''
 BECOME_MEMBER_UNSELECTED: 'Es necesario indicar si quieres hacerte socia o no '
 VOLUNTARY_CENT_TITLE: Donativo voluntario
 VOLUNTARY_CENT_PRESENTATION: "Somos una cooperativa sin ánimo de lucro con el objetivo\
-  \ firme de cambiar el modelo energético.\nLos socios y socias que lo deseen pueden\
-  \ realizar un donativo voluntario de 0,01 €/kWh\ndestinado a apoyar y facilitar\
-  \ la acción social y voluntaria de los más de 50 grupos locales repartidos por el\
-  \ territorio.\n"
-VOLUNTARY_CENT_QUESTION: Quieres participar con tu energía para hacerlo posible?
+  \ firme de cambiar el modelo energético. Los socios y socias que lo deseen pueden\
+  \ realizar un donativo voluntario de 0,01 €/kWh destinado a apoyar y facilitar la\
+  \ acción social y voluntaria de los más de 50 grupos locales repartidos por el territorio.\n"
+VOLUNTARY_CENT_QUESTION: ¿Quieres participar con tu energía para hacerlo posible?
 VOLUNTARY_CENT_YES_LABEL: Sí, quiero hacer un donativo voluntario de 0,01 €/kWh
 VOLUNTARY_CENT_YES_DESCRIPTION: "Por un consumo medio de una família (aproximadamente\
   \ 300 kWh/mes),\neso representa un incremento de 3€ mensuales.\n"
@@ -234,7 +233,7 @@ SPECIAL_CASES_DEATH: Defunción
 SPECIAL_CASES_MERGE: Fusión de empresas
 SPECIAL_CASES_ELECTRODEP: Electrodependiente
 FAILURE_TITLE: ¡Ups!
-FAILURE_TEXT: Lo sentimos, no ha sido posible realizar el contrato
+FAILURE_TEXT: <p><b>Lo sentimos, no ha sido posible realizar el contrato</b></p>
 UNEXPECTED_POSTERROR: Se ha producido un error con código %{code}
 SUCCESS_TITLE: Enhorabuena
 SUCCESS_TEXT: |
@@ -254,10 +253,10 @@ Supply point: Punto de subministro
 Confirmation: Confirmación
 Submit: Enviar
 Required: Campo obligatorio
-CONTRACT_INTRO: 'Para contractar la luz con Som Energia... '
+CONTRACT_INTRO: 'Para contractar la luz con Som Energia:'
 PRIVACY_POLICY_TITLE: Política de protección de datos
 ACCEPT_PRIVACY_POLICY: He leído y acepto la política de privacidad de Som Energia
 ACCEPT_PRIVACY_POLICY_URL: //www.somenergia.coop/es/aviso-legal/
 TERMS_TITLE: Condiciones generales
-Checking...: Comprobando...
+Checking...: Comprobando…
 NAME: Nombre
