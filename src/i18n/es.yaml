@@ -70,7 +70,7 @@ FILL_VAT: "<p>Este formulario permite realizar un cambio de titularidad de un co
   \ que será la nueva titular</b> del contrato:</p>"
 VAT_LABEL: Número de Identificación Fiscal (NIF)
 VAT_HELP: ¿Y si no dispongo de NIF?
-VAT_HELP_URL: TODO
+VAT_HELP_URL: https://es.support.somenergia.coop/article/528-como-hacer-un-cambio-de-titular-del-contrato
 NO_VAT_HELP: "Si no dispones de NIE y tienes pasaporte, puedes enviarnos un correo\
   \ a <a target=\"_blank\" href=\"mailto:modifica@somenergia.coop\">modifica@somenergia.coop</a>\
   \ con los datos del punto de suministro que quieres cambiar (número de contrato\
@@ -166,10 +166,10 @@ BECOME_MEMBER_NO_DESCRIPTION: Si todavía no te has decidido, te damos el tiempo
 BECOME_MEMBER_NOTE: ' '
 BECOME_MEMBER_UNSELECTED: 'Es necesario indicar si quieres hacerte socia o no '
 VOLUNTARY_CENT_TITLE: Donativo voluntario
-VOLUNTARY_CENT_PRESENTATION: "Somos una cooperativa sin ánimo de lucro con el objetivo\
-  \ firme de cambiar el modelo energético. Los socios y socias que lo deseen pueden\
-  \ realizar un donativo voluntario de 0,01 €/kWh destinado a apoyar y facilitar la\
-  \ acción social y voluntaria de los más de 50 grupos locales repartidos por el territorio.\n"
+VOLUNTARY_CENT_PRESENTATION: Somos una cooperativa sin ánimo de lucro con el objetivo
+  firme de cambiar el modelo energético. Los socios y socias que lo deseen pueden
+  realizar un donativo voluntario de 0,01 €/kWh destinado a apoyar y facilitar la
+  acción social y voluntaria de los más de 50 grupos locales repartidos por el territorio.
 VOLUNTARY_CENT_QUESTION: ¿Quieres participar con tu energía para hacerlo posible?
 VOLUNTARY_CENT_YES_LABEL: Sí, quiero hacer un donativo voluntario de 0,01 €/kWh
 VOLUNTARY_CENT_YES_DESCRIPTION: "Por un consumo medio de una família (aproximadamente\
