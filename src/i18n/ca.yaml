@@ -69,7 +69,7 @@ FILL_VAT: "<p>Aquest formulari permet realitzar un canvi de titularitat d’un c
   \ que serà la nova titular</b> del contracte:</p>"
 VAT_LABEL: Número d'identificació fiscal (NIF)
 VAT_HELP: I si no disposo d'un NIF?
-VAT_HELP_URL: TODO
+VAT_HELP_URL: https://ca.support.somenergia.coop/article/520-com-fer-un-canvi-de-titular-del-contracte
 NO_VAT_HELP: Si no disposes de NIE i tens passaport, ens pots enviar un correu a <a
   target="_blank" href="mailto:modifica@somenergia.coop">modifica@somenergia.coop</a>
   amb les dades del punt de subministrament que vols canviar (número de contracte
@@ -162,10 +162,10 @@ BECOME_MEMBER_NO_DESCRIPTION: Si encara no t’hi has decidit, et donem el temps
   perquè puguis valorar fer-te'n més endavant.
 BECOME_MEMBER_UNSELECTED: 'Cal dir si vols fer-te sòcia o no '
 VOLUNTARY_CENT_TITLE: Donatiu voluntari
-VOLUNTARY_CENT_PRESENTATION: "Som una Cooperativa sense ànim de lucre amb l'objectiu\
-  \ ferm de canviar el model energètic. Els socis i les sòcies que ho desitgin poden\
-  \ realitzar un donatiu voluntari de 0,01 €/kWh\ndestinat a donar suport i facilitar\
-  \ l'acció social i voluntària dels més de 50 grups locals repartits pel territori.\n"
+VOLUNTARY_CENT_PRESENTATION: Som una Cooperativa sense ànim de lucre amb l'objectiu
+  ferm de canviar el model energètic. Els socis i les sòcies que ho desitgin poden
+  realitzar un donatiu voluntari de 0,01 €/kWh destinat a donar suport i facilitar
+  l'acció social i voluntària dels més de 50 grups locals repartits pel territori.
 VOLUNTARY_CENT_QUESTION: Vols participar amb la teva energia a fer-ho possible?
 VOLUNTARY_CENT_YES_LABEL: Sí, vull fer un donatiu voluntari de 0,01 €/kWh
 VOLUNTARY_CENT_YES_DESCRIPTION: "Per un consum mitjà d'una família (aproximadament\
@@ -220,7 +220,7 @@ SPECIAL_CASES_REASON_DEATH: El canvi de titular es fa per motiu de defunció
 SPECIAL_CASES_REASON_MERGE: El canvi de titular es fa per motiu d'una fusió d'empreses
 SPECIAL_CASES_REASON_ELECTRODEP: Al domicili viu una persona electrodependent
 CERT_ATTACH_DEATH: Certificat de defunció
-ELECTRODEP_ATTACH_MEDICAL: Certificat mèdic d'electrodependencia
+ELECTRODEP_ATTACH_MEDICAL: Certificat mèdic d'electrodependència
 ELECTRODEP_ATTACH_RESIDENT: Certificat d'empadronament
 ELECTRODEP_ATTACH_REQUIRED: Cal adjuntar els certificats demanats
 SPECIAL_CASES_DEATH: Defunció
