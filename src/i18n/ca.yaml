@@ -165,17 +165,16 @@ BECOME_MEMBER_NOTE: ''
 BECOME_MEMBER_UNSELECTED: 'Cal dir si vols fer-te sòcia o no '
 VOLUNTARY_CENT_TITLE: Donatiu voluntari
 VOLUNTARY_CENT_PRESENTATION: "Som una Cooperativa sense ànim de lucre amb l'objectiu\
-  \ ferm de canviar el model energètic.\nEls socis i les sòcies que ho desitgin poden\
-  \ fer un donatiu voluntari de 0,01 €/kWh\ndestinat a donar suport i facilitar l'acció\
-  \ social i voluntària\ndels més de 50 grups locals repartits pel territori.\n"
+  \ ferm de canviar el model energètic. Els socis i les sòcies que ho desitgin poden\
+  \ fer un donatiu voluntari de 0,01 €/kWh destinat a donar suport i facilitar l'acció\
+  \ social i voluntària dels més de 50 grups locals repartits pel territori.\n"
 VOLUNTARY_CENT_QUESTION: Vols participar amb la teva energia a fer-ho possible?
 VOLUNTARY_CENT_YES_LABEL: Sí, vull fer un donatiu voluntari de 0,01 €/kWh
 VOLUNTARY_CENT_YES_DESCRIPTION: "Per un consum mitjà d'una família (aproximadament\
   \ 300 kWh/mes)\naixò representa un increment de 3 € mensuals.\n"
 VOLUNTARY_CENT_NO_LABEL: No
-VOLUNTARY_CENT_NO_DESCRIPTION: |
-  Sempre que ho vulguis podràs activar o desactivar aquest donatiu a l'instant
-  des de l'Oficinal Virtual.
+VOLUNTARY_CENT_NO_DESCRIPTION: "Sempre que ho vulguis podràs activar o desactivar\
+  \ aquest donatiu a l'instant des de l'Oficinal Virtual.\n"
 NO_VOLUNTARY_DONATION_CHOICE_TAKEN: Cal dir si vols  fer el donatiu voluntari o no
 PAYMENT_TITLE: Dades de pagament
 IBAN_LABEL: IBAN (compte bancari)
@@ -250,9 +249,9 @@ Supply point: Punt de subministrament
 Confirmation: Confirmació
 Submit: Enviar
 Required: Camp obligatori
-CONTRACT_INTRO: Per contractar la llum amb Som Energia...
+CONTRACT_INTRO: 'Per contractar la llum amb Som Energia:'
 PRIVACY_POLICY_TITLE: Política de protecció de dades
 ACCEPT_PRIVACY_POLICY: He llegit i accepto la política de privacitat de Som Energia
 ACCEPT_PRIVACY_POLICY_URL: //www.somenergia.coop/ca/avis-legal/
 TERMS_TITLE: Condicions generals
-Checking...: Comprovant...
+Checking...: Comprovant…
