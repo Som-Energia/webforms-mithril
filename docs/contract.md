@@ -135,17 +135,7 @@
 	- "( ) Subrogación: el nuevo titular acepta las posibles deudas pendientes del anterior contrato."
 	- "( ) No subrogación: el nuevo titular pagará la fianza de la distribuidora."
 
-1. **SwitchChange**:
-	- *Entra:* Si es un cambio de titular interno en SomEnergia
-	- "La distribuidora hará el cambio cuando quiera,
-	  pero como el contrato no dejará de ser de SomEnergia,
-	  damos facilidad para que podais indicar la fecha y la lectura
-	  del cambio y facturar a cada titular lo 
-	- "¿Quieres hacer el cambio a una fecha concreta?"
-	- "( ) Si. Tenemos una fecha y lectura de cambio."
-	- "( ) Da igual. Cuando diga la distribuidora."
-	- TODO: Podemos ir más atrás de la ultima facturacion?
-	- TODO: 
+1. **NoCutoffPage**:
 
 1. **VoluntaryCentPage**:
 	- *Entra:* Siempre
