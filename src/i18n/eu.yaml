@@ -1,262 +1,244 @@
 LANGKEY: eu
-OPENDATAUI_TITLE: |
-  Som Energia - API de Datos Abiertos - Interfaz de usuario
-ALPHA_DISCLAIMER: |
-  Advertencia: Esto es una versión alfa.
-  Los números calculados por la API aún no son exactamente los reales.
-METRIC_LABEL: Métrica
-METRIC_HELP: Seleccione la métrica a consultar
-Members: Socias
-Contracts: Contratos
-GEOLEVEL_LABEL: Nivel geográfico [by]
-GEOLEVEL_HELP: |
-  Hasta qué nivel de detalle quieres profundizar.
-  Por defecto, sólo la suma global.
-Country: País
-Region: Comunidad Autónoma
-State: Provincia
-City: Municipio
-TIME_LABEL: Eje temporal
-TIME_DESCRIPTION: Puntos temporales de la medida
-Single date: Fecha única
-Yearly: Anualmente
-Monthly: Mensualmente
-Weekly: Semanalmente
-ON_LABEL: A fecha [on]
-ON_DESCRIPTION: |
-  Fecha a consultar.
-  Por defecto, la última disponible.
-FROM_LABEL: Desde [from]
-FROM_DESCRIPTION: |
-  Primera fecha considerada.
-  Por defecto, la primera disponible.
-TO_LABEL: Fins a [to]
-TO_DESCRIPTION: |
-  Última fecha considerada.
-  Por defecto, la última disponible.
-FILTERS_LABEL: Filtros geográficos
-FILTERS_DESCRIPTION: |
-  Una secuencia separada por signos "&" de nivel=codigo
-  donde "nivel" puede ser "country", "ccaa", "state" o "city";
-  y "codigo" es el código INE o ISO.
-Send: Envía
-API Documentation: Documentación de la API
-Result: Resultados
-VIEWMODE_LABEL: Vista
-VIEWMODE_DESCRIPTION: Cómo se visualizan los resultados.
-VIEWMODE_TABLE: Tabla
-VIEWMODE_YAML: YAML (original)
+OPENDATAUI_TITLE: "Som Energia - Datu irekiko APIa - Erabiltzailearen interfazea\n"
+ALPHA_DISCLAIMER: "Abisua: Hau alfa bertsio bat da.\nAPIak kalkulatu dituen zifrak\
+  \ ez dira zehatzak.\n"
+METRIC_LABEL: Metrika
+METRIC_HELP: Hautatu kontsultatu beharreko metrika
+Members: Bazkideak
+Contracts: Kontratuak
+GEOLEVEL_LABEL: Maila geografikoa [by]
+GEOLEVEL_HELP: "Zenbateraino sakondu nahi duzu?\nBesterik adierazi ezean, guztirako\
+  \ batura bakarrik.\n"
+Country: Herrialdea
+Region: Autonomia-erkidegoa
+State: Probintzia
+City: Udalerria
+TIME_LABEL: Denbora-ardatza
+TIME_DESCRIPTION: Aldi baterako neurketa-puntuak
+Single date: Data bakarra
+Yearly: Urtero
+Monthly: Hilero
+Weekly: Astero
+ON_LABEL: 'Data: [on]'
+ON_DESCRIPTION: "Kontsultatuko den data.\nBesterik adierazi ezean, erabilgarri dagoen\
+  \ azkena.\n"
+FROM_LABEL: 'Noiztik: [from]'
+FROM_DESCRIPTION: "Kontuan hartutako lehen data.\nBesterik adierazi ezean, erabilgarri\
+  \ dagoen lehena.\n"
+TO_LABEL: 'Noiz arte: [to]'
+TO_DESCRIPTION: "Kontuan hartutako azken data.\nBesterik adierazi ezean, erabilgarri\
+  \ dagoen azkena.\n"
+FILTERS_LABEL: Iragazki geografikoak
+FILTERS_DESCRIPTION: "Kode-mailako \"&\" zeinuz bereizitako sekuentzia,\nnon \"nivel\"\
+  \ \"country\", \"ccaa\", \"state\" edo \"city\" izan daitekeen,\neta \"codigo\"\
+  \ INE edo ISO kodea den.\n"
+Send: Bidali
+API Documentation: APIaren dokumentazioa
+Result: Emaitzak
+VIEWMODE_LABEL: Bistaratzeko modua
+VIEWMODE_DESCRIPTION: Nola bistaratzen dira emaitzak.
+VIEWMODE_TABLE: Taula
+VIEWMODE_YAML: YAML (originala)
 VIEWMODE_JSON: JSON
-Code: Código
+Code: Kodea
 Name: Nombre
-Global: Global
-I_DECLINE: Rechazo
-I_ACCEPT: Acepto
-Previous: Anterior
-Next: Siguiente
-FILE_ACTION: "Escoge un archivo"
-FILE_EXTENSION_NOT_ALLOWED: El archivo tiene una extensión no válida
-FILE_MAX_SIZE_EXCEEDED: El archivo supera el tamaño máximo (%{max_file_size} MB)
-UPLOAD_UKNOWN_ERROR: Error desconocido
-CONTRACT_FORM_TITLE: Cambio de titularidad
-WELCOME: ¡Hola!
-VALIDATING_SESSION: Se está validando la sesión...
-CONTRACTING_AS: Estás contratando a nombre de %{name}.
-NOT_YOU_LOGOUT: Si no eres esa persona, por favor, <a href="%{url}" target="_blank">cierra
-  la sesión</a>
-FILL_NIF: No has introducido un NIF correcto
-FILL_VAT: "<p>Este formulario permite realizar un cambio de titularidad de un contrato\
-  \ activo con Som Energia.</p><p>Introduce el <b>NIF de la persona o entidad jurídica\
-  \ que será la nueva titular</b> del contrato:</p>"
-VAT_LABEL: Número de Identificación Fiscal (NIF)
-VAT_HELP: ¿Y si no dispongo de NIF?
-VAT_HELP_URL: https://es.support.somenergia.coop/article/528-como-hacer-un-cambio-de-titular-del-contrato
-NO_VAT_HELP: "Si no dispones de NIE y tienes pasaporte, puedes enviarnos un correo\
-  \ a <a target=\"_blank\" href=\"mailto:modifica@somenergia.coop\">modifica@somenergia.coop</a>\
-  \ con los datos del punto de suministro que quieres cambiar (número de contrato\
-  \ y CUPS) y los datos de la nueva persona titular (nombre, apellidos, pasaporte\
-  \ adjunto, correo electrónico y teléfono de contacto) y datos IBAN de pago."
-IDENTIFY: Identificación
-FILL_PASSWORD: Por favor, indentifíquese usando la contraseña de la Oficina Virtual
-PASSWORD_LABEL: Contraseña
-PASSWORD_HELP: No recuerdo la contraseña
-PASSWORD_HELP_URL: TODO
-WRONG_PASSWORD: Contraseña incorrecta
-CUPS_TITLE: Identifica el punto de suministro
-FILL_CUPS: "Indica el código CUPS (Código Universal de Punto de Suministro):"
+Global: Globala
+I_DECLINE: Errefusatzen dut
+I_ACCEPT: Onartzen dut
+Previous: Aurrekoa
+Next: Hurrengoa
+FILE_ACTION: Aukeratu fitxategi bat
+FILE_EXTENSION_NOT_ALLOWED: Fitxategiaren luzapena ez da baliozkoa
+FILE_MAX_SIZE_EXCEEDED: Fitxategiak gehieneko tamaina (%{max_file_size} MB) gainditzen
+  du
+UPLOAD_UKNOWN_ERROR: Errore ezezaguna
+CONTRACT_FORM_TITLE: Titular-aldaketa
+WELCOME: Kaixo!
+VALIDATING_SESSION: Saioa balioztatzen ari gara
+CONTRACTING_AS: 'Kontratatzailearen izena: %{name}.'
+NOT_YOU_LOGOUT: Zu ez bazara, <a href="%{url}" target="_blank">itxi saioa</a>
+FILL_NIF: Idatzi duzun IFZ ez da zuzena
+FILL_VAT: <p>Formulario hau Som Energiarekin aktibo duzun kontratu baten titularra
+  aldatzeko da.</p><p>Idatzi kontratuaren titular berria izango den <b>pertsonaren
+  edo erakunde juridikoaren IFZ</b>:</p>
+VAT_LABEL: Identifikazio fiskaleko zenbakia (IFZ)
+VAT_HELP: Eta ez badut IFZrik?
+VAT_HELP_URL: https://eu.support.somenergia.coop/article/528-nola-aldatu-kontratuaren-titularra
+NO_VAT_HELP: AIZrik ez baina pasaportea baduzu, bidali mezu bat <a target="_blank"
+  href="mailto:modifica@somenergia.coop">modifica@somenergia.coop</a> helbidera, aldatu
+  nahi duzun hornidura-puntuko datuekin (kontratu-zenbakia eta CUPS), titular berriaren
+  datuekin (izen-abizenak, pasaporte erantsia, helbide elektronikoa eta harremanetarako
+  telefonoa) eta ordaintzeko IBAN datuekin.
+IDENTIFY: Identifikazioa
+FILL_PASSWORD: Mesedez, identifika zaitez Bulego Birtualeko pasahitza erabiliz
+PASSWORD_LABEL: Pasahitza
+PASSWORD_HELP: Ez dut pasahitza gogoratzen
+PASSWORD_HELP_URL: DENA
+WRONG_PASSWORD: Pasahitza ez da zuzena
+CUPS_TITLE: Identifikatu hornidura-puntua
+FILL_CUPS: 'Idatzi CUPS (hornidura-puntuaren kode unibertsala) kodea:'
 CUPS_LABEL: CUPS
-CUPS_HELP: ¿Dónde puedo encontrar el código CUPS?
-CUPS_HELP_URL: https://es.support.somenergia.coop/article/210-que-es-el-cups
-CUPS_VERIFY_LABEL: Confirmo que la dirección se corresponde con el CUPS que quiero
-  contratar
-CUPS_NO_VERIFY_HELP: Si la dirección postal no corresponde puedes contactar con nosotros
-  en <a href="mailto:modifica@somenergia.coop">modifica@somenergia.coop</a>.
-INVALID_SUPPLY_POINT_CUPS: CUPS inválido
-CUPS_IN_PROCESS: Este CUPS está actualmente en un proceso
-MARK_ADDRESS_CONFIRMATION_BOX: Verifica que la dirección asociada a este CUPS es la
-  correcta
-SUPPLY_POINT_ADDRESS: Dirección de suministro
-CUPS_SHOULD_BE_ACTIVE: El CUPS no tiene un contrato activo con Som Energia
-CUPS_STATE_UNEXPECTED: No se pudo identificar el estado del CUPS (error interno)
-CUPS_PARTIAL_ADDRESS_NOTICE: Por motivos de seguridad, no mostramos la dirección completa.
-  Podrás consultar la dirección completa en la Oficina Virtual.
-CUPS_INVALID: CUPS incorrecto
-STATE: Provincia
-STATE_HELP: Provincia
-CITY: Municipio
-CITY_HELP: Municipio
-LOADING_HELP: Cargando opciones...
-LANGUAGE: Idioma
-LANGUAGE_HELP: Idioma
-HOLDER_PERSONAL_DATA: Datos personales de la nueva persona titular
-HOLDER_NAME: Nombre
-HOLDER_NAME_HELP: Nombre de la persona titular
-HOLDER_SURNAME1: Primer apellido
-HOLDER_SURNAME1_HELP: Primer apellido de la persona titular
-HOLDER_SURNAME2: Segundo apellido
-HOLDER_SURNAME2_HELP: Segundo apellido de la persona titular
-BUSINESS_NAME: Razón social
-BUSINESS_NAME_HELP: Razón social
-PROXY_NAME: Nombre del representante legal
-PROXY_NAME_HELP: Nombre y apellidos del representante legal
-PROXY_NIF: Nif del representante legal
-PROXY_NIF_HELP: Nif del representante legal
-HOLDER_ADDRESS: Dirección
-HOLDER_ADDRESS_HELP: Dirección de la persona titular
-HOLDER_POSTALCODE: Código postal
-HOLDER_POSTALCODE_HELP: Código postal de la persona titular
-HOLDER_EMAIL: Email
-HOLDER_EMAIL_HELP: Email de la persona titular
-HOLDER_EMAIL_2: Email (Repite email)
-HOLDER_EMAIL_2_HELP: Repite email
-HOLDER_PHONE: Teléfono
-HOLDER_PHONE_HELP: Teléfono de la persona titular
-HOLDER_PHONE_2: Teléfono alternativo
-HOLDER_PHONE_2_HELP: Teléfono alternativo
-HOLDER_LANGUAGE_HELP: Idioma para la comunicación con Som Energia
-NO_NAME: No has especificado el nombre
-NO_SURNAME1: No has especificado el primer apellido
-NO_NIF: No has especificado el NIF
-NO_PROXY_NAME: No has especificado el nombre de la persona representante
-NO_PROXY_NIF: No has especificado el NIF de la persona representante
-INVALID_PROXY_NIF: El NIF de la persona representante no es válido
-NO_ADDRESS: No has especificado la dirección
-NO_POSTALCODE: No has especificado un código postal correcto
-NO_STATE: No has especificado la provincia
-NO_CITY: No has especificado el municipio
-NO_EMAIL: No has especificado un correo electrónico correcto
-NO_REPEATED_EMAIL: No has repetido el correo electrónico correctamente
-NO_PHONE: No has especificado un teléfono correcto
-NO_LANGUAGE: No has especificado el idioma
-UNACCEPTED_PRIVACY_POLICY: Tienes que aceptar la política de privacidad
-BECOME_MEMBER_TITLE: Hacerse Socio/a
-BECOME_MEMBER_PRESENTATION: <p>Ten en cuenta que para poder ser titular de un contrato
-  con la cooperativa es necesario que seas persona socia de la misma.</p><p>Si ya
-  eres socio o socia de Som Energia, no es necesario que marques ninguna opción y
-  puedes seguir adelante con el formulario.</p>
-BECOME_MEMBER_QUESTION: Quieres ser persona sòcia de la cooperativa?
-BECOME_MEMBER_YES_LABEL: Sí, quiero ser persona socia de la cooperativa
-BECOME_MEMBER_YES_DESCRIPTION: Para serlo debes llevar a cabo una aportación única
-  al capital social de <b>100€</b>, que <b>se devuelven</b> en caso de que te des
-  de baja.
-BECOME_MEMBER_NO_LABEL: No, todavía no quiero serlo
-BECOME_MEMBER_NO_DESCRIPTION: Si todavía no te has decidido, te damos el tiempo necesario
-  para que puedas valorar hacer este paso más adelante.
-BECOME_MEMBER_UNSELECTED: Es necesario indicar si quieres o no hacerte socia
-VOLUNTARY_CENT_TITLE: Donativo voluntario
-VOLUNTARY_CENT_PRESENTATION: |
-  Somos una cooperativa sin ánimo de lucro con el objetivo firme de cambiar el modelo energético.
-  Los socios y socias que lo deseen pueden realizar un donativo voluntario de 0,01€/kWh
-  destinado a apoyar y facilitar la acción social y voluntaria de los más de 50 Grupos Locales repartidos por el territorio.
-VOLUNTARY_CENT_QUESTION: Quieres participar con tu energía para hacerlo posible?
-VOLUNTARY_CENT_YES_LABEL: Sí, quiero hacer un donativo voluntario de 0,01€/kWh
-VOLUNTARY_CENT_YES_DESCRIPTION: |
-  Por un consumo medio de una família (aproximadamente 300kWh/mes)
-  esto representa un incremento de 3€ mensuales.
-VOLUNTARY_CENT_NO_LABEL: No
-VOLUNTARY_CENT_NO_DESCRIPTION: |
-  Siempre que quieras podrás activar o desactivar este donativo al instante desde la Oficina Virtual.
-NO_VOLUNTARY_DONATION_CHOICE_TAKEN: Es necesario especificar si quieres hacer o no
-  el donativo voluntario
-PAYMENT_TITLE: Datos de pago
-IBAN_LABEL: IBAN (cuenta bancaria)
-IBAN_HELP: "Ejemplo: ES11 2222 3333 4444 5555 6666"
-IBAN_ACCEPT_DIRECT_DEBIT: Como titular de la cuenta bancaria, acepto la domiciliación
-  de los recibos
-IBAN_ERROR: IBAN incorrecto
-INVALID_PAYER_IBAN: No has especificado correctamente el IBAN de la cuenta donde domiciliar
-UNCONFIRMED_ACCOUNT_OWNER: Tienes que aceptar la domiciliación de recibos
-REVIEW_TITLE: Revisa y confirma el contrato
-REVIEW_DATA_AND_CONFIRM: |
-  ¡Ya casi hemos terminado! Revisa los datos introducidos y pulsa el botón de enviar.
-SUMMARY_GROUP_PROCESS: Tipo de trámite
-PROCESS_TYPE: Tipo de trámite
-PROCESS_TYPE_HOLDER_CHANGE: Cambio de titular
-RELATED_MEMBER: Socia vinculada
-RELATED_MEMBER_PENDING: Pendiente de hacerse socia
-HOLDER: Titular
-CONTACT: Información de contacto
-LEGAL_NAME: Razón social
-SUPPLY: Punto de suministro
-ADDRESS: Dirección
-PHONE: Teléfono
-EMAIL: Correo electrónico
-PROXY: Representante legal
-SUMMARY_GROUP_PAYMENT: Datos de pago
-SUMMARY_GROUP_TECHNICAL: Datos técnicos
+CUPS_HELP: Non aurki dezaket CUPS kodea?
+CUPS_HELP_URL: https://eu.support.somenergia.coop/article/210-zer da-cups-kodea
+CUPS_VERIFY_LABEL: Konfirmatzen du helbidea kontratatu nahi dudan CUPS kodearekin
+  bat datorrela
+CUPS_NO_VERIFY_HELP: Posta-helbidea bat ez badator, jar zaitez gurekin harremanetan
+  <a href="mailto:modifica@somenergia.coop">modifica@somenergia.coop</a> helbidean.
+INVALID_SUPPLY_POINT_CUPS: Hornidura-punturako zehaztu duzun <b>CUPS identifikatzaileak</b>
+  ez du balio
+CUPS_IN_PROCESS: Une honetan, CUPS hau prozesu batean dago
+MARK_ADDRESS_CONFIRMATION_BOX: Egiaztatu CUPS honen helbidea zuzena dela
+SUPPLY_POINT_ADDRESS: Hornidura-helbidea
+CUPS_SHOULD_BE_ACTIVE: CUPS honek ez du kontratu aktiborik Som Energiarekin
+CUPS_STATE_UNEXPECTED: Ezin izan da identifikatu CUPS kodearen egoera (barne-errorea)
+CUPS_PARTIAL_ADDRESS_NOTICE: Segurtasun-arrazoiak direla eta, ez da helbide osoa agertzen.
+  Helbide osoa Bulego Birtualean kontsulta dezakezu.
+CUPS_INVALID: CUPS okerra
+STATE: Probintzia
+STATE_HELP: Probintzia
+CITY: Udalerria
+CITY_HELP: Udalerria
+LOADING_HELP: Aukerak kargatzen...
+LANGUAGE: Hizkuntza
+LANGUAGE_HELP: Hizkuntza
+HOLDER_PERSONAL_DATA: Titular berriaren datu pertsonalak
+HOLDER_NAME: Izena
+HOLDER_NAME_HELP: Titularraren izena
+HOLDER_SURNAME1: Lehen abizena
+HOLDER_SURNAME1_HELP: Titularraren lehen abizena
+HOLDER_SURNAME2: Bigarren abizena
+HOLDER_SURNAME2_HELP: Titularraren bigarren abizena
+BUSINESS_NAME: Izen soziala
+BUSINESS_NAME_HELP: Izen soziala
+PROXY_NAME: Legezko ordezkariaren izena
+PROXY_NAME_HELP: Legezko ordezkariaren izen-abizenak
+PROXY_NIF: Legezko ordezkariaren IFZ
+PROXY_NIF_HELP: Legezko ordezkariaren IFZ
+HOLDER_ADDRESS: Helbidea
+HOLDER_ADDRESS_HELP: Titularraren helbidea
+HOLDER_POSTALCODE: Posta-kodea
+HOLDER_POSTALCODE_HELP: Titularraren posta-kodea
+HOLDER_EMAIL: Helbide elektronikoa
+HOLDER_EMAIL_HELP: Titularraren helbide elektronikoa
+HOLDER_EMAIL_2: Helbide elektronikoa (Errepikatu helbide elektronikoa)
+HOLDER_EMAIL_2_HELP: Errepikatu helbide elektronikoa
+HOLDER_PHONE: Telefonoa
+HOLDER_PHONE_HELP: Titularraren telefonoa
+HOLDER_PHONE_2: Telefono alternatiboa
+HOLDER_PHONE_2_HELP: Telefono alternatiboa
+HOLDER_LANGUAGE_HELP: Som Energiarekin komunikatzeko hizkuntza
+NO_NAME: Ez duzu zehaztu izena
+NO_SURNAME1: Ez duzu zehaztu lehen abizena
+NO_NIF: Ez duzu zehaztu IFZ
+NO_PROXY_NAME: Ez duzu zehaztu ordezkariaren izena
+NO_PROXY_NIF: Ez duzu zehaztu ordezkariaren IFZ
+INVALID_PROXY_NIF: Ordezkariaren IFZ ez da baliozkoa
+NO_ADDRESS: Ez duzu zehaztu helbidea
+NO_POSTALCODE: Ez duzu zehaztu posta-kode zuzen bat
+NO_STATE: Ez duzu zehaztu probintzia
+NO_CITY: Ez duzu zehaztu udalerria
+NO_EMAIL: Ez duzu zehaztu helbide elektroniko zuzen bat
+NO_REPEATED_EMAIL: Ez duzu ondo errepikatu helbide elektronikoa
+NO_PHONE: Ez duzu zehaztu telefono zuzen bat
+NO_LANGUAGE: Ez duzu zehaztu hizkuntza
+UNACCEPTED_PRIVACY_POLICY: Pribatutasun-politika onartu behar duzu
+BECOME_MEMBER_TITLE: Bazkidetzea
+BECOME_MEMBER_PRESENTATION: <p>Gogoan izan, Kooperatibarekin titular gisa kontratu
+  bat egiteko, bazkidetu behar duzula .</p><p>Dagoeneko Som Energiako bazkide bazara,
+  ez duzu ezein aukerarik markatu behar; segi aurrera formularioarekin.</p>
+BECOME_MEMBER_QUESTION: Kooperatibako bazkide izan nahi duzu?
+BECOME_MEMBER_YES_LABEL: Bai, Kooperatibako bazkide izan nahi dut
+BECOME_MEMBER_YES_DESCRIPTION: Horretarako, kapital sozialera <b>100€</b>ko ekarpena
+  egin behar duzu; eta, inoiz baja ematen baduzu, ekarpena <b>itzuliko zaizu</b>.
+BECOME_MEMBER_NO_LABEL: Ez, oraindik ez dut nahi
+BECOME_MEMBER_NO_DESCRIPTION: Oraindik ziur ez bazaude, hartu denbora urrats hori
+  aurrerago egiteko aukera baloratzeko.
+BECOME_MEMBER_UNSELECTED: 'Bazkidetu nahi duzun ala ez adierazi behar duzu '
+VOLUNTARY_CENT_TITLE: Borondatezko dohaina
+VOLUNTARY_CENT_PRESENTATION: Irabazi-asmorik gabeko kooperatiba bat gara, eta eredu
+  energetikoa aldatzeko helburua dugu. Nahi duten bazkideek 0,01€/kWh-ko borondatezko
+  dohaina egin dezakete, lurralde osoko 50 tokiko taldeen ekintza sozial eta boluntarioa
+  bultzatzeko eta laguntzeko.
+VOLUNTARY_CENT_QUESTION: Hori ahalbidetzeko zure energiarekin parte hartu nahi duzu?
+VOLUNTARY_CENT_YES_LABEL: Bai, 0,01€/kWh-ko borondatezko dohaina egin nahi dut
+VOLUNTARY_CENT_YES_DESCRIPTION: "Familien batez besteko kontsumoari (gutxi gorabehera,\
+  \ 300 kWh/hileko),\nhileko 3 € gehitzea dakar.\n"
+VOLUNTARY_CENT_NO_LABEL: Ez
+VOLUNTARY_CENT_NO_DESCRIPTION: "Dohain hori istantean aktiba edo desaktiba dezakezu\
+  \ beti Bulego Birtualean.\n"
+NO_VOLUNTARY_DONATION_CHOICE_TAKEN: Borondatezko dohaina egin nahi duzun ala ez zehaztu
+  behar duzu
+PAYMENT_TITLE: Ordaintzeko datuak
+IBAN_LABEL: IBAN (banku-kontua)
+IBAN_HELP: 'Adibidez: ES11 2222 3333 4444 5555 6666'
+IBAN_ACCEPT_DIRECT_DEBIT: Banku-kontuaren titular gisa, ordainagiriak helbideratzea
+  onartzen dut
+IBAN_ERROR: IBAN okerra
+INVALID_PAYER_IBAN: Ez duzu ondo zehaztu ordainketa helbideratzeko kontuaren IBANa
+UNCONFIRMED_ACCOUNT_OWNER: Ordainagiriak helbideratzea onartu behar duzu
+REVIEW_TITLE: Berrikusi eta konfirmatu kontratua
+REVIEW_DATA_AND_CONFIRM: "Oso gutxi falta zaizu! Berrikusi emandako datuak eta sakatu\
+  \ bidaltzeko botoia.\n"
+SUMMARY_GROUP_PROCESS: Tramite-mota
+PROCESS_TYPE: Tramite-mota
+PROCESS_TYPE_HOLDER_CHANGE: Titular-aldaketa
+RELATED_MEMBER: Lotutako bazkidea
+RELATED_MEMBER_PENDING: Oraindik bazkidetu gabe
+HOLDER: Titularra
+CONTACT: Harremanetarako informazioa
+LEGAL_NAME: Izen soziala
+SUPPLY: Hornidura-puntua
+ADDRESS: Helbidea
+PHONE: Telefonoa
+EMAIL: Helbide elektronikoa
+PROXY: Legezko ordezkaria
+SUMMARY_GROUP_PAYMENT: Ordaintzeko datuak
+SUMMARY_GROUP_TECHNICAL: Datu teknikoak
 FARE: Tarifa
-FARE_SAME: Se mantendrá la tarifa actual
-POWER: Potencia
-POWER_SAME: Se mantendrá la potencia actual
-FARE_POWER_CHANGE_NOTE: Una vez este trámite haya finalizado, podrás cambiarla a través
-  de la Oficina Virtual de Som Energia
-VOLUNTARY_CENT: Donativo voluntario
-ACCEPT_TERMS: He leído y acepto las condiciones de Som Energia
-UNACCEPTED_TERMS: Tienes que aceptar las condiciones
-SEND: Enviar
-YES: Sí
-NO: No
-SPECIAL_CASES_TITLE: Casos especiales
-SPECIAL_CASES_QUESTION: Por favor, indica si alguna de las opcions siguientes se dan
-  en tu caso para llevar a cabo el cambio de titular. En caso contrario, puedes continuar
-  sin marcar ninguna opción.
-SPECIAL_CASES_REASON_DEATH: El cambio de titular es realitzado por motivo de defunción
-SPECIAL_CASES_REASON_MERGE: El cambio de titular es realitzado por motivo de una fusión
-  de empresas
-SPECIAL_CASES_REASON_ELECTRODEP: En el domicilio vive una persona electrodependiente
-CERT_ATTACH_DEATH: Certificado defunción
-ELECTRODEP_ATTACH_MEDICAL: Certificado médico electrodependiente
-ELECTRODEP_ATTACH_RESIDENT: Certificado empadronamiento
-ELECTRODEP_ATTACH_REQUIRED: Tienes que adjuntar el certificado especificado
-SPECIAL_CASES_DEATH: Defunción
-SPECIAL_CASES_MERGE: Fusión de empresas
-SPECIAL_CASES_ELECTRODEP: Electrodependiente
-FAILURE_TITLE: Ups!
-FAILURE_TEXT: Lo sentimos, no ha sido posible realizar el contrato
-UNEXPECTED_POSTERROR: |
-  <b>
-  Se ha producido un error inesperado!</b>
-  <p>%{error_message}</p>
-SUCCESS_TITLE: Enhorabuena
-SUCCESS_TEXT: |
-  <p>
-  Tu contrato está en trámite. Tendrá el número de contrato: %{contract_number}.
-  </p>
-  <p>
-  Consulta el estado de la tramitación en
-  la <a target="_blank" href="%{urlov}">Oficina Virtual</a></strong>
-  de Som Energia,
-  </p>
-OV_URL: https://oficinavirtual.somenergia.coop/es
-Field label: Etiqueta del campo
-Holder: Titular
-Supply point: Punto de subministro
-Confirmation: Confirmación
-Submit: Enviar
-Required: Campo obligatorio
-CONTRACT_INTRO: Para contractar la luz con Som Energia... bla bla
-PRIVACY_POLICY_TITLE: Política de Protección de Datos
-ACCEPT_PRIVACY_POLICY: He leído y acepto la política de privacidad de Som Energia
-ACCEPT_PRIVACY_POLICY_URL: //www.somenergia.coop/es/aviso-legal/
-TERMS_TITLE: Condiciones generales
-Checking...: Comprobando...
+FARE_SAME: Oraingo tarifa mantenduko da
+POWER: Potentzia
+POWER_SAME: Oraingo potentzia mantenduko da
+FARE_POWER_CHANGE_NOTE: Behin tramitea eginda, Som Energiaren Bulego Birtualean aldatu
+  ahalko duzu
+VOLUNTARY_CENT: Borondatezko dohaina
+ACCEPT_TERMS: Som Energiaren baldintzak irakurri eta onartzen ditut
+UNACCEPTED_TERMS: Baldintzak onartu behar dituzu
+SEND: Bidali
+YES: Bai
+NO: Ez
+SPECIAL_CASES_TITLE: Kasu bereziak
+SPECIAL_CASES_QUESTION: Mesedez, adierazi titularra aldatzeko arrazoi hauetakoren
+  bat baduzu. Bestela, segi aurrera ezein aukerarik markatu gabe.
+SPECIAL_CASES_REASON_DEATH: Titularra heriotza baten ondorioz aldatzen da
+SPECIAL_CASES_REASON_MERGE: Titularra enpresen bat-egitearen ondorioz aldatzen da
+SPECIAL_CASES_REASON_ELECTRODEP: Etxean elektrizitatearen menpeko pertsona bat bizi
+  da
+CERT_ATTACH_DEATH: Heriotza-ziurtagiria
+ELECTRODEP_ATTACH_MEDICAL: Elektrizitatearen menpeko izatearen ziurtagiri medikoa
+ELECTRODEP_ATTACH_RESIDENT: Erroldatze-ziurtagiria
+ELECTRODEP_ATTACH_REQUIRED: Zehaztutako ziurtagiria erantsi behar duzu
+SPECIAL_CASES_DEATH: Heriotza
+SPECIAL_CASES_MERGE: Enpresen bat-egitea
+SPECIAL_CASES_ELECTRODEP: Elektrizitatearen menpekoa
+FAILURE_TITLE: Hara!
+FAILURE_TEXT: <p><b>Barkatu, ezin izan dugu kontratua egin</b></p>
+UNEXPECTED_POSTERROR: "<b>\nUstekabeko errore bat gertatu da!</b>\n<p>%{error_message}</p>\n"
+SUCCESS_TITLE: Zorionak
+SUCCESS_TEXT: "<p>\nZure kontratua tramitatzen ari gara. Hau izango da kontratu-zenbakia:\
+  \ %{contract_number}.\n</p>\n<p>\nKontsultatu tramitazio-egoera \nSom Energiaren\
+  \ \n<a target=\"_blank\" href=\"%{urlov}\">Bulego Birtualean</a></strong>,\n</p>\n"
+OV_URL: https://oficinavirtual.somenergia.coop/eu
+Field label: Eremuaren etiketa
+Holder: Titularra
+Supply point: Hornidura-puntua
+Confirmation: Konfirmazioa
+Submit: Bidali
+Required: Nahitaezko eremua
+CONTRACT_INTRO: 'Argia Som Energiarekin kontratatzeko:'
+PRIVACY_POLICY_TITLE: Datuen babesari buruzko politika
+ACCEPT_PRIVACY_POLICY: Som Energiaren pribatutasun-politika irakurri eta onartzen
+  dut
+ACCEPT_PRIVACY_POLICY_URL: //www.somenergia.coop/eu/lege-oharra/
+TERMS_TITLE: Baldintza orokorrak
+Checking...: Egiaztatzen…
+NAME: Izena
