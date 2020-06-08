@@ -69,7 +69,7 @@ FILL_VAT: "<p>Este formulario permite realizar un cambio de titularidad de un co
   \ que será la nueva titular</b> del contrato:</p>"
 VAT_LABEL: Número de Identificación Fiscal (NIF)
 VAT_HELP: ¿Y si no dispongo de NIF?
-VAT_HELP_URL: https://es.support.somenergia.coop/article/528-como-hacer-un-cambio-de-titular-del-contrato
+VAT_HELP_URL: https://gl.support.somenergia.coop/article/530-como-hacer-un-cambio-de-titular-del-contrato
 NO_VAT_HELP: Se non dispós de NIE e tes pasaporte, podes enviarnos un correo a <a
   target="_blank" href="mailto:modifica@somenergia.coop">modifica@somenergia.coop</a>
   cos datos do punto de subministración que queres cambiar (número de contrato e CUPS)
