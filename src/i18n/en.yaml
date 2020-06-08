@@ -105,7 +105,7 @@ STATE: Provincia
 STATE_HELP: Provincia
 CITY: Municipio
 CITY_HELP: Municipio
-LOADING_HELP: Cargando opciones...
+LOADING_HELP: Cargando opciones…
 LANGUAGE: Idioma
 LANGUAGE_HELP: Idioma
 HOLDER_PERSONAL_DATA: Datos personales de la nueva persona titular
@@ -260,3 +260,6 @@ ACCEPT_PRIVACY_POLICY: He leído y acepto la política de privacidad de Som Ener
 ACCEPT_PRIVACY_POLICY_URL: //www.somenergia.coop/es/aviso-legal/
 TERMS_TITLE: Condiciones generales
 Checking...: Comprobando...
+STILL_VALIDATING_SESSION: ' '
+BECOME_MEMBER_NOTE: ' '
+NAME: Name
