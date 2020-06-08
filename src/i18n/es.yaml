@@ -106,7 +106,7 @@ STATE: Provincia
 STATE_HELP: Provincia
 CITY: Municipio
 CITY_HELP: Municipio
-LOADING_HELP: Cargando opciones...
+LOADING_HELP: Cargando opciones…
 LANGUAGE: Idioma
 LANGUAGE_HELP: Idioma
 HOLDER_PERSONAL_DATA: Datos personales de la nueva persona titular
