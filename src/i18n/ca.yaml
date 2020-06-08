@@ -61,7 +61,7 @@ CONTRACT_FORM_TITLE: Canvi de titularitat
 WELCOME: Hola!
 VALIDATING_SESSION: S'està validant la sessió
 CONTRACTING_AS: Està contractant a nom de %{name}.
-NOT_YOU_LOGOUT: Si no ets aquesta persona, si us plau,  <a href="%{url}" target="_blank">tanca
+NOT_YOU_LOGOUT: Si no ets aquesta persona, si us plau, <a href="%{url}" target="_blank">tanca
   la sessió</a>
 FILL_NIF: No has introduït un NIF correcte
 FILL_VAT: "<p>Aquest formulari permet realitzar un canvi de titularitat d’un contracte\
@@ -103,7 +103,7 @@ STATE: Província
 STATE_HELP: Província
 CITY: Municipi
 CITY_HELP: Municipi
-LOADING_HELP: Carregant opcions...
+LOADING_HELP: Carregant opcions…
 LANGUAGE: Idioma
 LANGUAGE_HELP: Idioma
 HOLDER_PERSONAL_DATA: Dades personals de la nova persona titular
@@ -173,7 +173,7 @@ VOLUNTARY_CENT_YES_DESCRIPTION: "Per un consum mitjà d'una família (aproximada
 VOLUNTARY_CENT_NO_LABEL: No
 VOLUNTARY_CENT_NO_DESCRIPTION: "Sempre que ho vulguis podràs activar o desactivar\
   \ aquest donatiu a l'instant des de l'Oficinal Virtual.\n"
-NO_VOLUNTARY_DONATION_CHOICE_TAKEN: Cal dir si vols  fer el donatiu voluntari o no
+NO_VOLUNTARY_DONATION_CHOICE_TAKEN: Cal dir si vols fer el donatiu voluntari o no
 PAYMENT_TITLE: Dades de pagament
 IBAN_LABEL: IBAN (compte bancari)
 IBAN_HELP: "Un com aquest: ES11 2222 3333 4444 5555 6666"
@@ -255,3 +255,6 @@ ACCEPT_PRIVACY_POLICY: He llegit i accepto la política de privacitat de Som Ene
 ACCEPT_PRIVACY_POLICY_URL: //www.somenergia.coop/ca/avis-legal/
 TERMS_TITLE: Condicions generals
 Checking...: Comprovant…
+STILL_VALIDATING_SESSION: ' '
+BECOME_MEMBER_NOTE: ' '
+Name: Nom
