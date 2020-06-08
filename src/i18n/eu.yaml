@@ -63,7 +63,7 @@ FILL_VAT: <p>Formulario hau Som Energiarekin aktibo duzun kontratu baten titular
   edo erakunde juridikoaren IFZ</b>:</p>
 VAT_LABEL: Identifikazio fiskaleko zenbakia (IFZ)
 VAT_HELP: Eta ez badut IFZrik?
-VAT_HELP_URL: https://eu.support.somenergia.coop/article/528-nola-aldatu-kontratuaren-titularra
+VAT_HELP_URL: https://eu.support.somenergia.coop/article/529-como-hacer-un-cambio-de-titular-del-contrato
 NO_VAT_HELP: AIZrik ez baina pasaportea baduzu, bidali mezu bat <a target="_blank"
   href="mailto:modifica@somenergia.coop">modifica@somenergia.coop</a> helbidera, aldatu
   nahi duzun hornidura-puntuko datuekin (kontratu-zenbakia eta CUPS), titular berriaren
@@ -98,7 +98,7 @@ STATE: Probintzia
 STATE_HELP: Probintzia
 CITY: Udalerria
 CITY_HELP: Udalerria
-LOADING_HELP: Aukerak kargatzen...
+LOADING_HELP: Aukerak kargatzen…
 LANGUAGE: Hizkuntza
 LANGUAGE_HELP: Hizkuntza
 HOLDER_PERSONAL_DATA: Titular berriaren datu pertsonalak
@@ -242,3 +242,5 @@ ACCEPT_PRIVACY_POLICY_URL: //www.somenergia.coop/eu/lege-oharra/
 TERMS_TITLE: Baldintza orokorrak
 Checking...: Egiaztatzen…
 NAME: Izena
+BECOME_MEMBER_NOTE: ' '
+STILL_VALIDATING_SESSION: ' '
