@@ -24,7 +24,7 @@
 <title>UserIdentified&#45;&gt;CupsIdentified</title>
 <path fill="none" stroke="#000000" d="M294.9951,-1269.9259C293.2651,-1252.9744 290.799,-1226.2011 289.832,-1202.9533 289.1671,-1186.9671 289.3961,-1182.9474 289.832,-1166.9533 290.0765,-1157.9826 290.5448,-1148.1979 291.0401,-1139.4016"/>
 <polygon fill="#000000" stroke="#000000" points="294.5419,-1139.4741 291.6443,-1129.2832 287.5544,-1139.0568 294.5419,-1139.4741"/>
-<text text-anchor="middle" x="329.332" y="-1188.7533" font-family="Times,serif" font-size="14.00" fill="#000000">Iniciado por</text>
+<text text-anchor="middle" x="329.332" y="-1188.7533" font-family="Times,serif" font-size="14.00" fill="#000000">Indicado por</text>
 <text text-anchor="middle" x="329.332" y="-1173.7533" font-family="Times,serif" font-size="14.00" fill="#000000">anterior titular</text>
 </g>
 <!-- CupsCode -->
@@ -38,8 +38,8 @@
 <title>UserIdentified&#45;&gt;CupsCode</title>
 <path fill="none" stroke="#000000" d="M309.9365,-1277.5402C331.902,-1261.7622 376.7425,-1229.5528 407.2952,-1207.6065"/>
 <polygon fill="#000000" stroke="#000000" points="409.4229,-1210.3876 415.5029,-1201.7109 405.3391,-1204.7022 409.4229,-1210.3876"/>
-<text text-anchor="middle" x="426.832" y="-1239.7533" font-family="Times,serif" font-size="14.00" fill="#000000">No iniciado por</text>
-<text text-anchor="middle" x="426.832" y="-1224.7533" font-family="Times,serif" font-size="14.00" fill="#000000">anterior titular</text>
+<text text-anchor="middle" x="428.332" y="-1239.7533" font-family="Times,serif" font-size="14.00" fill="#000000">No indicado por</text>
+<text text-anchor="middle" x="428.332" y="-1224.7533" font-family="Times,serif" font-size="14.00" fill="#000000">anterior titular</text>
 </g>
 <!-- PersonalDataCompleted -->
 <g id="node5" class="node">
@@ -110,15 +110,15 @@
 <text text-anchor="middle" x="270.832" y="-584.7533" font-family="Times,serif" font-size="14.00" fill="#000000">CUPS sin contrato</text>
 <text text-anchor="middle" x="270.832" y="-569.7533" font-family="Times,serif" font-size="14.00" fill="#000000">activo en Som</text>
 </g>
-<!-- Surrogation -->
+<!-- SpecialCases -->
 <g id="node17" class="node">
-<title>Surrogation</title>
-<ellipse fill="none" stroke="#000000" cx="343.832" cy="-475.9533" rx="74.9875" ry="18"/>
-<text text-anchor="middle" x="343.832" y="-472.2533" font-family="Times,serif" font-size="14.00" fill="#000000">¿Por surrogación?</text>
+<title>SpecialCases</title>
+<ellipse fill="none" stroke="#000000" cx="343.832" cy="-475.9533" rx="69.5877" ry="18"/>
+<text text-anchor="middle" x="343.832" y="-472.2533" font-family="Times,serif" font-size="14.00" fill="#000000">Casos especiales</text>
 </g>
-<!-- CupsDataCompleted&#45;&gt;Surrogation -->
+<!-- CupsDataCompleted&#45;&gt;SpecialCases -->
 <g id="isActiveCups" class="edge">
-<title>CupsDataCompleted&#45;&gt;Surrogation</title>
+<title>CupsDataCompleted&#45;&gt;SpecialCases</title>
 <path fill="none" stroke="#000000" d="M295.2243,-623.0259C304.3039,-616.6198 315.4781,-607.1601 321.832,-595.9533 337.9197,-567.5786 342.6132,-529.9169 343.7993,-504.4098"/>
 <polygon fill="#000000" stroke="#000000" points="347.3016,-504.3894 344.116,-494.2849 340.305,-504.1706 347.3016,-504.3894"/>
 <text text-anchor="middle" x="386.832" y="-584.7533" font-family="Times,serif" font-size="14.00" fill="#000000">CUPS con contrato</text>
@@ -243,9 +243,9 @@
 <!-- HasSupply&#45;&gt;Technical -->
 <g id="noSupply" class="edge">
 <title>HasSupply&#45;&gt;Technical</title>
-<path fill="none" stroke="#000000" d="M197.028,-513.4406C189.2842,-507.432 180.5721,-500.5056 172.832,-493.9533 153.6767,-477.7377 133.1235,-459.1541 115.6627,-442.991"/>
-<polygon fill="#000000" stroke="#000000" points="117.5816,-439.9962 107.8739,-435.7522 112.8162,-445.1237 117.5816,-439.9962"/>
-<text text-anchor="middle" x="192.332" y="-472.2533" font-family="Times,serif" font-size="14.00" fill="#000000">Sin luz</text>
+<path fill="none" stroke="#000000" d="M198.6037,-513.2245C191.3794,-507.1957 183.2053,-500.3116 175.832,-493.9533 156.3391,-477.1437 135.0316,-458.3 116.8804,-442.1034"/>
+<polygon fill="#000000" stroke="#000000" points="119.0979,-439.3911 109.309,-435.3378 114.4336,-444.6108 119.0979,-439.3911"/>
+<text text-anchor="middle" x="195.332" y="-472.2533" font-family="Times,serif" font-size="14.00" fill="#000000">Sin luz</text>
 </g>
 <!-- NewHolder -->
 <g id="node16" class="node">
@@ -256,21 +256,21 @@
 <!-- HasSupply&#45;&gt;NewHolder -->
 <g id="hasSupply" class="edge">
 <title>HasSupply&#45;&gt;NewHolder</title>
-<path fill="none" stroke="#000000" d="M217.618,-511.6474C217.295,-505.9784 216.9918,-499.71 216.832,-493.9533 216.3881,-477.9595 213.708,-473.6454 216.832,-457.9533 218.7252,-448.4435 222.2783,-438.5217 226.0353,-429.7423"/>
-<polygon fill="#000000" stroke="#000000" points="229.331,-430.9501 230.2863,-420.3984 222.9594,-428.0513 229.331,-430.9501"/>
-<text text-anchor="middle" x="238.332" y="-472.2533" font-family="Times,serif" font-size="14.00" fill="#000000">Con luz</text>
+<path fill="none" stroke="#000000" d="M218.2325,-511.7548C218.0746,-497.1081 218.5812,-476.0547 221.832,-457.9533 223.4786,-448.7844 226.2664,-439.0408 229.1626,-430.3198"/>
+<polygon fill="#000000" stroke="#000000" points="232.5479,-431.2423 232.5502,-420.6474 225.9414,-428.9283 232.5479,-431.2423"/>
+<text text-anchor="middle" x="243.332" y="-472.2533" font-family="Times,serif" font-size="14.00" fill="#000000">Con luz</text>
 </g>
 <!-- NoCutoff -->
-<g id="node24" class="node">
+<g id="node18" class="node">
 <title>NoCutoff</title>
-<ellipse fill="none" stroke="#000000" cx="239.832" cy="-310" rx="44.393" ry="18"/>
-<text text-anchor="middle" x="239.832" y="-306.3" font-family="Times,serif" font-size="14.00" fill="#000000">NoCutoff</text>
+<ellipse fill="none" stroke="#000000" cx="239.832" cy="-310" rx="102.8821" ry="18"/>
+<text text-anchor="middle" x="239.832" y="-306.3" font-family="Times,serif" font-size="14.00" fill="#000000">¿Eres electrodependiente?</text>
 </g>
 <!-- Technical&#45;&gt;NoCutoff -->
 <g id="edge22" class="edge">
 <title>Technical&#45;&gt;NoCutoff</title>
-<path fill="none" stroke="#000000" d="M122.4854,-374.981C148.798,-360.4103 180.5083,-342.8506 204.3284,-329.6602"/>
-<polygon fill="#000000" stroke="#000000" points="206.3133,-332.5619 213.366,-324.6556 202.9222,-326.4381 206.3133,-332.5619"/>
+<path fill="none" stroke="#000000" d="M122.4854,-374.981C147.1004,-361.3504 176.4391,-345.104 199.6231,-332.2658"/>
+<polygon fill="#000000" stroke="#000000" points="201.4521,-335.2538 208.5048,-327.3475 198.061,-329.13 201.4521,-335.2538"/>
 </g>
 <!-- NewHolder&#45;&gt;NoCutoff -->
 <g id="edge24" class="edge">
@@ -278,23 +278,23 @@
 <path fill="none" stroke="#000000" d="M239.832,-384.2062C239.832,-371.1603 239.832,-353.3564 239.832,-338.4578"/>
 <polygon fill="#000000" stroke="#000000" points="243.3321,-338.2324 239.832,-328.2325 236.3321,-338.2325 243.3321,-338.2324"/>
 </g>
-<!-- Surrogation&#45;&gt;NoCutoff -->
+<!-- SpecialCases&#45;&gt;NoCutoff -->
 <g id="edge25" class="edge">
-<title>Surrogation&#45;&gt;NoCutoff</title>
-<path fill="none" stroke="#000000" d="M344.9953,-457.8322C345.6034,-434.4431 343.5541,-393.3871 324.832,-365 314.2347,-348.932 297.1502,-336.5466 281.0675,-327.6334"/>
-<polygon fill="#000000" stroke="#000000" points="282.2559,-324.3058 271.7707,-322.7851 279.019,-330.5125 282.2559,-324.3058"/>
-</g>
-<!-- SwitchDate -->
-<g id="node18" class="node">
-<title>SwitchDate</title>
-<ellipse fill="none" stroke="#000000" cx="443.832" cy="-1554.9533" rx="106.6812" ry="18"/>
-<text text-anchor="middle" x="443.832" y="-1551.2533" font-family="Times,serif" font-size="14.00" fill="#000000">¿Quieres fecha de cambio?</text>
+<title>SpecialCases&#45;&gt;NoCutoff</title>
+<path fill="none" stroke="#000000" d="M344.9953,-457.8322C345.6034,-434.4431 343.5541,-393.3871 324.832,-365 315.8617,-351.3989 302.2431,-340.4364 288.5187,-331.985"/>
+<polygon fill="#000000" stroke="#000000" points="289.9416,-328.7649 279.5322,-326.7913 286.4389,-334.8255 289.9416,-328.7649"/>
 </g>
 <!-- VoluntaryCent -->
 <g id="node19" class="node">
 <title>VoluntaryCent</title>
 <ellipse fill="none" stroke="#000000" cx="239.832" cy="-237" rx="87.9851" ry="18"/>
 <text text-anchor="middle" x="239.832" y="-233.3" font-family="Times,serif" font-size="14.00" fill="#000000">¿Céntimo voluntario?</text>
+</g>
+<!-- NoCutoff&#45;&gt;VoluntaryCent -->
+<g id="edge26" class="edge">
+<title>NoCutoff&#45;&gt;VoluntaryCent</title>
+<path fill="none" stroke="#000000" d="M239.832,-291.9551C239.832,-283.8828 239.832,-274.1764 239.832,-265.1817"/>
+<polygon fill="#000000" stroke="#000000" points="243.3321,-265.0903 239.832,-255.0904 236.3321,-265.0904 243.3321,-265.0903"/>
 </g>
 <!-- Payment -->
 <g id="node20" class="node">
@@ -343,12 +343,6 @@
 <title>Summary&#45;&gt;Success</title>
 <path fill="none" stroke="#000000" d="M252.6859,-72.9551C258.9031,-64.2271 266.4812,-53.5886 273.3079,-44.005"/>
 <polygon fill="#000000" stroke="#000000" points="276.3542,-45.761 279.3054,-35.5855 270.6528,-41.6997 276.3542,-45.761"/>
-</g>
-<!-- NoCutoff&#45;&gt;VoluntaryCent -->
-<g id="edge26" class="edge">
-<title>NoCutoff&#45;&gt;VoluntaryCent</title>
-<path fill="none" stroke="#000000" d="M239.832,-291.9551C239.832,-283.8828 239.832,-274.1764 239.832,-265.1817"/>
-<polygon fill="#000000" stroke="#000000" points="243.3321,-265.0903 239.832,-255.0904 236.3321,-265.0904 243.3321,-265.0903"/>
 </g>
 </g>
 </svg>
