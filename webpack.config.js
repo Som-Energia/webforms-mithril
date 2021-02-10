@@ -26,7 +26,7 @@ var config = {
 		new CleanWebpackPlugin('dist/*'),
 		// Rewrites html to insert generated css and js
 		new HtmlWebpackPlugin({
-			filename: 'index.html',
+			filename: 'examples.html',
 			template: './mithriltemplate.html',
 			chunks: ['common','examples'],
 			}),
