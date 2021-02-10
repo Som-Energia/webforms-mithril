@@ -662,6 +662,15 @@ GapMinder.Example.ymetric = '';
 GapMinder.Example.rmetric = '';
 GapMinder.Example.view = function(vn) {
 	return m(Layout, [
+		m(Row, m(Cell, {span: 12}, m(GapMinder, {
+			api: GapMinder.Example.api,
+			xmetric: GapMinder.Example.xmetric,
+			ymetric: GapMinder.Example.ymetric,
+			rmetric: GapMinder.Example.rmetric,
+			style: {
+				height: '750px',
+			},
+		}))),
 		m(Row, [
 			m(Cell, {span: 3},
 				m(Button, {
@@ -711,15 +720,6 @@ GapMinder.Example.view = function(vn) {
 				},
 			})),
 		]),
-		m(Row, m(Cell, {span: 12}, m(GapMinder, {
-			api: GapMinder.Example.api,
-			xmetric: GapMinder.Example.xmetric,
-			ymetric: GapMinder.Example.ymetric,
-			rmetric: GapMinder.Example.rmetric,
-			style: {
-				height: '750px',
-			},
-		}))),
 	]);
 };
 
