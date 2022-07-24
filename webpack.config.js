@@ -10,8 +10,6 @@ var config = {
 	context: path.resolve(__dirname, 'src'),
 	entry: {
 		examples: './examples',
-		contract: './contract',
-		opendata: './opendata',
 		gapminder: './gapminder',
 	},
 	output: {
@@ -29,16 +27,6 @@ var config = {
 			filename: 'examples.html',
 			template: './mithriltemplate.html',
 			chunks: ['common','examples'],
-			}),
-		new HtmlWebpackPlugin({
-			filename: 'contract.html',
-			template: './mithriltemplate.html',
-			chunks: ['common','contract'],
-			}),
-		new HtmlWebpackPlugin({
-			filename: 'opendata.html',
-			template: './mithriltemplate.html',
-			chunks: ['common','opendata'],
 			}),
 		new HtmlWebpackPlugin({
 			filename: 'gapminder.html',
