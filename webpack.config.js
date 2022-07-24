@@ -88,6 +88,7 @@ module.exports = (env, argv) => {
 	config.plugins.push(new webpack.EnvironmentPlugin({
 		NODE_ENV: environment,
 		APIBASE: api_urls[environment],
+		DEV_OPENDATA_API: false, // Set this shell environment var when building to change
 	}));
 
 	return config;
