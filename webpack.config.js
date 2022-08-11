@@ -1,10 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin').CleanWebpackPlugin;
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const JsDocPlugin = require('jsdoc-webpack4-plugin');
+const JsDocPlugin = require('jsdoc-webpack-plugin');
 
 var config = {
 	context: path.resolve(__dirname, 'src'),
@@ -18,10 +18,9 @@ var config = {
 		chunkFilename: 'chunk-[name].js',
 	},
 	devServer: {
-		contentBase: path.resolve(__dirname, 'dist'),
 	},
 	plugins:[
-		new CleanWebpackPlugin('dist/*'),
+		new CleanWebpackPlugin(),
 		// Rewrites html to insert generated css and js
 		new HtmlWebpackPlugin({
 			filename: 'examples.html',
@@ -41,27 +40,32 @@ var config = {
         new JsDocPlugin({
             conf: './.jsdoc.json'
 			}),
-		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+		new webpack.IgnorePlugin({
+			resourceRegExp: /^\.\/locale$/,
+			contextRegExp: /moment$/,
+			}),
 		// Analyzes generated sizes
 //		new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
 	],
 	module: {
 		rules: [
-			{ test: /\.yaml$/,   use: ["json-loader", "yaml-loader" ]},
+			{ test: /\.yaml$/,   use: ["yaml-loader" ]},
 			{ test: /\.tsv$/,   use: ["dsv-loader" ]},
 			{ test: /\.css$/,    use: [ MiniCssExtractPlugin.loader, "css-loader"]},
 			{ test: /\.scss$/,   use: [ MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]},
 			{ test: /\.less$/,   use: [ MiniCssExtractPlugin.loader, "css-loader", "less-loader"]},
 			{ test: /\.styl$/,   use: [ MiniCssExtractPlugin.loader, "css-loader", "stylus-loader"]},
-			{ test: /\.jade$/,   loader: "jade-loader?self" },
-			{ test: /\.png$/,    loader: "url-loader?prefix=img/&limit=5000" },
-			{ test: /\.jpg$/,    loader: "url-loader?prefix=img/&limit=5000" },
-			{ test: /\.gif$/,    loader: "url-loader?prefix=img/&limit=5000" },
-			{ test: /\.woff(2)?$/,   loader: "file-loader?prefix=font/&limit=5000" },
-			{ test: /\.eot$/,    loader: "file-loader?prefix=font/" },
-			{ test: /\.ttf$/,    loader: "file-loader?prefix=font/" },
-			{ test: /\.svg$/,    loader: "file-loader?prefix=font/" },
+			{ test: /\.jade$/,   loader: "jade-loader", options: {self: true} },
+			{ test: /\.png$/,    loader: "url-loader", options: { prefix: "img/",  limit: 5000}},
+			{ test: /\.jpg$/,    loader: "url-loader", options: { prefix: "img/",  limit: 5000}},
+			{ test: /\.gif$/,    loader: "url-loader", options: { prefix: "img/",  limit: 5000}},
+			//{ test: /\.woff(2)?$/,   loader: "file-loader", options: { prefix: "font/", limit: 5000}},
+			{ test: /\.woff(2)?$/, type: "asset", generator: { filename: "font/[name][ext]" }},
+			{ test: /\.eot$/,    loader: "file-loader", options: { prefix: "font/" }},
+			{ test: /\.ttf$/,    loader: "file-loader", options: { prefix: "font/" }},
+			{ test: /\.svg$/,    loader: "file-loader", options: { prefix: "font/" }},
 			{ test: /\.html$/,   use: ["html-loader" ]},
+
 		]
 	},
 	optimization: {
@@ -84,9 +88,8 @@ module.exports = (env, argv) => {
 	};
 
 	var environment = !env ? argv.mode : env.NODE_ENV;
-
+	console.log("=====================", env, argv, environment)
 	config.plugins.push(new webpack.EnvironmentPlugin({
-		NODE_ENV: environment,
 		APIBASE: api_urls[environment],
 		DEV_OPENDATA_API: false, // Set this shell environment var when building to change
 	}));
