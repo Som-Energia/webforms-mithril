@@ -6,10 +6,9 @@ require('@material/textfield/dist/mdc.textfield.css');
 
 /*
  * TODO:
+ * - fix: outline ellipse labels
+ * - fix: outline not updated on programmatic filling/clear
  * - fullwidth version
- * - suffix, affix
- * - ellipse labels
- * - fix outline on programmatic filling/clear
  */
 
 function applyInputFilter(input, inputfilter, event) {
@@ -97,6 +96,8 @@ var TextField = {
 		const leadingfaicon = pop(attrs, 'leadingfaicon');
 		const leadingicon = pop(attrs, 'leadingicon');
 		const inputfilter = pop(attrs, 'inputfilter');
+		const prefix = pop(attrs, 'prefix');
+		const suffix = pop(attrs, 'suffix');
 		const help_id = vn.attrs.id+'_help';
 		const nativeattrs = Object.assign({
 			// defaults
@@ -135,22 +136,6 @@ var TextField = {
 			,{
 				style: { width: '100%'},
 			},[
-				(leadingfaicon ? m('i.mdc-text-field__icon.fa.fa-'+leadingfaicon):''),
-				(leadingicon ? m('i.mdc-text-field__icon.material-icons',leadingicon):''),
-				(faicon ? m('i.mdc-text-field__icon.fa.fa-'+faicon,
-					iconaction && {tabindex:0, role: 'button', onclick:
-						function(ev) {
-							iconaction(ev);
-							ev.cancelBubble = true;
-						}})
-				:[]),
-				(trailingicon ? m('i.mdc-text-field__icon.material-icons',
-					iconaction && {tabindex:0, role: 'button', onclick:
-						function(ev) {
-							iconaction(ev);
-							ev.cancelBubble = true;
-						}},trailingicon)
-				:[]),
 				(boxed ? m('span.mdc-text-field__ripple'):''),
 				(boxed ? m('span.mdc-floating-label'
 					+(vn.attrs.value?'.mdc-floating-label--float-above':'')
@@ -166,10 +151,12 @@ var TextField = {
 				]):''),
 				(leadingfaicon ? m('i.mdc-text-field__icon.mdc-text-field__icon--trailing.fa.fa-'+leadingfaicon):''),
 				(leadingicon ? m('i.mdc-text-field__icon.mdc-text-field__icon--trailing.material-icons',leadingicon):''),
+				prefix && m('span.mdc-text-field__affix.mdc-text-field__affix--prefix', prefix),
 				m('input.mdc-text-field__input'
 					+(floats?'.mdc-text-field--label-floating':'')
 					, nativeattrs
 				),
+				suffix && m('span.mdc-text-field__affix.mdc-text-field__affix--suffix', suffix),
 				(faicon && m('i.mdc-text-field__icon.mdc-text-field__icon--trailing.fa.fa-'+faicon,
 					iconaction && {tabindex:0, role: 'button', onclick: handleIconClick}
 				)),
@@ -351,22 +338,26 @@ TextField.Example.view = function(vn) {
 				oninput: function(ev) {
 					TextField.Example.text=ev.target.value;
 				},
-			}
+				trailingicon: TextField.Example.text?'delete':'edit',
+				iconaction: function() {
+					TextField.Example.text=TextField.Example.text?'':_('Added content');
+				},
+			},
+			{
+				id: 'affixes',
+				label: _('With prefix and suffix'),
+				prefix: '$',
+				suffix: '.00',
+			},
 		].map(function(v) {
 			var attrs = Object.assign({}, v);
 			if (type) {
 				attrs[type] = true;
-				attrs.id+=type;
-				attrs.label+= " "+type
+				attrs.id += type;
+				attrs.label += " "+type
 			}
 			return m(Layout.Cell, {span:4}, m(TextField, attrs));
-		}),
-		m(Layout.Cell, {span:4},
-			m(Button, {
-				onclick: function() {
-					TextField.Example.text=TextField.Example.text?'':_('Added content');
-				}
-			}, _('Switch'))),
+		})
 		);
 	}),
 	);
