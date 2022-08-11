@@ -50,6 +50,10 @@ var TextField = {
 		}
 	},
 
+	onbeforeremove: function(vn) {
+		this.mdcinstance.destroy();
+	},
+
 	onupdate: function(vn) {
 		var errormessage = vn.attrs.errormessage || vn.state.errormessage || '';
 		var valid = !errormessage;
@@ -75,7 +79,7 @@ var TextField = {
 		const floating = floats();
 		const fullwidth = pop(attrs, 'fullwidth');
 		const boxed = pop(attrs, 'boxed');
-		const outlined = pop(attrs, 'outlined');
+		const outlined = pop(attrs, 'outlined') || !boxed;
 		const errormessage = pop(attrs, 'errormessage') || vn.state.errormessage;
 		const dense = pop(attrs, 'dense');
 		const disabled = pop(attrs, 'disabled');
@@ -94,6 +98,7 @@ var TextField = {
 			'aria-label': fullwidth?vn.attrs.label:undefined,
 			'aria-controls': help_id,
 			'aria-describedby': help_id,
+			'aria-labelledby': vn.attrs.id,
 		}, attrs, {
 			// redefined
 			oninput: function(ev) {
@@ -106,9 +111,10 @@ var TextField = {
 
 		return m('', [
 			m(''
-				+'.mdc-text-field'
+				+'label.mdc-text-field'
+				+(vn.attrs.value?'.mdc-text-field--label-floating':'')
 				+(fullwidth?'.mdc-text-field--fullwidth':'')
-				+(boxed?'.mdc-text-field--box':'')
+				+(boxed?'.mdc-text-field--filled':'')
 				+(outlined?'.mdc-text-field--outlined':'')
 				+(faicon||trailingicon?'.mdc-text-field--with-trailing-icon':'')
 				+(leadingfaicon||leadingicon?'.mdc-text-field--with-leading-icon':'')
@@ -119,15 +125,6 @@ var TextField = {
 			},[
 				(leadingfaicon ? m('i.mdc-text-field__icon.fa.fa-'+leadingfaicon):''),
 				(leadingicon ? m('i.mdc-text-field__icon.material-icons',leadingicon):''),
-				m('input.mdc-text-field__input', nativeattrs),
-				fullwidth || outlined?'':m('label'
-					+'.mdc-floating-label'
-					+(floating?
-						'.mdc-floating-label--float-above':'')
-					,
-					{'for': vn.attrs.id}, [
-					vn.attrs.label,
-				]),
 				(faicon ? m('i.mdc-text-field__icon.fa.fa-'+faicon,
 					iconaction && {tabindex:0, role: 'button', onclick:
 						function(ev) {
@@ -142,21 +139,28 @@ var TextField = {
 							ev.cancelBubble = true;
 						}},trailingicon)
 				:[]),
-				(outlined? []: m('.mdc-line-ripple')),
-				(outlined? m('.mdc-notched-outline'
-					+(floating?
-						'.mdc-notched-outline--notched':''),
-					m('.mdc-notched-outline__leading'),
-					m('.mdc-notched-outline__notch',
-						m('label.mdc-floating-label' + (floating?' mdc-floating-label--float-above':''),{'for':vn.attrs.id}, [ vn.attrs.label ])),
-					m('.mdc-notched-outline__trailing'),
-				):[]),
-				(outlined? m('.mdc-notched-outline__idle'):''),
+				(boxed ? m('span.mdc-text-field__ripple'):''),
+				(boxed ? m('span.mdc-floating-label'
+					+(vn.attrs.value?'.mdc-floating-label--float-above':'')
+					, vn.attrs.label):''),
+				(outlined ? m('span.mdc-notched-outline', [
+					m('span.mdc-notched-outline__leading'),
+					m('span.mdc-notched-outline__notch',
+						m('span.mdc-floating-label'
+							+(vn.attrs.value?'.mdc-floating-label--float-above':'')
+							, vn.attrs.label),
+					),
+					m('span.mdc-notched-outline__trailing'),
+				]):''),
+				m('input.mdc-text-field__input'
+					+(floats?'.mdc-text-field--label-floating':'')
+					, nativeattrs
+				),
+				boxed && m('span.mdc-line-ripple'),
 			]),
-			vn.attrs.nohelp?[]:
 			m('.mdc-text-field-helper-line',
 				m('.mdc-text-field-helper-text'+
-					'.mdc-text-field-helper-text--persistent'+
+					'.mdc-text-field-helper-text--persistent'+ // else on focus
 					(errormessage?'.mdc-text-field-helper-text--validation-msg':'')+
 					'', {
 					id: help_id,
@@ -170,6 +174,9 @@ var TextField = {
 };
 
 TextField.Example = {};
+TextField.Example.oninit = function(vn) {
+	vn.state.value3="Initial Value";
+};
 TextField.Example.view = function(vn) {
 	var Button = require('./button');
 	const Layout = require('./layout');
@@ -177,17 +184,20 @@ TextField.Example.view = function(vn) {
 		m(Layout.Row, [
 			{
 				id: 'errormessageexample',
+				outlined: true,
 				label: _('Attribute errormessage'),
 				help: _('Setting the error as attribute'),
 				errormessage: 'You guilty',
 			},
 			{
 				id: 'required',
+				outlined: true,
 				label: _('Required field'),
 				required: true,
 			},
 			{
 				id: 'number',
+				outlined: true,
 				label: _('Numeric field'),
 				type: 'number',
 				min: 5,
@@ -195,6 +205,7 @@ TextField.Example.view = function(vn) {
 			},
 			{
 				id: 'binary',
+				outlined: true,
 				label: _('Binary Regexp'),
 				pattern: '[01]*',
 			},
@@ -210,6 +221,7 @@ TextField.Example.view = function(vn) {
 			{
 				id: 'inputvalidator',
 				label: _('Standard and custom validation'),
+				boxed: true,
 				value: vn.state.value1,
 				inputfilter: '[^d]*', // you can not input dees
 				pattern: '[^p]*', // standard complains on pees
@@ -226,6 +238,7 @@ TextField.Example.view = function(vn) {
 			{
 				id: 'inputfilter',
 				label: _('Input filter'),
+				boxed: true,
 				value: vn.state.value2,
 				inputfilter: /[01]*/, // allows incomplete answers
 				pattern: "[01]{0,6}1", // more restritive, final validation
@@ -237,6 +250,7 @@ TextField.Example.view = function(vn) {
 			},
 			{
 				id: 'inputfilterfunction',
+				boxed: true,
 				label: _('input filter function'),
 				help: _('Binary turns o into 0 and i into 1'),
 				value: vn.state.value2,
@@ -254,6 +268,16 @@ TextField.Example.view = function(vn) {
 					vn.state.value2error = ev.target.validationMessage;
 				},
 			},
+			{
+				id: 'filledinitially',
+				label: _('With initial value'),
+				outlined: true,
+				value: vn.state.value3,
+				oninput: function(ev) {
+					vn.state.value3 = ev.target.value;
+				},
+				help: _("Test with initial valued input"),
+			},
 		].map(function(v) {
 			return m(Layout.Cell, {span:4}, m(TextField, v));
 		}),
@@ -266,7 +290,7 @@ TextField.Example.view = function(vn) {
 		m(Layout.Row, [
 			m(Layout.Cell, m('h3',"Textfield styles")),
 		]),
-		['','boxed','outlined','fullwidth'].map(function(type) {
+		['boxed','outlined','fullwidth'].map(function(type) {
 		return m(Layout.Row, [
 			{
 				id: 'mytextfield',
@@ -285,7 +309,7 @@ TextField.Example.view = function(vn) {
 			{
 				id: 'leadicon',
 				label: _('With leading icon'),
-				leadingfaicon: 'phone',
+				leadingicon: 'phone',
 			},
 			{
 				id: 'bothicons',
