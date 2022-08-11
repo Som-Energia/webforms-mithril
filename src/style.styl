@@ -154,56 +154,6 @@ no .mdc-text-field.mdc-text-field--box.mdc-text-field--outlined.mdc-text-field--
 
 
 
-/* fix leading and trailing icons in mdc-text-field
-using styles from their demo.
-Why aren't they included in the shipped style!?
-*/
-
-// single icon with leading or first icon with both leading and trailing
-.mdc-text-field--with-leading-icon .mdc-text-field__icon,
-.mdc-text-field--with-leading-icon.mdc-text-field--with-trailing-icon .mdc-text-field__icon {
-  left: 12px;
-  right: auto;
-}
-// single icon with trailing or second icon with both leading and trailing
-.mdc-text-field--with-trailing-icon .mdc-text-field__icon,
-.mdc-text-field--with-leading-icon.mdc-text-field--with-trailing-icon .mdc-text-field__icon ~ .mdc-text-field__icon {
-  right: 12px;
-  left: auto;
-}
-
-.mdc-text-field--with-leading-icon .mdc-text-field__icon,
-.mdc-text-field--with-trailing-icon .mdc-text-field__icon {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-}
-
-// let the input left space to the icon
-.mdc-text-field--with-leading-icon .mdc-text-field__input {
-  padding-left: 48px;
-}
-.mdc-text-field--with-trailing-icon .mdc-text-field__input {
-  padding-right: 48px;
-}
-
-// Set text field icon colors for disabled and enabled fields
-.mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__icon {
-  color: rgba(0,0,0,.54);
-}
-.mdc-text-field.mdc-text-field--disabled .mdc-text-field__icon {
-  color: rgba(0,0,0,.3);
-}
-
-// This fixes ellipsing label text at the trailing icon in outlined 
-// textfields as it does for filled ones
-.mdc-text-field--with-trailing-icon .mdc-floating-label {
-  right: 12px;
-  position: absolute;
-}
-
-
 // Tab panels
 [role="tabpanel"][aria-hidden='true'] {
     display: none;

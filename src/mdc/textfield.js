@@ -4,6 +4,13 @@ var _ = require('../translate');
 var MDCTextField = require('@material/textfield');
 require('@material/textfield/dist/mdc.textfield.css');
 
+/*
+ * TODO:
+ * - fullwidth version
+ * - suffix, affix
+ * - ellipse labels
+ * - fix outline on programmatic filling/clear
+ */
 
 function applyInputFilter(input, inputfilter, event) {
 	var filtered = inputfilter instanceof Function?
@@ -109,6 +116,11 @@ var TextField = {
 			},
 		});
 
+		const handleIconClick = (ev) => {
+			iconaction(ev);
+			ev.cancelBubble = true;
+		}
+
 		return m('', [
 			m(''
 				+'label.mdc-text-field'
@@ -152,10 +164,19 @@ var TextField = {
 					),
 					m('span.mdc-notched-outline__trailing'),
 				]):''),
+				(leadingfaicon ? m('i.mdc-text-field__icon.mdc-text-field__icon--trailing.fa.fa-'+leadingfaicon):''),
+				(leadingicon ? m('i.mdc-text-field__icon.mdc-text-field__icon--trailing.material-icons',leadingicon):''),
 				m('input.mdc-text-field__input'
 					+(floats?'.mdc-text-field--label-floating':'')
 					, nativeattrs
 				),
+				(faicon && m('i.mdc-text-field__icon.mdc-text-field__icon--trailing.fa.fa-'+faicon,
+					iconaction && {tabindex:0, role: 'button', onclick: handleIconClick}
+				)),
+				(trailingicon && m('i.mdc-text-field__icon.mdc-text-field__icon--trailing.material-icons',
+					iconaction && {tabindex:0, role: 'button', onclick: handleIconClick},
+					trailingicon
+				)),
 				boxed && m('span.mdc-line-ripple'),
 			]),
 			m('.mdc-text-field-helper-line',
@@ -290,7 +311,7 @@ TextField.Example.view = function(vn) {
 		m(Layout.Row, [
 			m(Layout.Cell, m('h3',"Textfield styles")),
 		]),
-		['boxed','outlined','fullwidth'].map(function(type) {
+		['boxed','outlined'].map(function(type) {
 		return m(Layout.Row, [
 			{
 				id: 'mytextfield',
