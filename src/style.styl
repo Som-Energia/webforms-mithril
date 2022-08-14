@@ -83,42 +83,12 @@ body, html {
 }
 
 // Fixes focused floating label color not taking custom theme's colors
-.mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label,
-no .mdc-text-field--focused:not(.mdc-text-field--disabled) input::placeholder,
-.mdc-select:not(.mdc-select--disabled) .mdc-select__native-control:focus ~ .mdc-floating-label,
-.mdc-select:not(.mdc-select--disabled).mdc-select--focused .mdc-floating-label
+.mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label
 {
 	color: var(--mdc-theme-secondary) !important;
 }
 
-no .mdc-text-field.mdc-text-field--box.mdc-text-field--outlined.mdc-text-field--invalid {
-	background-color: var(--mdc-theme-on-error);
-}
 
-no .mdc-text-field.mdc-text-field--box.mdc-text-field--outlined.mdc-text-field--invalid.mdc-text-field--focused {
-	background-color: transparent;
-}
-
-
-.main .mdc-select--focused .mdc-select__dropdown-icon {
-  background: url("data:image/svg+xml,%3Csvg%20width%3D%2210px%22%20height%3D%225px%22%20viewBox%3D%227%2010%2010%205%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E%0A%20%20%20%20%3Cpolygon%20id%3D%22Shape%22%20stroke%3D%22none%22%20fill%3D%22%23aec122%22%20fill-rule%3D%22evenodd%22%20opacity%3D%221%22%20points%3D%227%2010%2012%2015%2017%2010%22%3E%3C%2Fpolygon%3E%0A%3C%2Fsvg%3E") no-repeat center;
-}
-
-// Fixes select's helper-text looking like text-field's
-.mdc-select:not(.mdc-select--disabled) .mdc-select__native-control ~ .mdc-floating-label,
-.mdc-select:not(.mdc-select--disabled) + .mdc-text-field-helper-text {
-    color: rgba(0, 0, 0, 0.9);
-}
-
-.mdc-select + .mdc-text-field-helper-text {
-    margin-right: 12px;
-    margin-left: 12px;
-}
-
-// fix: selects with helper line received no margin
-.mdc-select + .mdc-text-field-helper-text {
-    margin-bottom: 12px;
-}
 // fix: textfields with helper line received no margin
 .mdc-text-field + .mdc-text-field-helper-line {
     margin-bottom: 12px;
@@ -137,23 +107,6 @@ no .mdc-text-field.mdc-text-field--box.mdc-text-field--outlined.mdc-text-field--
   color: var(--mdc-theme-primary);
 }
 
-// Fixes select's 'required' marker looking like for text-field's
-.mdc-select__native-control:required + .mdc-floating-label::after {
-    margin-left: 3px;
-    content: "*";
-}
-
-// Fixes firefox focus ring
-// TODO: @-moz-document url-prefix() {
-.mdc-select, select, select:-moz-focusring, select::-moz-focus-inner {
-   color: transparent !important;
-   text-shadow: 0 0 0 #000 !important;
-   background-image: none !important;
-   border:0;
-}
-
-
-
 // Tab panels
 [role="tabpanel"][aria-hidden='true'] {
     display: none;
@@ -165,9 +118,7 @@ no .mdc-text-field.mdc-text-field--box.mdc-text-field--outlined.mdc-text-field--
 }
 
 // Fix: Default "font awesome" icon size overrides tab one
-.mdc-tab__icon.fa,
-.mdc-select__icon.fa,
-{
+.mdc-tab__icon.fa {
     font-size: 24px
 }
 
@@ -417,26 +368,3 @@ h1,h2 {
 	color: var(--mdc-theme-error);
 	padding: 2em
 
-.mdc-notched-outline__notch {
-  /* Ignore the width set by script, and change it to be calculated from the width of `mdc-floating-label` by setting `auto`. */
-  width: auto !important;
-}
-
-.mdc-notched-outline__notch > label.mdc-floating-label--float-above {
-  /* Remove `scale(0.75)` to apply the correct width to `mdc-notched-outline__notch`. */
-  transform: translateY(-130%);
-
-  /* Calculate `scale(0.75)` with each property. */
-  font-size: calc(1rem * 0.75);
-  top: calc(17px * (1 - ((1 - 0.75) / 2)));
-}
-
-
-nonono .mdc-notched-outline__notch > label.mdc-floating-label {
-  transition:
-    transform 150ms cubic-bezier(0.4, 0, 0.2, 1),
-    color 150ms cubic-bezier(0.4, 0, 0.2, 1),
-    /* Now that we calculate `scale(0.75)` for each property, we add each property to the target of the animation. */
-    font-size 150ms cubic-bezier(0.4, 0, 0.2, 1),
-    top 150ms cubic-bezier(0.4, 0, 0.2, 1);
-}
