@@ -40,6 +40,26 @@ function setInputFilter(textbox, inputfilter) {
 	});
 }
 
+/**
+Mithril component wrapping an MCD TextField input field.
+
+@namespace
+@property {bool} fullwidth
+@property {bool} boxed  Activates boxed style
+@property {bool} outlined  Activates outlined style
+@property {bool} dense  Activates dense mode (less spacing)
+@property {bool} disabled  Makes the control readonly
+@property {string} errormessage  Explicit error message
+@property {string} help  Help message
+@property {string} leadingicon  Material Icon id for the leading icon
+@property {string} leadingfaicon  Font Awesome Icon id for the leading icon
+@property {string} trailingicon  Material Icon id for the trailing icon
+@property {string} faicon  Font Awesome Icon id for the trailing icon
+@property {string} iconaction  Callback to call when clicking on the trailing icon
+@property {string} inputfilter  Callback to call to process the edited input
+@property {string} prefix  Prefix text
+@property {string} suffix  Suffix text
+*/
 
 var TextField = {
 	oncreate: function(vn) {
