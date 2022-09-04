@@ -44,7 +44,6 @@ var Select = {
 		vn.state.native = mdcselect.querySelector('select');
 		vn.state.mdcinstance = new MDCSelect.MDCSelect(mdcselect);
 		vn.state.mdcinstance.listen('MDCSelect:change', (ev) => {
-			console.log(`Selected option at index ${vn.state.mdcinstance.selectedIndex} with value "${vn.state.mdcinstance.value}"`);
 			ev.target.value = vn.state.mdcinstance.value;
 			vn.attrs.onchange && vn.attrs.onchange(ev);
 			m.redraw()
