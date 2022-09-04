@@ -1,37 +1,76 @@
+// Theming
+:root {
+	--mdc-theme-background: white;
+	--mdc-theme-surface: #eee;
+	--mdc-theme-primary: #cddc39;
+	--mdc-theme-secondary: #707a1a;
+	--mdc-theme-error: #d93025;
+	--mdc-theme-on-surface: black;
+	--mdc-theme-on-primary: #564;
+	--mdc-theme-on-secondary: #ffffff;
+	--mdc-theme-on-error: #fce8e6;
+	--mdc-theme-tab-content-inactive-color: var(--mdc-theme-on-surface, orange)
+}
+@media (prefers-color-scheme: dark) { :root {
+	--mdc-theme-background: #222;
+	--mdc-theme-surface: #333;
+	--mdc-theme-error: #f45;
+	--mdc-theme-primary: #cddc39;
+	--mdc-theme-secondary: #707a1a;
+	--mdc-theme-on-surface: #eee;
+	--mdc-theme-on-primary: #564;
+	--mdc-theme-on-secondary: #fff;
+	--mdc-theme-on-error: #fce8e6;
+
+	--mdc-theme-text-primary-on-background: #eee;
+	--mdc-theme-text-secondary-on-background: blue;
+	--mdc-theme-text-hint-on-background: darkgreen;
+	--mdc-theme-text-disabled-on-background: violet;
+	--mdc-theme-text-icon-on-background: blue;
+
+	--mdc-theme-text-primary-on-light: rgba(0, 0, 0, 0.87);
+	--mdc-theme-text-secondary-on-light: rgba(0, 0, 0, 0.54);
+	--mdc-theme-text-hint-on-light: rgba(0, 0, 0, 0.38);
+	--mdc-theme-text-disabled-on-light: rgba(0, 0, 0, 0.38);
+	--mdc-theme-text-icon-on-light: rgba(0, 0, 0, 0.38);
+
+	--mdc-theme-text-primary-on-dark: white;
+	--mdc-theme-text-secondary-on-dark: rgba(255, 255, 255, 0.7);
+	--mdc-theme-text-hint-on-dark: rgba(255, 255, 255, 0.5);
+	--mdc-theme-text-disabled-on-dark: rgba(255, 255, 255, 0.5);
+	--mdc-theme-text-icon-on-dark: rgba(255, 255, 255, 0.5);
+
+	--mdc-checkbox-unchecked-color: var(--mdc-theme-secondary);
+	--mdc-text-button-disabled-label-text-color: #666;
+}}
+
 body, html {
 	font-family: Roboto, sans-serif;
-	color: black;
 	position: absolute;
 	height: 100%;
 	width: 100%;
 	padding: 0;
 	margin: 0;
-	background: rgba(204,221,204,0.133);
 }
-
-.changeownership {
-	padding: 0;
-	font-size: 16px;
+body {
+	background-color: var(--mdc-theme-background, black);
+	color: var(--mdc-theme-text-primary-on-background, rgba(204,221,204,0.133));
 }
-
-
 #mithril-target {
 	height: 100%;
 	margin: 0 auto;
 	line-height: 1.3;
 }
-
-.steps .mdc-dialog .mdc-dialog__surface {
-	max-height: calc(100vh - 120px);
+.main {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	position: relative;
 }
-
-.mdc-dialog.mdc-dialog--open {
-    z-index: 50;
-}
-
-.mdc-dialog h2 {
-	color: rgba(0, 0, 0, 0.6);
-	font-size: 16px;
+.main a, .main a:visited {
+	color: var(--mdc-theme-secondary);
+	text-decoration: none;
+	font-weight: bold;
 }
 
 .loading {
@@ -48,26 +87,21 @@ body, html {
 	display: none;
 }
 
-// Theming
-:root {
-	--mdc-theme-primary: #cddc39;
-	--mdc-theme-on-primary: #FF;
-	--mdc-theme-secondary: #707a1a;
-	--mdc-theme-on-secondary: #ffffff;
-	--mdc-theme-error: #d93025;
-	--mdc-theme-on-error: #fce8e6;
+.changeownership {
+	padding: 0;
+	font-size: 16px;
 }
 
-.main {
-	display: flex;
-	flex-direction: column;
-	flex-grow: 1;
-	position: relative;
+.steps .mdc-dialog .mdc-dialog__surface {
+	max-height: calc(100vh - 120px);
 }
-.main a, .main a:visited {
-	color: var(--mdc-theme-secondary);
-	text-decoration: none;
-	font-weight: bold;
+
+.mdc-dialog.mdc-dialog--open {
+    z-index: 50;
+}
+
+.mdc-dialog h2 {
+	font-size: 16px;
 }
 
 // Fixes focused floating label color not taking custom theme's colors
@@ -79,7 +113,7 @@ body, html {
 
 // fix: textfields with helper line received no margin
 .mdc-text-field + .mdc-text-field-helper-line {
-    margin-bottom: 12px;
+	margin-bottom: 12px;
 }
 
 .mdc-text-field-helper-text
@@ -89,6 +123,7 @@ body, html {
 	.mdc-layout-grid__cell--span-6
 		.mdc-text-field-helper-text
 			margin-bottom: 15px
+
 // Tab panels
 [role="tabpanel"][aria-hidden='true'] {
     display: none;
