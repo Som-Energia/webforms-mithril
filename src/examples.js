@@ -38,9 +38,11 @@ var skip = function (c) { return []; }
 var Examples = {
 	view: function(vn) {
 		return m('.form.mdc-typography', [
-			skip(DatePicker.Example),
-			skip(Wizard.Example),
+			skip(TopAppBar.Example),
 			skip(TabBar.Example),
+			skip(DatePicker.Example),
+			skip(Uploader.Example),
+			skip(Wizard.Example),
 			skip(PageSlider.Example),
 			skip(Slider.Example),
 			skip(LinearProgress.Example),
@@ -57,7 +59,6 @@ var Examples = {
 			skip(PersonEditor.Example),
 			skip(FarePower.Example),
 			skip(LegalConsent.Example),
-			skip(Uploader.Example),
 		]);
 	},
 };
