@@ -7,6 +7,15 @@ var MDCFormField = require('@material/form-field');
 require('@material/checkbox/dist/mdc.checkbox.css');
 require('@material/form-field/dist/mdc.form-field.css');
 
+var makeId = () => {
+  let ID = "";
+  let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  for ( var i = 0; i < 12; i++ ) {
+    ID += characters.charAt(Math.floor(Math.random() * 36));
+  }
+  return ID;
+}
+
 /**
 @namespace Checkbox
 @description Material Design Checkbox wrapped as Mithril component
@@ -17,6 +26,9 @@ require('@material/form-field/dist/mdc.form-field.css');
 	Notably `name`, `onchange`, `disabled`...
 */
 var Checkbox = {
+	oninit: function(vn) {
+		vn.state.id = vn.attrs.id ? vn.attrs.id : makeId();
+	},
 	oncreate: function(vn) {
 		var mdccheckbox = vn.dom.querySelector('.mdc-checkbox');
 		this.native = vn.dom.querySelector('.mdc-checkbox__native-control');
@@ -33,14 +45,19 @@ var Checkbox = {
 		}
 	},
 	view: function(vn) {
-		const help_id = vn.attrs.id+'_help';
+		const help_id = vn.state.id+'_help';
 		return m('.mdc-form-field', [
 			m('.mdc-checkbox' +
 				(vn.attrs.disabled?'.mdc-checkbox--disabled':'')+
 			'', [
 				m('input[type=checkbox]'+
 					'.mdc-checkbox__native-control'+
-					'', vn.attrs),
+					'', {
+						indeterminate: vn.attrs.checked===undefined,
+						...vn.attrs,
+						id: vn.state.id,
+					}
+				),
 				m('.mdc-checkbox__background', [
 					m('svg.mdc-checkbox__checkmark', {
 						viewBox: '0 0 24 24',
@@ -52,8 +69,10 @@ var Checkbox = {
 					]),
 					m('.mdc-checkbox__mixedmark')
 				]),
+				m('.mdc-checkbox__ripple'),
+				m('.mdc-checkbox__focus-ring')
 			]),
-			m('label', { for: vn.attrs.id }, vn.attrs.label),
+			m('label', { 'for': vn.state.id }, vn.attrs.label),
 		]);
 	},
 };
