@@ -1,0 +1,17 @@
+
+
+// Upstream configures this color just with mixins,
+// instead use a CSS themable property.
+.mdc-tab:not(.mdc-tab--active) .mdc-tab__text-label {
+  color: var(--mdc-theme-tab-content-inactive-color, rgba(0, 0, 0, 0.56));
+}
+.mdc-tab:not(.mdc-tab--active) .mdc-tab__icon {
+  color: var(--mdc-theme-tab-content-inactive-color, rgba(0, 0, 0, 0.6));
+}
+
+// Upstream does not gives feedback on disabled tabs
+.mdc-tab[disabled] {
+  opacity: .3;
+  cursor: auto;
+}
+

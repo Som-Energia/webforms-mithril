@@ -7,6 +7,7 @@ require('@material/tab-scroller/dist/mdc.tab-scroller.css');
 require('@material/tab-indicator/dist/mdc.tab-indicator.css');
 require('@material/tab/dist/mdc.tab.css');
 require('material-design-icons/iconfont/material-icons.css');
+require('./tabbar.styl')
 
 var MDCTabBar = require('@material/tab-bar').MDCTabBar;
 
@@ -114,6 +115,7 @@ Tab.view = function(vn) {
 				m('span.mdc-tab-indicator__content.mdc-tab-indicator__content--underline')
 		),
 		m('span.mdc-tab__ripple'),
+		m('.mdc-tab__focus-ring'),
 	]);
 };
 
@@ -125,7 +127,7 @@ TabBar.Example.model = {
 	disableunfavorite: false,
 	active2: 0,
 	fade: false,
-	indicator: 'faicon'
+	indicator: 'underline'
 };
 TabBar.Example.view = function(vn) {
 	var model = vn.state.model;

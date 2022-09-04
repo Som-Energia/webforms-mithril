@@ -103,7 +103,6 @@ TopAppBar.Example.view = function(vn) {
 			prominent: TopAppBar.Example.prominent,
 			'short': TopAppBar.Example['short'],
 			actions: [
-
 				{
 					label: "Valora",
 					icon: 'star',
