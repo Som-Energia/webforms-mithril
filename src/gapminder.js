@@ -707,6 +707,7 @@ App.view = function(vn) {
 			),
 			m(Cell, {span: 3}, m(Select, {
 				label: _('Eje X'),
+				boxed: true,
 				options: xoptions,
 				required: true,
 				value: App.xmetric,
@@ -718,6 +719,7 @@ App.view = function(vn) {
 			})),
 			m(Cell, {span: 3}, m(Select, {
 				label: _('Eje Y'),
+				boxed: true,
 				options: yoptions,
 				required: true,
 				value: App.ymetric,
@@ -729,6 +731,7 @@ App.view = function(vn) {
 			})),
 			m(Cell, {span: 3}, m(Select, {
 				label: _('Radio'),
+				boxed: true,
 				options: roptions,
 				required: true,
 				value: App.rmetric,
