@@ -1,3 +1,13 @@
+With the migration of all This repo is OBSOLETE
+
+See:
+
+- [Current webforms ui](https://github.com/Som-Energia/webforms-ui)
+- [Current opendata ui][https://github.com/Som-Energia/opendata-ui]
+- [Current opendata-gapminder][https://github.com/Som-Energia/opendata-gapminder]
+- [Current ui-library (for mithril-mdc)][https://github.com/Som-Energia/somenergia-ui]
+
+
 # webforms-mithril
 
 Som Energia Webforms frontend (mithril based reimplementation)
