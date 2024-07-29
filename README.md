@@ -1,12 +1,11 @@
-With the migration of all This repo is OBSOLETE
+# This repo is OBSOLETE
 
-See:
+All the projects have been mitrated from Mithril to React in other repositories: 
 
 - [Current webforms ui](https://github.com/Som-Energia/webforms-ui)
 - [Current opendata ui][https://github.com/Som-Energia/opendata-ui]
 - [Current opendata-gapminder][https://github.com/Som-Energia/opendata-gapminder]
 - [Current ui-library (for mithril-mdc)][https://github.com/Som-Energia/somenergia-ui]
-
 
 # webforms-mithril
 
